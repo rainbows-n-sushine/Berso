@@ -18,6 +18,16 @@ email:{
     required:true,
     unique:true
 },
+zipcode:{
+    type:'String',
+    required:true,
+
+},
+dob:{
+    type:'String',
+    // required:true,
+
+},
 
 avatar:Buffer,
 

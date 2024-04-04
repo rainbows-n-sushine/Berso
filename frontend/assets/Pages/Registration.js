@@ -1,34 +1,53 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , ScrollView, Dimensions} from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , ScrollView, Dimensions,Button} from 'react-native';
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import DatePicker from 'react-native-date-picker';
+import axios from 'axios';
 
 const Registration = () => {
-  const [fullName, setFullName] = useState('');
+  const [firstName, setFirstName] = useState('');
+  const [middleName, setMiddleName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState('');
+  const [dateOfBirth, setDateOfBirth] = useState(new Date());
   const [zipCode, setZipCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [open, setOpen] = useState(false)
 
-  const handleSignUp = () => {
-    console.log('Full Name:', fullName);
+
+
+  const handleSignUp = async() => {
+    console.log('first Name:', firstName);
+    console.log('middle Name:', middleName);
+    console.log('Last Name:', lastName);
     console.log('Username:', username);
     console.log('Email:', email);
     console.log('Date of Birth:', dateOfBirth);
     console.log('Zip Code:', zipCode);
     console.log('Password:', password);
     console.log('Confirm Password:', confirmPassword);
+    const fullName=firstName+ " "+middleName+ " "+lastName
 
-    setFullName('');
-    setUserName('');
-    setEmail('');
-    setDateOfBirth('');
-    setZipCode('');
-    setPassword('');
-    setConfirmPassword('');
+await axios.post('http://localhost:8000/signup/create-user',{fullName,username,email,dateOfBirth,zipCode,password})
+.then((res)=>{
+   console.log(res.data)
+})
+.catch((err)=>{
+  if(err){
+    console.log(err.message)
+  }
+})
+    // setFullName('');
+    // setUserName('');
+    // setEmail('');
+    // setDateOfBirth('');
+    // setZipCode('');
+    // setPassword('');
+    // setConfirmPassword('');
   };
 
   const windowWidth = Dimensions.get('window').width;
@@ -54,9 +73,21 @@ const Registration = () => {
 
         <TextInput
           style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}
-          placeholder="Full Name"
-          value={fullName}
-          onChangeText={(text) => setFullName(text)}
+          placeholder="First Name"
+          value={firstName}
+          onChangeText={(text) => setFirstName(text)}
+        />
+         <TextInput
+          style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}
+          placeholder="Middle Name"
+          value={middleName}
+          onChangeText={(text) => setMiddleName(text)}
+        />
+         <TextInput
+          style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}
+          placeholder="Last Name"
+          value={lastName}
+          onChangeText={(text) => setLastName(text)}
         />
 
         <TextInput
@@ -73,12 +104,46 @@ const Registration = () => {
           onChangeText={(text) => setEmail(text)}
         />
 
-        <TextInput
+        {/* <TextInput
           style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}
           placeholder="Date of Birth"
           value={dateOfBirth}
           onChangeText={(text) => setDateOfBirth(text)}
-        />
+        /> */}
+
+        {/* <DatePicker
+        style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}
+        date={dateOfBirth}
+        mode="date"
+        placeholder="Select date"
+        format="YYYY-MM-DD"
+        minDate="2020-01-01"
+        maxDate="2025-12-31"
+        confirmBtnText="Confirm"
+        cancelBtnText="Cancel"
+        onDateChange={(text)=>setDateOfBirth(text)}
+         </DatePicker>
+        > */}
+
+
+
+        {/* this is a very working code */}
+{/* <Button title="Open" onPress={() => setOpen(true)} />
+      <DatePicker
+        modal
+        open={open}
+        date={dateOfBirth}
+        onConfirm={(date) => {
+          setOpen(false)
+          setDateOfBirth(dateOfBirth)
+        }}
+        onCancel={() => {
+          setOpen(false)
+        }}
+        onDateChange={setDateOfBirth(dateOfBirth)}
+      /> */}
+
+       
 
         <TextInput
           style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}

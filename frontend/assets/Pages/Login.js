@@ -3,18 +3,59 @@ import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground } from 
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
+import {useNavigation} from '@react-navigation/native'
+import Registration from './Registration';
+import axios from 'axios'
+
+
+
+
+
 
 const Login = () => {
-  const [username, setUserName] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleLogin = () => {
-    console.log('UserName:', username);
+  const navigation=useNavigation();
+
+
+
+  const HandleSignup=({Registration})=>{
+
+    navigation.navigate('Registration')
+
+
+  }
+
+
+
+  const handleSubmit = async() => {
+    console.log('Email:', email);
     console.log('Password:', password);
 
-    setUserName('');
-    setPassword('');
+  return await axios.post('http://localhost:8000/auth/user-sign-in',{email,password})
+    .then((res)=>{
+      console.log(res.data)
+    })
+    .catch((err)=>{
+      if(err){
+        console.log("this is the errrrrrrrrrrrrrrrorrrrrrrrrrrrrrr"+ err.message())
+
+      }
+
+    })
+
+    // setUserName('');
+    // setPassword('');
   };
+
+  // const handleSubmit = () => {
+  //   console.log('UserName:', username);
+  //   console.log('Password:', password);
+
+  //   setUserName('');
+  //   setPassword('');
+  // };
 
   return (
     <View style={tw`flex-1`}>
@@ -35,9 +76,9 @@ const Login = () => {
 
           <TextInput
             style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-            placeholder="Username"
-            value={username}
-            onChangeText={(text) => setUserName(text)}
+            placeholder="youremail@email.com"
+            value={email}
+            onChangeText={(text) => setEmail(text)}
           />
           <TextInput
             style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
@@ -47,7 +88,7 @@ const Login = () => {
             onChangeText={(text) => setPassword(text)}
           />
 
-          <TouchableOpacity style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`} onPress={handleLogin}>
+          <TouchableOpacity style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`} onPress={handleSubmit}>
             <Text style={tw`text-white font-bold`}>Login</Text>
           </TouchableOpacity>
 
@@ -76,7 +117,9 @@ const Login = () => {
 
           <View style={tw`flex-row justify-center mt-8`}>
             <Text style={tw`text-sm`}>Don't have an account? </Text>
-            <Text style={tw`text-sm font-bold text-yellow-500`}>Sign up</Text>
+                       <TouchableOpacity onPress={HandleSignup}>
+      <Text style={tw`text-sm font-bold text-yellow-500`}>Sign up</Text>
+    </TouchableOpacity>
           </View>
         </View>
     </View>
