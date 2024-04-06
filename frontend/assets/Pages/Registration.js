@@ -3,8 +3,9 @@ import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , Scrol
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker ';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
+import Platform from 'expo';
 
 const Registration = () => {
   const [firstName, setFirstName] = useState('');
