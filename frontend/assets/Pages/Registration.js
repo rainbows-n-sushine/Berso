@@ -3,7 +3,7 @@ import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , Scrol
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
-import DatePicker from 'react-native-date-picker';
+import DateTimePicker from '@react-native-community/datetimepicker ';
 import axios from 'axios';
 
 const Registration = () => {
@@ -16,7 +16,8 @@ const Registration = () => {
   const [zipCode, setZipCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-  const [open, setOpen] = useState(false)
+  const [showPicker,setShowPicker]=useState(false)
+
 
 
 
@@ -41,13 +42,7 @@ await axios.post('http://localhost:8000/signup/create-user',{fullName,username,e
     console.log(err.message)
   }
 })
-    // setFullName('');
-    // setUserName('');
-    // setEmail('');
-    // setDateOfBirth('');
-    // setZipCode('');
-    // setPassword('');
-    // setConfirmPassword('');
+
   };
 
   const windowWidth = Dimensions.get('window').width;
@@ -104,44 +99,20 @@ await axios.post('http://localhost:8000/signup/create-user',{fullName,username,e
           onChangeText={(text) => setEmail(text)}
         />
 
-        {/* <TextInput
+
+       <TextInput
           style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}
           placeholder="Date of Birth"
           value={dateOfBirth}
-          onChangeText={(text) => setDateOfBirth(text)}
-        /> */}
+          onChangeText={(text) => set(text)}
+        />
+      <DateTimePicker
+      mode='date'
+      display='spinner'
+      value={dateOfBirth}
 
-        {/* <DatePicker
-        style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}
-        date={dateOfBirth}
-        mode="date"
-        placeholder="Select date"
-        format="YYYY-MM-DD"
-        minDate="2020-01-01"
-        maxDate="2025-12-31"
-        confirmBtnText="Confirm"
-        cancelBtnText="Cancel"
-        onDateChange={(text)=>setDateOfBirth(text)}
-         </DatePicker>
-        > */}
+      />
 
-
-
-        {/* this is a very working code */}
-{/* <Button title="Open" onPress={() => setOpen(true)} />
-      <DatePicker
-        modal
-        open={open}
-        date={dateOfBirth}
-        onConfirm={(date) => {
-          setOpen(false)
-          setDateOfBirth(dateOfBirth)
-        }}
-        onCancel={() => {
-          setOpen(false)
-        }}
-        onDateChange={setDateOfBirth(dateOfBirth)}
-      /> */}
 
        
 

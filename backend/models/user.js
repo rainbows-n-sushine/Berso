@@ -18,7 +18,7 @@ email:{
     required:true,
     unique:true
 },
-zipcode:{
+zip_code:{
     type:'String',
     required:true,
 
@@ -33,18 +33,29 @@ avatar:Buffer,
 
 })
 
-userSchema.statics.isThisEmailInUse=async function (email){
+userSchema.statics.isUniqueCredentials=async function (email,username){
 
-    if(!email)throw new Error('invalid Email')
-    const user= await this.findOne({email})
+    if(!email)throw new Error('invalid email')
+
+    if(!username) throw new Error('Invalid username')
+    const emailExists= await this.findOne({email})
+const usernameExists= await this.findOne({username})
+const uniqueCredentials={email:true,username:true}
+
 
     try{
-        if(user)return false
+        if(emailExists)
+        {
+            uniqueCredentials.email=false;
+        }
+        if(usernameExists){
 
-        return true;
+            uniqueCredentials.username=false;
+        }
+        return uniqueCredentials;
         
     } catch(error){
-        console.log("Error inside the isThisEmailInUse method: "+ error.message)
+        console.log("Error inside the isuniqueCredentials method: "+ error.message)
         return false
 
 

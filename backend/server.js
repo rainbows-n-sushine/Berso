@@ -16,22 +16,40 @@ const {fullName,username,email,dateOfBirth,zipCode,password}=req.body;
 
 console.log(fullName + " "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
   // const email = "jalal@gmail.com";
-  const isNewUser = await User.isThisEmailInUse(email);
+  const isNewUser = await User.isUniqueCredentials(email,username);
   const user = await User({
     name: fullName,
     dob:dateOfBirth,
-    zipcode:zipCode,
+    zip_code:zipCode,
     email: email,
     password: password,
     username: username,
   });
   await user.save();
-  if (!isNewUser) {
+console.log()
+  if (!isNewUser.email && !isNewUser.username) {
+    return res.json({
+      success: false,
+      message: "This email and username is already in use, try sign-in",
+    });
+  } 
+  else if (!isNewUser.email)
+  {
     return res.json({
       success: false,
       message: "This email is already in use, try sign-in",
     });
-  } else {
+    
+  }
+  else if (!isNewUser.username)
+  {
+    return res.json({
+      success: false,
+      message: "This email is already in use, try sign-in",
+    });
+    
+  }
+  else {
     return res.json(user);
     // return res.json({ success: true, message: "Check your email" });
   }
