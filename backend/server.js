@@ -51,7 +51,7 @@ console.log()
   }
   else {
     return res.json(user);
-    // return res.json({ success: true, message: "Check your email" });
+   
   }
 });
 
