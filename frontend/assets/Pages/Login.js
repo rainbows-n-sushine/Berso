@@ -18,8 +18,6 @@ const Login = () => {
 
   const navigation=useNavigation();
 
-
-
   const HandleSignup=({Registration})=>{
 
     navigation.navigate('Registration')
@@ -45,18 +43,9 @@ const Login = () => {
 
     })
 
-    // setUserName('');
-    // setPassword('');
   };
 
-  // const handleSubmit = () => {
-  //   console.log('UserName:', username);
-  //   console.log('Password:', password);
-
-  //   setUserName('');
-  //   setPassword('');
-  // };
-
+ 
   return (
     <View style={tw`flex-1`}>
 

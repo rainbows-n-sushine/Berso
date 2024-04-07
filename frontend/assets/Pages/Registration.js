@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , ScrollView, Dimensions,Button} from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , ScrollView, Dimensions,Button,Pressable,Platform} from 'react-native';
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
-import Platform from 'expo';
+
 
 const Registration = () => {
   const [firstName, setFirstName] = useState('');
@@ -13,7 +13,8 @@ const Registration = () => {
   const [lastName, setLastName] = useState('');
   const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
-  const [dateOfBirth, setDateOfBirth] = useState(new Date());
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [date,setDate]=useState(new Date())
   const [zipCode, setZipCode] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -23,15 +24,7 @@ const Registration = () => {
 
 
   const handleSignUp = async() => {
-    console.log('first Name:', firstName);
-    console.log('middle Name:', middleName);
-    console.log('Last Name:', lastName);
-    console.log('Username:', username);
-    console.log('Email:', email);
-    console.log('Date of Birth:', dateOfBirth);
-    console.log('Zip Code:', zipCode);
-    console.log('Password:', password);
-    console.log('Confirm Password:', confirmPassword);
+
     const fullName=firstName+ " "+middleName+ " "+lastName
 
 await axios.post('http://localhost:8000/signup/create-user',{fullName,username,email,dateOfBirth,zipCode,password})
@@ -48,6 +41,32 @@ await axios.post('http://localhost:8000/signup/create-user',{fullName,username,e
 
   const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
+
+
+  const toggleDatePicker=()=>{
+
+    setShowPicker(!showPicker)
+  }
+
+  const onChange=({type},selectedDate)=>{
+
+    if(type=='set'){
+      const currentDate=selectedDate;
+      setDate(currentDate)
+      console.log(currentDate)
+
+      if (Platform.OS === "andriod"){
+
+        toggleDatePicker();
+        setDateOfBirth(currentDate.toDateString());
+      }
+    }else{
+      toggleDatePicker();
+    }
+
+
+  }
+ 
 
   return (
     <View style={tw`flex-1`}>
@@ -100,19 +119,30 @@ await axios.post('http://localhost:8000/signup/create-user',{fullName,username,e
           onChangeText={(text) => setEmail(text)}
         />
 
-
-       <TextInput
+      {!showPicker &&  
+      <Pressable
+       onPress={toggleDatePicker}
+       >
+        <TextInput
           style={tw`w-full h-12 border bg-white border-gray-300 rounded w-70 ml-10 px-4 mb-4`}
-          placeholder="Date of Birth"
+          placeholder="Sat Oct 8 1989"
           value={dateOfBirth}
           onChangeText={(text) => set(text)}
+          editable={false}
         />
-      <DateTimePicker
+         </Pressable>
+        }
+      
+       
+      {showPicker && 
+        (<DateTimePicker
       mode='date'
       display='spinner'
-      value={dateOfBirth}
-
+      value={date}
+      onChange={onChange}
       />
+      
+      )}
 
 
        
