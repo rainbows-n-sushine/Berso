@@ -2,58 +2,26 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 require("dotenv").config();
-const User = require("./models/user");
+
 require("./models/db");
 const cors = require("cors");
 
 app.use(cors({ origin: "http://localhost:8081" }));
 app.use(express.urlencoded({ extended: true }));
+
 app.use(express.json());
 
-app.post("/signup/create-user", async (req, res) => {
+const userRoute=require('./routes/user')
 
-const {fullName,username,email,dateOfBirth,zipCode,password}=req.body;
 
-console.log(fullName + " "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
-  // const email = "jalal@gmail.com";
-  const isNewUser = await User.isUniqueCredentials(email,username);
-  const user = await User({
-    name: fullName,
-    dob:dateOfBirth,
-    zip_code:zipCode,
-    email: email,
-    password: password,
-    username: username,
-  });
-  await user.save();
-console.log()
-  if (!isNewUser.email && !isNewUser.username) {
-    return res.json({
-      success: false,
-      message: "This email and username is already in use, try sign-in",
-    });
-  } 
-  else if (!isNewUser.email)
-  {
-    return res.json({
-      success: false,
-      message: "This email is already in use, try sign-in",
-    });
-    
-  }
-  else if (!isNewUser.username)
-  {
-    return res.json({
-      success: false,
-      message: "This email is already in use, try sign-in",
-    });
-    
-  }
-  else {
-    return res.json(user);
-   
-  }
-});
+
+
+
+
+
+
+
+app.post(userRoute);
 
 app.post("/auth/user-sign-in", (req, res) => {
   const { email, password } = req.body;

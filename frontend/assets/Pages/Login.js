@@ -33,6 +33,11 @@ const Login = () => {
 
   return await axios.post('http://localhost:8000/auth/user-sign-in',{email,password})
     .then((res)=>{
+
+      if(res.success){
+
+        alert('signed in')
+      }
       console.log(res.data)
     })
     .catch((err)=>{

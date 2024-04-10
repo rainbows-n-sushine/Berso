@@ -29,7 +29,7 @@ const Registration = () => {
 
 await axios.post('http://localhost:8000/signup/create-user',{fullName,username,email,dateOfBirth,zipCode,password})
 .then((res)=>{
-   console.log(res.data)
+   alert(res.data)
 })
 .catch((err)=>{
   if(err){
