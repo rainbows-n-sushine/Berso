@@ -3,6 +3,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 
+
 require("./models/db");
 const cors = require("cors");
 
@@ -13,6 +14,8 @@ app.use(express.json());
 
 const userRoute=require('./routes/user')
 app.use('/user',userRoute);
+
+
 
 // app.post("/auth/user-sign-in", (req, res) => {
 //   const { email, password } = req.body;
