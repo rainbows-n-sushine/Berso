@@ -31,7 +31,7 @@ const Login = () => {
     console.log('Email:', email);
     console.log('Password:', password);
 
-  return await axios.post('http://localhost:8000/auth/user-sign-in',{email,password})
+  return await axios.post('http://localhost:8000/auth/user-signin',{email,password})
     .then((res)=>{
 
       if(res.success){

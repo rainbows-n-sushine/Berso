@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , ScrollView, Dimensions,Button,Pressable,Platform} from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , ScrollView, Dimensions,Button,Pressable,Platform,Alert} from 'react-native';
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -25,11 +25,13 @@ const Registration = () => {
 
   const handleSignUp = async() => {
 
+    console.log('Iama herm;kjdchjvlsdj ')
     const fullName=firstName+ " "+middleName+ " "+lastName
-
-await axios.post('http://localhost:8000/signup/create-user',{fullName,username,email,dateOfBirth,zipCode,password})
+    console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
+await axios.post('http://localhost:8081/user/signup',{fullName,username,email,dateOfBirth,zipCode,password})
 .then((res)=>{
-   alert(res.data)
+  console.log('i am here for real')
+  Alert.alert(res.data.message)
 })
 .catch((err)=>{
   if(err){

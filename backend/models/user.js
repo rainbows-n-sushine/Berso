@@ -35,6 +35,8 @@ avatar:Buffer,
 
 userSchema.statics.isUniqueCredentials=async function (email,username){
 
+    console.log('imm in herehvjgkdf')
+
     if(!email)throw new Error('invalid email')
 
     if(!username) throw new Error('Invalid username')
@@ -64,5 +66,28 @@ const uniqueCredentials={email:true,username:true}
 
 }
 
-module.exports=mongoose.model('User', userSchema);
 
+
+
+userSchema.statics.userExists=async(credential)=>{
+
+
+
+    const credenetialInUse=true
+    if(!credential)throw new Error('invalid email')
+
+    emailEInUse=await this.findOne({email})
+    
+if (emailInUse){
+
+
+}
+
+
+    
+
+
+
+}
+
+module.exports=mongoose.model('User', userSchema);

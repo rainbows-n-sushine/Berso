@@ -1,21 +1,14 @@
 const {User} = require("../models/user");
+console.log('i am in teh users controller')
 
-exports.signUp=async (req, res) => {
- 
+const signUp=async (req, res) => {
+ console.log('imm her again')
 
     const {fullName,username,email,dateOfBirth,zipCode,password}=req.body;
     
     console.log(fullName + " "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password);
       const isNewUser = await User.isUniqueCredentials(email,username);
-      const user = await User({
-        name: fullName,
-        dob:dateOfBirth,
-        zip_code:zipCode,
-        email: email,
-        password: password,
-        username: username,
-      });
-      await user.save();
+      
     console.log()
       if (!isNewUser.email && !isNewUser.username) {
         return res.json({
@@ -40,20 +33,33 @@ exports.signUp=async (req, res) => {
         
       }
       else {
+        const user = await User({
+            name: fullName,
+            dob:dateOfBirth,
+            zip_code:zipCode,
+            email: email,
+            password: password,
+            username: username,
+          });
+          await user.save();
         return res.json(user);
        
       }
     }
 
-
-    exports.signin=async(req,res)=>{
+ const signin=async(req,res)=>{
 const {email,password}=req.body
 
+const userExists = await User.userExists(email);
 
-
-
-
-
+    if (userExists){
 
 
     }
+
+}
+
+module.exports={
+    signin,
+    signUp
+}
