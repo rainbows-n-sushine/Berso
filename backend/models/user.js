@@ -1,30 +1,30 @@
 const mongoose=require('mongoose')
 const userSchema=new mongoose.Schema({
 name:{
-    type:'String',
-    required:true
+    type:String,
+    // required:true
 },
 password:{
-    type:'String',
-    required:true
+    type:String,
+    // required:true
 },
 username:{
-    type:'String',
-    required:true,
+    type:String,
+    // required:true,
     unique:true
 },
 email:{
-    type:'String',
-    required:true,
+    type:String,
+    // required:true,
     unique:true
 },
 zip_code:{
-    type:'String',
-    required:true,
+    type:String,
+    // required:true,
 
 },
 dob:{
-    type:'String',
+    type:String,
     // required:true,
 
 },
@@ -35,7 +35,7 @@ avatar:Buffer,
 
 userSchema.statics.isUniqueCredentials=async function (email,username){
 
-    console.log('imm in herehvjgkdf')
+    console.log('email n username check credentials')
 
     if(!email)throw new Error('invalid email')
 
@@ -49,16 +49,18 @@ const uniqueCredentials={email:true,username:true}
         if(emailExists)
         {
             uniqueCredentials.email=false;
+            console.log('email exists')
         }
         if(usernameExists){
 
             uniqueCredentials.username=false;
+            console.log('username exists')
         }
         return uniqueCredentials;
         
     } catch(error){
-        console.log("Error inside the isuniqueCredentials method: "+ error.message)
-        return false
+        console.log("Error inside the isuniqueCredentials method: ", error.message)
+        return uniqueCredentials;
 
 
     }
@@ -90,4 +92,6 @@ if (emailInUse){
 
 }
 
-module.exports=mongoose.model('User', userSchema);
+
+const User=mongoose.model('User', userSchema);
+module.exports={User}

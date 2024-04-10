@@ -28,10 +28,10 @@ const Registration = () => {
     console.log('Iama herm;kjdchjvlsdj ')
     const fullName=firstName+ " "+middleName+ " "+lastName
     console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
-await axios.post('http://localhost:8000/user/signup',{fullName,username,email,dateOfBirth,zipCode,password})
+await axios.post('http://localhost:8081/user/signup',{fullName,username,email,dateOfBirth,zipCode,password})
 .then((res)=>{
   console.log('i am here for real')
- console.log("this is teh alert",res.data.message,{ cancelable: false })
+  Alert.alert(res.data.message)
 })
 .catch((err)=>{
   if(err){
