@@ -76,7 +76,7 @@ const comparePassword= await user.comparePassword(password)
     
    }
    else{
-    return res.json ({success:false,message:"user with that email doesnt exist, try sign up"})
+    return res.json ({success:false,message:"user with that email is not found, try sign up"})
    }
 
 }
