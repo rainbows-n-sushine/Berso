@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground } from 'react-native';
+import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground, Dimensions, ScrollView } from 'react-native';
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -15,6 +15,7 @@ import axios from 'axios'
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [errors, setErrors] = useState({});
 
   const navigation=useNavigation();
 
@@ -28,6 +29,24 @@ const Login = () => {
 
 
   const handleSubmit = async() => {
+     // Reset previous errors
+     setErrors({});
+
+     const validationErrors = {};
+ 
+     if (!email) {
+      validationErrors.email = 'Please enter your email';
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      validationErrors.email = 'Please enter a valid email address';
+    }
+     if (!password) {
+       validationErrors.password = 'Please enter your password';
+     }
+ 
+     if (Object.keys(validationErrors).length > 0) {
+       setErrors(validationErrors);
+       return;
+     }
     console.log('Email:', email);
     console.log('Password:', password);
 
@@ -49,21 +68,22 @@ const Login = () => {
 
   };
 
- 
+  const windowHeight = Dimensions.get('window').height;
   return (
     <View style={tw`flex-1`}>
+       <ImageBackground source={require('../Images/logo22.jpg')} style={tw`flex-1`} resizeMode="cover">
+       <ScrollView contentContainerStyle={tw`justify-center items-center`} style={{ height: windowHeight }}>
+      <View style={tw`flex-1 p-4 justify-center`}>
+        <View style={tw`flex-row justify-between items-center mb-4`}>
+          <AntDesign name="arrowleft" size={24} color="white" />
+          <TouchableOpacity onPress={() => {}}>
+            <Text style={tw`text-white`}>Skip</Text>
+          </TouchableOpacity>
+        </View>
 
-        <View style={tw`flex-1 p-4 justify-center`}>
-          <View style={tw`flex-row justify-between items-center mb-4`}>
-            <AntDesign name="arrowleft" size={24} color="black" />
-            <TouchableOpacity onPress={() => {}}>
-              <Text style={tw`text-blue-500`}>Skip</Text>
-            </TouchableOpacity>
-          </View>
-
-          <View style={tw`items-center mb-8`}>
-            <Image source={require('../Images/logo-removebg.png')} style={tw`w-32 h-32`} />
-          </View>
+        <View style={tw`items-center mb-8`}>
+          <Image source={require('../Images/logo-removebg.png')} style={tw`w-32 h-32`} />
+        </View>
 
           <Text style={tw`text-lg font-bold mb-4 text-center`}>Login</Text>
 
@@ -73,6 +93,8 @@ const Login = () => {
             value={email}
             onChangeText={(text) => setEmail(text)}
           />
+          {errors.email && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>}
+
           <TextInput
             style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
             placeholder="Password"
@@ -80,6 +102,7 @@ const Login = () => {
             value={password}
             onChangeText={(text) => setPassword(text)}
           />
+          {errors.password && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.password}</Text>}
 
           <TouchableOpacity style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`} onPress={handleSubmit}>
             <Text style={tw`text-white font-bold`}>Login</Text>
@@ -109,12 +132,14 @@ const Login = () => {
           </TouchableOpacity>
 
           <View style={tw`flex-row justify-center mt-8`}>
-            <Text style={tw`text-sm`}>Don't have an account? </Text>
+            <Text style={tw`text-sm text-white`}>Don't have an account? </Text>
                        <TouchableOpacity onPress={HandleSignup}>
       <Text style={tw`text-sm font-bold text-yellow-500`}>Sign up</Text>
     </TouchableOpacity>
           </View>
-        </View>
+          </View>
+      </ScrollView>
+      </ImageBackground>
     </View>
   );
 };
