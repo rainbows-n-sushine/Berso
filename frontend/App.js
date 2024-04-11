@@ -4,15 +4,23 @@ import React from 'react';
 import Login from './assets/Pages/Login';
 import Registration from './assets/Pages/Registration';
 import { NavigationContainer } from '@react-navigation/native';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { createStackNavigator } from "@react-navigation/stack";
+import HomeScreen from './assets/Pages/HomeScreen';
+import Profile from './assets/Pages/Profile';
+import TabNavigator from './assets/Navigation/TabNavigator';
+const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
 
-<Login/>
+{/* <Login/> */}
+      {/* <HomeScreen /> */}
+      <TabNavigator />
+      {/* <Registration/> */}
+      {/* <Login /> */}
     </NavigationContainer>
-
-
-
   );
 }
