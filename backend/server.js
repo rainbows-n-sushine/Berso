@@ -16,23 +16,6 @@ const userRoute=require('./routes/user')
 app.use('/user',userRoute);
 
 
-
-// app.post("/auth/user-sign-in", (req, res) => {
-//   const { email, password } = req.body;
-
-//   User.findOne({ where: { email: email } }).then((user) => {
-//     if (!user) {
-//       res.send("There is no user registered under that email");
-//     } else {
-//       if (user.password === password) {
-//         res.send(true);
-//       } else {
-//         res.send(false);
-//       }
-//     }
-//   });
-// });
-
 app.listen(8000, () => {
   console.log("Server is running successfully");
 });

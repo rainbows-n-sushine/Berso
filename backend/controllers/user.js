@@ -1,4 +1,5 @@
 const {User} = require("../models/user");
+const jwt=require('jsonwebtoken');
 
 exports.signUp=async(req, res) => {
 
@@ -68,7 +69,11 @@ const comparePassword= await user.comparePassword(password)
    if (user){
   
     if(comparePassword){
-      return res.json ({success:true,message:"user is signed in!"})
+      const token=jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'1d'})
+
+
+
+      return res.json ({success:true,message:"user is signed in!",token})
     }
     else{
       return res.json ({success:false,message:"incorrect password,try again!"})
