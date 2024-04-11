@@ -9,16 +9,17 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from './assets/Pages/HomeScreen';
 import Profile from './assets/Pages/Profile';
 import TabNavigator from './assets/Navigation/TabNavigator';
+import StackNavigator from './assets/Navigation/StackNavigator';
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
     <NavigationContainer>
-
-{/* <Login/> */}
+      {/* <Login/> */}
+      <StackNavigator />
       {/* <HomeScreen /> */}
-      <TabNavigator />
+      {/* <TabNavigator /> */}
       {/* <Registration/> */}
       {/* <Login /> */}
     </NavigationContainer>

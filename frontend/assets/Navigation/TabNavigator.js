@@ -5,6 +5,7 @@ import Profile from "../Pages/Profile";
 import { Entypo, Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
 import HomeNavigator from "./HomeNavigator";
 import ProfileNavigator from "./ProfileNavigator";
+import CollectionsNavigator from "./CollectionsNavigator";
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -42,8 +43,8 @@ const TabNavigator = () => {
         }}
       />
       <Tab.Screen
-        name="Collection"
-        component={Profile}
+        name="CollectionNav"
+        component={CollectionsNavigator}
         options={{
           title: "Collection",
           //   tabBarShowLabel: false,
