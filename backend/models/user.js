@@ -79,10 +79,12 @@ userSchema.statics.userExists=async function(credential,password){
     if(!credential)throw new Error('invalid email')
     console.log(credential)
 
-    emailInUse=await this.findOne({email:credential})
+    const emailInUse=await this.findOne({email:credential})
     
 if (emailInUse){
     console.log('Email is already in use')
+    const correctPassword=await this.findOne({password})
+
     return true;
 }
 else{
