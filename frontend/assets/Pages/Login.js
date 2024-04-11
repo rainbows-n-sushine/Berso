@@ -55,7 +55,7 @@ const Login = () => {
 
      
 
-        console.log(res.data.message)
+        console.log(res.data)
       
     })
     .catch((error)=>{
