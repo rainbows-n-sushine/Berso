@@ -71,26 +71,23 @@ const uniqueCredentials={email:true,username:true}
 
 
 
-userSchema.statics.userExists=async(credential)=>{
+userSchema.statics.userExists=async function(credential,password){
 
 
 
-    const credenetialInUse=true
+    const credenetialInUse=false
     if(!credential)throw new Error('invalid email')
+    console.log(credential)
 
-    emailEInUse=await this.findOne({email})
+    emailInUse=await this.findOne({email:credential})
     
 if (emailInUse){
-
-
+    console.log('Email is already in use')
+    return true;
 }
-
-
-    
-
-
-
-}
+else{
+    return false;
+}}
 
 
 const User=mongoose.model('User', userSchema);

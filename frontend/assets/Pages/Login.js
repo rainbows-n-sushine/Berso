@@ -31,18 +31,17 @@ const Login = () => {
     console.log('Email:', email);
     console.log('Password:', password);
 
-  return await axios.post('http://localhost:8000/auth/user-signin',{email,password})
+  return await axios.post('http://localhost:8000/user/signin',{email,password})
     .then((res)=>{
 
-      if(res.success){
+     
 
-        alert('signed in')
-      }
-      console.log(res.data)
+        console.log(res.data.message)
+      
     })
-    .catch((err)=>{
-      if(err){
-        console.log("this is the errrrrrrrrrrrrrrrorrrrrrrrrrrrrrr"+ err.message())
+    .catch((error)=>{
+      if(error){
+        console.log("Error in handleSubmit", error.message)
 
       }
 

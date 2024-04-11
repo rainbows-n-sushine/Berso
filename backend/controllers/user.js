@@ -49,7 +49,7 @@ exports.signUp=async(req, res) => {
             username: username,
           });
         await user.save();
-        return res.json("Click the link sent to your email");
+        return res.json({success:true,message:"Click the link sent to your email"});
        
       }
     }
@@ -57,12 +57,14 @@ exports.signUp=async(req, res) => {
  exports.signin=async(req,res)=>{
 const {email,password}=req.body
 
-const userExists = await User.userExists(email);
+const userExists = await User.userExists(email,password);
 
-    if (userExists){
-
-
-    }
+   if (userExists){
+    return res.json ({success:true,message:"user is signed in!"})
+   }
+   else{
+    return res.json ({success:false,message:"user with that email doesnt exist"})
+   }
 
 }
 
