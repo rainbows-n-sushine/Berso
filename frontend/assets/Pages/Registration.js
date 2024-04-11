@@ -5,8 +5,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
+import { useNavigation } from "@react-navigation/native";
 
-
+//  const navigation = useNavigation();
 const Registration = () => {
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
