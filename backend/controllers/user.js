@@ -40,7 +40,7 @@ exports.signUp=async(req, res) => {
       }
       else {
         const {fullName,username,email,dateOfBirth,zipCode,password}=req.body;
-        console.log('isNewUser.username  and  isNewUser.email ')
+        console.log('isNewUser.username  and  isNewUser.email')
         const user = await User({
             name: fullName,
             dob:dateOfBirth,
@@ -50,7 +50,7 @@ exports.signUp=async(req, res) => {
             username: username,
           });
         await user.save();
-        return res.json({success:true,message:"To validate sign up, Click the link sent at your email"});
+        return res.json({success:true,message:"The validation link has been sent to your email"});
        
       }
     }

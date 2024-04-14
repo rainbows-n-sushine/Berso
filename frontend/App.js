@@ -9,7 +9,7 @@ export default function App() {
   return (
     <NavigationContainer>
 
-<Login/>
+<Registration/>
     </NavigationContainer>
 
 
