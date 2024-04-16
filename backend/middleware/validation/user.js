@@ -26,6 +26,10 @@ if (!result.length)return next()
 const error=result[0].msg
 res.json({success:false,message:error})
 
-    
-
 }
+
+exports.validateSignIn=[
+    check('credential').trim().not().isEmpty().withMessage('Enter username or email!').isEmail().withMessage()
+
+
+]

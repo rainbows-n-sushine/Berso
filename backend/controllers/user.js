@@ -1,4 +1,5 @@
 const {User} = require("../models/user");
+const jwt=require('jsonwebtoken');
 
 exports.signUp=async(req, res) => {
 
@@ -39,7 +40,7 @@ exports.signUp=async(req, res) => {
       }
       else {
         const {fullName,username,email,dateOfBirth,zipCode,password}=req.body;
-        console.log('isNewUser.username  and  isNewUser.email ')
+        console.log('isNewUser.username  and  isNewUser.email')
         const user = await User({
             name: fullName,
             dob:dateOfBirth,
@@ -49,7 +50,7 @@ exports.signUp=async(req, res) => {
             username: username,
           });
         await user.save();
-        return res.json({success:true,message:"To validate sign up, Click the link sent at your email"});
+        return res.json({success:true,message:"The validation link has been sent to your email"});
        
       }
     }
@@ -68,7 +69,11 @@ const comparePassword= await user.comparePassword(password)
    if (user){
   
     if(comparePassword){
-      return res.json ({success:true,message:"user is signed in!"})
+      const token=jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'1d'})
+
+
+
+      return res.json ({success:true,message:"user is signed in!",token})
     }
     else{
       return res.json ({success:false,message:"incorrect password,try again!"})

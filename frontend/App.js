@@ -16,12 +16,14 @@ const Tab = createBottomTabNavigator();
 export default function App() {
   return (
     <NavigationContainer>
+
       {/* <Login/> */}
       <StackNavigator />
       {/* <HomeScreen /> */}
       {/* <TabNavigator /> */}
       {/* <Registration/> */}
       {/* <Login /> */}
+
     </NavigationContainer>
   );
 }
