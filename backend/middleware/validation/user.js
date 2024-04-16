@@ -18,6 +18,7 @@ exports.validateUserSignup=[
 
 ]
 
+
 exports.userValidation=(req,res,next)=>{
 const result=validationResult(req).array()
 if (!result.length)return next()
@@ -28,8 +29,9 @@ res.json({success:false,message:error})
 
 }
 
-exports.validateSignIn=[
-    check('credential').trim().not().isEmpty().withMessage('Enter username or email!').isEmail().withMessage()
+// exports.validateSignIn=[
+//     check('credential').trim().not().isEmpty().withMessage('Enter username or email!').isEmail().withMessage("there is no user with that username"),
+//     check()
 
 
-]
+// ]
