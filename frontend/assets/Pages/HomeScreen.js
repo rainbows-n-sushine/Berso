@@ -1,0 +1,163 @@
+import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
+import React from "react";
+import { Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import ParallaxScrollView from "../Components/ParallaxScrollView";
+const  {width} = Dimensions.get('window')
+import { useNavigation } from "@react-navigation/native";
+import SearchBusinessScreen from "./SearchResultsScreen";
+const HomeScreen = () => {
+  
+  const navigation = useNavigation();
+  return (
+    <ParallaxScrollView
+      className="flex-1"
+      // styles={{ flex: 1 }}
+      backgroundColor="gray"
+      parallaxHeaderHeight={300}
+      renderBackground={() => (
+        <Image
+          className="w-screen top-0 h-[300] "
+          // style={{ backgroundColor: "white" }}
+          source={require("../Images/HomeBG.jpg")}
+          resizeMode="cover"
+        />
+      )}
+      renderForeground={() => (
+        <TouchableOpacity
+          className="absolute bg-orange-400 rounded-xl top-40 left-3 flex-row justify-between p-2 items-center"
+          onPress={() => {}}
+        >
+          <View className=" flex-row items-center justify-between pr-2">
+            <FontAwesome
+              name="search"
+              size={20}
+              className="p-5"
+              color="white"
+            />
+            <Text className=" ml-2 text-white text-lg font-semibold">
+              Unique Restaurants
+            </Text>
+          </View>
+        </TouchableOpacity>
+      )}
+    >
+      <View className="bg-orange-50">
+        <TouchableOpacity
+          className="flex rounded-xl -mt-8 mr-3 ml-3 bg-white"
+          onPress={() => {navigation.navigate("SearchBusiness");}}
+        >
+          <View className="m-3 items-center">
+            <View className="flex flex-row items-center">
+              <FontAwesome name="search" size={20} color="lightgray" />
+              <Text className="text-base font-bold text-[#dedddd] ml-2">
+                Search for nearby restaurants,salons..
+              </Text>
+              {/* <TextInput
+                className="text-base font-bold text-[#dedddd] ml-2 border-gray-300"
+                placeholder="Search for nearby restaurants,salons.."
+
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+              /> */}
+            </View>
+          </View>
+        </TouchableOpacity>
+        <View className="flex rounded-xl m-5 bg-white ">
+          <View className="m-4 items-center">
+            <View className="flex  items-center justify-between ">
+              <View className="flex flex-row  items-center justify-between ">
+                <View className="items-center justify-center  m-2 flex-1  ">
+                  <Ionicons name="cafe" size={22} color="orange" />
+                  <Text className="text-normal font-bold text-orange-400 mt-3 ">
+                    Coffee Shops
+                  </Text>
+                </View>
+                <View className="items-center m-1 justify-center flex-1">
+                  <MaterialIcons name="restaurant" size={22} color="orange" />
+                  <Text className="text-normal font-bold  text-orange-400 mt-3  ">
+                    Restaurants
+                  </Text>
+                </View>
+
+                <View className="items-center m-1 flex-1 justify-center">
+                  <FontAwesome5 name="hotel" size={22} color="orange" />
+                  <Text className="text-normal font-bold  text-orange-400 mt-3  ">
+                    Hotels & Resorts
+                  </Text>
+                </View>
+              </View>
+
+              <View className="flex flex-row items-center justify-between pt-3 ">
+                <View className="items-center m-1 justify-center flex-1">
+                  <Entypo name="aircraft" size={22} color="orange" />
+                  <Text className="text-normal font-bold  text-orange-400 mt-3 ">
+                    Tour & Travel
+                  </Text>
+                </View>
+                <View className="items-center m-1 justify-center flex-1">
+                  <MaterialIcons
+                    name="delivery-dining"
+                    size={25}
+                    color="orange"
+                  />
+                  <Text className="text-normal font-bold  text-orange-400 mt-3">
+                    Delivery
+                  </Text>
+                </View>
+
+                <View className="items-center m-1 justify-center flex-1">
+                  <Entypo name="drink" size={22} color="orange" />
+                  <Text className="text-normal font-bold  text-orange-400 mt-3 ">
+                    Bars
+                  </Text>
+                </View>
+              </View>
+
+              <View className="flex flex-row items-center justify-between pt-3 ">
+                <View className="items-center m-1 justify-center flex-1">
+                  <FontAwesome5 name="spa" size={22} color="orange" />
+                  <Text className="text-normal font-bold  text-orange-400 mt-3  ">
+                    Spas & Salons
+                  </Text>
+                </View>
+                <View className="items-center m-1 justify-center flex-1">
+                  <Entypo name="shop" size={23} color="orange" />
+                  <Text className="text-normal font-bold  text-orange-400 mt-3  ">
+                    Shops
+                  </Text>
+                </View>
+                <View className="items-center m-1 justify-center flex-1">
+                  <Feather name="more-horizontal" size={22} color="orange" />
+                  <Text className="text-normal font-bold  text-orange-400 mt-3  ">
+                    More
+                  </Text>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+        <View className="flex rounded-xl m-5 bg-white">
+          <View className="m-4">
+            <View className="flex  justify-between ">
+              <Text className="text-xl font-bold  text-black-400 mt-3  ">
+                Picks from your community
+              </Text>
+              <View className="flex rounded-xl m-5 bg-gray-100">
+                <View className="m-4">
+                  <View className="flex  justify-between ">
+                    <Text className="text-xl font-bold  text-black-400 mt-3  ">
+                      Not sure where to eat? we got you
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            </View>
+          </View>
+        </View>
+      </View>
+    </ParallaxScrollView>
+  );
+ 
+};
+
+export default HomeScreen;

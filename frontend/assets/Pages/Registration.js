@@ -5,8 +5,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
+import { useNavigation } from "@react-navigation/native";
 
-
+//  const navigation = useNavigation();
 const Registration = () => {
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
@@ -134,188 +135,243 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
 
 
   }
- 
+ const navigation = useNavigation();
+
 
   return (
     <View style={tw`flex-1`}>
-       <ImageBackground source={require('../Images/logo22.jpg')} style={tw`flex-1`} resizeMode="cover">
-       <ScrollView contentContainerStyle={tw`justify-center items-center`} style={{ height: windowHeight }}>
-      <View style={tw`flex-1 p-4 justify-center`}>
-        <View style={tw`flex-row justify-between items-center mb-4`}>
-          <AntDesign name="arrowleft" size={24} color="white" />
-          <TouchableOpacity onPress={() => {}}>
-            <Text style={tw`text-white`}>Skip</Text>
-          </TouchableOpacity>
-        </View>
+      <ImageBackground
+        source={require("../Images/logo22.jpg")}
+        style={tw`flex-1`}
+        resizeMode="cover"
+      >
+        <ScrollView
+          contentContainerStyle={tw`justify-center items-center`}
+          style={{ height: windowHeight }}
+        >
+          <View style={tw`flex-1 p-4 justify-center`}>
+            <View style={tw`flex-row justify-between items-center mb-4`}>
+              <TouchableOpacity>
+                
+                <AntDesign name="arrowleft" size={24} color="white" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Home");
+                }}
+              >
+                <Text style={tw`text-white`}>Skip</Text>
+              </TouchableOpacity>
+            </View>
 
-        <View style={tw`items-center mb-8`}>
-          <Image source={require('../Images/logo-removebg.png')} style={tw`w-32 h-32`} />
-        </View>
+            <View style={tw`items-center mb-8`}>
+              <Image
+                source={require("../Images/logo-removebg.png")}
+                style={tw`w-32 h-32`}
+              />
+            </View>
 
-        <Text style={tw`text-lg text-white font-bold mb-4  text-center`}>Registration</Text>
+            <Text style={tw`text-lg text-white font-bold mb-4  text-center`}>
+              Registration
+            </Text>
 
-        <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="First Name"
-          value={firstName}
-          onChangeText={(text) => {
-            setFirstName(text);
-           
-          }}
-        
-        />
-         {errors.firstName && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.firstName}</Text>}
-         <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="Middle Name"
-          value={middleName}
-          onChangeText={(text) => 
-            {setMiddleName(text);
-              
-            }}
-        />
-         {errors.middleName && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.middleName}</Text>}
-         <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="Last Name"
-          value={lastName}
-          onChangeText={(text) => 
-            {setLastName(text);
-              
-            }}
-        />
-         {errors.lastName && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.lastName}</Text>}
-        <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="Username"
-          value={username}
-          onChangeText={(text) => 
-            {setUserName(text);
-              
-            }}
-        />
-         {errors.username && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.username}</Text>}
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+              placeholder="First Name"
+              value={firstName}
+              onChangeText={(text) => {
+                setFirstName(text);
+              }}
+            />
+            {errors.firstName && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>
+                {errors.firstName}
+              </Text>
+            )}
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+              placeholder="Middle Name"
+              value={middleName}
+              onChangeText={(text) => {
+                setMiddleName(text);
+              }}
+            />
+            {errors.middleName && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>
+                {errors.middleName}
+              </Text>
+            )}
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+              placeholder="Last Name"
+              value={lastName}
+              onChangeText={(text) => {
+                setLastName(text);
+              }}
+            />
+            {errors.lastName && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.lastName}</Text>
+            )}
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+              placeholder="Username"
+              value={username}
+              onChangeText={(text) => {
+                setUserName(text);
+              }}
+            />
+            {errors.username && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.username}</Text>
+            )}
 
-        <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="Email"
-          value={email}
-          onChangeText={(text) => 
-            {setEmail(text);
-              
-            }}
-        />
-         {errors.email && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>}
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+              placeholder="Email"
+              value={email}
+              onChangeText={(text) => {
+                setEmail(text);
+              }}
+            />
+            {errors.email && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
+            )}
 
-      {!showPicker &&  
-      <Pressable
-       onPress={toggleDatePicker}
-       >
-        <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="Date of Birth"
-          value={dateOfBirth}
-          onChangeText={(text) => 
-            {setDateOfBirth(text);
-              
-            }}
-        
-          editable={false}
-        />
-        
-        
-         </Pressable>
-        }
-      
-       
-      {showPicker && 
-        (<DateTimePicker
-      mode='date'
-      display='spinner'
-      value={date}
-      onChange={onChange}
-      />
-      
-      )}
+            {!showPicker && (
+              <Pressable onPress={toggleDatePicker}>
+                <TextInput
+                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+                  placeholder="Date of Birth"
+                  value={dateOfBirth}
+                  onChangeText={(text) => {
+                    setDateOfBirth(text);
+                  }}
+                  editable={false}
+                />
+              </Pressable>
+            )}
 
+            {showPicker && (
+              <DateTimePicker
+                mode="date"
+                display="spinner"
+                value={date}
+                onChange={onChange}
+              />
+            )}
 
-       
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+              placeholder="Zip Code"
+              value={zipCode}
+              onChangeText={(text) => {
+                setZipCode(text);
+              }}
+            />
+            {errors.zipCode && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.zipCode}</Text>
+            )}
 
-        <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="Zip Code"
-          value={zipCode}
-          onChangeText={(text) => 
-            {setZipCode(text);
-            
-            }}
-        />
-         {errors.zipCode && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.zipCode}</Text>}
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+              placeholder="Password"
+              secureTextEntry
+              value={password}
+              onChangeText={(text) => {
+                setPassword(text);
+              }}
+            />
+            {errors.password && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.password}</Text>
+            )}
 
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+              placeholder="Confirm Password"
+              secureTextEntry
+              value={confirmPassword}
+              onChangeText={(text) => {
+                setConfirmPassword(text);
+              }}
+            />
+            {errors.confirmPassword && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>
+                {errors.confirmPassword}
+              </Text>
+            )}
 
-        <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="Password"
-          secureTextEntry
-          value={password}
-          onChangeText={(text) => 
-            {setPassword(text);
-              
-            }}
-        />
-         {errors.password && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.password}</Text>}
+            <TouchableOpacity
+              style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`}
+              onPress={handleSignUp}
+            >
+              <Text style={tw`text-white font-bold`}>Sign Up</Text>
+            </TouchableOpacity>
 
-        <TextInput
-          style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-          placeholder="Confirm Password"
-          secureTextEntry
-          value={confirmPassword}
-          onChangeText={(text) => 
-            {setConfirmPassword(text);
-              
-            }}
-        />
-         {errors.confirmPassword && <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.confirmPassword}</Text>}
+            <TouchableOpacity
+              style={tw`bg-black rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`}
+              onPress={() => {}}
+            >
+              <Text style={tw`text-white font-bold`}>Register Business</Text>
+            </TouchableOpacity>
 
+            <View style={tw`border-b border-gray-300 my-8`} />
 
-        <TouchableOpacity style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`} onPress={handleSignUp}>
-          <Text style={tw`text-white font-bold`}>Sign Up</Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
+              onPress={() => {}}
+            >
+              <View style={tw`flex-row items-center `}>
+                <FontAwesome5
+                  name="google"
+                  size={20}
+                  color="black"
+                  style={tw`mr-2`}
+                />
+                <Text style={tw`text-black font-bold`}>
+                  Continue with Google
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-        <TouchableOpacity style={tw`bg-black rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`} onPress={() => {}}>
-          <Text style={tw`text-white font-bold`}>Register Business</Text>
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
+              onPress={() => {}}
+            >
+              <View style={tw`flex-row items-center`}>
+                <FontAwesome5
+                  name="facebook"
+                  size={20}
+                  color="white"
+                  style={tw`mr-2`}
+                />
+                <Text style={tw`text-white font-bold`}>
+                  Continue with Facebook
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-        <View style={tw`border-b border-gray-300 my-8`} />
+            <TouchableOpacity
+              style={tw`bg-black rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
+              onPress={() => {}}
+            >
+              <View style={tw`flex-row items-center justify-center`}>
+                <FontAwesome5
+                  name="apple"
+                  size={20}
+                  color="white"
+                  style={tw`mr-2`}
+                />
+                <Text style={tw`text-white font-bold`}>
+                  Continue with Apple
+                </Text>
+              </View>
+            </TouchableOpacity>
 
-<TouchableOpacity style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`} onPress={() => {}}>
-  <View style={tw`flex-row items-center `}>
-    <FontAwesome5 name="google" size={20} color="black" style={tw`mr-2`} />
-    <Text style={tw`text-black font-bold`}>Continue with Google</Text>
-  </View>
-</TouchableOpacity>
-
-<TouchableOpacity style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`} onPress={() => {}}>
-  <View style={tw`flex-row items-center`}>
-    <FontAwesome5 name="facebook" size={20} color="white" style={tw`mr-2`} />
-    <Text style={tw`text-white font-bold`}>Continue with Facebook</Text>
-  </View>
-</TouchableOpacity>
-
-<TouchableOpacity style={tw`bg-black rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`} onPress={() => {}}>
-  <View style={tw`flex-row items-center justify-center`}>
-    <FontAwesome5 name="apple" size={20} color="white" style={tw`mr-2`} />
-    <Text style={tw`text-white font-bold`}>Continue with Apple</Text>
-  </View>
-</TouchableOpacity>
-
-        <View style={tw`flex-row justify-center mt-8`}>
-          <Text style={tw`text-sm text-white`}>Already registered? </Text>
-          <Text style={tw`text-sm fontbold text-orange-500`}>Login</Text>
-        </View>
-
-      </View>
-      </ScrollView>
+            <View style={tw`flex-row justify-center mt-8`}>
+              <Text style={tw`text-sm text-white`}>Already registered? </Text>
+              <Text style={tw`text-sm fontbold text-orange-500`}>Login</Text>
+            </View>
+          </View>
+        </ScrollView>
       </ImageBackground>
     </View>
   );
