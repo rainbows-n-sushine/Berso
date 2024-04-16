@@ -34,7 +34,7 @@ exports.signUp=async(req, res) => {
         console.log('not isNewUser.username')
         return res.json({
           success: false,
-          message: "This email is already in use, try sign-in",
+          message: "This usernamezx is already in use, try sign-in",
         });
         
       }

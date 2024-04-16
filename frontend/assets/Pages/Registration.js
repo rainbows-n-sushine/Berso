@@ -112,19 +112,19 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
   const windowHeight = Dimensions.get('window').height;
 
 
-  const toggleDatePicker=()=>{
+  const toggleDatePicker=function(){
 
     setShowPicker(!showPicker)
   }
 
-  const onChange=({type},selectedDate)=>{
+  const onChange=function({type},selectedDate){
 
     if(type=='set'){
       const currentDate=selectedDate;
       setDate(currentDate)
       console.log(currentDate)
 
-      if (Platform.OS === "andriod"){
+      if (Platform.OS === "android"){
 
         toggleDatePicker();
         setDateOfBirth(currentDate.toDateString());
@@ -135,6 +135,12 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
 
 
   }
+  const confirmIOSDate=()=>{
+    setDateOfBirth(date.toDateString())
+    toggleDatePicker();
+  }
+
+
  const navigation = useNavigation();
 
 
@@ -236,20 +242,6 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
               <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
             )}
 
-            {!showPicker && (
-              <Pressable onPress={toggleDatePicker}>
-                <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-                  placeholder="Date of Birth"
-                  value={dateOfBirth}
-                  onChangeText={(text) => {
-                    setDateOfBirth(text);
-                  }}
-                  editable={false}
-                />
-              </Pressable>
-            )}
-
             {showPicker && (
               <DateTimePicker
                 mode="date"
@@ -258,6 +250,30 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
                 onChange={onChange}
               />
             )}
+            {showPicker && Platform.OS==="ios"(
+
+               <View>
+                <TouchableOpacity   onPress={toggleDatePicker}>  <Text>Cancel</Text></TouchableOpacity>
+                <TouchableOpacity    onPress={confirmIOSDate}>  <Text>Confirm</Text></TouchableOpacity>
+              
+              </View>
+            )
+           }
+
+            {!showPicker && (
+              <Pressable onPress={toggleDatePicker}>
+                <TextInput
+                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+                  placeholder="Sat Aug 21 2004"
+                  value={dateOfBirth}
+                  onChangeText={setDateOfBirth}
+                  editable={false}
+                  onPressIn={toggleDatePicker}
+                />
+              </Pressable>
+            )}
+
+          
 
             <TextInput
               style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
