@@ -13,7 +13,7 @@ import axios from 'axios'
 
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
@@ -34,10 +34,10 @@ const Login = () => {
 
      const validationErrors = {};
  
-     if (!email) {
-      validationErrors.email = 'Please enter your email';
-    } else if (!/\S+@\S+\.\S+/.test(email)) {
-      validationErrors.email = 'Please enter a valid email address';
+     if (!credential) {
+      validationErrors.credential = 'Please enter a proper email or username';
+    } else if (!/\S+@\S+\.\S+/.test(credential)) {
+      validationErrors.credential = 'Please enter a valid email or username';
     }
      if (!password) {
        validationErrors.password = 'Please enter your password';
@@ -47,13 +47,11 @@ const Login = () => {
        setErrors(validationErrors);
        return;
      }
-    console.log('Email:', email);
+    console.log('Credential:', credential);
     console.log('Password:', password);
 
-  return await axios.post('http://localhost:8000/user/signin',{email,password})
+  return await axios.post('http://localhost:8000/user/signin',{credential,password})
     .then((res)=>{
-
-     
 
         console.log(res.data)
       
@@ -103,12 +101,12 @@ const Login = () => {
 
             <TextInput
               style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-              placeholder="youremail@email.com"
-              value={email}
-              onChangeText={(text) => setEmail(text)}
+              placeholder="enter email or username"
+              value={credential}
+              onChangeText={(text) => setCredential(text)}
             />
-            {errors.email && (
-              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
+            {errors.credential && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.credential}</Text>
             )}
 
             <TextInput

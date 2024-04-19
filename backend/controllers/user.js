@@ -56,17 +56,40 @@ exports.signUp=async(req, res) => {
     }
 
  exports.signin=async(req,res)=>{
-const {email,password}=req.body
+const {credential,password}=req.body
 
-console.log('in in sign in controller')
 
-// const userExists = await User.userExists(email,password);
+  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/ ;
+  const isEmail= emailPattern.test(credential);
+  var user="";
+  console.log(isEmail)
+  console.log(credential)
+if(credential){
 
-const user=await User.findOne({email:email})
+  if(isEmail){
+    user=await User.findOne({email:credential})
 
-const comparePassword= await user.comparePassword(password)
+
+}else{
+user=await User.findOne({username:credential})
+}
+
+}else{
+
+  res.json({success:false, message:"Enter a userna-me or password"})
+}
+
+
+  console.log('in in sign in controller')
+
+console.log(user)
+
+// const user=await User.findOne({email:email})
+
+
 
    if (user){
+    const comparePassword= await user.comparePassword(password)
   
     if(comparePassword){
       const token=jwt.sign({userId:user._id},process.env.JWT_SECRET,{expiresIn:'1d'})
@@ -81,7 +104,13 @@ const comparePassword= await user.comparePassword(password)
     
    }
    else{
-    return res.json ({success:false,message:"user with that email is not found, try sign up"})
+    if(isEmail){
+      return res.json ({success:false,message:"user with that email is not found, try sign up"})
+
+    }else{
+      return res.json ({success:false,message:"user with that username is not found, try sign up"})
+    }
+
    }
 
 }

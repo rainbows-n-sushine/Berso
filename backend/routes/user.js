@@ -5,7 +5,7 @@ const router=express.Router();
 const {validateUserSignup,userValidation}=require('../middleware/validation/user')
 const{isAuth}=require('../middleware/auth')
 
-router.post('/signup',signUp)
+router.post('/signup',validateUserSignup,userValidation,signUp)
 router.post('/signin',signin)
 router.post('/create-post',isAuth,(req,res)=>{
 
