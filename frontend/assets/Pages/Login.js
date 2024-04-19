@@ -95,46 +95,49 @@ const Login = () => {
               style={tw`w-32 h-32`}
             />
           </View>
+          <View>
+            <Text
+              className={`text-lg font-bold mb-4 text-center text-white py-2`}
+              style={{ fontFamily: "berlin-sans", fontSize: 40 }}
+            >
+              Login
+            </Text>
+          </View>
+          <View>
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-70 ml-10 px-4 mb-4`}
+              placeholder="Enter email or username"
+              value={credential}
+              onChangeText={(text) => setCredential(text)}
+            />
+            {errors.credential && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>
+                {errors.credential}
+              </Text>
+            )}
 
-          <Text
-            className={`text-lg font-bold mb-4 text-center`}
-            style={{ fontFamily: "berlin-sans", fontSize: 40 }}
-          >
-            Login
-          </Text>
+            <TextInput
+              style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-70 ml-10 px-4 mb-4`}
+              placeholder="Password"
+              secureTextEntry
+              value={password}
+              onChangeText={(text) => setPassword(text)}
+            />
+            {errors.password && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.password}</Text>
+            )}
 
-          <TextInput
-            style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-            placeholder="enter email or username"
-            value={credential}
-            onChangeText={(text) => setCredential(text)}
-          />
-          {errors.credential && (
-            <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.credential}</Text>
-          )}
-
-          <TextInput
-            style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-            placeholder="Password"
-            secureTextEntry
-            value={password}
-            onChangeText={(text) => setPassword(text)}
-          />
-          {errors.password && (
-            <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.password}</Text>
-          )}
-
-          <TouchableOpacity
-            style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`}
-            onPress={handleSubmit}
-          >
-            <Text style={tw`text-white font-bold`}>Login</Text>
-          </TouchableOpacity>
-
+            <TouchableOpacity
+              style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-70 ml-10`}
+              onPress={handleSubmit}
+            >
+              <Text style={tw`text-white font-bold`}>Login</Text>
+            </TouchableOpacity>
+          </View>
           <View style={tw`border-b border-gray-300 my-8`} />
 
           <TouchableOpacity
-            style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
+            style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
             onPress={() => {}}
           >
             <View style={tw`flex-row items-center `}>
@@ -144,7 +147,7 @@ const Login = () => {
                 color="black"
                 style={tw`mr-2`}
               />
-              <Text style={tw`text-white font-bold`}>Continue with Google</Text>
+              <Text style={tw`text-black font-bold`}>Continue with Google</Text>
             </View>
           </TouchableOpacity>
 

@@ -20,7 +20,7 @@ import {
 const More = () => {
   const navigation = useNavigation();
   return (
-    <SafeAreaView className="flex-1 bg-orange-50">
+    <SafeAreaView className="flex-1 bg-[#F2E8DE]">
       <View style={tw`items-center mb-8`}>
         <Image
           source={require("../Images/logo-removebg.png")}

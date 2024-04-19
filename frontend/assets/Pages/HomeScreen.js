@@ -41,7 +41,7 @@ const HomeScreen = () => {
         </TouchableOpacity>
       )}
     >
-      <View className="bg-[#F6D8BD] ">
+      <View className="bg-[#F2E8DE] ">
         <TouchableOpacity
           className="flex rounded-xl -mt-8 mr-3 ml-3 bg-white"
           onPress={() => {

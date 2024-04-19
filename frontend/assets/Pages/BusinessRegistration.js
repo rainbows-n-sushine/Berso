@@ -34,7 +34,7 @@ const BusinessRegistration = () => {
   const windowHeight = Dimensions.get("window").height;
   const navigation = useNavigation();
   return (
-    <View style={tw`flex-1 bg-[#F6D8BD] justify-center`}>
+    <View style={tw`flex-1 bg-[#F2E8DE] justify-center`}>
       <ScrollView
         // contentContainerStyle={tw`justify-center items-center`}
         style={{ height: windowHeight }}
@@ -43,10 +43,10 @@ const BusinessRegistration = () => {
           <View style={tw`flex-row justify-between items-center mb-6 `}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("Profile");
+                navigation.goBack();
               }}
             >
-              <AntDesign name="arrowleft" size={24} color="white" />
+              <AntDesign name="arrowleft" size={24} color="black" />
             </TouchableOpacity>
           </View>
 
@@ -60,7 +60,7 @@ const BusinessRegistration = () => {
           <View>
             <Text
               style={{ fontFamily: "berlin-sans", fontSize: 35 }}
-              className={`text-2xl font-bold mb-4 font-berlin-sans text-center text-white `}
+              className={`text-2xl font-bold mb-4 font-berlin-sans text-center `}
             >
               Register Business
             </Text>
@@ -71,7 +71,10 @@ const BusinessRegistration = () => {
             </TouchableOpacity>
             <View className=" justify-center items-center">
               <View>
-                <Text className="text-lg font-bold mb-4 berlinSans text-stone-400">
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-lg font-bold mb-4 berlinSans text-stone-700"
+                >
                   Required Information
                 </Text>
                 <TextInput
@@ -101,7 +104,10 @@ const BusinessRegistration = () => {
                 />
               </View>
               <View>
-                <Text className="text-lg font-bold mb-4 berlinSans  text-stone-400">
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-lg font-bold mb-4 berlinSans  text-stone-700"
+                >
                   Optional Details
                 </Text>
                 <TextInput
@@ -141,19 +147,24 @@ const BusinessRegistration = () => {
                   onChangeText={(text) => {}}
                 />
                 <TextInput
-                  style={tw`w-full h-40 border bg-white border-gray-300 rounded-2xl w-80   px-4 mb-4`}
+                  style={tw`w-full h-40 border bg-white border-gray-300 rounded-2xl w-80 px-4 pb-30 mb-4`}
                   placeholder="Description"
                   // value={firstName}
                   onChangeText={(text) => {}}
                 />
               </View>
+              <TouchableOpacity
+                style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
+                // onPress={}
+              >
+                <Text
+                  className={{ fontFamily: "berlin-sans" }}
+                  style={tw`text-white font-bold`}
+                >
+                  Register
+                </Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
-              // onPress={}
-            >
-              <Text style={tw`text-white font-bold`}>Register</Text>
-            </TouchableOpacity>
 
             {/* <View style={tw`flex-row justify-center mt-8`}>
               <Text style={tw`text-sm text-white`}>Already registered? </Text>

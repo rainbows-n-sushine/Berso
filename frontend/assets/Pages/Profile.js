@@ -53,7 +53,7 @@ const Profile = ({ restaurantData }) => {
       parallaxHeaderHeight={300}
       renderBackground={() => <View className="bg-black top-8"></View>}
       stickyHeaderHeight={90}
-      contentBackgroundColor="#ecedef"
+      contentBackgroundColor="#F2E8DE"
       renderStickyHeader={() => (
         <View className="flex justify-between top-4">
           <View className="ml-4">

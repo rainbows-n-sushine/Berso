@@ -166,7 +166,7 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
         resizeMode="cover"
       >
         <ScrollView
-          contentContainerStyle={tw`justify-center items-center`}
+          // contentContainerStyle={tw`justify-center items-center`}
           style={{ height: windowHeight }}
         >
           <View style={tw`flex-1 p-4 justify-center `}>
@@ -251,7 +251,7 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
                   {errors.username}
                 </Text>
               )}
-
+              <View style={tw`border-b border-gray-300 my-4 `} />
               <TextInput
                 style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                 placeholder="Email"
@@ -286,30 +286,31 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
                   onChange={onChange}
                 />
               )}
-            {showPicker && Platform.OS==="ios"(
+              {/* {showPicker && Platform.OS==="ios"( */}
 
-               <View>
-                <TouchableOpacity   onPress={toggleDatePicker}>  <Text>Cancel</Text></TouchableOpacity>
-                <TouchableOpacity    onPress={confirmIOSDate}>  <Text>Confirm</Text></TouchableOpacity>
-              
-              </View>
-            )
-           }
+              {/* <View>
+                <TouchableOpacity onPress={toggleDatePicker}>
+                  <Text>Cancel</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={confirmIOSDate}>
+                  <Text>Confirm</Text>
+                </TouchableOpacity>
+              </View> */}
+              {/* ) */}
+              {/* } */}
 
-            {!showPicker && (
-              <Pressable onPress={toggleDatePicker}>
-                <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-                  placeholder="Sat Aug 21 2004"
-                  value={dateOfBirth}
-                  onChangeText={setDateOfBirth}
-                  editable={false}
-                  onPressIn={toggleDatePicker}
-                />
-              </Pressable>
-            )}
-
-          
+              {!showPicker && (
+                <Pressable onPress={toggleDatePicker}>
+                  <TextInput
+                    style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                    placeholder="Sat Aug 21 2004"
+                    value={dateOfBirth}
+                    onChangeText={setDateOfBirth}
+                    editable={false}
+                    onPressIn={toggleDatePicker}
+                  />
+                </Pressable>
+              )}
 
               <TextInput
                 style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
@@ -324,7 +325,7 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
                   {errors.zipCode}
                 </Text>
               )}
-
+              <View style={tw`border-b border-gray-300 my-4 `} />
               <TextInput
                 style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                 placeholder="Password"
@@ -424,7 +425,13 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
 
             <View style={tw`flex-row justify-center mt-8`}>
               <Text style={tw`text-sm text-white`}>Already registered? </Text>
-              <Text style={tw`text-sm fontbold text-orange-500`}>Login</Text>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("Login");
+                }}
+              >
+                <Text style={tw`text-sm fontbold text-orange-500`}>Login</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </ScrollView>

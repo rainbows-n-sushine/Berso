@@ -123,8 +123,8 @@ const SearchBusinessScreen = () => {
     });
   };
   return (
-    <SafeAreaView className="flex-1 p-4 mt-6 bg-orange-50">
-      <View className="flex rounded-lg  mr-3 ml-3 bg-white pl-2 mb-3">
+    <SafeAreaView className="flex-1 p-4 mt-6 bg-[#F2E8DE]">
+      <View className="flex rounded-lg mx-1 bg-white pl-2 mb-3">
         <View className="flex flex-row items-center justify-between m-2">
           <TouchableOpacity
             onPress={() => {

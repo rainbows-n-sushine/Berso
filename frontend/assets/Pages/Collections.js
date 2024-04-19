@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 const Collections = () => {
     const navigation = useNavigation();
   return (
-    <SafeAreaView className="flex-1 bg-orange-50 items-center justify-between top-8">
+    <SafeAreaView className="flex-1 bg-[#F2E8DE] items-center justify-between top-8">
       <View className="flex items-center justify-between">
         <Text className="text-xl">Sign in for collections</Text>
         <TouchableOpacity
