@@ -2,6 +2,8 @@ import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack";
 import Profile from "../Pages/Profile";
+import BusinessRegistration from '../Pages/BusinessRegistration';
+import UserProfileManagement from '../Pages/UserProfileManagement';
 
 
 const Stack = createStackNavigator();
@@ -11,6 +13,16 @@ const ProfileNavigator = () => {
       <Stack.Screen
         name="Profile"
         component={Profile}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="AddBusiness"
+        component={BusinessRegistration}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="EditUserProfile"
+        component={UserProfileManagement}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen

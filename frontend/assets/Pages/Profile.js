@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   TextInput,
   FlatList,
+  SectionList,
 } from "react-native";
 import React from "react";
 import {
@@ -27,9 +28,23 @@ import { useNavigation } from "@react-navigation/native";
 import MarketCard from "../Components/marketCard";
 import { dummyRestaurantsData } from "../Data/restaurantsData";
 
-const Profile = () => {
-  
+const Profile = ({ restaurantData }) => {
   const navigation = useNavigation();
+
+  // const data = restaurantData.food.map((item, index) => ({
+  //   title: item.category,
+  //   data: item.meals,
+  //   index,
+  // }));
+
+  const selectedRestaurant = dummyRestaurantsData[0];
+
+  // Access the 'food' property of the selected restaurant
+  const foodMenu = selectedRestaurant.food;
+
+  // Print the food menu to the console
+  // console.log(foodMenu);
+
   return (
     <ParallaxScrollView
       className="flex-1"
@@ -63,14 +78,29 @@ const Profile = () => {
       renderForeground={() => (
         <SafeAreaView className="flex  bg-white">
           <View className="flex-row-reverse ml-2">
-            <Feather name="share" size={24} color="black" />
+            <TouchableOpacity
+              className="px-2"
+              onPress={() => {
+                navigation.navigate("EditUserProfile");
+              }}
+            >
+              <Feather name="share" size={24} color="black" />
+            </TouchableOpacity>
+            <TouchableOpacity
+              className="px-2"
+              onPress={() => {
+                navigation.navigate("EditUserProfile");
+              }}
+            >
+              <Feather name="edit" size={24} color="black" />
+            </TouchableOpacity>
           </View>
           <View className="flex items-center justify-between mt-9">
             <FontAwesome name="user-circle-o" size={60} color="black" />
             <Text className="">Username</Text>
             <View className="flex-row mt-2 justify-between items-center">
               <View className="items-center flex-row mx-1">
-                <Feather name="users" size={12} color="gray" />
+                <Feather name="users" size={12} color="lightgray" />
                 <Text className="text-sm  text-neutral-400">45</Text>
               </View>
               <View className="items-center flex-row mx-1">
@@ -96,39 +126,65 @@ const Profile = () => {
 
                 <Text className="text-base">Add Photo</Text>
               </View>
-              <View className="items-center mx-4">
-                <AntDesign name="isv" size={22} color="black" />
-                <Text className="text-base">Add Business</Text>
-              </View>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("AddBusiness");
+                }}
+              >
+                <View className="items-center mx-4">
+                  <AntDesign name="isv" size={22} color="black" />
+                  <Text className="text-base">Add Business</Text>
+                </View>
+              </TouchableOpacity>
             </View>
           </View>
         </SafeAreaView>
       )}
     >
-      <ScrollView className="bg-orange-50">
-        <FlatList
-          className="flex-1 mt-4"
-          data={dummyRestaurantsData}
-          showsVerticalScrollIndicator={false}
-          keyExtractor={(item) => item.id.toString()}
-          ListHeaderComponent={() => (
-            <>
-              <View className="bg-white px-1 rounded-t-xl flex-col divide-y divide-gray-100 ">
-                <Text className=" text-orange-400 text-lg font-semibold">
-                  My Reviews
-                </Text>
-              </View>
-              {/* </Link> */}
-            </>
-          )}
-          renderItem={({ item }) => (
-            <View className="bg-white px-9 r-0">
-              
-              <MarketCard restaurantData={item} />
+      {/* <ScrollView className="bg-orange-50"> */}
+      {/* <FlatList
+        className="flex-1 mt-4"
+        data={dummyRestaurantsData}
+        showsVerticalScrollIndicator={false}
+        keyExtractor={(item) => item.id.toString()}
+        ListHeaderComponent={() => (
+          <>
+            <View className="bg-white px-1 rounded-t-xl flex-col divide-y divide-gray-100 ">
+              <Text className=" text-orange-400 text-lg font-semibold">
+                My Reviews
+              </Text>
             </View>
-          )}
-        />
-      </ScrollView>
+            {/* </Link> 
+          </>
+      //   )}
+      //   renderItem={({ item }) => (
+      //     <View className="bg-white px-9 r-0">
+      //       <MarketCard restaurantData={item} />
+      //     </View>
+      //   )}
+      // /> */}
+
+      <View className="flex bg-white mt-2 rounded-t-2xl">
+        <View>
+          {/* <SectionList
+            sections={data}
+            scrollEnabled={false}
+            keyExtractor={(item, index) => `${item.id + index}`}
+            renderItem={renderItem}
+            ItemSeparatorComponent={() => (
+              <View className="border-[0.5px] border-slate-300" />
+            )}
+            // SectionSeparatorComponent={() => <View className="border-[0.5px] border-slate-300" />}
+            renderSectionHeader={({ section: { title, index } }) => (
+              <Text className="text-2xl font-bold text-[#2e303d] my-2 ml-6">
+                {title}
+              </Text>
+            )}
+          /> */}
+        </View>
+      </View>
+
+      {/* </ScrollView> */}
     </ParallaxScrollView>
   );
 };
@@ -264,14 +320,10 @@ export default Profile;
 //     </Link>
 //   );
 
-//   const data = post.food.map((item, index) => ({
-//     title: item.category,
-//     data: item.meals,
-//     index,
-//   }));
+  
 
 //   return (
-    
+
 //       <ParallaxScrollView
 //         styles={{ flex: 1 }}
 //         backgroundColor="white"
@@ -399,7 +451,7 @@ export default Profile;
 //   deliveryTextMoreInfo: 'text-sm font-bold',
 //   separator: 'h-[0.5px] bg-slate-300 my-4',
 //   deliveryAbout: 'text-sm ml-1 text-[#2e303d]',
-//   itemsContainer: 'flex bg-white mt-2 rounded-t-2xl',
+//   itemsContainer: '',
 //   itemContainer: 'flex flex-row justify-between items-center',
 //   greenBorder: 'border-l-8 border-[#34BB78]',
 //   foodImage: 'w-28 h-27 rounded-sm',

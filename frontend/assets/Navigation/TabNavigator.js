@@ -2,10 +2,11 @@ import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../Pages/HomeScreen";
 import Profile from "../Pages/Profile";
-import { Entypo, Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
+import { Entypo, Feather, FontAwesome, Fontisto, Ionicons } from "@expo/vector-icons";
 import HomeNavigator from "./HomeNavigator";
 import ProfileNavigator from "./ProfileNavigator";
 import CollectionsNavigator from "./CollectionsNavigator";
+import MoreNavigator from "./MoreNavigator";
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
@@ -50,13 +51,13 @@ const TabNavigator = () => {
           //   tabBarShowLabel: false,
           headerShown: false,
           tabBarIcon: ({ color }) => (
-            <Entypo name="tag" size={24} color={color} />
+            <Fontisto name="favorite" size={24} color={color} />
           ),
         }}
       />
       <Tab.Screen
-        name="More"
-        component={Profile}
+        name="MoreNav"
+        component={MoreNavigator}
         options={{
           title: "More",
           //   tabBarShowLabel: false,

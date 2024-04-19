@@ -28,9 +28,9 @@ const Login = () => {
 
 
 
-  const handleSubmit = async() => {
-     // Reset previous errors
-     setErrors({});
+  const handleSubmit = async () => {
+    // Reset previous errors
+    setErrors({});
 
      const validationErrors = {};
  
@@ -68,16 +68,15 @@ const Login = () => {
 
   const windowHeight = Dimensions.get('window').height;
   return (
-    <SafeAreaView style={tw`flex-1 justify-between items`}>
-      <ImageBackground
-        source={require("../Images/logo22.jpg")}
+    <ImageBackground
+      source={require("../Images/logo22.jpg")}
         style={tw`flex-1`}
-        resizeMode="cover"
+      resizeMode="cover"
+    >
+      <ScrollView
+        // contentContainerStyle={tw`justify-center items-center`}
+        style={{ height: windowHeight }}
       >
-        <ScrollView
-          contentContainerStyle={tw`justify-center items-center`}
-          style={{ height: windowHeight }}
-        >
           <View style={tw`flex-1 p-4 justify-center`}>
             <View style={tw`flex-row justify-between items-center mb-4`}>
               <AntDesign name="arrowleft" size={24} color="white" />
@@ -109,76 +108,76 @@ const Login = () => {
               <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.credential}</Text>
             )}
 
-            <TextInput
+              <TextInput
               style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-              placeholder="Password"
-              secureTextEntry
-              value={password}
-              onChangeText={(text) => setPassword(text)}
-            />
-            {errors.password && (
+                placeholder="Password"
+                secureTextEntry
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+              />
+              {errors.password && (
               <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.password}</Text>
-            )}
+              )}
 
-            <TouchableOpacity
+              <TouchableOpacity
               style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`}
-              onPress={handleSubmit}
-            >
-              <Text style={tw`text-white font-bold`}>Login</Text>
-            </TouchableOpacity>
+                onPress={handleSubmit}
+              >
+                <Text style={tw`text-white font-bold`}>Login</Text>
+              </TouchableOpacity>
 
-            <View style={tw`border-b border-gray-300 my-8`} />
+              <View style={tw`border-b border-gray-300 my-8`} />
 
-            <TouchableOpacity
+              <TouchableOpacity
               style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
-              onPress={() => {}}
-            >
-              <View style={tw`flex-row items-center `}>
-                <FontAwesome5
-                  name="google"
-                  size={20}
+                onPress={() => {}}
+              >
+                <View style={tw`flex-row items-center `}>
+                  <FontAwesome5
+                    name="google"
+                    size={20}
                   color="black"
-                  style={tw`mr-2`}
-                />
+                    style={tw`mr-2`}
+                  />
                 <Text style={tw`text-white font-bold`}>
-                  Continue with Google
-                </Text>
-              </View>
-            </TouchableOpacity>
+                    Continue with Google
+                  </Text>
+                </View>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
-              onPress={() => {}}
-            >
-              <View style={tw`flex-row items-center`}>
-                <FontAwesome5
-                  name="facebook"
-                  size={20}
-                  color="white"
-                  style={tw`mr-2`}
-                />
-                <Text style={tw`text-white font-bold`}>
-                  Continue with Facebook
-                </Text>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
+                onPress={() => {}}
+              >
+                <View style={tw`flex-row items-center`}>
+                  <FontAwesome5
+                    name="facebook"
+                    size={20}
+                    color="white"
+                    style={tw`mr-2`}
+                  />
+                  <Text style={tw`text-white font-bold`}>
+                    Continue with Facebook
+                  </Text>
+                </View>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={tw`bg-black rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
-              onPress={() => {}}
-            >
-              <View style={tw`flex-row items-center justify-center`}>
-                <FontAwesome5
-                  name="apple"
-                  size={20}
-                  color="white"
-                  style={tw`mr-2`}
-                />
-                <Text style={tw`text-white font-bold`}>
-                  Continue with Apple
-                </Text>
-              </View>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={tw`bg-black rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
+                onPress={() => {}}
+              >
+                <View style={tw`flex-row items-center justify-center`}>
+                  <FontAwesome5
+                    name="apple"
+                    size={20}
+                    color="white"
+                    style={tw`mr-2`}
+                  />
+                  <Text style={tw`text-white font-bold`}>
+                    Continue with Apple
+                  </Text>
+                </View>
+              </TouchableOpacity>
 
             <View style={tw`flex-row justify-center mt-8`}>
               <Text style={tw`text-sm text-white`}>
@@ -195,8 +194,8 @@ const Login = () => {
               </TouchableOpacity>
             </View>
           </View>
-        </ScrollView>
-      </ImageBackground>
+      </ScrollView>
+    </ImageBackground>
     </SafeAreaView>
   );
 };
