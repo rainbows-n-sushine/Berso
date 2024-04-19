@@ -30,7 +30,7 @@ const More = () => {
 
       <View className="flex py-3 ">
         <TouchableOpacity
-          className="bg-white p-3 rounded-xl mb-2 flex-row items-center "
+          className="bg-white p-3 rounded-l mb-2 flex-row items-center "
           onPress={() => {
             navigation.navigate("EditUserProfile");
           }}
@@ -39,7 +39,7 @@ const More = () => {
           <Text className="ml-2">Edit Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-white p-3 rounded-xl mb-2 flex-row items-center"
+          className="bg-white p-3 rounded-l mb-2 flex-row items-center"
           onPress={() => {
             navigation.navigate("");
           }}
@@ -48,7 +48,7 @@ const More = () => {
           <Text className="ml-2">Settings</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-white p-3 rounded-xl mb-2 flex-row items-center"
+          className="bg-white p-3 rounded-l mb-2 flex-row items-center"
           onPress={() => {
             navigation.navigate("");
           }}
@@ -57,7 +57,7 @@ const More = () => {
           <Text className="ml-2">My Businesses</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-white p-3 rounded-xl mb-2 flex-row items-center"
+          className="bg-white p-3 rounded-l mb-2 flex-row items-center"
           onPress={() => {
             navigation.navigate("");
           }}
@@ -66,7 +66,7 @@ const More = () => {
           <Text className="ml-2">Report a problem</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-white p-3 rounded-xl mb-2 flex-row items-center"
+          className="bg-white p-3 rounded-l mb-2 flex-row items-center"
           onPress={() => {
             navigation.navigate("");
           }}
@@ -75,7 +75,7 @@ const More = () => {
           <Text className="ml-2">Share Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-white p-3 rounded-xl mb-2 flex-row items-center"
+          className="bg-white p-3 rounded-l mb-2 flex-row items-center"
           onPress={() => {
             navigation.navigate("");
           }}
@@ -84,7 +84,7 @@ const More = () => {
           <Text className="ml-2">About Berso</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-white p-3 rounded-xl mb-2 flex-row items-center"
+          className="bg-white p-3 rounded-l mb-2 flex-row items-center"
           onPress={() => {
             navigation.navigate("");
           }}
@@ -93,7 +93,7 @@ const More = () => {
           <Text className="ml-2">Terms of service and privacy</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          className="bg-white p-3 rounded-xl mb-2 flex-row items-center"
+          className="bg-white p-3 rounded-l mb-2 flex-row items-center"
           onPress={() => {
             navigation.navigate("");
           }}

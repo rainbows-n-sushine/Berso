@@ -134,12 +134,15 @@ const UserProfileManagement = () => {
             >
               Profile Details
             </Text>
-            <View className='px-2'>
-              <Text className="text-base text-stone-500 font-bold mb-1">
+            <View className="px-2">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base text-stone-500 font-bold mb-1"
+              >
                 UserName
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-2 mb-4`}
+                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-2 mb-2`}
                 //   placeholder="Username"
                 value={username}
                 onChangeText={(text) => {
@@ -151,11 +154,14 @@ const UserProfileManagement = () => {
                   {errors.username}
                 </Text>
               )}
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 First Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-2 mb-4`}
+                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-2 mb-2`}
                 //   placeholder="First Name"
                 value={firstName}
                 onChangeText={(text) => {
@@ -167,11 +173,14 @@ const UserProfileManagement = () => {
                   {errors.firstName}
                 </Text>
               )}
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 Middle Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-2 mb-4`}
+                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-2 mb-2`}
                 //   placeholder="Middle Name"
                 value={middleName}
                 onChangeText={(text) => {
@@ -183,11 +192,14 @@ const UserProfileManagement = () => {
                   {errors.middleName}
                 </Text>
               )}
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 Last Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Last Name"
                 value={lastName}
                 onChangeText={(text) => {
@@ -200,11 +212,14 @@ const UserProfileManagement = () => {
                 </Text>
               )}
               <View style={tw`border-b border-white my-4 `} />
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 Email
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
                 value={email}
                 onChangeText={(text) => {
@@ -214,11 +229,14 @@ const UserProfileManagement = () => {
               {errors.email && (
                 <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
               )}
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 Phone Number
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
                 value={email}
                 onChangeText={(text) => {
@@ -232,7 +250,7 @@ const UserProfileManagement = () => {
             {!showPicker && (
               <Pressable onPress={toggleDatePicker}>
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                   //   placeholder="Date of Birth"
                   value={dateOfBirth}
                   onChangeText={(text) => {
@@ -251,11 +269,14 @@ const UserProfileManagement = () => {
                 onChange={onChange}
               />
             )} */}
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 Zip Code
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Zip Code"
                 value={zipCode}
                 onChangeText={(text) => {
@@ -267,11 +288,14 @@ const UserProfileManagement = () => {
                   {errors.zipCode}
                 </Text>
               )}
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 Bio
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
                 value={email}
                 onChangeText={(text) => {
@@ -282,7 +306,10 @@ const UserProfileManagement = () => {
                 <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
               )}
               <View style={tw`border-b border-white my-4 `} />
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 Current Password
               </Text>
               <TextInput
@@ -299,7 +326,10 @@ const UserProfileManagement = () => {
                   {errors.password}
                 </Text>
               )}
-              <Text className="text-base  text-stone-500 font-bold mb-1">
+              <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
                 New Password
               </Text>
               <TextInput

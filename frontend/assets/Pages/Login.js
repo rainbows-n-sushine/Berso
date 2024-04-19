@@ -147,6 +147,12 @@ const Login = () => {
                 color="black"
                 style={tw`mr-2`}
               />
+              {/* <Image 
+              source=
+              {{
+                uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB+0lEQVR4nGNgoCf4X8/A9r+EOfh/IWPD/xKm+v/lzP7/6xlYSDeohkH1fwrTyf9uDH//2zL8R8HujH//pzMd+1/NoEycYbWsaf+9GDENwmZwMUsWfsPKWbL/OxIwCNnASuYA3Ia1Myj892b8g6IpkvHl/yKmov+ZDLL/6xnE/pczFf6PZnwBNqyc2R+/69awTfkfx4QwLJ1xN0619Wwa+A37z8D0/yDb8/8H2P//72ABu4yBEvD/AKvu/4Ps/+F4J7sTuprgzvmPceGwrll3m6eWWSEZyOaJYuB+Bh50AyXLLv3HhyunVNcgDNzP7kGpgRVTa6qRDGTVgRn27yD7//N7ZDCSA7o3HZrWfUE2sGZmZQBqpBxge/b1APf/tq0W//M2Ob4hFO4ercvfwQzTrD78N3TVKmYUBZd3S85I3ej232d9ABg3b7XYh8uwlP7+w8iui++ZfAJD0dwtukqRG7z+wgwE4YLNDq+mbDcq7d5iKD9nu4n6tC2GNQWbHN4lzSn+L1t+Hu666okl2PP1lO0GeUEbfOEG4sNJi1P+a9cc/Fc+tS4Xb9hM22KQF4XmUmw4ZoPn36mbbPAXDjCwYJu2cvMWy+ORGzwxDI7e4Pm3bav50Vkb9RSJMgwZzDxjzDpzh37AlC1G9VO3GdTN26nnW/+fgYlkgygBAOrTuFLcL9uXAAAAAElFTkSuQmCC",
+              }} /> */}
+              
               <Text style={tw`text-black font-bold`}>Continue with Google</Text>
             </View>
           </TouchableOpacity>

@@ -430,7 +430,7 @@ await axios.post('http://localhost:8000/user/signup',{fullName,username,email,da
                   navigation.navigate("Login");
                 }}
               >
-                <Text style={tw`text-sm fontbold text-orange-500`}>Login</Text>
+                <Text style={tw`text-sm font-bold text-orange-500`}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>

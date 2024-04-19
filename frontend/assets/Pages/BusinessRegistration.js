@@ -60,7 +60,7 @@ const BusinessRegistration = () => {
           <View>
             <Text
               style={{ fontFamily: "berlin-sans", fontSize: 35 }}
-              className={`text-2xl font-bold mb-4 font-berlin-sans text-center `}
+              className={`text-2xl font-bold mb-4 font-berlin-sans text-center py-2 `}
             >
               Register Business
             </Text>
