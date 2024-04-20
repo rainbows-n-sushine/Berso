@@ -198,7 +198,7 @@ const handleSubmit=async()=>{
               </View>
               <TouchableOpacity
                 style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
-                onPress={handleSubmit}}
+                onPress={handleSubmit}
               >
                 <Text
                   className={{ fontFamily: "berlin-sans" }}
