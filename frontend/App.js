@@ -9,21 +9,19 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from './assets/Pages/HomeScreen';
 import Profile from './assets/Pages/Profile';
 import TabNavigator from './assets/Navigation/TabNavigator';
-import StackNavigator from './assets/Navigation/StackNavigator';
+import AppNav from './assets/Navigation/AppNav.js'
+
+import AuthProvider from './context/AuthContext.js'
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
 export default function App() {
   return (
-    <NavigationContainer>
+    <AuthProvider>
 
-      {/* <Login/> */}
-      <StackNavigator />
-      {/* <HomeScreen /> */}
-      {/* <TabNavigator /> */}
-      {/* <Registration/> */}
-      {/* <Login /> */}
+      <AppNav/>
 
-    </NavigationContainer>
+    </AuthProvider>
+
   );
 }

@@ -77,3 +77,29 @@ exports.signin = async (req, res) => {
     });
   }
 };
+
+
+exports.updateUserProfile=async(req,res)=>{
+
+  
+
+  const {username,firstName,middleName,lastName,email,phoneNumber,zipCode,bio,currentPassword, newPassword}=req.body
+
+  // const user= await User.findOne({email:email})
+
+  User.update({
+
+  },{where:{email:email}})
+  .then((res)=>{
+    res.json({message :"successfully uodates",success:true,profile:user})
+  })
+  .catch((error)=>{
+if(error){
+  console.log(error.message())
+}
+  })
+
+
+  
+
+}

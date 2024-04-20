@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect,useState } from "react";
 import {
   View,
   TextInput,
@@ -22,6 +22,28 @@ import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 
 const BusinessRegistration = () => {
+
+  const windowHeight = Dimensions.get("window").height;
+  const navigation = useNavigation();
+
+
+
+  const [business,setBusiness]=useState({
+    businessName:'',
+    email:'',
+    phone:"",
+    website:"",
+    location:"",
+    address:"",
+    businessDays:"",
+    openingHours:"",
+    averagePrice:"",
+    description:""
+   })
+const [categories,setCategories]=useState([])
+
+
+
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
@@ -31,8 +53,32 @@ const BusinessRegistration = () => {
 
     loadFonts();
   }, []);
-  const windowHeight = Dimensions.get("window").height;
-  const navigation = useNavigation();
+
+
+const handleChange=(name,value)=>{
+  setBusiness({...business,[name]:value})
+
+
+
+}
+const handleSubmit=async()=>{
+  
+
+  console.log('im in handle submit')
+  try {
+    await axios.post('http://localhost:8000/business/register-business',{business,categories})
+    .then((res)=>{
+      console.log(res)
+    })
+    
+  } catch (error) {
+    if(err){
+       console.log(err.message())
+    }
+  }}
+
+
+
   return (
     <View style={tw`flex-1 bg-[#F6D8BD] justify-center`}>
       <ScrollView
@@ -77,25 +123,23 @@ const BusinessRegistration = () => {
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Name of business"
-                  // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('businessName',text)}}
                 />
                 {/* </View> */}
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Email"
-                  // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('email',text)}}
                 />
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Phone Number"
                   // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('phone',text)}}
                 />
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
-                  placeholder="Catagory"
+                  placeholder="Category"
                   // value={firstName}
                   onChangeText={(text) => {}}
                 />
@@ -107,50 +151,49 @@ const BusinessRegistration = () => {
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Website"
-                  // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('website',text)}}
                 />
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
-                  placeholder="Loctation"
+                  placeholder="Location"
                   // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('location',text)}}
                 />
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Address"
                   // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('address',text)}}
                 />
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Business Days"
                   // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('businessDays',text)}}
                 />
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Opening Hours"
                   // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('openingHours',text)}}
                 />
                 <TextInput
                   style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Avarage Price"
                   // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('averagePrice',text)}}
                 />
                 <TextInput
                   style={tw`w-full h-40 border bg-white border-gray-300 rounded-2xl w-80   px-4 mb-4`}
                   placeholder="Description"
                   // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {handleChange('description',text)}}
                 />
               </View>
             </View>
             <TouchableOpacity
               style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
-              // onPress={}
+              onPress={handleSubmit}
             >
               <Text style={tw`text-white font-bold`}>Register</Text>
             </TouchableOpacity>

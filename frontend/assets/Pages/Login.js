@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,useContext } from 'react';
 import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground, Dimensions, ScrollView, SafeAreaView } from 'react-native';
 import tw from 'twrnc';
 import { AntDesign } from '@expo/vector-icons';
@@ -6,18 +6,20 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import {useNavigation} from '@react-navigation/native'
 import Registration from './Registration';
 import axios from 'axios'
+import { AuthContext } from '../../context/AuthContext';
+
+//you can be adding {navigation} as an event in 
 
 
-
-
-
-
-const Login = () => {
+const Login = ({navigation}) => {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
 
-  const navigation=useNavigation();
+ 
+
+  // const {login}=useContext(AuthContext)
+  const {login,logout}=useContext(AuthContext)
 
   const HandleSignup=({Registration})=>{
 
@@ -105,14 +107,16 @@ const Login = () => {
 
           <TextInput
             style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
-            placeholder="enter email or username"
+            placeholder="email or username"
             value={credential}
             onChangeText={(text) => setCredential(text)}
           />
+          
+
           {errors.credential && (
             <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.credential}</Text>
           )}
-
+  
           <TextInput
             style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
             placeholder="Password"
@@ -122,7 +126,7 @@ const Login = () => {
           />
           {errors.password && (
             <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.password}</Text>
-          )}
+          )}          
 
           <TouchableOpacity
             style={tw`bg-orange-500 rounded-full h-12 items-center justify-center mb-4 w-70 ml-10`}
@@ -187,7 +191,9 @@ const Login = () => {
                 navigation.navigate("Registration");
               }}
             >
-              <Text style={tw`text-sm font-bold text-yellow-500`}>Sign up</Text>
+
+
+              <Text style={tw`text-sm font-bold text-yellow-500`} onPress={HandleSignup}>Sign up</Text>
             </TouchableOpacity>
           </View>
         </View>

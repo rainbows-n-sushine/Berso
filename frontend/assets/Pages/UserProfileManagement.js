@@ -30,15 +30,49 @@ const UserProfileManagement = () => {
   const [lastName, setLastName] = useState("");
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
+  const [phone,setPhone]=useState('')
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [date, setDate] = useState(new Date());
   const [zipCode, setZipCode] = useState("");
   const [password, setPassword] = useState("");
+  const [bio,setBio]=useState('')
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [errors, setErrors] = useState("");
 
+
+  const windowHeight = Dimensions.get("window").height;
+  const navigation = useNavigation();
+
+  const handleSubmit = async() => {
+
+
+    validateForm();
+
+    // Check if there are any errors
+    if (Object.keys(errors).length === 0) {
+
+    console.log('Iam in user rprofiel  xnksbckjbcdsj ')
+    const fullName=firstName+ " "+middleName+ " "+lastName
+    console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
+await axios.put('http://localhost:8000/user/update-profile',{fullName,username,email,dateOfBirth,zipCode,password,confirmPassword})
+.then((res)=>{
+  console.log('im in profile update handlesubmit')
+  console.log(res.data.message)
+})
+.catch((err)=>{
+  if(err){
+    console.log(err.message)
+  }
+})
+
+  }
+}
+  
+
   const validateForm = () => {
+
+
     const errors = {};
 
     if (firstName.trim() === "") {
@@ -57,6 +91,11 @@ const UserProfileManagement = () => {
       errors.email = "Email is required";
     } else if (!isValidEmail(email)) {
       errors.email = "Invalid email format";
+    }
+    if (phone.trim() === "") {
+      errors.phone = "Phone number is required";
+    } else if (!isValidEmail(email)) {
+      errors.phone = "Invalid phone number format";
     }
 
     if (username.trim() === "") {
@@ -92,8 +131,10 @@ const UserProfileManagement = () => {
     return emailRegex.test(email);
   };
 
-  const navigation = useNavigation();
-  const windowHeight = Dimensions.get("window").height;
+
+
+
+
   return (
     <View style={tw`flex-1 bg-[#F6D8BD]`}>
       <ScrollView
@@ -213,13 +254,13 @@ const UserProfileManagement = () => {
             <TextInput
               style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
               //   placeholder="Email"
-              value={email}
+              value={phone}
               onChangeText={(text) => {
-                setEmail(text);
+                setPhone(text);
               }}
             />
-            {errors.email && (
-              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
+            {errors.phone && (
+              <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.phone}</Text>
             )}
             {/* <Text>Date of birth</Text>
             {!showPicker && (
@@ -262,14 +303,14 @@ const UserProfileManagement = () => {
             <TextInput
               style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
               //   placeholder="Email"
-              value={email}
+              value={bio}
               onChangeText={(text) => {
-                setEmail(text);
+                setBio(text);
               }}
             />
-            {errors.email && (
+            {/* {errors.email && (
               <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
-            )}
+            )} */}
             <View style={tw`border-b border-white my-8 `} />
             <Text className="text-base text-white font-bold mb-1">
               Current Password
@@ -303,7 +344,15 @@ const UserProfileManagement = () => {
                 {errors.confirmPassword}
               </Text>
             )}
+
+          <TouchableOpacity
+              style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
+              onPress={handleSubmit}
+            >
+              <Text style={tw`text-white font-bold`}>Update Profile</Text>
+            </TouchableOpacity>
           </View>
+          
         </View>
       </ScrollView>
     </View>

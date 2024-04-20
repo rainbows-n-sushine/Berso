@@ -6,6 +6,7 @@ import TabNavigator from "./TabNavigator";
 import Login from "../Pages/Login";
 import Registration from "../Pages/Registration";
 
+
 const Stack = createStackNavigator();
 
 const StackNavigator = () => {
