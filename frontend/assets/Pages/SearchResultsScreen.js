@@ -33,7 +33,7 @@ const SearchResultsScreen = () => {
   // }, [route.params?.address, setStreet]);
    const navigation = useNavigation();
   return (
-    <SafeAreaView className="flex-1 p-4 mt-6 bg-orange-50">
+    <SafeAreaView className="flex-1 p-4 mt-6 bg-[#F2E8DE]">
       <FlatList
         data={dummyRestaurantsData}
         showsVerticalScrollIndicator={false}

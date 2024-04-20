@@ -34,14 +34,17 @@ const HomeScreen = () => {
               className="p-5"
               color="white"
             />
-            <Text className=" ml-2 text-white text-lg font-semibold">
+            <Text
+              style={{ fontFamily: "berlin-sans" }}
+              className=" ml-2 text-white text-lg font-semibold"
+            >
               Unique Restaurants
             </Text>
           </View>
         </TouchableOpacity>
       )}
     >
-      <View className="bg-[#F6D8BD] ">
+      <View className="bg-[#F2E8DE] ">
         <TouchableOpacity
           className="flex rounded-xl -mt-8 mr-3 ml-3 bg-white"
           onPress={() => {
@@ -143,13 +146,13 @@ const HomeScreen = () => {
           <View className="flex rounded-xl mx-3 bg-white">
             <View className="m-4">
               <View className="flex  justify-between ">
-                <Text className="text-xl font-bold  text-black-400 my-3  ">
+                <Text className="text-xl font-bold  text-black my-3  ">
                   Picks from your community
                 </Text>
-                <View className="flex rounded-xl py-20  bg-gray-100">
+                <View className="flex rounded-xl py-20  bg-[#F2E8DE]">
                   <View className="m-4">
                     <View className="flex  justify-between ">
-                      <Text className="text-xl font-bold text-black-400 ">
+                      <Text className="text-xl font-bold text-black ">
                         Not sure where to eat? we got you
                       </Text>
                     </View>

@@ -80,7 +80,7 @@ const handleSubmit=async()=>{
 
 
   return (
-    <View style={tw`flex-1 bg-[#F6D8BD] justify-center`}>
+    <View style={tw`flex-1 bg-[#F2E8DE] justify-center`}>
       <ScrollView
         // contentContainerStyle={tw`justify-center items-center`}
         style={{ height: windowHeight }}
@@ -89,10 +89,10 @@ const handleSubmit=async()=>{
           <View style={tw`flex-row justify-between items-center mb-6 `}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("Profile");
+                navigation.goBack();
               }}
             >
-              <AntDesign name="arrowleft" size={24} color="white" />
+              <AntDesign name="arrowleft" size={24} color="black" />
             </TouchableOpacity>
           </View>
 
@@ -106,7 +106,7 @@ const handleSubmit=async()=>{
           <View>
             <Text
               style={{ fontFamily: "berlin-sans", fontSize: 35 }}
-              className={`text-2xl font-bold mb-4 font-berlin-sans text-center text-white `}
+              className={`text-2xl font-bold mb-4 font-berlin-sans text-center py-2 `}
             >
               Register Business
             </Text>
@@ -117,7 +117,10 @@ const handleSubmit=async()=>{
             </TouchableOpacity>
             <View className=" justify-center items-center">
               <View>
-                <Text className="text-lg font-bold mb-4 berlinSans text-stone-400">
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-lg font-bold mb-4 berlinSans text-stone-700"
+                >
                   Required Information
                 </Text>
                 <TextInput
@@ -145,7 +148,10 @@ const handleSubmit=async()=>{
                 />
               </View>
               <View>
-                <Text className="text-lg font-bold mb-4 berlinSans  text-stone-400">
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-lg font-bold mb-4 berlinSans  text-stone-700"
+                >
                   Optional Details
                 </Text>
                 <TextInput
@@ -184,19 +190,24 @@ const handleSubmit=async()=>{
                   onChangeText={(text) => {handleChange('averagePrice',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-40 border bg-white border-gray-300 rounded-2xl w-80   px-4 mb-4`}
+                  style={tw`w-full h-40 border bg-white border-gray-300 rounded-2xl w-80 px-4 pb-30 mb-4`}
                   placeholder="Description"
                   // value={firstName}
                   onChangeText={(text) => {handleChange('description',text)}}
                 />
               </View>
+              <TouchableOpacity
+                style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
+                onPress={handleSubmit}}
+              >
+                <Text
+                  className={{ fontFamily: "berlin-sans" }}
+                  style={tw`text-white font-bold`}
+                >
+                  Register
+                </Text>
+              </TouchableOpacity>
             </View>
-            <TouchableOpacity
-              style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
-              onPress={handleSubmit}
-            >
-              <Text style={tw`text-white font-bold`}>Register</Text>
-            </TouchableOpacity>
 
             {/* <View style={tw`flex-row justify-center mt-8`}>
               <Text style={tw`text-sm text-white`}>Already registered? </Text>
