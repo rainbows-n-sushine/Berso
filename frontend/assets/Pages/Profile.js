@@ -11,6 +11,7 @@ import {
   SectionList,
 } from "react-native";
 import React from "react";
+import tw from "twrnc";
 import {
   AntDesign,
   Entypo,
@@ -28,23 +29,45 @@ import { useNavigation } from "@react-navigation/native";
 import MarketCard from "../Components/marketCard";
 import { dummyRestaurantsData } from "../Data/restaurantsData";
 
-const Profile = ({ restaurantData }) => {
+const Profile = ({ dummyRestaurantsData }) => {
   const navigation = useNavigation();
 
-  // const data = restaurantData.food.map((item, index) => ({
-  //   title: item.category,
-  //   data: item.meals,
-  //   index,
-  // }));
+  const data = dummyRestaurantsData?.food?.map((item, index) => ({
+    title: item.category,
+    data: item.meals,
+    index,
+  }));
 
-  const selectedRestaurant = dummyRestaurantsData[0];
+  //  const renderItem: ListRenderItem<any> = ({ item, index }) => (
+  //   <Link href={{ pathname: '/modalFood', params: { id: id, itemId: item.id } }} asChild>
+  //     <TouchableOpacity
+  //       className={`${styles.itemContainer} ${
+  //         count >= 1 && foundMeals?.id === item.id ? styles.greenBorder : ''
+  //       }`}>
+  //       <View className="flex flex-1 justify-center my-6 mr-8 ml-6">
+  //         <View className="flex flex-row items-center">
+  //           {count >= 1 && foundMeals?.id === item.id && (
+  //             <View className="bg-[#34BB78] items-center w-6 h-7 rounded-md mr-2">
+  //               <Text className="text-lg text-white font-semibold">{count}</Text>
+  //             </View>
+  //           )}
+  //           <Text className="text-base">{item.name}</Text>
+  //         </View>
+  //         <Text className="text-sm text-[#6e6d72]">{item.info}</Text>
+  //         <Text className="">{item.price} €</Text>
+  //       </View>
+  //       <Image
+  //         source={{ uri: item.img }}
+  //         width={100}
+  //         height={100}
+  //         className={styles.foodImage}
+  //         resizeMode="contain"
+  //       />
+  //     </TouchableOpacity>
+  //   </Link>
+  // );
 
-  // Access the 'food' property of the selected restaurant
-  const foodMenu = selectedRestaurant.food;
-
-  // Print the food menu to the console
-  // console.log(foodMenu);
-
+  // console.log("the fuck is happening", data);
   return (
     <ParallaxScrollView
       className="flex-1"
@@ -96,8 +119,15 @@ const Profile = ({ restaurantData }) => {
             </TouchableOpacity>
           </View>
           <View className="flex items-center justify-between mt-9">
-            <FontAwesome name="user-circle-o" size={60} color="black" />
-            <Text className="">Username</Text>
+            {/* <FontAwesome name="user-circle-o" size={60} color="black" />
+             */}
+            <View className="items-center justify-between">
+              <Image
+                source={require("../Images/defaultprofile.png")}
+                style={tw`w-20 h-20 rounded-full border border-orange-300`}
+              />
+              <Text className="mt-1 text-base">Username</Text>
+            </View>
             <View className="flex-row mt-2 justify-between items-center">
               <View className="items-center flex-row mx-1">
                 <Feather name="users" size={12} color="lightgray" />
@@ -291,34 +321,7 @@ export default Profile;
 //     setShowButton(totalPrice > 0);
 //   }, [totalPrice]);
 
-//   const renderItem: ListRenderItem<any> = ({ item, index }) => (
-//     <Link href={{ pathname: '/modalFood', params: { id: id, itemId: item.id } }} asChild>
-//       <TouchableOpacity
-//         className={`${styles.itemContainer} ${
-//           count >= 1 && foundMeals?.id === item.id ? styles.greenBorder : ''
-//         }`}>
-//         <View className="flex flex-1 justify-center my-6 mr-8 ml-6">
-//           <View className="flex flex-row items-center">
-//             {count >= 1 && foundMeals?.id === item.id && (
-//               <View className="bg-[#34BB78] items-center w-6 h-7 rounded-md mr-2">
-//                 <Text className="text-lg text-white font-semibold">{count}</Text>
-//               </View>
-//             )}
-//             <Text className="text-base">{item.name}</Text>
-//           </View>
-//           <Text className="text-sm text-[#6e6d72]">{item.info}</Text>
-//           <Text className="">{item.price} €</Text>
-//         </View>
-//         <Image
-//           source={{ uri: item.img }}
-//           width={100}
-//           height={100}
-//           className={styles.foodImage}
-//           resizeMode="contain"
-//         />
-//       </TouchableOpacity>
-//     </Link>
-//   );
+//  
 
   
 

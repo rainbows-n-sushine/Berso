@@ -85,7 +85,7 @@ const handleSubmit=async()=>{
 
 
   return (
-    <View style={tw`flex-1 bg-[#F2E8DE] justify-center`}>
+    <View style={tw`flex-1 bg-white justify-center`}>
       <ScrollView
         // contentContainerStyle={tw`justify-center items-center`}
         style={{ height: windowHeight }}
@@ -129,24 +129,24 @@ const handleSubmit=async()=>{
                   Required Information
                 </Text>
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Name of business"
                   onChangeText={(text) => {handleChange('businessName',text)}}
                 />
                 {/* </View> */}
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Email"
                   onChangeText={(text) => {handleChange('email',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Phone Number"
                   // value={firstName}
                   onChangeText={(text) => {handleChange('phone',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Category"
                   // value={firstName}
                   onChangeText={(text) => {}}
@@ -160,42 +160,42 @@ const handleSubmit=async()=>{
                   Optional Details
                 </Text>
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Website"
                   onChangeText={(text) => {handleChange('website',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Location"
                   // value={firstName}
                   onChangeText={(text) => {handleChange('location',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Address"
                   // value={firstName}
                   onChangeText={(text) => {handleChange('address',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Business Days"
                   // value={firstName}
                   onChangeText={(text) => {handleChange('businessDays',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Opening Hours"
                   // value={firstName}
                   onChangeText={(text) => {handleChange('openingHours',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Avarage Price"
                   // value={firstName}
                   onChangeText={(text) => {handleChange('averagePrice',text)}}
                 />
                 <TextInput
-                  style={tw`w-full h-40 border bg-white border-gray-300 rounded-2xl w-80 px-4 pb-30 mb-4`}
+                  style={tw`w-full h-40 border bg-orange-50 border-gray-300 rounded-2xl w-80 px-4 pb-30 mb-4`}
                   placeholder="Description"
                   // value={firstName}
                   onChangeText={(text) => {handleChange('description',text)}}
