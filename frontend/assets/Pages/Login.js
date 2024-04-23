@@ -106,7 +106,7 @@ const Login = ({navigation}) => {
           </Text>
 
           <TextInput
-            style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+            style={tw`w-full h-12 border bg-white border-gray-300 rounded-xl w-70 ml-10 px-4 mb-4`}
             placeholder="email or username"
             value={credential}
             onChangeText={(text) => setCredential(text)}
@@ -118,7 +118,7 @@ const Login = ({navigation}) => {
           )}
   
           <TextInput
-            style={tw`w-full h-12 border bg-white border-gray-300 rounded-full w-70 ml-10 px-4 mb-4`}
+            style={tw`w-full h-12 border bg-white border-gray-300 rounded-xl w-70 ml-10 px-4 mb-4`}
             placeholder="Password"
             secureTextEntry
             value={password}
@@ -202,7 +202,7 @@ const Login = ({navigation}) => {
               <Text style={tw`text-sm font-bold text-yellow-500`} onPress={HandleSignup}>Sign up</Text>
             </TouchableOpacity>
           </View>
-        </View>
+        
       </ScrollView>
     </ImageBackground>
   );
