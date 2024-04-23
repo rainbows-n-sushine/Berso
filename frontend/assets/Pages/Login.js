@@ -15,9 +15,6 @@ const Login = ({navigation}) => {
   const [credential, setCredential] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
-
- 
-
   // const {login}=useContext(AuthContext)
   const {login,logout}=useContext(AuthContext)
 
@@ -56,6 +53,7 @@ const Login = ({navigation}) => {
     .then((res)=>{
 
         console.log(res.data)
+        login()
       
     })
     .catch((error)=>{
@@ -97,7 +95,7 @@ const Login = ({navigation}) => {
               style={tw`w-32 h-32`}
             />
           </View>
-
+      <View style={tw`items-center mb-8`}>
           <Text
             className={`text-lg font-bold mb-4 text-center`}
             style={{ fontFamily: "berlin-sans", fontSize: 40 }}
@@ -157,6 +155,7 @@ const Login = ({navigation}) => {
               <Text style={tw`text-black font-bold`}>Continue with Google</Text>
             </View>
           </TouchableOpacity>
+          
 
           <TouchableOpacity
             style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
@@ -195,16 +194,16 @@ const Login = ({navigation}) => {
             <TouchableOpacity
               onPress={() => {
                 navigation.navigate("Registration");
+                
               }}
             >
-
-
               <Text style={tw`text-sm font-bold text-yellow-500`} onPress={HandleSignup}>Sign up</Text>
             </TouchableOpacity>
           </View>
         </View>
       </ScrollView>
     </ImageBackground>
+    
   );
 };
 

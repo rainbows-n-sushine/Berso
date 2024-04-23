@@ -1,15 +1,22 @@
 const {Business}=require('../models/business')
 exports.registerBusiness=async(req,res)=>{
 
-    const {business,category}=req.body
+    console.log('im in business condtrollers')
+
+    const {business,categories}=req.body
+    console.log(business)
     const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
-try { const business_db= await new Business({
+try { 
+
+    
+    const business_db= await new Business({
 
      business_name:businessName,
      email:email,
      phone:phone,
      website:website,
      location:location,
+     category:categories,
      address:address,
      business_days:businessDays,
      opening_hours:openingHours,
@@ -18,6 +25,9 @@ try { const business_db= await new Business({
 
 
     })
+    
+
+    business_db.save()
 res.json({message:"business successfuly created", success:true,business:business_db})
 
     

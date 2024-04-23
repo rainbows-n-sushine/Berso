@@ -1,4 +1,4 @@
-const { User } = require("../models/user");
+const {User} = require("../models/user");
 const jwt = require("jsonwebtoken");
 
 exports.signUp = async (req, res) => {
@@ -27,15 +27,14 @@ exports.signUp = async (req, res) => {
       message: "This email is already in use, try sign-in",
     });
   } else {
-    const { fullName, username, email, dateOfBirth, zipCode, password } =
-      req.body;
+    const { fullName, username, email, dateOfBirth, zipCode, password } =req.body;
     console.log("isNewUser.username  and  isNewUser.email");
     const user = await User({
       name: fullName,
       dob: dateOfBirth,
       zip_code: zipCode,
       email: email,
-      password: password,
+      // password: password,
       username: username,
     });
     await user.save();
@@ -83,23 +82,47 @@ exports.updateUserProfile=async(req,res)=>{
 
   
 
-  const {username,firstName,middleName,lastName,email,phoneNumber,zipCode,bio,currentPassword, newPassword}=req.body
+  const {username,dateOfBirth,fullName,email,phone,zipCode,bio,currentPassword, newPassword}=req.body
 
-  // const user= await User.findOne({email:email})
-
-  User.update({
-
-  },{where:{email:email}})
-  .then((res)=>{
-    res.json({message :"successfully uodates",success:true,profile:user})
-  })
-  .catch((error)=>{
-if(error){
-  console.log(error.message())
-}
-  })
-
+ 
+  
+    
 
   
+  try {
+    const user= await User.findOne({email:email})
+    console.log(user)
+    if(user){
+    
+      user.name=fullName
+      // user.username=username
+      // user.email=email
+      user.phone=phone
+      user.zip_code=zipCode
+      user.bio=bio
+      user.dob=dateOfBirth
+      // user.password=newPassword
 
+   
+      await user.save()
+      console.log(user)
+      return res.json({message:"user is updated"})
+  }else{
+    return res.json({message:"user with that email doesnt exist"})
+  }
+    
+  } catch (error) {
+       if(error){
+    console.log(error);
+    return res.status(500).json({ message: "An error occurred" });
+  }
+    
+   
+  }
+  
+    
+ 
+    
+
+  
 }

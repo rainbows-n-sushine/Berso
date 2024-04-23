@@ -55,7 +55,7 @@ const UserProfileManagement = () => {
     console.log('Iam in user rprofiel  xnksbckjbcdsj ')
     const fullName=firstName+ " "+middleName+ " "+lastName
     console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
-await axios.put('http://localhost:8000/user/update-profile',{fullName,username,email,dateOfBirth,zipCode,password,confirmPassword})
+await axios.put('http://localhost:8000/user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPasword,newPassword})
 .then((res)=>{
   console.log('im in profile update handlesubmit')
   console.log(res.data.message)
@@ -343,9 +343,9 @@ await axios.put('http://localhost:8000/user/update-profile',{fullName,username,e
                   setBio(text);
                 }}
               />
-              {/* {errors.email && (
+              {errors.bio && (
                 <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
-              )} */}
+              )}
               <View style={tw`border-b border-white my-4 `} />
               <Text
                 style={{ fontFamily: "berlin-sans" }}
@@ -387,7 +387,17 @@ await axios.put('http://localhost:8000/user/update-profile',{fullName,username,e
                   {errors.confirmPassword}
                 </Text>
               )}
-
+           <TouchableOpacity
+                style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
+                onPress={handleSubmit}
+              >
+                <Text
+                  className={{ fontFamily: "berlin-sans" }}
+                  style={tw`text-white font-bold`}
+                >
+                  Update profile
+                </Text>
+              </TouchableOpacity>
 
             </View>
           </View>

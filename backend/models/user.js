@@ -34,6 +34,9 @@ dob:{
     // required:true,
 
 },
+bio:{
+    type:String
+},
 
 avatar:Buffer,
 

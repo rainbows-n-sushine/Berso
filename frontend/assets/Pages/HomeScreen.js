@@ -1,11 +1,14 @@
 import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
-import React from "react";
+import React,{useContext} from "react";
 import { Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ParallaxScrollView from "../Components/ParallaxScrollView";
 const  {width} = Dimensions.get('window')
 import { useNavigation } from "@react-navigation/native";
 import SearchBusinessScreen from "./SearchResultsScreen";
+import { AuthContext } from "../../context/AuthContext";
+
 const HomeScreen = () => {
+  const {logout,login}=useContext(AuthContext)
   
   const navigation = useNavigation();
   return (
@@ -160,6 +163,18 @@ const HomeScreen = () => {
                 </View>
               </View>
             </View>
+            <View>
+              <TouchableOpacity onPress={logout}>
+              
+                <Text>logout</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={login}>
+              
+              <Text>login</Text>
+            </TouchableOpacity>
+            </View>
+
           </View>
         </ScrollView>
       </View>

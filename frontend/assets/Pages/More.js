@@ -7,7 +7,7 @@ import {
   View,
 } from "react-native";
 import tw from "twrnc";
-import React from "react";
+import React,{useContext} from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   FontAwesome5,
@@ -17,7 +17,13 @@ import {
   Octicons,
   Feather,
 } from "@expo/vector-icons";
+
+import { AuthContext } from "../../context/AuthContext";
+
+
 const More = () => {
+
+  const {logout}=useContext(AuthContext)
   const navigation = useNavigation();
   return (
     <SafeAreaView className="flex-1 bg-[#F2E8DE]">
@@ -95,6 +101,8 @@ const More = () => {
         <TouchableOpacity
           className="bg-white p-3 rounded-l mb-2 flex-row items-center"
           onPress={() => {
+            localStorage.removeItem('userToken')
+            logout()
             navigation.navigate("");
           }}
         >

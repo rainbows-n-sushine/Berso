@@ -40,7 +40,7 @@ const BusinessRegistration = () => {
     averagePrice:"",
     description:""
    })
-const [categories,setCategories]=useState([])
+const [categories,setCategories]=useState("fgcuhgxcy")
 
 
 
@@ -65,17 +65,22 @@ const handleSubmit=async()=>{
   
 
   console.log('im in handle submit')
-  try {
-    await axios.post('http://localhost:8000/business/register-business',{business,categories})
+  console.log(business+"     "+categories)
+ 
+  await axios.post('http://localhost:8000/business/register-business',{business,categories})
     .then((res)=>{
-      console.log(res)
+      console.log("im in then")
+      console.log(res.data)
     })
-    
-  } catch (error) {
-    if(err){
-       console.log(err.message())
+    .catch((error )=>{
+  
+   if(error){
+       console.log(error.message)
     }
-  }}
+
+    })
+  
+  }
 
 
 
