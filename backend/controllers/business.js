@@ -21,7 +21,8 @@ try {
      business_days:businessDays,
      opening_hours:openingHours,
      average_price:averagePrice,
-     description:description
+     description:description,
+     category:categories
 
 
     })

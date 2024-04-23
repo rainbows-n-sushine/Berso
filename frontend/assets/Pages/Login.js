@@ -35,9 +35,7 @@ const Login = ({navigation}) => {
  
      if (!credential) {
       validationErrors.credential = 'Please enter a proper email or username';
-    } else if (!/\S+@\S+\.\S+/.test(credential)) {
-      validationErrors.credential = 'Please enter a valid email or username';
-    }
+    } 
      if (!password) {
        validationErrors.password = 'Please enter your password';
      }
@@ -52,8 +50,13 @@ const Login = ({navigation}) => {
   return await axios.post('http://localhost:8000/user/signin',{credential,password})
     .then((res)=>{
 
-        console.log(res.data)
+        console.log(res.data.success)
+       if(res.data.success===true) {
         login()
+       }else{
+        
+       }
+        
       
     })
     .catch((error)=>{

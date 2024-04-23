@@ -65,7 +65,7 @@ const handleSubmit=async()=>{
   
 
   console.log('im in handle submit')
-  console.log(business+"     "+categories)
+  console.log(business)
  
   await axios.post('http://localhost:8000/business/register-business',{business,categories})
     .then((res)=>{

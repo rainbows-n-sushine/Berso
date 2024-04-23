@@ -18,7 +18,7 @@ const businessSchema=new mongoose.Schema({
     },
     category:{
         type:String,
-        required:true,
+        // required:true,
 
     },
     website:{

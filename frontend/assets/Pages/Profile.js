@@ -133,7 +133,7 @@ const Profile = ({ restaurantData }) => {
               >
                 <View className="items-center mx-4">
                   <AntDesign name="isv" size={22} color="black" />
-                  <Text className="text-base">Add Business</Text>
+                  <Text className="text-base">Add Business jsvdkhjsudgosidovsdbvdspij</Text>
                 </View>
               </TouchableOpacity>
             </View>

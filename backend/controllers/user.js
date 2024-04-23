@@ -1,8 +1,10 @@
 const {User} = require("../models/user");
 const jwt = require("jsonwebtoken");
+const validator=require('validator')
 
 exports.signUp = async (req, res) => {
   const { username, email } = req.body;
+  // fullName,username,email,dateOfBirth,zipCode,password,confirmPassword
 
   console.log(req.body);
 
@@ -46,17 +48,27 @@ exports.signUp = async (req, res) => {
 };
 
 exports.signin = async (req, res) => {
-  const { email, password } = req.body;
+  const { credential, password } = req.body;
 
   console.log("in in sign in controller");
+const validEmail=validator.isEmail(credential)
 
   // const userExists = await User.userExists(email,password);
+let user={}
+  if(validEmail){
+   user = await User.findOne({ email: credential});
+  }
+else{
+   user = await User.findOne({ username: credential});
+}
+   
+  console.log(user)
 
-  const user = await User.findOne({ email: email });
+ 
 
-  const comparePassword = await user.comparePassword(password);
-
-  if (user) {
+  if (user) { 
+    
+    const comparePassword = await user.comparePassword(password);
     if (comparePassword) {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
@@ -78,51 +90,29 @@ exports.signin = async (req, res) => {
 };
 
 
-exports.updateUserProfile=async(req,res)=>{
+exports.updateUserProfile = async (req, res) => {
+  const { username, dateOfBirth, fullName, email, phone, zipCode, bio, currentPassword, newPassword } = req.body;
 
-  
-
-  const {username,dateOfBirth,fullName,email,phone,zipCode,bio,currentPassword, newPassword}=req.body
-
- 
-  
-    
-
-  
   try {
-    const user= await User.findOne({email:email})
-    console.log(user)
-    if(user){
-    
-      user.name=fullName
-      // user.username=username
-      // user.email=email
-      user.phone=phone
-      user.zip_code=zipCode
-      user.bio=bio
-      user.dob=dateOfBirth
-      // user.password=newPassword
-
-   
-      await user.save()
-      console.log(user)
-      return res.json({message:"user is updated"})
-  }else{
-    return res.json({message:"user with that email doesnt exist"})
-  }
-    
+    const user = await User.findOneAndUpdate({email:email},{ 
+      
+      name :fullName,
+    username:username,
+    phone :phone,
+    zip_code:zipCode,
+    bio:bio,
+    dob: dateOfBirth,
+    password: newPassword},{new:true})
+    console.log(user);
+    if (user) {
+      return res.json({ message: "User is updated", success: true });
+    } else {
+      return res.json({ message: "User with that email doesn't exist", success: false });
+    }
   } catch (error) {
-       if(error){
-    console.log(error);
-    return res.status(500).json({ message: "An error occurred" });
+    if (error) {
+      console.log(error);
+      return res.status(500).json({ message: "An error occurred" });
+    }
   }
-    
-   
-  }
-  
-    
- 
-    
-
-  
-}
+};

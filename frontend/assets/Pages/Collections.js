@@ -11,8 +11,10 @@ const Collections = () => {
 
 
 
-  useEffect(async()=>{
-    let token=await AsyncStorage.getItem('userToken')
+  useEffect(()=>{
+    async function getToken(){
+
+  let token=await AsyncStorage.getItem('userToken')
     setUserToken(token)
     if(token===null){
       setDisplayCollection(false)
@@ -20,6 +22,10 @@ const Collections = () => {
             setDisplayCollection(true)
           }
 
+
+    } 
+    getToken()
+  
   },[])
   
  

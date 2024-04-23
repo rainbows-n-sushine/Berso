@@ -55,7 +55,7 @@ const UserProfileManagement = () => {
     console.log('Iam in user rprofiel  xnksbckjbcdsj ')
     const fullName=firstName+ " "+middleName+ " "+lastName
     console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
-await axios.put('http://localhost:8000/user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPasword,newPassword})
+await axios.post('http://localhost:8000/user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPasword,newPassword})
 .then((res)=>{
   console.log('im in profile update handlesubmit')
   console.log(res.data.message)

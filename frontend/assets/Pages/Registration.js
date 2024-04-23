@@ -12,16 +12,16 @@ import * as Font from "expo-font";
 
   
 const Registration = () => {
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        "berlin-sans": require("../fonts/berlin-sans/BerlinSans.ttf"),
-        // "berlin-sans-bold": require("../fonts/berlin-sans/BerlinSansBold.ttf"),
-      });
-    }
+  // useEffect(() => {
+  //   async function loadFonts() {
+  //     await Font.loadAsync({
+  //       "berlin-sans": require("../fonts/berlin-sans/BerlinSans.ttf"),
+  //       // "berlin-sans-bold": require("../fonts/berlin-sans/BerlinSansBold.ttf"),
+  //     });
+  //   }
 
-    loadFonts();
-  }, []);
+  //   loadFonts();
+  // }, []);
 
   const [firstName, setFirstName] = useState('');
   const [middleName, setMiddleName] = useState('');
@@ -40,9 +40,9 @@ const Registration = () => {
   const validateForm = () => {
     const errors = {};
 
-    if (firstName.trim() === '') {
-      errors.firstName = 'First name is required';
-    }
+    // if (firstName.trim() === '') {
+    //   errors.firstName = 'First name is required';
+    // }
 
     if (middleName.trim() === '') {
       errors.middleName = 'Middle name is required';
@@ -109,7 +109,7 @@ const Registration = () => {
 await axios.post('http://localhost:8000/user/signup',{fullName,username,email,dateOfBirth,zipCode,password,confirmPassword})
 .then((res)=>{
   console.log('im in handleSignup')
-  console.log(res.data.message)
+  console.log(res.data)
 })
 .catch((err)=>{
   if(err){

@@ -169,7 +169,9 @@ const HomeScreen = () => {
                 <Text>logout</Text>
               </TouchableOpacity>
 
-              <TouchableOpacity onPress={login}>
+              <TouchableOpacity  onPress={() => {
+            navigation.navigate("Login");
+          }}>
               
               <Text>login</Text>
             </TouchableOpacity>
