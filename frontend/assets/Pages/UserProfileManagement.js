@@ -475,17 +475,8 @@ await axios.post('http://localhost:8000/user/update-profile',{fullName,username,
                   setBio(text);
                 }}
               />
-<<<<<<< HEAD
-              {errors.bio && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
-              )}
+            
               <View style={tw`border-b border-white my-4 `} />
-=======
-              {errors.email && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
-              )}
-              <View style={tw`border-b border-gray-200 my-4 `} />
->>>>>>> 13f7fc83c734cc7cb32ff2367c6edaa5aa82cdbe
               <Text
                 style={{ fontFamily: "berlin-sans" }}
                 className="text-base  text-stone-500 font-bold mb-1"
