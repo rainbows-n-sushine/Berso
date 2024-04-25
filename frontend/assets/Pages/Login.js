@@ -47,7 +47,7 @@ const Login = ({navigation}) => {
     console.log('Credential:', credential);
     console.log('Password:', password);
 
-  return await axios.post('http://localhost:8000/user/signin',{credential,password})
+  return await axios.post('http://192.168.102.111:8000/user/signin',{credential,password})
     .then((res)=>{
 
         console.log(res.data.success)
