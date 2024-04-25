@@ -21,7 +21,7 @@ maxAge:24*60*60*100
   app.use(passport.session())
 
 app.use(cors({ 
-  origin: "http://localhost:8081"
+  origin: "*"
  }));
 app.use(express.urlencoded({ extended: true }));
 

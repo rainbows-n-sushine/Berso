@@ -53,8 +53,6 @@ const Login = ({navigation}) => {
         console.log(res.data.success)
        if(res.data.success===true) {
         login()
-       }else{
-
        }
         
       
