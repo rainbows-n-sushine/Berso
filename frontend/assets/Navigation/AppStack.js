@@ -17,7 +17,7 @@ const AppStack = () => {
         component={TabNavigator}
         options={{ headerShown: false }}
       />
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Login"
         component={Login}
         options={{ headerShown: false }}
@@ -26,8 +26,8 @@ const AppStack = () => {
         name="Registration"
         component={Registration}
         options={{ headerShown: false }}
-      /> */}
-       {/* Add more Stack.Screen components for additional screens */}
+      /> 
+       {/* Add more Stack.Screen components for additional screens*/}
     </Stack.Navigator>
   );
 };

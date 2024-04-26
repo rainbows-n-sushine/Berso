@@ -47,7 +47,7 @@ const isLoggedIn=async function(){
     let userToken=await AsyncStorge.getItem('userToken')
     console.log(userToken)
     setUserToken(userToken)
-    setLoading(false)
+    setIsLoading(false)
         
     } catch (error) {
         if(error){

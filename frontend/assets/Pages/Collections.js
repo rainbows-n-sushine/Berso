@@ -5,54 +5,54 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Collections = () => {
 
-  const [userToken,setUserToken]= useState(null)
+  // const [userToken,setUserToken]= useState(null)
 
-  const [displayCollection,setDisplayCollection]=useState(false)
-
-
-
-  useEffect(()=>{
-    async function getToken(){
-
-  let token=await AsyncStorage.getItem('userToken')
-    setUserToken(token)
-    if(token===null){
-      setDisplayCollection(false)
-          }else{
-            setDisplayCollection(true)
-          }
+  // const [displayCollection,setDisplayCollection]=useState(false)
 
 
-    } 
-    getToken()
+
+  // useEffect(()=>{
+  //   async function getToken(){
+
+  // let token=await AsyncStorage.getItem('userToken')
+  //   setUserToken(token)
+  //   if(token===null){
+  //     setDisplayCollection(false)
+  //         }else{
+  //           setDisplayCollection(true)
+  //         }
+
+
+  //   } 
+  //   getToken()
   
-  },[])
+  // },[])
   
  
     const navigation = useNavigation();
   return (
     <SafeAreaView className="flex-1 bg-[#F2E8DE] items-center justify-between top-8">
       <View className="flex items-center justify-between">
-
+{/* 
         {displayCollection&&
         
         <Text className="text-xl">here r the collections</Text>
         }
-        
-        {!displayCollection&&
-        
+         */}
+      
         <View>
         <Text className="text-xl">Sign in for collections</Text>
         <TouchableOpacity
           className="bg-white p-3 rounded-xl"
-          onPress={() => {
-            navigation.navigate("Login");
-          }}>
+          onPress={()=>{
+            navigation.navigate('Login')
+          }}
+        >
           <Text>Login</Text>
         </TouchableOpacity>
         </View>
 
-        }      
+        
         
       </View>
     </SafeAreaView>
@@ -61,4 +61,4 @@ const Collections = () => {
 
 export default Collections
 
-const styles = StyleSheet.create({})
+// const styles = StyleSheet.create({})
