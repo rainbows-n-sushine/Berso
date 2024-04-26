@@ -54,7 +54,7 @@ const Login = ({ navigation }) => {
   return await axios.post('http://172.20.64.1:8000/user/signin',{credential,password})
     .then((res)=>{
 
-        console.log(res.data.success)
+        console.log(res.data)
        if(res.data.success===true) {
         login()
        }
