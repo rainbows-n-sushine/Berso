@@ -104,7 +104,9 @@ exports.updateUserProfile = async (req, res) => {
     dob: dateOfBirth,
     password: newPassword},{new:true})
     console.log(user);
+    await user.save();
     if (user) {
+     
       return res.json({ message: "User is updated", success: true });
     } else {
       return res.json({ message: "User with that email doesn't exist", success: false });

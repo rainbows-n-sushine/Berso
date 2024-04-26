@@ -37,9 +37,9 @@ const UserProfileManagement = () => {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [date, setDate] = useState(new Date());
   const [zipCode, setZipCode] = useState("");
-  const [password, setPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
   const [bio,setBio]=useState('')
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [errors, setErrors] = useState("");
 
@@ -57,8 +57,8 @@ const UserProfileManagement = () => {
 
     console.log('Iam in user rprofiel  xnksbckjbcdsj ')
     const fullName=firstName+ " "+middleName+ " "+lastName
-    console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
-await axios.post('http://localhost:8000/user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPasword,newPassword})
+    console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+newPassword+" "+currentPassword)
+await axios.post('http://localhost:8000/user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPassword,newPassword})
 .then((res)=>{
   console.log('im in profile update handlesubmit')
   console.log(res.data.message)
@@ -113,16 +113,16 @@ await axios.post('http://localhost:8000/user/update-profile',{fullName,username,
       errors.zipCode = "Zip code is required";
     }
 
-    if (password.trim() === "") {
-      errors.password = "Password is required";
-    } else if (password.length < 6) {
-      errors.password = "Password should be at least 6 characters long";
+    if (newPassword.trim() === "") {
+      errors.newPassword = " new Password is required";
+    } else if (newPassword.length < 6) {
+      errors.newPassword = "new Password should be at least 6 characters long";
     }
 
-    if (confirmPassword.trim() === "") {
-      errors.confirmPassword = "Confirm password is required";
-    } else if (confirmPassword != password) {
-      errors.confirmPassword = "Passwords do not match";
+    if (currentPassword.trim() === "") {
+      errors.currentPassword = "Current password is required";
+    } else if (currentPassword != newPassword) {
+      errors.currentPassword = "Passwords do not match";
     }
 
     setErrors(errors);
@@ -481,40 +481,40 @@ await axios.post('http://localhost:8000/user/update-profile',{fullName,username,
                 style={{ fontFamily: "berlin-sans" }}
                 className="text-base  text-stone-500 font-bold mb-1"
               >
-                Current Password
+                New Password
               </Text>
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                 //   placeholder="Password"
                 secureTextEntry
-                value={password}
+                value={newPassword}
                 onChangeText={(text) => {
-                  setPassword(text);
+                  setNewPassword(text);
                 }}
               />
-              {errors.password && (
+              {errors.newPassword && (
                 <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.password}
+                  {errors.newPassword}
                 </Text>
               )}
               <Text
                 style={{ fontFamily: "berlin-sans" }}
                 className="text-base  text-stone-500 font-bold mb-1"
               >
-                New Password
+                Current Password
               </Text>
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
-                placeholder="New Password"
+                placeholder="Current Password"
                 secureTextEntry
-                value={confirmPassword}
+                value={currentPassword}
                 onChangeText={(text) => {
-                  setConfirmPassword(text);
+                  setCurrentPassword(text);
                 }}
               />
-              {errors.confirmPassword && (
+              {errors.currentPassword && (
                 <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.confirmPassword}
+                  {errors.currentPassword}
                 </Text>
               )}
            <TouchableOpacity
