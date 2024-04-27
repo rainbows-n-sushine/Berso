@@ -67,7 +67,7 @@ const handleSubmit=async()=>{
   console.log('im in handle submit')
   console.log(business)
  
-  await axios.post('http://localhost:8000/business/register-business',{business,categories})
+  await axios.post('http://192.168.196.111:8000/business/register-business',{business,categories})
     .then((res)=>{
       console.log("im in then")
       console.log(res.data)

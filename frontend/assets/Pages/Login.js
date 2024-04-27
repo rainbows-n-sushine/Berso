@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import Registration from "./Registration";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
-import Utils from "../utils/Utils"
+// import {BASE_URL} from '../../.env'
 
 //you can be adding {navigation} as an event in
 
@@ -52,8 +52,9 @@ const Login = ({ navigation }) => {
      }
     console.log('Credential:', credential);
     console.log('Password:', password);
+   // ${BASE_URL}
 
-  return await axios.post('http://192.168.183.111:8000/user/signin',{credential,password})
+  return await axios.post(`http://192.168.183.111:8000/user/signin`,{credential,password})
     .then((res)=>{
 
         console.log(res.data)
