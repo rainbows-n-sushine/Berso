@@ -1,6 +1,7 @@
 import React,{createContext,useState, useEffect} from 'react'; 
 import AsyncStorge from '@react-native-async-storage/async-storage'
 import { useNavigation } from 'expo-router';
+import api from '../util/Util';
 
 
 export const AuthContext=createContext();
@@ -21,8 +22,9 @@ useEffect(()=>{
 
 // }
 
-const login=()=>{
-
+const login=(username,password)=>{
+api.post('jwt-auth/v1/token',{username,password})
+.then()
 
 
     setIsLoading(true)

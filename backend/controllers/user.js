@@ -74,7 +74,7 @@ else{
         expiresIn: "1d",
       });
 
-      return res.json({ success: true, message: "user is signed in!", token });
+      return res.json({ success: true, message: "user is signed in!", token:token });
     } else {
       return res.json({
         success: false,

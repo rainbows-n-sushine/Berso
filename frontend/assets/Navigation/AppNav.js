@@ -21,6 +21,11 @@ const AppNav = () => {
 
 //   },[]);
 
+useEffect(()=>{
+
+  console.log("this is the userToken "+userToken)
+},[])
+
   if(isLoading){
     return(
     <View style={{flex:1,justifyContent:"center",alignItems:'center'}}>
