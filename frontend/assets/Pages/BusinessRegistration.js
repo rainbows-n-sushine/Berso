@@ -20,7 +20,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
-
+import api from '../../util/Util'
 const BusinessRegistration = () => {
 
   const windowHeight = Dimensions.get("window").height;
@@ -67,7 +67,7 @@ const handleSubmit=async()=>{
   console.log('im in handle submit')
   console.log(business)
  
-  await axios.post('http://192.168.196.111:8000/business/register-business',{business,categories})
+  await api.post('business/register-business',{business,categories})
     .then((res)=>{
       console.log("im in then")
       console.log(res.data)

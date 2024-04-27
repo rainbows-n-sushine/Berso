@@ -6,6 +6,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
+import api from '../../util/Util'
 
 import * as Font from "expo-font";
 
@@ -106,7 +107,7 @@ const Registration = () => {
     console.log('Iama herm;kjdchjvlsdj ')
     const fullName=firstName+ " "+middleName+ " "+lastName
     console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
-await axios.post('http://localhost:8000/user/signup',{fullName,username,email,dateOfBirth,zipCode,password,confirmPassword})
+await api.post('user/signup',{fullName,username,email,dateOfBirth,zipCode,password,confirmPassword})
 .then((res)=>{
   console.log('im in handleSignup')
   console.log(res.data)

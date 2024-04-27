@@ -27,6 +27,10 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
+import api from '../../util/Util'
+
+
+
 const UserProfileManagement = () => {
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
@@ -58,7 +62,7 @@ const UserProfileManagement = () => {
     console.log('Iam in user rprofiel  xnksbckjbcdsj ')
     const fullName=firstName+ " "+middleName+ " "+lastName
     console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+newPassword+" "+currentPassword)
-await axios.post('http://localhost:8000/user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPassword,newPassword})
+await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPassword,newPassword})
 .then((res)=>{
   console.log('im in profile update handlesubmit')
   console.log(res.data.message)

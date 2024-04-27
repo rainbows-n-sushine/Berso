@@ -17,6 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 import Registration from "./Registration";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
+import api from "../../util/Util";
 // import {BASE_URL} from '../../.env'
 
 //you can be adding {navigation} as an event in
@@ -27,6 +28,7 @@ const Login = ({ navigation }) => {
   const [errors, setErrors] = useState({});
   // const {login}=useContext(AuthContext)
   const { login, logout } = useContext(AuthContext);
+  // const BASE_URL=process.env.BASE_URL
  
 
   const HandleSignup = ({ Registration }) => {
@@ -52,10 +54,11 @@ const Login = ({ navigation }) => {
      }
     console.log('Credential:', credential);
     console.log('Password:', password);
+    console
    // ${BASE_URL}
 
-  return await axios.post(`http://192.168.183.111:8000/user/signin`,{credential,password})
-    .then((res)=>{
+  return await api.post("user/signin",{credential,password})
+    .then((res)=>{  
 
         console.log(res.data)
        if(res.data.success===true) {
