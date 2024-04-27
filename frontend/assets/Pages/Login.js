@@ -18,6 +18,7 @@ import Registration from "./Registration";
 import axios from "axios";
 import { AuthContext } from "../../context/AuthContext";
 import api from "../../util/Util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import {BASE_URL} from '../../.env'
 
 //you can be adding {navigation} as an event in
@@ -62,7 +63,10 @@ const Login = ({ navigation }) => {
 
         console.log(res.data)
        if(res.data.success===true) {
+        const token=res.data.token
         login()
+        console.log('this is the token thrown from the backend   '+token)
+        AsyncStorage.setItem('userToken',token )
        }
         
       

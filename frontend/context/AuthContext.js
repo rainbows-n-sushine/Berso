@@ -23,14 +23,28 @@ useEffect(()=>{
 // }
 
 const login=(username,password)=>{
-api.post('jwt-auth/v1/token',{username,password})
-.then()
-
-
+api.post('user/signin',{username,password})
+.then((res)=>{
+    
     setIsLoading(true)
-    setUserToken('bddkavgada');
-    AsyncStorge.setItem('userToken','bddkavgada')
+    console.log(res.data)
+    const token=res.data.token
+    AsyncStorgeStorage.setItem('userToken',token)
+    setUserToken(token);
     setIsLoading(false);
+
+}).catch((error)=>{
+
+    if(error){
+        console.log('error in login authContext: ',error.message)
+    }
+})
+
+
+    
+    
+    
+   
     
 
 }
