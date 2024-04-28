@@ -51,6 +51,7 @@ exports.signin = async (req, res) => {
   const { credential, password } = req.body;
 
   console.log("in in sign in controller");
+  console.log(credential+ "   "+password )
 const validEmail=validator.isEmail(credential)
 
   // const userExists = await User.userExists(email,password);

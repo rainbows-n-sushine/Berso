@@ -20,6 +20,7 @@ import {
 } from "@expo/vector-icons";
 
 import { AuthContext } from "../../context/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const More = () => {
@@ -103,9 +104,9 @@ const More = () => {
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
-              localStorage.removeItem('userToken')
+              AsyncStorage.removeItem('userToken')
             logout()
-            navigation.navigate("");
+            navigation.navigate("Home");
             }}
           >
             <Feather name="log-out" size={22} color="black" />
