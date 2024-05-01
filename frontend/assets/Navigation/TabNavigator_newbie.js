@@ -10,6 +10,8 @@ import MoreNavigator from "./MoreNavigator";
 const Tab = createBottomTabNavigator();
 
 const TabNavigator_newbie = () => {
+
+  
   return (
     <Tab.Navigator
       headerMode="screen"

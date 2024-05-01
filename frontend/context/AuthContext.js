@@ -60,6 +60,7 @@ const logout=()=>{
 const isLoggedIn=async function(){
     try {
     isLoading(true)
+    
     let userToken=await AsyncStorge.getItem('userToken')
     console.log(userToken)
     setUserToken(userToken)

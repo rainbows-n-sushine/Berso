@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View } from "react-native";
-import React from "react";
+import React,{useEffect} from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../Pages/HomeScreen";
 import Profile from "../Pages/Profile";
@@ -9,6 +9,16 @@ import Collections from "../Pages/Collections";
 
 const CollectionsNavigator = () => {
     const Stack = createStackNavigator();
+    useEffect(()=>{
+      async function getToken(){
+  
+    let token=await AsyncStorage.getItem('userToken')
+    console.log(token)
+     
+      } 
+      getToken()
+    
+    },[]) 
   return (
     <Stack.Navigator>
       <Stack.Screen

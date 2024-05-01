@@ -17,7 +17,7 @@ const Collections = () => {
   let token=await AsyncStorage.getItem('userToken')
   console.log(token)
     setUserToken(token)
-    if(token===null){
+    if(token===""){
       setDisplayCollection(false)
           }else{
             setDisplayCollection(true)
