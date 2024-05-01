@@ -19,7 +19,7 @@ console.log(userToken)
 
   console.log(token)
     setUserToken(token)
-    if(token===""){
+    if(token===null){
       setDisplayCollection(false)
           }else{
             setDisplayCollection(true)
@@ -37,12 +37,12 @@ console.log(userToken)
     <SafeAreaView className="flex-1 bg-[#F2E8DE] items-center justify-between top-8">
       <View className="flex items-center justify-between">
 
-        {!displayCollection &&
+        {displayCollection &&
         
         <Text className="text-xl">here r the collections</Text>
         }
         
-      {displayCollection && 
+      {!displayCollection && 
       <View>
         <Text className="text-xl">Sign in for collections</Text>
         <TouchableOpacity
