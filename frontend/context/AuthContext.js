@@ -29,7 +29,7 @@ api.post('user/signin',{username,password})
     setIsLoading(true)
     console.log(res.data)
     const token=res.data.token
-    AsyncStorgeStorage.setItem('userToken',token)
+    AsyncStorge.setItem('userToken',token)
     setUserToken(token);
     setIsLoading(false);
 
@@ -59,11 +59,11 @@ const logout=()=>{
 
 const isLoggedIn=async function(){
     try {
-    isLoading(true)
+    setIsLoading(true)
     
-    let userToken=await AsyncStorge.getItem('userToken')
+    const token=await AsyncStorge.getItem('userToken')
     console.log(userToken)
-    setUserToken(userToken)
+    setUserToken(token)
     setIsLoading(false)
         
     } catch (error) {

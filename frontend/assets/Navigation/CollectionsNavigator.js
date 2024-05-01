@@ -9,16 +9,16 @@ import Collections from "../Pages/Collections";
 
 const CollectionsNavigator = () => {
     const Stack = createStackNavigator();
-    useEffect(()=>{
-      async function getToken(){
+    // useEffect(()=>{
+    //   async function getToken(){
   
-    let token=await AsyncStorage.getItem('userToken')
-    console.log(token)
+    // let token=await AsyncStorage.getItem('userToken')
+    // console.log(token)
      
-      } 
-      getToken()
+    //   } 
+    //   getToken()
     
-    },[]) 
+    // },[]) 
   return (
     <Stack.Navigator>
       <Stack.Screen

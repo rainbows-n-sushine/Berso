@@ -13,8 +13,10 @@ const Collections = () => {
 
   useEffect(()=>{
     async function getToken(){
-
+console.log(userToken)
   let token=await AsyncStorage.getItem('userToken')
+  console.log(displayCollection)
+
   console.log(token)
     setUserToken(token)
     if(token===""){
@@ -35,12 +37,12 @@ const Collections = () => {
     <SafeAreaView className="flex-1 bg-[#F2E8DE] items-center justify-between top-8">
       <View className="flex items-center justify-between">
 
-        {displayCollection&&
+        {!displayCollection &&
         
         <Text className="text-xl">here r the collections</Text>
         }
         
-      {!displayCollection && 
+      {displayCollection && 
       <View>
         <Text className="text-xl">Sign in for collections</Text>
         <TouchableOpacity
