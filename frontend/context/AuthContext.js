@@ -25,15 +25,19 @@ useEffect(()=>{
 
 ///this could potentially be a bug in the code
 
+
+
 const login=(credential,password)=>{
 api.post('user/signin',{credential,password})
-.then((res)=>{
+.then(async(res)=>{
     
     setIsLoading(true)
     console.log(res.data)
     const token=res.data.token
     AsyncStorge.setItem('userToken',token)
     setUserToken(token);
+
+    // const email= await AsyncStorage.setItem('userEmail',JSON.stringify(userInfo))
     setIsLoading(false);
     
 

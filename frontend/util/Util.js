@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = axios.create({
+const api = await axios.create({
   baseURL: 'http://172.24.80.1:8000/',
 //   timeout: 5000, 
 //   headers: {
