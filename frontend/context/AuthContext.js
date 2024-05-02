@@ -25,8 +25,8 @@ useEffect(()=>{
 
 ///this could potentially be a bug in the code
 
-const login=(username,password)=>{
-api.post('user/signin',{username,password})
+const login=(credential,password)=>{
+api.post('user/signin',{credential,password})
 .then((res)=>{
     
     setIsLoading(true)
@@ -35,6 +35,7 @@ api.post('user/signin',{username,password})
     AsyncStorge.setItem('userToken',token)
     setUserToken(token);
     setIsLoading(false);
+    
 
 }).catch((error)=>{
 
@@ -63,6 +64,8 @@ const logout=()=>{
 const isLoggedIn=async function(){
     try {
     setIsLoading(true)
+    // const email=await AsyncStorge.getItem('email')
+    // const password=await AsyncStorge.getItem('email')
     
     const token=await AsyncStorge.getItem('userToken')
     console.log(userToken)

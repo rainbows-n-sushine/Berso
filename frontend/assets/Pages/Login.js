@@ -57,20 +57,20 @@ const Login = ({ navigation }) => {
     console.log('Password:', password);
     console
    // ${BASE_URL}
+login(credential,password)
+  // return await api.post("user/signin",{credential,password})
+  //   .then((res)=>{  
 
-  return await api.post("user/signin",{credential,password})
-    .then((res)=>{  
-
-        console.log(res.data)
-       if(res.data.success===true) {
-        const token=res.data.token
-        login()
-        console.log('this is the token thrown from the backend   '+token)
-        AsyncStorage.setItem('userToken',token )
-       }
+  //       console.log(res.data)
+  //      if(res.data.success===true) {
+  //       const token=res.data.token
+  //       login()
+  //       console.log('this is the token thrown from the backend   '+token)
+  //       AsyncStorage.setItem('userToken',token )
+  //      }
         
       
-    })
+  //   })
     .catch((error)=>{
       if(error){
         console.log("Error in handleSubmit", error.message)

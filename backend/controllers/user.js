@@ -119,3 +119,9 @@ exports.updateUserProfile = async (req, res) => {
     }
   }
 };
+
+exports.userSignOut=async(req,res)=>{
+  jwt
+
+
+}
