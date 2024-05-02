@@ -111,6 +111,8 @@ await api.post('user/signup',{fullName,username,email,dateOfBirth,zipCode,passwo
 .then((res)=>{
   console.log('im in handleSignup')
   console.log(res.data)
+  navigation.navigate('Home')
+  Alert.alert(res.data.message)
 })
 .catch((err)=>{
   if(err){

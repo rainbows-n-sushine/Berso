@@ -58,6 +58,7 @@ const Login = ({ navigation }) => {
     console
    // ${BASE_URL}
 login(credential,password)
+navigation.navigate('Home')
   // return await api.post("user/signin",{credential,password})
   //   .then((res)=>{  
 

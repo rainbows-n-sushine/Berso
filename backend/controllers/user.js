@@ -42,7 +42,7 @@ exports.signUp = async (req, res) => {
     await user.save();
     return res.json({
       success: true,
-      message: "The validation link has been sent to your email",
+      message: "You have signed up, the validation link has been sent to your email",
     });
   }
 };

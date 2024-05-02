@@ -1,16 +1,20 @@
-import React,{createContext,useState, useEffect} from 'react'; 
+import React,{createContext,useState, useEffect} from 'react';
+import {View,ScrollView, RefreshControl} from "react-native" 
 import AsyncStorge from '@react-native-async-storage/async-storage'
-import { useNavigation } from 'expo-router';
 import api from '../util/Util';
+
+
 
 
 export const AuthContext=createContext();
 
 const AuthProvider=({children})=>{
 
-    // const navigation=useNavigation()
+ 
 const [isLoading, setIsLoading]=useState(false);
 const [userToken,setUserToken]=useState(null)
+const [refreshing, setRefreshing] = useState(false);
+
 
 
 useEffect(()=>{
@@ -27,9 +31,9 @@ useEffect(()=>{
 
 
 
-const login=(credential,password)=>{
-api.post('user/signin',{credential,password})
-.then(async(res)=>{
+const login=async(credential,password)=>{
+await api.post('user/signin',{credential,password})
+.then((res)=>{
     
     setIsLoading(true)
     console.log(res.data)
@@ -39,6 +43,8 @@ api.post('user/signin',{credential,password})
 
     // const email= await AsyncStorage.setItem('userEmail',JSON.stringify(userInfo))
     setIsLoading(false);
+    console.log("this is the token in login: "+token )
+    
     
 
 }).catch((error)=>{
@@ -47,21 +53,18 @@ api.post('user/signin',{credential,password})
         console.log('error in login authContext: ',error.message)
     }
 })
-
-
-    
-    
-    
-   
-    
-
 }
-const logout=()=>{
 
+
+const logout=()=>{
+    setRefreshing(true)
     setIsLoading(true);
     setUserToken(null)
     AsyncStorge.removeItem('userToken')
     setIsLoading(false);
+    setRefreshing(false)
+
+    console.log("this is the value of userToken after refresh: "+userToken)
 
 }
 
@@ -89,9 +92,23 @@ const isLoggedIn=async function(){
 
 return(
 
+//     <View>
+
+// <ScrollView
+//    refreshControl={
+//         <RefreshControl
+//           refreshing={refreshing}
+//           onRefresh={logout}
+//           />}>
+
+
+
     <AuthContext.Provider value={{login,logout,isLoading,userToken}}>
         {children}
     </AuthContext.Provider>
+    
+    // </ScrollView>
+    // </View>
 )
 }
 
