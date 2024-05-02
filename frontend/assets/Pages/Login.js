@@ -55,7 +55,7 @@ const Login = ({ navigation }) => {
      }
     console.log('Credential:', credential);
     console.log('Password:', password);
-    console
+  
    // ${BASE_URL}
 login(credential,password)
 navigation.navigate('Home')
