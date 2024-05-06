@@ -57,7 +57,7 @@ const Login = ({ navigation }) => {
     console.log('Password:', password);
   
    // ${BASE_URL}
-login(credential,password)
+await login(credential,password)
 navigation.navigate('Home')
   // return await api.post("user/signin",{credential,password})
   //   .then((res)=>{  
@@ -72,13 +72,13 @@ navigation.navigate('Home')
         
       
   //   })
-    .catch((error)=>{
-      if(error){
-        console.log("Error in handleSubmit", error.message)
+    // .catch((error)=>{
+    //   if(error){
+    //     console.log("Error in handleSubmit", error.message)
 
-      }
+    //   }
 
-    })
+    // })
 
   };
 

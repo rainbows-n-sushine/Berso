@@ -1,6 +1,6 @@
 import React,{createContext,useState, useEffect} from 'react';
 import {View,ScrollView, RefreshControl} from "react-native" 
-import AsyncStorge from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import api from '../util/Util';
 
 
@@ -38,7 +38,7 @@ await api.post('user/signin',{credential,password})
     setIsLoading(true)
     console.log(res.data)
     const token=res.data.token
-    AsyncStorge.setItem('userToken',token)
+    AsyncStorage.setItem('userToken',token)
     setUserToken(token);
 
     // const email= await AsyncStorage.setItem('userEmail',JSON.stringify(userInfo))
@@ -56,25 +56,26 @@ await api.post('user/signin',{credential,password})
 }
 
 
-const logout=()=>{
-    setRefreshing(true)
+const logout=async()=>{
+    // setRefreshing(true)
     setIsLoading(true);
     setUserToken(null)
-    AsyncStorge.removeItem('userToken')
+    await AsyncStorage.removeItem('userToken')
     setIsLoading(false);
-    setRefreshing(false)
+    // setRefreshing(false)
+    let tokenReleased=AsyncStorage.getItem('userToken')
 
-    console.log("this is the value of userToken after refresh: "+userToken)
+    console.log("this is the value of userToken after logout: "+ tokenReleased)
 
 }
 
 const isLoggedIn=async function(){
     try {
     setIsLoading(true)
-    // const email=await AsyncStorge.getItem('email')
-    // const password=await AsyncStorge.getItem('email')
+    // const email=await AsyncStorage.getItem('email')
+    // const password=await AsyncStorage.getItem('email')
     
-    const token=await AsyncStorge.getItem('userToken')
+    const token=await AsyncStorage.getItem('userToken')
     console.log(userToken)
     setUserToken(token)
     setIsLoading(false)
