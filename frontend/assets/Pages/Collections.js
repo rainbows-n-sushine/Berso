@@ -34,7 +34,7 @@ console.log(userToken)
  
     const navigation = useNavigation();
    
-     const { isLoading, userToken } = useContext(AuthContext); 
+     const { isLoading } = useContext(AuthContext); 
   return (
     <SafeAreaView className="flex-1 bg-[#F2E8DE] items-center justify-between top-8">
       <View className="flex items-center justify-between">
