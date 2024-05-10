@@ -17,7 +17,7 @@ const AuthStack = () => {
         component={TabNavigator_newbie}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="Login"
         component={Login}
         options={{ headerShown: false }}
@@ -26,7 +26,7 @@ const AuthStack = () => {
         name="Registration"
         component={Registration}
         options={{ headerShown: false }}
-      />
+      /> */}
       {/* Add more Stack.Screen components for additional screens */}
     </Stack.Navigator>
   );

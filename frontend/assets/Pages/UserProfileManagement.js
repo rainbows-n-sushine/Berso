@@ -15,7 +15,7 @@ import {
   Modal,
 } from "react-native";
 import tw from "twrnc";
-import * as ImagePicker from 'expo-image-picker';
+import * as ImagePicker from "expo-image-picker";
 import {
   AntDesign,
   Feather,
@@ -37,7 +37,7 @@ const UserProfileManagement = () => {
   const [lastName, setLastName] = useState("");
   const [username, setUserName] = useState("");
   const [email, setEmail] = useState("");
-  const [phone,setPhone]=useState('')
+  const [phone, setPhone] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [date, setDate] = useState(new Date());
   const [zipCode, setZipCode] = useState("");
@@ -46,14 +46,13 @@ const UserProfileManagement = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [errors, setErrors] = useState("");
-
+  const [profilePic, setProfilePic] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const windowHeight = Dimensions.get("window").height;
   const navigation = useNavigation();
 
-  const handleSubmit = async() => {
-
-
+  const handleSubmit = async () => {
     validateForm();
 
     // Check if there are any errors
@@ -78,8 +77,6 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
   
 
   const validateForm = () => {
-
-
     const errors = {};
 
     if (firstName.trim() === "") {
@@ -138,74 +135,94 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
     return emailRegex.test(email);
   };
 
-  
-  
-  
-   const [profilePic, setProfilePic] = useState(null);
-   const [modalVisible, setModalVisible] = useState(false);
+  const pickImageFromGallery = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-   const pickImageFromGallery = async () => {
-     const permissionResult =
-       await ImagePicker.requestMediaLibraryPermissionsAsync();
+    if (permissionResult.granted === false) {
+      Alert.alert("Permission to access camera roll is required!");
+      return;
+    }
 
-     if (permissionResult.granted === false) {
-       Alert.alert("Permission to access camera roll is required!");
-       return;
-     }
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
 
-     const result = await ImagePicker.launchImageLibraryAsync({
-       mediaTypes: ImagePicker.MediaTypeOptions.Images,
-       allowsEditing: true,
-       aspect: [1, 1],
-       quality: 1,
-     });
-
-     if (!result.cancelled) {
-       saveProfile(result.assets[0].uri);
+    if (!result.cancelled) {
+      saveProfile(result.assets[0].uri);
       // setProfilePic(result.assets[0].uri);
       //  setModalVisible(false);
-     }
-   };
+    }
+  };
 
-   const takeImageFromCamera = async () => {
-     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+  const takeImageFromCamera = async () => {
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
-     if (permissionResult.granted === false) {
-       Alert.alert("Permission to access camera is required!");
-       return;
-     }
+    if (permissionResult.granted === false) {
+      Alert.alert("Permission to access camera is required!");
+      return;
+    }
 
-     const result = await ImagePicker.launchCameraAsync({
+    const result = await ImagePicker.launchCameraAsync({
       //  mediaTypes: ImagePicker.MediaTypeOptions.Images,
-       cameraType: ImagePicker.CameraType.front,
-       allowsEditing: true,
-       aspect: [1, 1],
-       quality: 1,
-     });
+      cameraType: ImagePicker.CameraType.front,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
 
-     if (!result.cancelled) {
+    if (!result.cancelled) {
       saveProfile(result.assets[0].uri);
       //  setProfilePic(result.assets[0].uri);
       //  setModalVisible(false);
-     }
-   };
+    }
+  };
 
-   const saveProfile = async (profilePic) => {
-     try {
-       setProfilePic(profilePic);
-       setModalVisible(false);
-     } catch (error) {
-      console.log('whatt')
-     }
-   };
+  const saveProfile = async (profilePic) => {
+    try {
+      setProfilePic(profilePic);
+      setModalVisible(false);
+// sending pp to backend
+sentToBackend()
 
-   const deleteProfilePic = () => {
-     setProfilePic(null);
-     setModalVisible(false);
-   };
+    } catch (error) {
+      console.log("whatt");
+    }
+  };
+
+  const deleteProfilePic = () => {
+    setProfilePic(null);
+    setModalVisible(false);
+  };
 
   const defaultProfilePic = require("../Images/defaultprofile.png");
 
+
+  const sentToBackend = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("profilePic", {
+        uri: profilePicUri,
+        name: "profilePic.jpg",
+        type: "image/jpg",
+      });
+
+      const response = await api.post("user/update-profile", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("Profile picture uploaded:", response.data);
+    } catch (error) {
+      console.log("Error uploading profile picture:", error.message);
+    }
+  };
+
+  
   return (
     <View style={tw`flex-1 bg-white`}>
       <ScrollView
@@ -226,7 +243,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 navigation.navigate("");
               }}
             >
-              <Text style={tw`text-black text-xl font-bold`}>Done</Text>
+              <Text style={tw`text-black text-lg font-bold`}>Done</Text>
             </TouchableOpacity>
           </View>
 
@@ -319,7 +336,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 UserName
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
                 //   placeholder="Username"
                 value={username}
                 onChangeText={(text) => {
@@ -338,7 +355,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 First Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
                 //   placeholder="First Name"
                 value={firstName}
                 onChangeText={(text) => {
@@ -357,7 +374,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 Middle Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
                 //   placeholder="Middle Name"
                 value={middleName}
                 onChangeText={(text) => {
@@ -376,7 +393,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 Last Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
                 //   placeholder="Last Name"
                 value={lastName}
                 onChangeText={(text) => {
@@ -396,7 +413,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 Email
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
                 value={email}
                 onChangeText={(text) => {
@@ -413,7 +430,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 Phone Number
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
                 value={phone}
                 onChangeText={(text) => {
@@ -427,7 +444,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
             {!showPicker && (
               <Pressable onPress={toggleDatePicker}>
                 <TextInput
-                  style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
                   //   placeholder="Date of Birth"
                   value={dateOfBirth}
                   onChangeText={(text) => {
@@ -453,7 +470,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 Zip Code
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
                 //   placeholder="Zip Code"
                 value={zipCode}
                 onChangeText={(text) => {
@@ -472,14 +489,14 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 Bio
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
                 value={bio}
                 onChangeText={(text) => {
                   setBio(text);
                 }}
               />
-            
+
               <View style={tw`border-b border-white my-4 `} />
               <Text
                 style={{ fontFamily: "berlin-sans" }}
@@ -488,7 +505,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 New Password
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
                 //   placeholder="Password"
                 secureTextEntry
                 value={newPassword}
@@ -508,7 +525,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 Current Password
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
                 placeholder="Current Password"
                 secureTextEntry
                 value={currentPassword}
@@ -521,7 +538,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                   {errors.currentPassword}
                 </Text>
               )}
-           <TouchableOpacity
+              <TouchableOpacity
                 style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
                 onPress={handleSubmit}
               >
@@ -532,10 +549,8 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                   Update profile
                 </Text>
               </TouchableOpacity>
-
             </View>
           </View>
-          
         </View>
       </ScrollView>
     </View>
