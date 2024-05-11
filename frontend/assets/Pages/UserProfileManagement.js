@@ -485,26 +485,6 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
                 style={{ fontFamily: "berlin-sans" }}
                 className="text-base  text-stone-500 font-bold mb-1"
               >
-                New Password
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
-                //   placeholder="Password"
-                secureTextEntry
-                value={newPassword}
-                onChangeText={(text) => {
-                  setNewPassword(text);
-                }}
-              />
-              {errors.newPassword && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.newPassword}
-                </Text>
-              )}
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
                 Current Password
               </Text>
               <TextInput
@@ -519,6 +499,26 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               {errors.currentPassword && (
                 <Text style={tw`text-red-500 ml-10 mb-2`}>
                   {errors.currentPassword}
+                </Text>
+              )}
+               <Text
+                style={{ fontFamily: "berlin-sans" }}
+                className="text-base  text-stone-500 font-bold mb-1"
+              >
+                New Password
+              </Text>
+              <TextInput
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                //   placeholder="Password"
+                secureTextEntry
+                value={newPassword}
+                onChangeText={(text) => {
+                  setNewPassword(text);
+                }}
+              />
+              {errors.newPassword && (
+                <Text style={tw`text-red-500 ml-10 mb-2`}>
+                  {errors.newPassword}
                 </Text>
               )}
            <TouchableOpacity

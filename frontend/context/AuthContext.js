@@ -13,6 +13,7 @@ const AuthProvider=({children})=>{
  
 const [isLoading, setIsLoading]=useState(false);
 const [userToken,setUserToken]=useState(null)
+const [userId,setUserId]=useState('')
 const [refreshing, setRefreshing] = useState(false);
 
 
@@ -38,7 +39,9 @@ await api.post('user/signin',{credential,password})
     setIsLoading(true)
     console.log(res.data)
     const token=res.data.token
+    const userId=res.data.userId
     AsyncStorage.setItem('userToken',token)
+    AsyncStorage.setItem('useId',userId)
     setUserToken(token);
 
     // const email= await AsyncStorage.setItem('userEmail',JSON.stringify(userInfo))
@@ -61,9 +64,11 @@ const logout=async()=>{
     setIsLoading(true);
     setUserToken(null)
     await AsyncStorage.removeItem('userToken')
+    await AsyncStorage.removeItem('userId')
     setIsLoading(false);
     // setRefreshing(false)
     let tokenReleased=AsyncStorage.getItem('userToken')
+    
 
     console.log("this is the value of userToken after logout: "+ tokenReleased)
 

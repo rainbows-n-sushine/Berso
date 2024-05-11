@@ -1,6 +1,8 @@
 const {User} = require("../models/user");
 const jwt = require("jsonwebtoken");
 const validator=require('validator')
+const bcrypt=require('bcrypt')
+
 
 exports.signUp = async (req, res) => {
   const { username, email } = req.body;
@@ -36,7 +38,7 @@ exports.signUp = async (req, res) => {
       dob: dateOfBirth,
       zip_code: zipCode,
       email: email,
-      // password: password,
+      password: password,
       username: username,
     });
     await user.save();
@@ -56,26 +58,32 @@ const validEmail=validator.isEmail(credential)
 
   // const userExists = await User.userExists(email,password);
 let user={}
+let userId=""
   if(validEmail){
    user = await User.findOne({ email: credential});
-  }
+   userId=JSON.stringify(user._id)
+  console.log(JSON.stringify(user._id))
+   
+    }
 else{
    user = await User.findOne({ username: credential});
+   userId=JSON.stringify(user._id)
+   console.log(JSON.stringify(user._id))
+ 
 }
-   
-  console.log(user)
 
  
 
   if (user) { 
     
     const comparePassword = await user.comparePassword(password);
+    
     if (comparePassword) {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
 
-      return res.json({ success: true, message: "user is signed in!", token:token });
+      return res.json({ success: true, message: "user is signed in!", token:token,userId:userId });
     } else {
       return res.json({
         success: false,
@@ -93,6 +101,8 @@ else{
 
 exports.updateUserProfile = async (req, res) => {
   const { username, dateOfBirth, fullName, email, phone, zipCode, bio, currentPassword, newPassword } = req.body;
+
+ bcrypt.comparePassword()
 
   try {
     const user = await User.findOneAndUpdate({email:email},{ 
