@@ -1,5 +1,5 @@
 import React,{createContext,useState, useEffect} from 'react';
-import {View,ScrollView, RefreshControl} from "react-native" 
+import {View,ScrollView, RefreshControl,Alert} from "react-native" 
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import api from '../util/Util';
 
@@ -13,7 +13,7 @@ const AuthProvider=({children})=>{
  
 const [isLoading, setIsLoading]=useState(false);
 const [userToken,setUserToken]=useState(null)
-const [userId,setUserId]=useState('')
+const [_userId,_setUserId]=useState('')
 const [refreshing, setRefreshing] = useState(false);
 
 
@@ -38,15 +38,28 @@ await api.post('user/signin',{credential,password})
     
     setIsLoading(true)
     console.log(res.data)
-    const token=res.data.token
+    if(res.data.success===true){
+const token=res.data.token
     const userId=res.data.userId
+    console.log("this is the userId "+ userId)
     AsyncStorage.setItem('userToken',token)
-    AsyncStorage.setItem('useId',userId)
+    AsyncStorage.setItem('userId',userId)
+    _setUserId(userId)
     setUserToken(token);
+    console.log("this is the token in login: "+token )
+
+    }else{
+        Alert.alert(res.data.message)
+    }
+    
+
+
+
+    
 
     // const email= await AsyncStorage.setItem('userEmail',JSON.stringify(userInfo))
     setIsLoading(false);
-    console.log("this is the token in login: "+token )
+    
     
     
 

@@ -61,14 +61,14 @@ let user={}
 let userId=""
   if(validEmail){
    user = await User.findOne({ email: credential});
-   userId=JSON.stringify(user._id)
-  console.log(JSON.stringify(user._id))
+   userId=user._id
+  console.log(user._id)
    
     }
 else{
    user = await User.findOne({ username: credential});
-   userId=JSON.stringify(user._id)
-   console.log(JSON.stringify(user._id))
+   userId=user._id
+   console.log(user._id)
  
 }
 
@@ -100,22 +100,33 @@ else{
 
 
 exports.updateUserProfile = async (req, res) => {
-  const { username, dateOfBirth, fullName, email, phone, zipCode, bio, currentPassword, newPassword } = req.body;
-
- bcrypt.comparePassword()
-
-  try {
-    const user = await User.findOneAndUpdate({email:email},{ 
+  const { username, dateOfBirth, fullName, email, phone, zipCode, bio, currentPassword, newPassword,userId } = req.body;
+  if(userId){
+    let user= await User.findOne({_id:userId})
+    const oldPassword=user.password
+    console.log(oldPassword)
+    const passwordMatches=await bcrypt.compare(currentPassword,oldPassword)
+    console.log("the password matching is "+passwordMatches)
+try {
+    if(passwordMatches){
+      const hashedPassword =await bcrypt.hash(newPassword,8) 
+     user = await User.findOneAndUpdate({_id:userId},{ 
       
       name :fullName,
     username:username,
     phone :phone,
     zip_code:zipCode,
     bio:bio,
+    email:email,
     dob: dateOfBirth,
-    password: newPassword},{new:true})
+    password: hashedPassword
+  
+  },{new:true})
     console.log(user);
-    await user.save();
+
+    }
+    
+  
     if (user) {
      
       return res.json({ message: "User is updated", success: true });
@@ -128,6 +139,12 @@ exports.updateUserProfile = async (req, res) => {
       return res.status(500).json({ message: "An error occurred" });
     }
   }
+  }else{
+    return res.json({error:"user is not signed in"})
+  }
+
+
+  
 };
 
 // exports.userSignOut=async(req,res)=>{

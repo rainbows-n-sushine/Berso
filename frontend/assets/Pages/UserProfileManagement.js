@@ -27,7 +27,8 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import api from '../../util/Util'
+import api from '../../util/Util';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -52,6 +53,7 @@ const UserProfileManagement = () => {
   const navigation = useNavigation();
 
   const handleSubmit = async() => {
+    const userId=await AsyncStorage.getItem('userId')
 
 
     validateForm();
@@ -62,7 +64,7 @@ const UserProfileManagement = () => {
     console.log('Iam in user rprofiel  xnksbckjbcdsj ')
     const fullName=firstName+ " "+middleName+ " "+lastName
     console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+newPassword+" "+currentPassword)
-await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPassword,newPassword})
+await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPassword,newPassword,userId})
 .then((res)=>{
   console.log('im in profile update handlesubmit')
   console.log(res.data.message)
@@ -125,10 +127,8 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
 
     if (currentPassword.trim() === "") {
       errors.currentPassword = "Current password is required";
-    } else if (currentPassword != newPassword) {
-      errors.currentPassword = "Passwords do not match";
     }
-
+    
     setErrors(errors);
   };
 
