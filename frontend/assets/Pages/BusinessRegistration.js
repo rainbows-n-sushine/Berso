@@ -43,7 +43,7 @@ const BusinessRegistration = () => {
     description:""
    })
 const [categories,setCategories]=useState("fgcuhgxcy")
-const[userid,setUserId]=useState('')
+const[userId,setUserId]=useState('')
 
 
 
