@@ -21,6 +21,8 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import api from '../../util/Util'
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const BusinessRegistration = () => {
 
   const windowHeight = Dimensions.get("window").height;
@@ -41,18 +43,35 @@ const BusinessRegistration = () => {
     description:""
    })
 const [categories,setCategories]=useState("fgcuhgxcy")
+const[userid,setUserId]=useState('')
 
 
 
   useEffect(() => {
+    console.log('im in useeffect')
+     const fetchUserid=async()=>{
+      const user_id= await AsyncStorage.getItem('userId')
+      console.log("this is the user id "+user_id)
+      setUserId(user_id)
+      
+      
+    }
     async function loadFonts() {
+      
       await Font.loadAsync({
         "berlin-sans": require("../fonts/berlin-sans/BerlinSans.ttf"),
       });
-    }
+      
+     
 
+    }
+    
+    
+    //call the async function
+    fetchUserid()
     loadFonts();
-  }, []);
+    
+  },[]);
 
 
 const handleChange=(name,value)=>{
@@ -67,7 +86,7 @@ const handleSubmit=async()=>{
   console.log('im in handle submit')
   console.log(business)
  
-  await api.post('business/register-business',{business,categories})
+  await api.post('business/register-business',{business,categories,userId})
     .then((res)=>{
       console.log("im in then")
       console.log(res.data)

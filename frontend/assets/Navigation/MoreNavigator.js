@@ -3,6 +3,7 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import UserProfileManagement from "../Pages/UserProfileManagement";
+import MyBusinesses from "../Pages/MyBussinesses";
 import More from "../Pages/More";
 
 const Stack = createStackNavigator();
@@ -17,6 +18,11 @@ const MoreNavigator = () => {
       <Stack.Screen
         name="EditUserProfile"
         component={UserProfileManagement}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="MyBusinesses"
+        component={MyBusinesses}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen

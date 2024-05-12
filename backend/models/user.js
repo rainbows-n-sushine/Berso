@@ -34,7 +34,7 @@ bio:{
     type:String
 },
 
-avatar:Buffer,
+avatar:Buffer
 
 })
 

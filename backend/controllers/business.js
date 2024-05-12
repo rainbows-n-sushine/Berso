@@ -3,7 +3,7 @@ exports.registerBusiness=async(req,res)=>{
 
     console.log('im in business condtrollers')
 
-    const {business,categories}=req.body
+    const {business,categories,userId}=req.body
     console.log(business)
     const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
 try { 
@@ -22,7 +22,8 @@ try {
      opening_hours:openingHours,
      average_price:averagePrice,
      description:description,
-     category:categories
+     category:categories,
+     user:userId
 
 
     })

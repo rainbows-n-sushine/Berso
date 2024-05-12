@@ -1,4 +1,5 @@
 const mongoose=require('mongoose');
+const {User}=require('./user')
 const businessSchema=new mongoose.Schema({
 
     business_name:{
@@ -56,6 +57,12 @@ const businessSchema=new mongoose.Schema({
         required:true,
 
     },
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:'User'
+
+
+    }
 
 })
 
