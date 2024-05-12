@@ -1,17 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, TouchableOpacity, Text, Image, ImageBackground , ScrollView, Dimensions,Button,Pressable,Platform,Alert} from 'react-native';
-import tw from 'twrnc';
-import { AntDesign } from '@expo/vector-icons';
-import { FontAwesome5 } from '@expo/vector-icons';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  Image,
+  ImageBackground,
+  ScrollView,
+  Dimensions,
+  Button,
+  Pressable,
+  Platform,
+  Alert,
+} from "react-native";
+import tw from "twrnc";
+import { AntDesign } from "@expo/vector-icons";
+import { FontAwesome5 } from "@expo/vector-icons";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import api from '../../util/Util'
+import api from "../../util/Util";
 
 import * as Font from "expo-font";
 
-
-  
 const Registration = () => {
   // useEffect(() => {
   //   async function loadFonts() {
@@ -24,19 +35,18 @@ const Registration = () => {
   //   loadFonts();
   // }, []);
 
-  const [firstName, setFirstName] = useState('');
-  const [middleName, setMiddleName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [username, setUserName] = useState('');
-  const [email, setEmail] = useState('');
+  const [firstName, setFirstName] = useState("");
+  const [middleName, setMiddleName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [username, setUserName] = useState("");
+  const [email, setEmail] = useState("");
   const [dateOfBirth, setDateOfBirth] = useState("");
-  const [date,setDate]=useState(new Date())
-  const [zipCode, setZipCode] = useState('');
-  const [password, setPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
-  const [showPicker,setShowPicker]=useState(false)
-  const [errors, setErrors]= useState('');
-
+  const [date, setDate] = useState(new Date());
+  const [zipCode, setZipCode] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPicker, setShowPicker] = useState(false);
+  const [errors, setErrors] = useState("");
 
   const validateForm = () => {
     const errors = {};
@@ -45,42 +55,42 @@ const Registration = () => {
     //   errors.firstName = 'First name is required';
     // }
 
-    if (middleName.trim() === '') {
-      errors.middleName = 'Middle name is required';
+    if (middleName.trim() === "") {
+      errors.middleName = "Middle name is required";
     }
 
-    if (lastName.trim() === '') {
-      errors.lastName = 'Last name is required';
+    if (lastName.trim() === "") {
+      errors.lastName = "Last name is required";
     }
- 
-    if (email.trim() === '') {
-      errors.email = 'Email is required';
+
+    if (email.trim() === "") {
+      errors.email = "Email is required";
     } else if (!isValidEmail(email)) {
-      errors.email = 'Invalid email format';
+      errors.email = "Invalid email format";
     }
 
-    if (username.trim() === '') {
-      errors.username = 'Username is required';
+    if (username.trim() === "") {
+      errors.username = "Username is required";
     }
 
-   // if (dateOfBirth.trim() === '') {
-   //   errors.dateOfBirth = 'Date of birth is required';
+    // if (dateOfBirth.trim() === '') {
+    //   errors.dateOfBirth = 'Date of birth is required';
     //}
 
-    if (zipCode.trim() === '') {
-      errors.zipCode = 'Zip code is required';
-    } 
-
-    if (password.trim() === '') {
-      errors.password = 'Password is required';
-    } else if (password.length < 6) {
-      errors.password = 'Password should be at least 6 characters long';
+    if (zipCode.trim() === "") {
+      errors.zipCode = "Zip code is required";
     }
 
-    if (confirmPassword.trim() === '') {
-      errors.confirmPassword = 'Confirm password is required';
+    if (password.trim() === "") {
+      errors.password = "Password is required";
+    } else if (password.length < 6) {
+      errors.password = "Password should be at least 6 characters long";
+    }
+
+    if (confirmPassword.trim() === "") {
+      errors.confirmPassword = "Confirm password is required";
     } else if (confirmPassword != password) {
-      errors.confirmPassword = 'Passwords do not match';
+      errors.confirmPassword = "Passwords do not match";
     }
 
     setErrors(errors);
@@ -92,74 +102,80 @@ const Registration = () => {
     return emailRegex.test(email);
   };
   //const isValidZipCode = (zipCode) => {
-    // Simple zip code validation regex
+  // Simple zip code validation regex
   //  const zipCodeRegex = /^\d{5}$/;
   //  return zipCodeRegex.test(zipCode);
-//  };
+  //  };
 
-
-  const handleSignUp = async() => {
+  const handleSignUp = async () => {
     validateForm();
 
     // Check if there are any errors
     if (Object.keys(errors).length === 0) {
+      console.log("Iama herm;kjdchjvlsdj ");
+      const fullName = firstName + " " + middleName + " " + lastName;
+      console.log(
+        fullName +
+          " " +
+          username +
+          " " +
+          email +
+          " " +
+          dateOfBirth +
+          " " +
+          zipCode +
+          " " +
+          password
+      );
+      await api
+        .post("user/signup", {
+          fullName,
+          username,
+          email,
+          dateOfBirth,
+          zipCode,
+          password,
+          confirmPassword,
+        })
+        .then((res) => {
+          console.log("im in handleSignup");
+          console.log(res.data);
+        })
+        .catch((err) => {
+          if (err) {
+            console.log(err.message);
+          }
+        });
+    }
+  };
 
-    console.log('Iama herm;kjdchjvlsdj ')
-    const fullName=firstName+ " "+middleName+ " "+lastName
-    console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+password)
-await api.post('user/signup',{fullName,username,email,dateOfBirth,zipCode,password,confirmPassword})
-.then((res)=>{
-  console.log('im in handleSignup')
-  console.log(res.data)
-  navigation.navigate('Home')
-  Alert.alert(res.data.message)
-})
-.catch((err)=>{
-  if(err){
-    console.log(err.message)
-  }
-})
+  // const windowWidth = Dimensions.get('window').width;
+  const windowHeight = Dimensions.get("window").height;
 
-  }
-}
-  
-  
+  const toggleDatePicker = function () {
+    setShowPicker(!showPicker);
+  };
 
- // const windowWidth = Dimensions.get('window').width;
-  const windowHeight = Dimensions.get('window').height;
+  const onChange = function ({ type }, selectedDate) {
+    if (type == "set") {
+      const currentDate = selectedDate;
+      setDate(currentDate);
+      console.log(currentDate);
 
-
-  const toggleDatePicker=function(){
-
-    setShowPicker(!showPicker)
-  }
-
-  const onChange=function({type},selectedDate){
-
-    if(type=='set'){
-      const currentDate=selectedDate;
-      setDate(currentDate)
-      console.log(currentDate)
-
-      if (Platform.OS === "android"){
-
+      if (Platform.OS === "android") {
         toggleDatePicker();
         setDateOfBirth(currentDate.toDateString());
       }
-    }else{
+    } else {
       toggleDatePicker();
     }
-
-
-  }
-  const confirmIOSDate=()=>{
-    setDateOfBirth(date.toDateString())
+  };
+  const confirmIOSDate = () => {
+    setDateOfBirth(date.toDateString());
     toggleDatePicker();
-  }
+  };
 
-
- const navigation = useNavigation();
-
+  const navigation = useNavigation();
 
   return (
     <View style={tw`flex-1`}>
@@ -267,7 +283,7 @@ await api.post('user/signup',{fullName,username,email,dateOfBirth,zipCode,passwo
                 <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
               )}
 
-              {!showPicker && (
+              {!showPicker && Platform.OS === "android" && (
                 <Pressable onPress={toggleDatePicker}>
                   <TextInput
                     style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
@@ -287,23 +303,33 @@ await api.post('user/signup',{fullName,username,email,dateOfBirth,zipCode,passwo
                   display="spinner"
                   value={date}
                   onChange={onChange}
+                  style={{
+                    backgroundColor: "white",
+                    width: 320,
+                    borderRadius: 10,
+                  }}
                 />
               )}
-              {/* {showPicker && Platform.OS==="ios"( */}
 
-              {/* <View>
-                <TouchableOpacity onPress={toggleDatePicker}>
-                  <Text>Cancel</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={confirmIOSDate}>
-                  <Text>Confirm</Text>
-                </TouchableOpacity>
-              </View> */}
-              {/* ) */}
-              {/* } */}
+              {showPicker && Platform.OS === "ios" && (
+                <View className="items-center justify-between my-3 ">
+                  <TouchableOpacity
+                    className="bg-white w-72 items-center justify-between my-1 py-2 rounded-lg "
+                    onPress={confirmIOSDate}
+                  >
+                    <Text className="text-base">Confirm</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="bg-white w-72 items-center justify-between my-1 py-2 rounded-lg"
+                    onPress={toggleDatePicker}
+                  >
+                    <Text className="text-base">Cancel</Text>
+                  </TouchableOpacity>
+                </View>
+              )}
 
-              {!showPicker && (
-                <Pressable onPress={toggleDatePicker}>
+              {!showPicker && Platform.OS === "ios" && (
+                <Pressable className="" onPress={toggleDatePicker}>
                   <TextInput
                     style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80  px-4 mb-4`}
                     placeholder="Sat Aug 21 2004"

@@ -5,6 +5,7 @@ import HomeScreen from "../Pages/HomeScreen";
 import Profile from "../Pages/Profile";
 import SearchBusinessScreen from '../Pages/SearchBusinessScreen';
 import SearchResultsScreen from '../Pages/SearchResultsScreen'
+import BusinessList from '../Pages/BusinessList';
 
 const Stack = createStackNavigator();
 const HomeNavigator = () => {
@@ -25,6 +26,12 @@ const HomeNavigator = () => {
         component={SearchResultsScreen}
         options={{ headerShown: false }}
       />
+      <Stack.Screen
+        name="BusinessList"
+        component={BusinessList}
+        options={{ headerShown: false }}
+      />
+
       {/* Add more Stack.Screen components for additional screens */}
     </Stack.Navigator>
   );

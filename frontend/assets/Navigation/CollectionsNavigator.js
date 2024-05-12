@@ -6,6 +6,8 @@ import Profile from "../Pages/Profile";
 import SearchBusinessScreen from "../Pages/SearchBusinessScreen";
 import SearchResultsScreen from "../Pages/SearchResultsScreen";
 import Collections from "../Pages/Collections";
+import Login from "../Pages/Login";
+import Registration from "../Pages/Registration";
 
 const CollectionsNavigator = () => {
     const Stack = createStackNavigator();
@@ -24,6 +26,16 @@ const CollectionsNavigator = () => {
       <Stack.Screen
         name="Collection"
         component={Collections}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Registration"
+        component={Registration}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen

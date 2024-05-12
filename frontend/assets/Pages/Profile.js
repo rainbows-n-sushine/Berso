@@ -9,8 +9,9 @@ import {
   TextInput,
   FlatList,
   SectionList,
+  Modal,
 } from "react-native";
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import tw from "twrnc";
 import {
   AntDesign,
@@ -28,10 +29,17 @@ const { width } = Dimensions.get("window");
 import { useNavigation } from "@react-navigation/native";
 import MarketCard from "../Components/marketCard";
 import { dummyRestaurantsData } from "../Data/restaurantsData";
+import { AuthContext } from "../../context/AuthContext";
 
 const Profile = ({ dummyRestaurantsData }) => {
   const navigation = useNavigation();
+const [modalVisible, setModalVisible] = useState(false);
+ const [currentIndex, setCurrentIndex] = useState(0);
 
+ const handleSwipe = (index) => {
+   setCurrentIndex(index);
+ };
+const { isLoading, userToken } = useContext(AuthContext); 
   const data = dummyRestaurantsData?.food?.map((item, index) => ({
     title: item.category,
     data: item.meals,
@@ -69,110 +77,175 @@ const Profile = ({ dummyRestaurantsData }) => {
 
   // console.log("the fuck is happening", data);
   return (
-    <ParallaxScrollView
-      className="flex-1"
-      // styles={{ flex: 1 }}
-      backgroundColor="white"
-      parallaxHeaderHeight={300}
-      renderBackground={() => <View className="bg-black top-8"></View>}
-      stickyHeaderHeight={90}
-      contentBackgroundColor="#F2E8DE"
-      renderStickyHeader={() => (
-        <View className="flex justify-between top-4">
-          <View className="ml-4">
-            <Text className=" text-orange-400 text-lg font-semibold">
-              My Reviews and Photos
-            </Text>
+    <View className="flex-1">
+      {isLoading ? (
+        <>
+          <View>
+            <Text>Loading...</Text>
           </View>
-          <View className="flex flex-row items-center justify-between py-3 divide-x-2 divide-gray-200">
-            <View className="items-center w-1/2 ">
-              <Text className=" text-black text-lg font-semibold mx-3">
-                Reviews
-              </Text>
-            </View>
-            <View className="items-center w-1/2">
-              <Text className="  text-black text-lg font-semibold mx-3">
-                Photos
-              </Text>
-            </View>
-          </View>
-        </View>
-      )}
-      renderForeground={() => (
-        <SafeAreaView className="flex  bg-white">
-          <View className="flex-row-reverse ml-2">
-            <TouchableOpacity
-              className="px-2"
-              onPress={() => {
-                navigation.navigate("EditUserProfile");
-              }}
-            >
-              <Feather name="share" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              className="px-2"
-              onPress={() => {
-                navigation.navigate("EditUserProfile");
-              }}
-            >
-              <Feather name="edit" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
-          <View className="flex items-center justify-between mt-9">
-            {/* <FontAwesome name="user-circle-o" size={60} color="black" />
-             */}
-            <View className="items-center justify-between">
-              <Image
-                source={require("../Images/defaultprofile.png")}
-                style={tw`w-20 h-20 rounded-full border border-orange-300`}
-              />
-              <Text className="mt-1 text-base">Username</Text>
-            </View>
-            <View className="flex-row mt-2 justify-between items-center">
-              <View className="items-center flex-row mx-1">
-                <Feather name="users" size={12} color="lightgray" />
-                <Text className="text-sm  text-neutral-400">45</Text>
-              </View>
-              <View className="items-center flex-row mx-1">
-                <FontAwesome name="photo" size={12} color="lightgray" />
-                <Text className="text-sm text-neutral-400">12</Text>
-              </View>
-              <View className="items-center flex-row mx-1">
-                <Foundation name="comments" size={12} color="lightgray" />
-                <Text className="text-sm  text-neutral-400">18</Text>
-              </View>
-            </View>
-            <View className="flex-row my-7 justify-between items-center">
-              <View className="items-center mx-4">
-                <MaterialCommunityIcons
-                  name="comment-edit-outline"
-                  size={22}
-                  color="black"
-                />
-                <Text className="text-base">Add Review</Text>
-              </View>
-              <View className="items-center  mx-4">
-                <Feather name="camera" size={22} color="black" />
-
-                <Text className="text-base">Add Photo</Text>
-              </View>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("AddBusiness");
-                }}
-              >
-                <View className="items-center mx-4">
-                  <AntDesign name="isv" size={22} color="black" />
-                  <Text className="text-base">Add Business</Text>
+        </>
+      ) : userToken ? (
+        <>
+          <ParallaxScrollView
+            className="flex-1"
+            // styles={{ flex: 1 }}
+            backgroundColor="white"
+            parallaxHeaderHeight={300}
+            renderBackground={() => <View className="bg-black top-8"></View>}
+            stickyHeaderHeight={90}
+            contentBackgroundColor="#F2E8DE"
+            // renderStickyHeader={() => (
+            //   <View className="flex justify-between top-4">
+            //     <View className="ml-4">
+            //       <Text className=" text-orange-400 text-lg font-semibold">
+            //         My Reviews and Photos
+            //       </Text>
+            //     </View>
+            //     <View className="flex flex-row items-center justify-between py-3 divide-x-2 divide-gray-200">
+            //       <View className="items-center w-1/2 ">
+            //         <Text className=" text-black text-lg font-semibold mx-3">
+            //           Reviews
+            //         </Text>
+            //       </View>
+            //       <View className="items-center w-1/2">
+            //         <Text className="  text-black text-lg font-semibold mx-3">
+            //           Photos
+            //         </Text>
+            //       </View>
+            //     </View>
+            //   </View>
+            // )}
+            renderForeground={() => (
+              <SafeAreaView className="flex  bg-white">
+                <View className="flex-row-reverse ml-2 mt-2">
+                  <TouchableOpacity
+                    className="px-2"
+                    onPress={() => {
+                      navigation.navigate("EditUserProfile");
+                    }}
+                  >
+                    <Feather name="share" size={24} color="black" />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    className="px-2"
+                    onPress={() => {
+                      navigation.navigate("EditUserProfile");
+                    }}
+                  >
+                    <Feather name="edit" size={24} color="black" />
+                  </TouchableOpacity>
                 </View>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </SafeAreaView>
-      )}
-    >
-      {/* <ScrollView className="bg-orange-50"> */}
-      {/* <FlatList
+                <View className="flex items-center justify-between mt-9">
+                  {/* <FontAwesome name="user-circle-o" size={60} color="black" />
+                   */}
+                  <View className="items-center justify-between">
+                    <Image
+                      source={require("../Images/defaultprofile.png")}
+                      style={tw`w-20 h-20 rounded-full border border-orange-300`}
+                    />
+                    <Text className="mt-1 text-base">Username</Text>
+                  </View>
+                  <View className="flex-row mt-2 justify-between items-center">
+                    <View className="items-center flex-row mx-1">
+                      <Feather name="users" size={12} color="lightgray" />
+                      <Text className="text-sm  text-neutral-400">45</Text>
+                    </View>
+                    <View className="items-center flex-row mx-1">
+                      <FontAwesome name="photo" size={12} color="lightgray" />
+                      <Text className="text-sm text-neutral-400">12</Text>
+                    </View>
+                    <View className="items-center flex-row mx-1">
+                      <Foundation name="comments" size={12} color="lightgray" />
+                      <Text className="text-sm  text-neutral-400">18</Text>
+                    </View>
+                  </View>
+                  <View className="flex-row my-7 justify-between items-center">
+                    <View className="items-center mx-4">
+                      <MaterialCommunityIcons
+                        name="comment-edit-outline"
+                        size={22}
+                        color="black"
+                      />
+                      <Text className="text-base">Add Review</Text>
+                    </View>
+                    <View className="items-center  mx-4">
+                      <Feather name="camera" size={22} color="black" />
+
+                      <Text className="text-base">Add Photo</Text>
+                    </View>
+                    <TouchableOpacity
+                      onPress={() => {
+                        // navigation.navigate("AddBusiness");
+                        setModalVisible(true);
+                      }}
+                    >
+                      <View className="items-center mx-4">
+                        <AntDesign name="isv" size={22} color="black" />
+                        <Text className="text-base">Add Business</Text>
+                      </View>
+                    </TouchableOpacity>
+                    <Modal
+                      animationType="slide"
+                      transparent={true}
+                      visible={modalVisible}
+                      onRequestClose={() => {
+                        setModalVisible(!modalVisible);
+                      }}
+                    >
+                      <View
+                        style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}
+                      >
+                        <View style={tw`bg-white p-8 rounded-md w-80`}>
+                          <View className="p-2">
+                            <Text style={tw`text-base text-center`}>
+                              What is your relationship with the business you'd
+                              like to add?
+                            </Text>
+                          </View>
+                          <TouchableOpacity
+                            style={tw`border border-gray-200 py-2 my-1`}
+                            onPress={() => {
+                              setModalVisible(false);
+                              navigation.navigate("AddBusiness");
+                            }}
+                          >
+                            <Text style={tw`text-base text-center `}>
+                              I'm a Customer
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={tw`py-2 border border-gray-200 my-1`}
+                            onPress={() => {
+                              navigation.navigate("AddBusiness");
+                              setModalVisible(false);
+                            }}
+                          >
+                            <Text style={tw`text-base text-center `}>
+                              I work at the business
+                            </Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity
+                            style={tw`py-2`}
+                            onPress={() => {
+                              setModalVisible(!modalVisible);
+                            }}
+                          >
+                            <Text
+                              style={tw`text-base text-center text-orange-300`}
+                            >
+                              Cancel
+                            </Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </Modal>
+                  </View>
+                </View>
+              </SafeAreaView>
+            )}
+          >
+            {/* <ScrollView className="bg-orange-50"> */}
+            {/* <FlatList
         className="flex-1 mt-4"
         data={dummyRestaurantsData}
         showsVerticalScrollIndicator={false}
@@ -194,9 +267,9 @@ const Profile = ({ dummyRestaurantsData }) => {
       //   )}
       // /> */}
 
-      <View className="flex bg-white mt-2 rounded-t-2xl">
-        <View>
-          {/* <SectionList
+            <View className="flex bg-white mt-2 rounded-t-2xl">
+              <View>
+                {/* <SectionList
             sections={data}
             scrollEnabled={false}
             keyExtractor={(item, index) => `${item.id + index}`}
@@ -211,17 +284,31 @@ const Profile = ({ dummyRestaurantsData }) => {
               </Text>
             )}
           /> */}
-        </View>
-      </View>
+              </View>
+            </View>
 
-      {/* </ScrollView> */}
-    </ParallaxScrollView>
+            {/* </ScrollView> */}
+          </ParallaxScrollView>
+        </>
+      ) : (
+        <>
+          <SafeAreaView>
+            <Text className="text-xl">Sign in to continue</Text>
+            <TouchableOpacity
+              className="bg-white p-3 rounded-xl"
+              onPress={() => {
+                navigation.navigate("Login");
+              }}
+            >
+              <Text>Login</Text>
+            </TouchableOpacity>
+          </SafeAreaView>
+        </>
+      )}
+    </View>
   );
 };
-//  headerContainer: ,
-//   headerText: ,
-//   namesContainer: 'flex rounded-2xl -mt-12 bg-white',
-//   titleContainerRow: 'flex flex-row items-center justify-between',
+
 
 export default Profile;
 // headerContainer: 'justify-end ml-28 h-16',
