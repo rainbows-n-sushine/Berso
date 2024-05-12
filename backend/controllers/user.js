@@ -61,21 +61,17 @@ let user={}
 let userId=""
   if(validEmail){
    user = await User.findOne({ email: credential});
-   userId=user._id
-  console.log(user._id)
-   
     }
 else{
    user = await User.findOne({ username: credential});
-   userId=user._id
-   console.log(user._id)
  
 }
 
  
 
   if (user) { 
-    
+    userId=user._id
+    console.log(user._id)
     const comparePassword = await user.comparePassword(password);
     
     if (comparePassword) {
@@ -152,3 +148,17 @@ try {
 
 
 // }
+
+exports.fetchUserData=async(req,res)=>{
+  const {userId}=req.body
+  console.log('this is the userId inside the fetchUserData in controller '+userId )
+  // const user_id=JSON.parse(userId)
+  // console.log(user_id)
+  const user=await User.findOne({_id:userId})
+if(user){
+  return res.json({success:true, message:"user data has successfully been fetched",user:user})
+}else{
+  return res.json({success:false, message:"user is not found"})
+}
+
+}

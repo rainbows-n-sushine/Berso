@@ -33,17 +33,17 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const UserProfileManagement = () => {
-  const [firstName, setFirstName] = useState("");
-  const [middleName, setMiddleName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [username, setUserName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone,setPhone]=useState('')
-  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [_firstName, setFirstName] = useState("");
+  const [_middleName, setMiddleName] = useState("");
+  const [_lastName, setLastName] = useState("");
+  const [_username, setUserName] = useState("");
+  const [_email, setEmail] = useState("");
+  const [_phone,setPhone]=useState('')
+  const [_dateOfBirth, setDateOfBirth] = useState("");
   const [date, setDate] = useState(new Date());
-  const [zipCode, setZipCode] = useState("");
+  const [_zipCode, setZipCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [bio,setBio]=useState('')
+  const [_bio,setBio]=useState('')
   const [currentPassword, setCurrentPassword] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [errors, setErrors] = useState("");
@@ -51,6 +51,51 @@ const UserProfileManagement = () => {
 
   const windowHeight = Dimensions.get("window").height;
   const navigation = useNavigation();
+
+
+
+  useEffect(()=>{
+    fetchUserData()
+
+  },[])
+
+const fetchUserData=async()=>{
+  const userId=await AsyncStorage.getItem('userId')
+  console.log(typeof userId)
+  console.log('this is the userId inside fetch data: '+userId)
+  await api.post('user/user-profile-data',{userId})
+  .then((res)=>{
+    if(res.data.success===true){
+      const {user}=res.data
+
+      console.log('this is the user '+user)
+      console.log(user.name)
+      const{name,password,username,email,zip_code,dob,bio}=user
+      const fullName=name.split(' ')
+      setFirstName(fullName[0])
+      setMiddleName(fullName[1])
+      setLastName(fullName[2])
+      setUserName(username)
+      setEmail(email)
+      setZipCode(zip_code)
+      setDateOfBirth(dob)
+      setBio(bio)
+
+    }else{
+      Alert.alert(res.data.message)
+    }
+
+
+  })
+  .catch((err)=>{
+    if(err){
+      console.log('Error in fetch Data: ',err.message)
+    }
+  })
+
+
+
+}
 
   const handleSubmit = async() => {
     const userId=await AsyncStorage.getItem('userId')
@@ -62,9 +107,9 @@ const UserProfileManagement = () => {
     if (Object.keys(errors).length === 0) {
 
     console.log('Iam in user rprofiel  xnksbckjbcdsj ')
-    const fullName=firstName+ " "+middleName+ " "+lastName
-    console.log(fullName+" "+username+" "+email+" "+dateOfBirth+" "+zipCode+" "+newPassword+" "+currentPassword)
-await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,zipCode,email,bio,currentPassword,newPassword,userId})
+    const fullName=_firstName+ " "+_middleName+ " "+_lastName
+    console.log(fullName+" "+_username+" "+_email+" "+_dateOfBirth+" "+_zipCode+" "+newPassword+" "+currentPassword)
+await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_phone,_zipCode,_email,_bio,currentPassword,newPassword,userId})
 .then((res)=>{
   console.log('im in profile update handlesubmit')
   console.log(res.data.message)
@@ -84,30 +129,30 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
 
     const errors = {};
 
-    if (firstName.trim() === "") {
+    if (_firstName.trim() === "") {
       errors.firstName = "First name is required";
     }
 
-    if (middleName.trim() === "") {
+    if (_middleName.trim() === "") {
       errors.middleName = "Middle name is required";
     }
 
-    if (lastName.trim() === "") {
+    if (_lastName.trim() === "") {
       errors.lastName = "Last name is required";
     }
 
-    if (email.trim() === "") {
+    if (_email.trim() === "") {
       errors.email = "Email is required";
     } else if (!isValidEmail(email)) {
       errors.email = "Invalid email format";
     }
-    if (phone.trim() === "") {
+    if (_phone.trim() === "") {
       errors.phone = "Phone number is required";
     } else if (!isValidEmail(email)) {
       errors.phone = "Invalid phone number format";
     }
 
-    if (username.trim() === "") {
+    if (_username.trim() === "") {
       errors.username = "Username is required";
     }
 
@@ -115,7 +160,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
     //   errors.dateOfBirth = 'Date of birth is required';
     //}
 
-    if (zipCode.trim() === "") {
+    if (_zipCode.trim() === "") {
       errors.zipCode = "Zip code is required";
     }
 
@@ -321,7 +366,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
                 //   placeholder="Username"
-                value={username}
+                value={_username}
                 onChangeText={(text) => {
                   setUserName(text);
                 }}
@@ -340,7 +385,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
                 //   placeholder="First Name"
-                value={firstName}
+                value={_firstName}
                 onChangeText={(text) => {
                   setFirstName(text);
                 }}
@@ -359,7 +404,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
                 //   placeholder="Middle Name"
-                value={middleName}
+                value={_middleName}
                 onChangeText={(text) => {
                   setMiddleName(text);
                 }}
@@ -378,7 +423,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Last Name"
-                value={lastName}
+                value={_lastName}
                 onChangeText={(text) => {
                   setLastName(text);
                 }}
@@ -398,7 +443,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
-                value={email}
+                value={_email}
                 onChangeText={(text) => {
                   setEmail(text);
                 }}
@@ -415,7 +460,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
-                value={phone}
+                value={_phone}
                 onChangeText={(text) => {
                   setPhone(text);
                 }}
@@ -455,7 +500,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Zip Code"
-                value={zipCode}
+                value={_zipCode}
                 onChangeText={(text) => {
                   setZipCode(text);
                 }}
@@ -474,7 +519,7 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
               <TextInput
                 style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
                 //   placeholder="Email"
-                value={bio}
+                value={_bio}
                 onChangeText={(text) => {
                   setBio(text);
                 }}
