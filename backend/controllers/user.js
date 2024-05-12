@@ -1,6 +1,66 @@
 const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
-const validator = require("validator");
+const validator=require('validator')
+const bcrypt=require('bcrypt')
+
+
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, "uploads");
+  },
+  filename: function (req, file, cb) {
+    cb(null, "profile_" + Date.now() + path.extname(file.originalname));
+    // cb(null, file.originalname);
+  },
+ 
+});
+
+
+const upload = multer({ storage: storage }).single("profilePic");
+ 
+exports.updateUserProfilePic = async (req, res) => {
+  upload(req, res, function (err) {
+    if (err) {
+      // Handle upload errors
+      return res
+        .status(500)
+        .json({ success: false, message: "Error uploading profile picture" });
+    }
+  console.log("Request object:", req.file);
+
+    const filePath = req.file.path; // Get the file path of the uploaded file
+
+    // Read the uploaded file from the file system
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        return res
+          .status(500)
+          .json({ success: false, message: "Error reading uploaded file" });
+      }
+
+      // Perform any other operation like saving to database
+      // For example, if using Mongoose:
+      const saveImage = new User({
+        profilepic: {
+          data: data,
+          contentType: "image/jpg",
+        },
+      });
+      saveImage.save();
+
+      // Respond with success message
+      return res.status(200).json({
+        success: true,
+        message: "Profile picture uploaded successfully",
+        filePath,
+      });
+    });
+  });
+};
 
 exports.signUp = async (req, res) => {
   const { username, email } = req.body;
@@ -50,7 +110,8 @@ exports.signUp = async (req, res) => {
     }
     return res.json({
       success: true,
-      message: "You have signed up, the validation link has been sent to your email",
+      message:
+        "You have signed up, the validation link has been sent to your email",
     });
   }
 };
@@ -59,8 +120,8 @@ exports.signin = async (req, res) => {
   const { credential, password } = req.body;
 
   console.log("in in sign in controller");
-    console.log(credential+ "   "+password )
-const validEmail = validator.isEmail(credential);
+  console.log(credential + "   " + password);
+  const validEmail = validator.isEmail(credential);
 
   // const userExists = await User.userExists(email,password);
   let user = {};
@@ -146,6 +207,5 @@ exports.updateUserProfile = async (req, res) => {
 
 // exports.userSignOut=async(req,res)=>{
 //   jwt
-
 
 // }

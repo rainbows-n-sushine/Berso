@@ -34,8 +34,13 @@ const userSchema = new mongoose.Schema({
   bio: {
     type: String,
   },
-  
-  avatar: Buffer,
+
+  // avatar: Buffer,
+
+  profilepic: {
+    data: Buffer,
+    contentType: String,
+  },
 });
 
 userSchema.statics.isUniqueCredentials = async function (email, username) {
@@ -127,7 +132,6 @@ userSchema.methods.comparePassword = async function (password) {
     const result = await bcrypt.compare(password, this.password);
     console.log("comparing done");
     return result;
-    
   } catch (err) {
     console.log("Error while comparing password: ", err.message);
     throw err;

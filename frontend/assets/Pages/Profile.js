@@ -86,7 +86,6 @@ const { isLoading, userToken } = useContext(AuthContext);
         </>
       ) : userToken ? (
         <>
-         
           <ParallaxScrollView
             className="flex-1"
             // styles={{ flex: 1 }}
@@ -290,12 +289,11 @@ const { isLoading, userToken } = useContext(AuthContext);
 
             {/* </ScrollView> */}
           </ParallaxScrollView>
-        
         </>
       ) : (
         <>
           <SafeAreaView>
-            <Text className="text-xl">Sign in for collections</Text>
+            <Text className="text-xl">Sign in to continue</Text>
             <TouchableOpacity
               className="bg-white p-3 rounded-xl"
               onPress={() => {

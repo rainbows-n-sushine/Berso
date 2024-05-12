@@ -75,12 +75,16 @@ const HomeScreen = () => {
             <View className="m-4 items-center">
               <View className="flex  items-center justify-between ">
                 <View className="flex flex-row  items-center justify-between ">
-                  <View className="items-center justify-center  m-2 flex-1  ">
+                 <TouchableOpacity onPress={() => {
+            navigation.navigate("BusinessList", { category: "Coffee Shops" });
+          }}>
+             <View className="items-center justify-center  m-2 flex-1  ">
                     <Ionicons name="cafe" size={22} color="orange" />
                     <Text className="text-normal font-bold text-orange-400 mt-3 ">
                       Coffee Shops
                     </Text>
                   </View>
+                  </TouchableOpacity>
                   <View className="items-center m-1 justify-center flex-1">
                     <MaterialIcons name="restaurant" size={22} color="orange" />
                     <Text className="text-normal font-bold  text-orange-400 mt-3  ">

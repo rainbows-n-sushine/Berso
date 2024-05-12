@@ -44,3 +44,26 @@ exports.registerBusiness = async (req, res) => {
     }
   }
 };
+
+exports.listBusiness = async (req, res) => {
+  const { category } = req.params;
+  try {
+    // Log the category being fetched
+    console.log("Fetching businesses for category:", category);
+
+    // Query the database for businesses with the specified category
+    const businesses = await Business.find({ category });
+
+    // Log the retrieved businesses
+    console.log("Retrieved businesses:", businesses);
+
+    // Send the retrieved businesses as JSON response
+    res.json(businesses);
+  } catch (error) {
+    // Log any errors that occur during the process
+    console.error("Error fetching businesses:", error);
+
+    // Send an error response with status code 500 (Internal Server Error)
+    res.status(500).json({ error: "Internal server error" });
+  }
+};

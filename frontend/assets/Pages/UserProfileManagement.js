@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import {
   View,
   TextInput,
@@ -27,11 +27,12 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import api from '../../util/Util'
-
-
-
+import api from "../../util/Util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../context/AuthContext";
 const UserProfileManagement = () => {
+  
+ const { isLoading, userToken } = useContext(AuthContext); 
   const [firstName, setFirstName] = useState("");
   const [middleName, setMiddleName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -42,7 +43,7 @@ const UserProfileManagement = () => {
   const [date, setDate] = useState(new Date());
   const [zipCode, setZipCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [bio,setBio]=useState('')
+  const [bio, setBio] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [errors, setErrors] = useState("");
@@ -183,11 +184,11 @@ await api.post('user/update-profile',{fullName,username,email,dateOfBirth,phone,
 
   const saveProfile = async (profilePic) => {
     try {
+       console.log("here");
       setProfilePic(profilePic);
       setModalVisible(false);
-// sending pp to backend
-sentToBackend()
-
+      // sending pp to backend
+      sentToBackend();
     } catch (error) {
       console.log("whatt");
     }
@@ -200,17 +201,18 @@ sentToBackend()
 
   const defaultProfilePic = require("../Images/defaultprofile.png");
 
-
-  const sentToBackend = async () => {
+  const sentToBackend = async (profilePicUri) => {
     try {
+        console.log("here");
       const formData = new FormData();
       formData.append("profilePic", {
         uri: profilePicUri,
         name: "profilePic.jpg",
         type: "image/jpg",
-      });
-
-      const response = await api.post("user/update-profile", formData, {
+      }
+    );
+ 
+      const response = await api.post("user/update-profilepic", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -222,225 +224,235 @@ sentToBackend()
     }
   };
 
-  
   return (
     <View style={tw`flex-1 bg-white`}>
       <ScrollView
         // contentContainerStyle={tw`justify-center items-center`}
         style={{ height: windowHeight }}
       >
-        <View style={tw`flex-1 p-4 justify-center `}>
-          <View style={tw`flex-row justify-between items-center mb-4  `}>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
-              <AntDesign name="arrowleft" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity
-              onPress={() => {
-                navigation.navigate("");
-              }}
-            >
-              <Text style={tw`text-black text-lg font-bold`}>Done</Text>
-            </TouchableOpacity>
-          </View>
+        {isLoading ? (
+          <>
+            <View>
+              <Text>Loading...</Text>
+            </View>
+          </>
+        ) : userToken ? (
+          <View style={tw`flex-1 p-4 justify-center `}>
+            <View style={tw`flex-row justify-between items-center mb-4  `}>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.goBack();
+                }}
+              >
+                <AntDesign name="arrowleft" size={24} color="black" />
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  navigation.navigate("");
+                }}
+              >
+                <Text style={tw`text-black text-lg font-bold`}>Done</Text>
+              </TouchableOpacity>
+            </View>
 
-          <View className="items-center justify-between p-7">
-            <Image
-              source={profilePic ? { uri: profilePic } : defaultProfilePic}
-              style={tw`w-32 h-32 rounded-full border border-orange-300`}
-            />
-            <TouchableOpacity
-              // onPress={}
-              onPress={() => setModalVisible(true)}
-              className="bg-red-400"
+            <View className="items-center justify-between p-7">
+              <Image
+                source={profilePic ? { uri: profilePic } : defaultProfilePic}
+                style={tw`w-32 h-32 rounded-full border border-orange-300`}
+              />
+              <TouchableOpacity
+                // onPress={}
+                onPress={() => setModalVisible(true)}
+                className="bg-red-400"
+              >
+                <View
+                  style={tw`absolute bottom-0 left-8 bg-white rounded-full p-1`}
+                >
+                  <MaterialIcons name="add-a-photo" size={26} color="#FB923C" />
+                </View>
+              </TouchableOpacity>
+              <Text className="text-stone-400 ">Change Profile Photo</Text>
+            </View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
+              }}
             >
               <View
-                style={tw`absolute bottom-0 left-8 bg-white rounded-full p-1`}
+                style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}
               >
-                <MaterialIcons name="add-a-photo" size={26} color="#FB923C" />
-              </View>
-            </TouchableOpacity>
-            <Text className="text-stone-400 ">Change Profile Photo</Text>
-          </View>
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => {
-              setModalVisible(!modalVisible);
-            }}
-          >
-            <View
-              style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}
-            >
-              <View style={tw`bg-white p-8 rounded-md w-80`}>
-                <TouchableOpacity
-                  style={tw`border-b border-gray-200 py-2 flex-row items-center justify-center`}
-                  onPress={takeImageFromCamera}
-                >
-                  <Feather name="camera" size={23} color="#FB923C" />
-                  <Text style={tw`text-base`}>Take a Photo</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={tw`border-b border-gray-200 py-2 flex-row items-center justify-center`}
-                  onPress={pickImageFromGallery}
-                >
-                  <Feather name="image" size={23} color="#FB923C" />
-                  <Text style={tw`text-base text-center`}>
-                    Choose from Library
-                  </Text>
-                </TouchableOpacity>
-                {profilePic && (
+                <View style={tw`bg-white p-8 rounded-md w-80`}>
                   <TouchableOpacity
                     style={tw`border-b border-gray-200 py-2 flex-row items-center justify-center`}
-                    onPress={deleteProfilePic}
+                    onPress={takeImageFromCamera}
                   >
-                    <MaterialIcons
-                      name="delete-outline"
-                      size={24}
-                      color="#FB923C"
-                    />
-                    <Text style={tw`text-base text-center text-black`}>
-                      Delete Profile Picture
+                    <Feather name="camera" size={23} color="#FB923C" />
+                    <Text style={tw`text-base`}>Take a Photo</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={tw`border-b border-gray-200 py-2 flex-row items-center justify-center`}
+                    onPress={pickImageFromGallery}
+                  >
+                    <Feather name="image" size={23} color="#FB923C" />
+                    <Text style={tw`text-base text-center`}>
+                      Choose from Library
                     </Text>
                   </TouchableOpacity>
-                )}
-                <TouchableOpacity
-                  style={tw`py-2`}
-                  onPress={() => {
-                    setModalVisible(!modalVisible);
-                  }}
-                >
-                  <Text style={tw`text-base text-center text-orange-400`}>
-                    Cancel
-                  </Text>
-                </TouchableOpacity>
+                  {profilePic && (
+                    <TouchableOpacity
+                      style={tw`border-b border-gray-200 py-2 flex-row items-center justify-center`}
+                      onPress={deleteProfilePic}
+                    >
+                      <MaterialIcons
+                        name="delete-outline"
+                        size={24}
+                        color="#FB923C"
+                      />
+                      <Text style={tw`text-base text-center text-black`}>
+                        Delete Profile Picture
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  <TouchableOpacity
+                    style={tw`py-2`}
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    <Text style={tw`text-base text-center text-orange-400`}>
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </View>
-          </Modal>
-          <View className="">
-            <Text
-              style={{ fontFamily: "berlin-sans", fontSize: 25 }}
-              className="text-sm font-bold mb-4 py-3 text-orange-300"
-            >
-              Profile Details
-            </Text>
-            <View className="px-2">
+            </Modal>
+            <View className="">
               <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base text-stone-500 font-bold mb-1"
+                style={{ fontFamily: "berlin-sans", fontSize: 25 }}
+                className="text-sm font-bold mb-4 py-3 text-orange-300"
               >
-                UserName
+                Profile Details
               </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
-                //   placeholder="Username"
-                value={username}
-                onChangeText={(text) => {
-                  setUserName(text);
-                }}
-              />
-              {errors.username && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.username}
+              <View className="px-2">
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base text-stone-500 font-bold mb-1"
+                >
+                  UserName
                 </Text>
-              )}
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                First Name
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
-                //   placeholder="First Name"
-                value={firstName}
-                onChangeText={(text) => {
-                  setFirstName(text);
-                }}
-              />
-              {errors.firstName && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.firstName}
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
+                  //   placeholder="Username"
+                  value={username}
+                  onChangeText={(text) => {
+                    setUserName(text);
+                  }}
+                />
+                {errors.username && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.username}
+                  </Text>
+                )}
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  First Name
                 </Text>
-              )}
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                Middle Name
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
-                //   placeholder="Middle Name"
-                value={middleName}
-                onChangeText={(text) => {
-                  setMiddleName(text);
-                }}
-              />
-              {errors.middleName && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.middleName}
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
+                  //   placeholder="First Name"
+                  value={firstName}
+                  onChangeText={(text) => {
+                    setFirstName(text);
+                  }}
+                />
+                {errors.firstName && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.firstName}
+                  </Text>
+                )}
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Middle Name
                 </Text>
-              )}
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                Last Name
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
-                //   placeholder="Last Name"
-                value={lastName}
-                onChangeText={(text) => {
-                  setLastName(text);
-                }}
-              />
-              {errors.lastName && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.lastName}
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-2 mb-2`}
+                  //   placeholder="Middle Name"
+                  value={middleName}
+                  onChangeText={(text) => {
+                    setMiddleName(text);
+                  }}
+                />
+                {errors.middleName && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.middleName}
+                  </Text>
+                )}
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Last Name
                 </Text>
-              )}
-              <View style={tw`border-b border-gray-200 my-4 `} />
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                Email
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
-                //   placeholder="Email"
-                value={email}
-                onChangeText={(text) => {
-                  setEmail(text);
-                }}
-              />
-              {errors.email && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
-              )}
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                Phone Number
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
-                //   placeholder="Email"
-                value={phone}
-                onChangeText={(text) => {
-                  setPhone(text);
-                }}
-              />
-              {errors.phone && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>{errors.email}</Text>
-              )}
-              {/* <Text>Date of birth</Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
+                  //   placeholder="Last Name"
+                  value={lastName}
+                  onChangeText={(text) => {
+                    setLastName(text);
+                  }}
+                />
+                {errors.lastName && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.lastName}
+                  </Text>
+                )}
+                <View style={tw`border-b border-gray-200 my-4 `} />
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Email
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
+                  //   placeholder="Email"
+                  value={email}
+                  onChangeText={(text) => {
+                    setEmail(text);
+                  }}
+                />
+                {errors.email && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.email}
+                  </Text>
+                )}
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Phone Number
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
+                  //   placeholder="Email"
+                  value={phone}
+                  onChangeText={(text) => {
+                    setPhone(text);
+                  }}
+                />
+                {errors.phone && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.email}
+                  </Text>
+                )}
+                {/* <Text>Date of birth</Text>
             {!showPicker && (
               <Pressable onPress={toggleDatePicker}>
                 <TextInput
@@ -463,95 +475,110 @@ sentToBackend()
                 onChange={onChange}
               />
             )} */}
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                Zip Code
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
-                //   placeholder="Zip Code"
-                value={zipCode}
-                onChangeText={(text) => {
-                  setZipCode(text);
-                }}
-              />
-              {errors.zipCode && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.zipCode}
-                </Text>
-              )}
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                Bio
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
-                //   placeholder="Email"
-                value={bio}
-                onChangeText={(text) => {
-                  setBio(text);
-                }}
-              />
-
-              <View style={tw`border-b border-white my-4 `} />
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                New Password
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
-                //   placeholder="Password"
-                secureTextEntry
-                value={newPassword}
-                onChangeText={(text) => {
-                  setNewPassword(text);
-                }}
-              />
-              {errors.newPassword && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.newPassword}
-                </Text>
-              )}
-              <Text
-                style={{ fontFamily: "berlin-sans" }}
-                className="text-base  text-stone-500 font-bold mb-1"
-              >
-                Current Password
-              </Text>
-              <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
-                placeholder="Current Password"
-                secureTextEntry
-                value={currentPassword}
-                onChangeText={(text) => {
-                  setCurrentPassword(text);
-                }}
-              />
-              {errors.currentPassword && (
-                <Text style={tw`text-red-500 ml-10 mb-2`}>
-                  {errors.currentPassword}
-                </Text>
-              )}
-              <TouchableOpacity
-                style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
-                onPress={handleSubmit}
-              >
                 <Text
-                  className={{ fontFamily: "berlin-sans" }}
-                  style={tw`text-white font-bold`}
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
                 >
-                  Update profile
+                  Zip Code
                 </Text>
-              </TouchableOpacity>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
+                  //   placeholder="Zip Code"
+                  value={zipCode}
+                  onChangeText={(text) => {
+                    setZipCode(text);
+                  }}
+                />
+                {errors.zipCode && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.zipCode}
+                  </Text>
+                )}
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Bio
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
+                  //   placeholder="Email"
+                  value={bio}
+                  onChangeText={(text) => {
+                    setBio(text);
+                  }}
+                />
+
+                <View style={tw`border-b border-white my-4 `} />
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  New Password
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
+                  //   placeholder="Password"
+                  secureTextEntry
+                  value={newPassword}
+                  onChangeText={(text) => {
+                    setNewPassword(text);
+                  }}
+                />
+                {errors.newPassword && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.newPassword}
+                  </Text>
+                )}
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Current Password
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
+                  placeholder="Current Password"
+                  secureTextEntry
+                  value={currentPassword}
+                  onChangeText={(text) => {
+                    setCurrentPassword(text);
+                  }}
+                />
+                {errors.currentPassword && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.currentPassword}
+                  </Text>
+                )}
+                <TouchableOpacity
+                  style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
+                  onPress={handleSubmit}
+                >
+                  <Text
+                    className={{ fontFamily: "berlin-sans" }}
+                    style={tw`text-white font-bold`}
+                  >
+                    Update profile
+                  </Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
-        </View>
+        ) : (
+          <>
+            <View>
+              <Text className="text-xl">Sign in to continue</Text>
+              <TouchableOpacity
+                className="bg-white p-3 rounded-xl"
+                onPress={() => {
+                  navigation.navigate("Login");
+                }}
+              >
+                <Text>Login</Text>
+              </TouchableOpacity>
+            </View>
+          </>
+        )}
       </ScrollView>
     </View>
   );
