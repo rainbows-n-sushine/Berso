@@ -40,7 +40,7 @@ const BusinessRegistration = () => {
     averagePrice:"",
     description:""
    })
-const [categories,setCategories]=useState({restaurant:false,shop:false,bar:false})
+const [categories,setCategories]=useState('business')
 
 
 
@@ -172,7 +172,7 @@ const handleSubmit=async()=>{
                   style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Category"
                   // value={firstName}
-                  onChangeText={(text) => {}}
+                  onChangeText={(text) => {setCategories(text)}}
                 />
               </View>
               <View>

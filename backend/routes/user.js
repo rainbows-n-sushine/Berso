@@ -1,10 +1,4 @@
 const express = require("express");
-const {
-  signUp,
-  signin,
-  updateUserProfile,
-  updateUserProfilePic,
-} = require("../controllers/user");
 const router = express.Router();
 const {
   validateUserSignup,

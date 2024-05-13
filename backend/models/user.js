@@ -101,16 +101,16 @@ userSchema.pre("save", function (next) {
   }
 });
 
-userSchema.pre("findOneAndUpdate", function (next) {
-  if (this.isModified("password")) {
-    bcrypt.hash(this.password, 8, (err, hash) => {
-      if (err) return next(err);
+// userSchema.pre("findOneAndUpdate", function (next) {
+//   if (this.isModified("password")) {
+//     bcrypt.hash(this.password, 8, (err, hash) => {
+//       if (err) return next(err);
 
-      this.password = hash;
-      next();
-    });
-  }
-});
+//       this.password = hash;
+//       next();
+//     });
+//   }
+// });
 // userSchema.methods.comparePassword = async function (password) {
 //   if (!password) {
 //     throw new Error("Password is missing, cannot compare!");
