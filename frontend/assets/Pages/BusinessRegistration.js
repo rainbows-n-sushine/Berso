@@ -21,6 +21,12 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import api from '../../util/Util'
+import {MultipleSelectList} from 'react-native-dropdown-select-list'
+
+
+
+
+
 const BusinessRegistration = () => {
 
   const windowHeight = Dimensions.get("window").height;
@@ -43,6 +49,21 @@ const BusinessRegistration = () => {
 const [categories,setCategories]=useState('business')
 
 
+//setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
+const [selected,setSelected]=useState({})
+
+
+
+
+const data=[
+  {key:'1',value:'Restaurants',disabled:false},
+  {key:'2',value:'Shops',disabled:false},
+  {key:'3',value:'Hotels',disabled:false},
+  {key:'4',value:'Malls',disabled:true},
+  {key:'5',value:'Hair Salons',disabled:false},
+]
+
+
 
   useEffect(() => {
     async function loadFonts() {
@@ -55,6 +76,13 @@ const [categories,setCategories]=useState('business')
   }, []);
 
 
+  // const handleSelected=(val)=>{
+   
+
+
+  // }
+
+
 const handleChange=(name,value)=>{
   setBusiness({...business,[name]:value})
 
@@ -62,7 +90,7 @@ const handleChange=(name,value)=>{
 
 }
 const handleSubmit=async()=>{
-  
+  await console.log(selected)
 
   console.log('im in handle submit')
   console.log(business)
@@ -168,11 +196,23 @@ const handleSubmit=async()=>{
                     handleChange("phone", text);
                   }}
                 />
-                <TextInput
+                {/* <TextInput
                   style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Category"
                   // value={firstName}
                   onChangeText={(text) => {setCategories(text)}}
+                /> */}
+                <MultipleSelectList
+                setSelected={(val)=>{
+                  // handleSelected(val)
+                  setSelected({...selected,[val]:true})}}
+                data={data}
+                label="Categories"
+                save="value"
+                onSelect={()=>{console.log(selected)}}
+                // onSelect={()=>{handleCategories()}}
+
+
                 />
               </View>
               <View>
