@@ -22,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import api from '../../util/Util'
 import {MultipleSelectList} from 'react-native-dropdown-select-list'
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 
@@ -46,11 +47,11 @@ const BusinessRegistration = () => {
     averagePrice:"",
     description:""
    })
-const [categories,setCategories]=useState('business')
+const [categories,setCategories]=useState({})
 
 
 //setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
-const [selected,setSelected]=useState({})
+const [selected,setSelected]=useState([])
 
 
 
@@ -76,11 +77,40 @@ const data=[
   }, []);
 
 
+
   // const handleSelected=(val)=>{
    
 
 
   // }
+  const handleCategories=(value)=>{
+    const isSelected=false
+    console.log(value)
+    console.log(typeof value)
+    for(var i=0;i<=value.length;i++){
+      categories[value[i]]=!isSelected
+
+      // setCategories({...categories,[value[i]]:!isSelected})
+
+    }
+  
+
+
+   
+    // const selectedCategories= value.split(",")
+    // for (var i=0;i<=selectedCategories.length(); i++){
+    //   setCategories({...categories,[selectedCategories[i]]:!isSelected})
+
+    // }
+  
+
+      
+
+    
+    
+
+
+  }
 
 
 const handleChange=(name,value)=>{
@@ -90,12 +120,16 @@ const handleChange=(name,value)=>{
 
 }
 const handleSubmit=async()=>{
-  await console.log(selected)
+  console.log(categories)
+  const userId=await AsyncStorage.getItem('userId')
+
+  
+  console.log("this is the value of categories "+categories.Shops)
 
   console.log('im in handle submit')
   console.log(business)
  
-  await api.post('business/register-business',{business,categories})
+  await api.post('business/register-business',{business,categories,userId})
     .then((res)=>{
       console.log("im in then")
       console.log(res.data)
@@ -203,13 +237,11 @@ const handleSubmit=async()=>{
                   onChangeText={(text) => {setCategories(text)}}
                 /> */}
                 <MultipleSelectList
-                setSelected={(val)=>{
-                  // handleSelected(val)
-                  setSelected({...selected,[val]:true})}}
+                setSelected={(val)=>{setSelected(val)}}
                 data={data}
                 label="Categories"
                 save="value"
-                onSelect={()=>{console.log(selected)}}
+                onSelect={()=>{handleCategories(selected)}}
                 // onSelect={()=>{handleCategories()}}
 
 

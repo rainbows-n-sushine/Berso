@@ -4,18 +4,18 @@ exports.registerBusiness = async (req, res) => {
 
     const {business,categories,userId}=req.body
     console.log(business)
+    console.log(categories)
     const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
-try { 
+
 
     
-    const business_db= await new Business({
+    const business_db= await Business({
 
      business_name:businessName,
      email:email,
      phone:phone,
      website:website,
      location:location,
-     category:categories,
      address:address,
      business_days:businessDays,
      opening_hours:openingHours,
@@ -26,9 +26,11 @@ try {
 
 
     })
+    console.log(business_db)
     
-
-    business_db.save()
+    try { 
+    await business_db.save()
+    console.log(business_db)
 res.json({message:"business successfuly created", success:true,business:business_db})
 
     

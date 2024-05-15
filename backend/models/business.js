@@ -1,5 +1,5 @@
 const mongoose=require('mongoose');
-const {User}=require('./user')
+const User=require('./user')
 const businessSchema=new mongoose.Schema({
 
     business_name:{
@@ -18,7 +18,7 @@ const businessSchema=new mongoose.Schema({
 
     },
     category:{
-        type:String,
+        type:Object,
 
 
     },
