@@ -1,8 +1,7 @@
 const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
-const validator=require('validator')
-const bcrypt=require('bcrypt')
-
+const validator = require("validator");
+const bcrypt = require("bcrypt");
 
 const multer = require("multer");
 const path = require("path");
@@ -16,13 +15,13 @@ const storage = multer.diskStorage({
     cb(null, "profile_" + Date.now() + path.extname(file.originalname));
     // cb(null, file.originalname);
   },
- 
 });
 
-
 const upload = multer({ storage: storage }).single("profilePic");
- 
+
 exports.updateUserProfilePic = async (req, res) => {
+  const userId = req.user._id;
+  console.log("id: ", userId);
   upload(req, res, function (err) {
     if (err) {
       // Handle upload errors
@@ -30,27 +29,28 @@ exports.updateUserProfilePic = async (req, res) => {
         .status(500)
         .json({ success: false, message: "Error uploading profile picture" });
     }
-  console.log("Request object:", req.file);
+    console.log("Request object:", req.file);
 
     const filePath = req.file.path; // Get the file path of the uploaded file
 
     // Read the uploaded file from the file system
-    fs.readFile(filePath, (err, data) => {
+    fs.readFile(filePath, async (err, data) => {
       if (err) {
         return res
           .status(500)
           .json({ success: false, message: "Error reading uploaded file" });
       }
 
-      // Perform any other operation like saving to database
-      // For example, if using Mongoose:
-      const saveImage = new User({
-        profilepic: {
-          data: data,
-          contentType: "image/jpg",
+      const result = await User.findByIdAndUpdate(
+        userId,
+        {
+          profilepic: {
+            data: imageData.data,
+            contentType: "image/jpg",
+          },
         },
-      });
-      saveImage.save();
+        { new: true }
+      );
 
       // Respond with success message
       return res.status(200).json({
@@ -124,29 +124,32 @@ exports.signin = async (req, res) => {
   const validEmail = validator.isEmail(credential);
 
   // const userExists = await User.userExists(email,password);
-let user={}
-let userId=""
-  if(validEmail){
-   user = await User.findOne({ email: credential});
-    }
-else{
-   user = await User.findOne({ username: credential});
- 
-}
+  let user = {};
+  let userId = "";
+  if (validEmail) {
+    user = await User.findOne({ email: credential });
+  } else {
+    user = await User.findOne({ username: credential });
+  }
 
   console.log(user);
 
-  if (user) { 
-    userId=user._id
-    console.log(user._id)
+  if (user) {
+    userId = user._id;
+    console.log(user._id);
     const comparePassword = await user.comparePassword(password);
-    
+
     if (comparePassword) {
       const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
 
-      return res.json({ success: true, message: "user is signed in!", token:token,userId:userId });
+      return res.json({
+        success: true,
+        message: "user is signed in!",
+        token: token,
+        userId: userId,
+      });
     } else {
       return res.json({
         success: false,
@@ -162,71 +165,83 @@ else{
 };
 
 exports.updateUserProfile = async (req, res) => {
-  const { username, dateOfBirth, fullName, email, phone, zipCode, bio, currentPassword, newPassword,userId } = req.body;
-  if(userId){
-    let user= await User.findOne({_id:userId})
-    const oldPassword=user.password
-    console.log(oldPassword)
-    const passwordMatches=await bcrypt.compare(currentPassword,oldPassword)
-    console.log("the password matching is "+passwordMatches)
-try {
-    if(passwordMatches){
-      const hashedPassword =await bcrypt.hash(newPassword,8) 
-     user = await User.findOneAndUpdate({_id:userId},{ 
-      
-      name :fullName,
-    username:username,
-    phone :phone,
-    zip_code:zipCode,
-    bio:bio,
-    email:email,
-    dob: dateOfBirth,
-    password: hashedPassword
-  
-  },{new:true})
-    console.log(user);
+  const {
+    username,
+    dateOfBirth,
+    fullName,
+    email,
+    phone,
+    zipCode,
+    bio,
+    currentPassword,
+    newPassword,
+    userId,
+  } = req.body;
+  if (userId) {
+    let user = await User.findOne({ _id: userId });
+    const oldPassword = user.password;
+    console.log(oldPassword);
+    const passwordMatches = await bcrypt.compare(currentPassword, oldPassword);
+    console.log("the password matching is " + passwordMatches);
+    try {
+      if (passwordMatches) {
+        const hashedPassword = await bcrypt.hash(newPassword, 8);
+        user = await User.findOneAndUpdate(
+          { _id: userId },
+          {
+            name: fullName,
+            username: username,
+            phone: phone,
+            zip_code: zipCode,
+            bio: bio,
+            email: email,
+            dob: dateOfBirth,
+            password: hashedPassword,
+          },
+          { new: true }
+        );
+        console.log(user);
+      }
 
+      if (user) {
+        return res.json({ message: "User is updated", success: true });
+      } else {
+        return res.json({
+          message: "User with that email doesn't exist",
+          success: false,
+        });
+      }
+    } catch (error) {
+      if (error) {
+        console.log(error);
+        return res.status(500).json({ message: "An error occurred" });
+      }
     }
-    
-  
-    if (user) {
-      return res.json({ message: "User is updated", success: true });
-    } else {
-      return res.json({
-        message: "User with that email doesn't exist",
-        success: false,
-      });
-    }
-  } catch (error) {
-    if (error) {
-      console.log(error);
-      return res.status(500).json({ message: "An error occurred" });
-    }
+  } else {
+    return res.json({ error: "user is not signed in" });
   }
-  }else{
-    return res.json({error:"user is not signed in"})
-  }
-
-
-  
 };
 
 // exports.userSignOut=async(req,res)=>{
 //   jwt
 
-
 // }
 
-exports.fetchUserData=async(req,res)=>{
-  const {userId}=req.body
-  console.log('this is the userId inside the fetchUserData in controller '+userId )
+exports.fetchUserData = async (req, res) => {
+  const { userId } = req.body;
+  console.log(
+    "this is the userId inside the fetchUserData in controller " + userId
+  );
   // const user_id=JSON.parse(userId)
   // console.log(user_id)
-  const user=await User.findOne({_id:userId})
-if(user){
-  return res.json({success:true, message:"user data has successfully been fetched",user:user})
-}else{
-  return res.json({success:false, message:"user is not found"})
-}
-
-}
+  const user = await User.findOne({ _id: userId });
+  if (user) {
+    return res.json({
+      success: true,
+      message: "user data has successfully been fetched",
+      user: user,
+    });
+  } else {
+    return res.json({ success: false, message: "user is not found" });
+  }
+};

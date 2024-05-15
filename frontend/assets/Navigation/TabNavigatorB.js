@@ -1,15 +1,21 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../../Pages/HomeScreen";
-import Profile from "..//../Pages/Profile";
-import { Entypo, Feather, FontAwesome, Fontisto, Ionicons } from "@expo/vector-icons";
+
+import {
+  Entypo,
+  Feather,
+  FontAwesome,
+  Fontisto,
+  Ionicons,
+} from "@expo/vector-icons";
 import HomeNavigator from "./HomeNavigator";
 import ProfileNavigator from "./ProfileNavigator";
 import CollectionsNavigator from "./CollectionsNavigator";
 import MoreNavigator from "./MoreNavigator";
+import HomeScreen from "../../Pages/BusinessPages/HomeScreen";
 const Tab = createBottomTabNavigator();
 
-const TabNavigator = () => {
+const TabNavigatorB = () => {
   return (
     <Tab.Navigator
       headerMode="screen"
@@ -21,7 +27,7 @@ const TabNavigator = () => {
     >
       <Tab.Screen
         name="HomeNav"
-        component={HomeNavigator}
+        component={HomeScreen}
         options={{
           title: "Home",
           //   tabBarShowLabel: false,
@@ -43,18 +49,7 @@ const TabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
-        name="CollectionNav"
-        component={CollectionsNavigator}
-        options={{
-          title: "Collection",
-          //   tabBarShowLabel: false,
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Fontisto name="favorite" size={24} color={color} />
-          ),
-        }}
-      />
+     
       <Tab.Screen
         name="MoreNav"
         component={MoreNavigator}
@@ -72,4 +67,4 @@ const TabNavigator = () => {
   );
 };
 
-export default TabNavigator;
+export default TabNavigatorB;

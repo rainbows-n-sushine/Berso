@@ -20,7 +20,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
-import api from '../../util/Util'
+import api from '../util/Util'
 const BusinessRegistration = () => {
 
   const windowHeight = Dimensions.get("window").height;
@@ -47,7 +47,7 @@ const [categories,setCategories]=useState({restaurant:false,shop:false,bar:false
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        "berlin-sans": require("../fonts/berlin-sans/BerlinSans.ttf"),
+        "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
       });
     }
 

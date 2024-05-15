@@ -1,9 +1,9 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack";
-import Profile from "../Pages/Profile";
-import BusinessRegistration from '../Pages/BusinessRegistration';
-import UserProfileManagement from '../Pages/UserProfileManagement';
+import Profile from "../../Pages/Profile";
+import BusinessRegistration from "../../Pages/BusinessRegistration";
+import UserProfileManagement from "../../Pages/UserProfileManagement";
 
 
 const Stack = createStackNavigator();

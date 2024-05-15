@@ -8,8 +8,8 @@ import {
   View,
 } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import MarketCard from "../Components/marketCard";
-import { dummyRestaurantsData } from "../Data/restaurantsData";
+import MarketCard from "../assets/Components/marketCard";
+import { dummyRestaurantsData } from "../assets/Data/restaurantsData";
 import { Link, router, useNavigation } from "@react-navigation/native";
 import {
   Entypo,
@@ -19,7 +19,7 @@ import {
   Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import { useAppContext } from "../../AppContext";
+import { useAppContext } from "../AppContext";
 import { useEffect } from "react";
 
 const SearchResultsScreen = () => {

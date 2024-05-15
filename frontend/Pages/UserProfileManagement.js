@@ -13,6 +13,7 @@ import {
   Platform,
   Alert,
   Modal,
+  SafeAreaView,
 } from "react-native";
 import tw from "twrnc";
 import * as ImagePicker from "expo-image-picker";
@@ -27,24 +28,23 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import api from '../../util/Util';
+import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from "../../context/AuthContext";
-
+import { AuthContext } from "../context/AuthContext";
 
 const UserProfileManagement = () => {
-  const { isLoading, userToken } = useContext(AuthContext); 
+  const { isLoading, userToken } = useContext(AuthContext);
   const [_firstName, setFirstName] = useState("");
   const [_middleName, setMiddleName] = useState("");
   const [_lastName, setLastName] = useState("");
   const [_username, setUserName] = useState("");
   const [_email, setEmail] = useState("");
-  const [_phone,setPhone]=useState('')
+  const [_phone, setPhone] = useState("");
   const [_dateOfBirth, setDateOfBirth] = useState("");
   const [date, setDate] = useState(new Date());
   const [_zipCode, setZipCode] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [_bio,setBio]=useState('')
+  const [_bio, setBio] = useState("");
   const [currentPassword, setCurrentPassword] = useState("");
   const [showPicker, setShowPicker] = useState(false);
   const [errors, setErrors] = useState("");
@@ -54,57 +54,48 @@ const UserProfileManagement = () => {
   const windowHeight = Dimensions.get("window").height;
   const navigation = useNavigation();
 
+  useEffect(() => {
+    fetchUserData();
+  }, []);
 
+  const fetchUserData = async () => {
+    const userId = await AsyncStorage.getItem("userId");
+    console.log(typeof userId);
+    console.log("this is the userId inside fetch data: " + userId);
+    await api
+      .post("user/user-profile-data", { userId })
+      .then((res) => {
+        if (res.data.success === true) {
+          const { user } = res.data;
 
-  useEffect(()=>{
-    fetchUserData()
+          console.log("this is the user " + user);
+          console.log(user.name);
+          const { name, password, username, email, zip_code, dob, bio } = user;
+          const fullName = name.split(" ");
+          setFirstName(fullName[0]);
+          setMiddleName(fullName[1]);
+          setLastName(fullName[2]);
+          setUserName(username);
+          setEmail(email);
+          setZipCode(zip_code);
+          setDateOfBirth(dob);
+          setBio(bio);
+        } else {
+          Alert.alert(res.data.message);
+        }
+      })
+      .catch((err) => {
+        if (err) {
+          console.log("Error in fetch Data: ", err.message);
+        }
+      });
+  };
 
-  },[])
+  const handleSubmit = async () => {
+    await validateForm();
+    const userId = await AsyncStorage.getItem("userId");
 
-const fetchUserData=async()=>{
-  const userId=await AsyncStorage.getItem('userId')
-  console.log(typeof userId)
-  console.log('this is the userId inside fetch data: '+userId)
-  await api.post('user/user-profile-data',{userId})
-  .then((res)=>{
-    if(res.data.success===true){
-      const {user}=res.data
-
-      console.log('this is the user '+user)
-      console.log(user.name)
-      const{name,password,username,email,zip_code,dob,bio}=user
-      const fullName=name.split(' ')
-      setFirstName(fullName[0])
-      setMiddleName(fullName[1])
-      setLastName(fullName[2])
-      setUserName(username)
-      setEmail(email)
-      setZipCode(zip_code)
-      setDateOfBirth(dob)
-      setBio(bio)
-
-    }else{
-      Alert.alert(res.data.message)
-    }
-
-
-  })
-  .catch((err)=>{
-    if(err){
-      console.log('Error in fetch Data: ',err.message)
-    }
-  })
-
-
-
-}
-
-  const handleSubmit = async() => {
-    const userId=await AsyncStorage.getItem('userId')
-
-
-    validateForm();
-
+    console.log(errors);
     // Check if there are any errors
     if (Object.keys(errors).length === 0) {
 
@@ -127,10 +118,11 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
   
 
   const validateForm = () => {
-    const errors = {};
+    const _errors = {};
+    console.log("im in validate form");
 
     if (_firstName.trim() === "") {
-      errors.firstName = "First name is required";
+       errors.firstName = "First name is required";
     }
 
     if (_middleName.trim() === "") {
@@ -173,7 +165,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
     if (currentPassword.trim() === "") {
       errors.currentPassword = "Current password is required";
     }
-    
+
     setErrors(errors);
   };
 
@@ -231,11 +223,10 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
 
   const saveProfile = async (profilePic) => {
     try {
-       console.log("here");
+      console.log("here");
       setProfilePic(profilePic);
       setModalVisible(false);
       // sending pp to backend
-      sentToBackend();
     } catch (error) {
       console.log("whatt");
     }
@@ -246,22 +237,25 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
     setModalVisible(false);
   };
 
-  const defaultProfilePic = require("../Images/defaultprofile.png");
+  const defaultProfilePic = require("../assets/Images/defaultprofile.png");
+  const FormData = global.FormData;
 
   const sentToBackend = async (profilePicUri) => {
     try {
-        console.log("here");
+      const accessToken = await AsyncStorage.getItem("userToken");
+      console.log("here");
       const formData = new FormData();
+      console.log("accessToken: ", accessToken);
       formData.append("profilePic", {
         uri: profilePicUri,
         name: "profilePic.jpg",
         type: "image/jpg",
-      }
-    );
- 
-      const response = await api.post("user/update-profilepic", formData, {
+      });
+
+      const response = await api.put("user/update-profilepic", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
+          "Authorization": `Bearer ${accessToken}`,
         },
       });
 
@@ -272,10 +266,11 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
   };
 
   return (
-    <View style={tw`flex-1 bg-white`}>
+    <View style={tw`flex-1 bg-[#F2E8DE]`}>
       <ScrollView
         // contentContainerStyle={tw`justify-center items-center`}
         style={{ height: windowHeight }}
+        className=" bg-white flex-1"
       >
         {isLoading ? (
           <>
@@ -293,11 +288,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
               >
                 <AntDesign name="arrowleft" size={24} color="black" />
               </TouchableOpacity>
-              <TouchableOpacity
-                onPress={() => {
-                  navigation.navigate("");
-                }}
-              >
+              <TouchableOpacity onPress={handleSubmit}>
                 <Text style={tw`text-black text-lg font-bold`}>Done</Text>
               </TouchableOpacity>
             </View>
@@ -384,7 +375,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 Profile Details
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-2 mb-2`}
                 //   placeholder="Username"
                 value={_username}
                 onChangeText={(text) => {
@@ -403,7 +394,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 First Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-2 mb-2`}
                 //   placeholder="First Name"
                 value={_firstName}
                 onChangeText={(text) => {
@@ -422,7 +413,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 Middle Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-2 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-2 mb-2`}
                 //   placeholder="Middle Name"
                 value={_middleName}
                 onChangeText={(text) => {
@@ -441,7 +432,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 Last Name
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-4 mb-2`}
                 //   placeholder="Last Name"
                 value={_lastName}
                 onChangeText={(text) => {
@@ -461,7 +452,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 Email
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-4 mb-2`}
                 //   placeholder="Email"
                 value={_email}
                 onChangeText={(text) => {
@@ -478,7 +469,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 Phone Number
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-4 mb-2`}
                 //   placeholder="Email"
                 value={_phone}
                 onChangeText={(text) => {
@@ -492,7 +483,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
             {!showPicker && (
               <Pressable onPress={toggleDatePicker}>
                 <TextInput
-                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-85  px-4 mb-2`}
                   //   placeholder="Date of Birth"
                   value={dateOfBirth}
                   onChangeText={(text) => {
@@ -518,7 +509,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 Zip Code
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-4 mb-2`}
                 //   placeholder="Zip Code"
                 value={_zipCode}
                 onChangeText={(text) => {
@@ -537,14 +528,14 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 Bio
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-2`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-4 mb-2`}
                 //   placeholder="Email"
                 value={_bio}
                 onChangeText={(text) => {
                   setBio(text);
                 }}
               />
-            
+
               <View style={tw`border-b border-white my-4 `} />
               <Text
                 style={{ fontFamily: "berlin-sans" }}
@@ -553,7 +544,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                 Current Password
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-4 mb-4`}
                 placeholder="Current Password"
                 secureTextEntry
                 value={currentPassword}
@@ -566,14 +557,14 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                   {errors.currentPassword}
                 </Text>
               )}
-               <Text
+              <Text
                 style={{ fontFamily: "berlin-sans" }}
                 className="text-base  text-stone-500 font-bold mb-1"
               >
                 New Password
               </Text>
               <TextInput
-                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-80  px-4 mb-4`}
+                style={tw`w-full h-12 border bg-orange-50 border-gray-300 rounded-2xl w-85  px-4 mb-4`}
                 //   placeholder="Password"
                 secureTextEntry
                 value={newPassword}
@@ -586,111 +577,36 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                   {errors.newPassword}
                 </Text>
               )}
-           <TouchableOpacity
-                style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
+              <TouchableOpacity
+                style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-85  mt-4`}
                 onPress={handleSubmit}
-              />
+              >
                 <Text
-                  style={{ fontFamily: "berlin-sans" }}
-                  className="text-base  text-stone-500 font-bold mb-1"
+                  className={{ fontFamily: "berlin-sans" }}
+                  style={tw`text-white font-bold`}
                 >
-                  Zip Code
+                  Update profile
                 </Text>
-                <TextInput
-                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
-                  //   placeholder="Zip Code"
-                  value={zipCode}
-                  onChangeText={(text) => {
-                    setZipCode(text);
-                  }}
-                />
-                {errors.zipCode && (
-                  <Text style={tw`text-red-500 ml-10 mb-2`}>
-                    {errors.zipCode}
-                  </Text>
-                )}
-                <Text
-                  style={{ fontFamily: "berlin-sans" }}
-                  className="text-base  text-stone-500 font-bold mb-1"
-                >
-                  Bio
-                </Text>
-                <TextInput
-                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
-                  //   placeholder="Email"
-                  value={bio}
-                  onChangeText={(text) => {
-                    setBio(text);
-                  }}
-                />
-
-                <View style={tw`border-b border-white my-4 `} />
-                <Text
-                  style={{ fontFamily: "berlin-sans" }}
-                  className="text-base  text-stone-500 font-bold mb-1"
-                >
-                  New Password
-                </Text>
-                <TextInput
-                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
-                  //   placeholder="Password"
-                  secureTextEntry
-                  value={newPassword}
-                  onChangeText={(text) => {
-                    setNewPassword(text);
-                  }}
-                />
-                {errors.newPassword && (
-                  <Text style={tw`text-red-500 ml-10 mb-2`}>
-                    {errors.newPassword}
-                  </Text>
-                )}
-                <Text
-                  style={{ fontFamily: "berlin-sans" }}
-                  className="text-base  text-stone-500 font-bold mb-1"
-                >
-                  Current Password
-                </Text>
-                <TextInput
-                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
-                  placeholder="Current Password"
-                  secureTextEntry
-                  value={currentPassword}
-                  onChangeText={(text) => {
-                    setCurrentPassword(text);
-                  }}
-                />
-                {errors.currentPassword && (
-                  <Text style={tw`text-red-500 ml-10 mb-2`}>
-                    {errors.currentPassword}
-                  </Text>
-                )}
-                <TouchableOpacity
-                  style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
-                  onPress={handleSubmit}
-                >
-                  <Text
-                    className={{ fontFamily: "berlin-sans" }}
-                    style={tw`text-white font-bold`}
-                  >
-                    Update profile
-                  </Text>
-                </TouchableOpacity>
-              </View>
+              </TouchableOpacity>
             </View>
+          </View>
         ) : (
           <>
-            <View>
+            <SafeAreaView className="flex items-center justify-between">
+              <Image
+                source={require("../assets/Images/VectorSignin.jpg")}
+                style={tw`w-full h-100 `}
+              />
               <Text className="text-xl">Sign in to continue</Text>
               <TouchableOpacity
-                className="bg-white p-3 rounded-xl"
+                className="bg-orange-100 px-4 py-1 rounded-xl"
                 onPress={() => {
                   navigation.navigate("Login");
                 }}
               >
-                <Text>Login</Text>
+                <Text className="text-xl font-semibold">Login</Text>
               </TouchableOpacity>
-            </View>
+            </SafeAreaView>
           </>
         )}
       </ScrollView>

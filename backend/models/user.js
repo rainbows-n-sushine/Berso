@@ -8,10 +8,10 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     // required:true
-},
+  },
 
-username:{
-    type:String,
+  username: {
+    type: String,
     // required:true,
     unique: true,
   },
@@ -79,7 +79,7 @@ userSchema.statics.isUniqueCredentials = async function (email, username) {
 
 //             this.password=hash;
 //             next()
- 
+
 //         })
 
 //     }
