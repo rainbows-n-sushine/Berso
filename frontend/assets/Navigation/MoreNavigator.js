@@ -2,9 +2,10 @@ import { StyleSheet, Text, View } from "react-native";
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import UserProfileManagement from "../Pages/UserProfileManagement";
+import UserProfileManagement from "../../Pages/UserProfileManagement";
 // import MyBusinesses from "../Pages/MyBussinesses";
-import More from "../Pages/More";
+import More from "../../Pages/More";
+import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
 
 const Stack = createStackNavigator();
 const MoreNavigator = () => {
@@ -20,9 +21,9 @@ const MoreNavigator = () => {
         component={UserProfileManagement}
         options={{ headerShown: false }}
       />
-       {/* <Stack.Screen
-        name="MyBusinesses"
-        component={MyBusinesses}
+       <Stack.Screen
+        name="BusninessHome"
+        component={HomeScreen}
         options={{ headerShown: false }}
       /> */}
       {/* <Stack.Screen

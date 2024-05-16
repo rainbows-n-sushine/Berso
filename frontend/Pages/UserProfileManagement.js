@@ -47,7 +47,7 @@ const UserProfileManagement = () => {
   const [_bio,setBio]=useState('')
   const [currentPassword, setCurrentPassword] = useState("");
   const [showPicker, setShowPicker] = useState(false);
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -100,16 +100,14 @@ const fetchUserData=async()=>{
 }
 
   const handleSubmit = async() => {
-    await validateForm();
-    const userId=await AsyncStorage.getItem('userId')
+    validateForm();
+ const userId = await AsyncStorage.getItem("userId");
 
-
-   
-console.log(errors)
+ console.log(errors);
     // Check if there are any errors
     if (Object.keys(errors).length === 0) {
 
-    // console.log('Iam in user rprofiel  xnksbckjbcdsj ')
+    console.log('Iam in user rprofiel  xnksbckjbcdsj ')
     const fullName=_firstName+ " "+_middleName+ " "+_lastName
     console.log(fullName+" "+_username+" "+_email+" "+_dateOfBirth+" "+_zipCode+" "+newPassword+" "+currentPassword)
 await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_phone,_zipCode,_email,_bio,currentPassword,newPassword,userId})
@@ -128,34 +126,33 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
   
 
   const validateForm = () => {
-    const _errors = {};
-    console.log('im in validate form')
+    const errors = {};
 
     if (_firstName.trim() === "") {
-     _errors.firstName = "First name is required";
+      errors.firstName = "First name is required";
     }
 
     if (_middleName.trim() === "") {
-      _errors.middleName = "Middle name is required";
+      errors.middleName = "Middle name is required";
     }
 
     if (_lastName.trim() === "") {
-      _errors.lastName = "Last name is required";
+      errors.lastName = "Last name is required";
     }
 
     if (_email.trim() === "") {
-      _errors.email = "Email is required";
-    } else if (!isValidEmail(_email)) {
-      _errors.email = "Invalid email format";
+      errors.email = "Email is required";
+    } else if (!isValidEmail(email)) {
+      errors.email = "Invalid email format";
     }
     if (_phone.trim() === "") {
-      _errors.phone = "Phone number is required";
-    } else if (!isValidEmail(_email)) {
-      _errors.phone = "Invalid phone number format";
+      errors.phone = "Phone number is required";
+    } else if (!isValidEmail(email)) {
+      errors.phone = "Invalid phone number format";
     }
 
     if (_username.trim() === "") {
-      _errors.username = "Username is required";
+      errors.username = "Username is required";
     }
 
     // if (dateOfBirth.trim() === '') {
@@ -163,20 +160,20 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
     //}
 
     if (_zipCode.trim() === "") {
-      _errors.zipCode = "Zip code is required";
+      errors.zipCode = "Zip code is required";
     }
 
     if (newPassword.trim() === "") {
-      _errors.newPassword = " new Password is required";
+      errors.newPassword = " new Password is required";
     } else if (newPassword.length < 6) {
-      _errors.newPassword = "new Password should be at least 6 characters long";
+      errors.newPassword = "new Password should be at least 6 characters long";
     }
 
     if (currentPassword.trim() === "") {
-      _errors.currentPassword = "Current password is required";
+      errors.currentPassword = "Current password is required";
     }
     
-    setErrors(_errors);
+    setErrors(errors);
   };
 
   const isValidEmail = (email) => {
@@ -591,14 +588,93 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
            <TouchableOpacity
                 style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
                 onPress={handleSubmit}
-              >
+              />
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Zip Code
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
+                  //   placeholder="Zip Code"
+                  value={zipCode}
+                  onChangeText={(text) => {
+                    setZipCode(text);
+                  }}
+                />
+                {errors.zipCode && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.zipCode}
+                  </Text>
+                )}
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Bio
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-2`}
+                  //   placeholder="Email"
+                  value={bio}
+                  onChangeText={(text) => {
+                    setBio(text);
+                  }}
+                />
+
+                <View style={tw`border-b border-white my-4 `} />
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  New Password
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
+                  //   placeholder="Password"
+                  secureTextEntry
+                  value={newPassword}
+                  onChangeText={(text) => {
+                    setNewPassword(text);
+                  }}
+                />
+                {errors.newPassword && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.newPassword}
+                  </Text>
+                )}
+                <Text
+                  style={{ fontFamily: "berlin-sans" }}
+                  className="text-base  text-stone-500 font-bold mb-1"
+                >
+                  Current Password
+                </Text>
+                <TextInput
+                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-xl w-80  px-4 mb-4`}
+                  placeholder="Current Password"
+                  secureTextEntry
+                  value={currentPassword}
+                  onChangeText={(text) => {
+                    setCurrentPassword(text);
+                  }}
+                />
+                {errors.currentPassword && (
+                  <Text style={tw`text-red-500 ml-10 mb-2`}>
+                    {errors.currentPassword}
+                  </Text>
+                )}
+                <TouchableOpacity
+                  style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
+                  onPress={handleSubmit}
+                >
                   <Text
                     className={{ fontFamily: "berlin-sans" }}
                     style={tw`text-white font-bold`}
                   >
                     Update profile
                   </Text>
-                  </TouchableOpacity>
+                </TouchableOpacity>
               </View>
             </View>
         ) : (

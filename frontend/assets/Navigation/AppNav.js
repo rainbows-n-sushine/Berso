@@ -6,6 +6,7 @@ import { AuthContext } from '../../context/AuthContext.js';
 import ProfileNavigator from './ProfileNavigator.js';
 import HomeNavigator from './HomeNavigator.js'
 import AppStack from './AppStack'
+import { BusinessTabProvider } from '../../context/BusinessTabContext.js';
 
 
 
@@ -36,14 +37,15 @@ useEffect(()=>{
     
   }
 
-  return(
-    <NavigationContainer>
-       <AppStack/>
-     
-      {/* {userToken !== null?  <AppStack/> : <AuthStack/>} */}
-    
-  </NavigationContainer>
-  )
+  return (
+    <BusinessTabProvider>
+      <NavigationContainer>
+        <AppStack />
+
+        {/* {userToken !== null?  <AppStack/> : <AuthStack/>} */}
+      </NavigationContainer>
+    </BusinessTabProvider>
+  );
   
 }
 

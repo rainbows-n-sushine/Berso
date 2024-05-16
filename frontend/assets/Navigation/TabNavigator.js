@@ -1,7 +1,7 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HomeScreen from "../Pages/HomeScreen";
-import Profile from "../Pages/Profile";
+import HomeScreen from "../../Pages/HomeScreen";
+import Profile from "..//../Pages/Profile";
 import { Entypo, Feather, FontAwesome, Fontisto, Ionicons } from "@expo/vector-icons";
 import HomeNavigator from "./HomeNavigator";
 import ProfileNavigator from "./ProfileNavigator";

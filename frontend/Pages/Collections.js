@@ -1,8 +1,9 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React,{useState,useEffect, useContext} from 'react'
+import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 const Collections = () => {
 
   const [userToken,setUserToken]= useState(null)
@@ -36,7 +37,7 @@ console.log(userToken)
    
      const { isLoading } = useContext(AuthContext); 
   return (
-    <SafeAreaView className="flex-1 bg-[#F2E8DE] items-center justify-between top-8">
+    <View className="flex-1 bg-white items-center justify-between ">
       <View className="flex items-center justify-between">
         {/* 
         {displayCollection&&
@@ -51,32 +52,33 @@ console.log(userToken)
             </View>
           </>
         ) : userToken ? (
-          <View>
+          <SafeAreaView>
             <Text className="text-xl text-center">Collections</Text>
-            <TouchableOpacity
-              className="bg-white p-3 rounded-xl items-center"
-              
-            >
+            <TouchableOpacity className="bg-white p-3 rounded-xl items-center">
               <Text>user has logged in</Text>
             </TouchableOpacity>
-          </View>
+          </SafeAreaView>
         ) : (
           <>
-            <View>
-              <Text className="text-xl">Sign in for collections</Text>
+            <SafeAreaView className="flex items-center justify-between">
+              <Image
+                source={require("../assets/Images/VectorSignin.jpg")}
+                style={tw`w-full h-100 `}
+              />
+              <Text className="text-xl">Sign in to continue</Text>
               <TouchableOpacity
-                className="bg-white p-3 rounded-xl"
+                className="bg-orange-100 px-4 py-1 rounded-xl"
                 onPress={() => {
                   navigation.navigate("Login");
                 }}
               >
-                <Text>Login</Text>
+                <Text className="text-xl font-semibold">Login</Text>
               </TouchableOpacity>
-            </View>
+            </SafeAreaView>
           </>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

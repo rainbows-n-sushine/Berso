@@ -20,7 +20,7 @@ import {
 } from "@expo/vector-icons";
 
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
-import { useAppContext } from "../../AppContext";
+import { useAppContext } from "../AppContext";
 
 const SearchBusinessScreen = () => {
   const setCoordinates = useAppContext();
