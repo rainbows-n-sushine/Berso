@@ -1,5 +1,7 @@
-import React from "react";
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 
 import {
   Entypo,
@@ -12,9 +14,11 @@ import HomeNavigator from "./HomeNavigator";
 import ProfileNavigator from "./ProfileNavigator";
 import CollectionsNavigator from "./CollectionsNavigator";
 import MoreNavigator from "./MoreNavigator";
-import HomeScreen from "../../Pages/BusinessPages/HomeScreen";
+import HomeScreen from '../../Pages/BusinessOwnerPages/HomeScreen';
+import Profile from '../../Pages/BusinessOwnerPages/Profile';
+import More from '../../Pages/BusinessOwnerPages/More';
+import BusinessProfilePage from '../../Pages/BusinessOwnerPages/OtherP';
 const Tab = createBottomTabNavigator();
-
 const TabNavigatorB = () => {
   return (
     <Tab.Navigator
@@ -26,7 +30,7 @@ const TabNavigatorB = () => {
       }}
     >
       <Tab.Screen
-        name="HomeNav"
+        name="HomeNavB"
         component={HomeScreen}
         options={{
           title: "Home",
@@ -38,8 +42,8 @@ const TabNavigatorB = () => {
         }}
       />
       <Tab.Screen
-        name="ProfileNav"
-        component={ProfileNavigator}
+        name="ProfileNavB"
+        component={BusinessProfilePage}
         options={{
           title: "Profile",
           //   tabBarShowLabel: false,
@@ -49,10 +53,10 @@ const TabNavigatorB = () => {
           ),
         }}
       />
-     
+
       <Tab.Screen
-        name="MoreNav"
-        component={MoreNavigator}
+        name="MoreNavB"
+        component={More}
         options={{
           title: "More",
           //   tabBarShowLabel: false,
@@ -65,6 +69,6 @@ const TabNavigatorB = () => {
       {/* Add more Tab.Screen components for additional tabs */}
     </Tab.Navigator>
   );
-};
+}
 
-export default TabNavigatorB;
+export default TabNavigatorB

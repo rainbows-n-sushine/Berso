@@ -8,8 +8,7 @@ import {
   View,
 } from "react-native";
 import tw from "twrnc";
-import React,{useContext} from "react";
-import { useNavigation } from "@react-navigation/native";
+
 import {
   FontAwesome5,
   FontAwesome,
@@ -19,20 +18,16 @@ import {
   Feather,
 } from "@expo/vector-icons";
 
-import { AuthContext } from "../context/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useBusinessTab } from "../context/BusinessTabContext";
-
+import { useNavigation } from "@react-navigation/native";
 const More = () => {
-  const { setBusinessTab } = useBusinessTab();
-  const {logout}=useContext(AuthContext)
+  
   const navigation = useNavigation();
   return (
     <SafeAreaView className="flex-1 bg-[#F2E8DE]">
       <ScrollView>
         <View style={tw`items-center mb-3`}>
           <Image
-            source={require("../assets/Images/logo-removebg.png")}
+            source={require("../../assets/Images/logo-removebg.png")}
             style={tw`w-32 h-32`}
           />
         </View>
@@ -44,7 +39,7 @@ const More = () => {
               navigation.navigate("EditUserProfile");
             }}
           >
-            <FontAwesome name="user-circle-o" size={22} color="black" />
+            <Entypo name="shop" size={22} color="black" />
             <Text className="ml-2">Edit Profile</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -56,16 +51,7 @@ const More = () => {
             <AntDesign name="setting" size={22} color="black" />
             <Text className="ml-2">Settings</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
-            onPress={() => {
-              navigation.navigate("BusninessHome");
-              setBusinessTab(true);
-            }}
-          >
-            <Entypo name="shop" size={22} color="black" />
-            <Text className="ml-2">My Businesses</Text>
-          </TouchableOpacity>
+         
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
