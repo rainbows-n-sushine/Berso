@@ -62,6 +62,10 @@ const businessSchema=new mongoose.Schema({
         ref:'User'
 
 
+    },
+    icon:{
+        type:String,
+        default:"faBuilding"
     }
 
 })
