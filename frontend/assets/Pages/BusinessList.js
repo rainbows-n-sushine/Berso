@@ -12,13 +12,13 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+import api from '../../util/Util'
 const BusinessList = ({ route }) => {
   const { category } = route.params;
   const [businesses, setBusinesses] = useState([]);
 
   useEffect(() => {
-    fetch(`business/${category}`)
-      .then((response) => response.json())
+    api.get('business/fetchAll')
       .then((data) => setBusinesses(data))
       .catch((error) => console.error("Error fetching businesses:", error));
   }, [category]);

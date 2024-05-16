@@ -64,3 +64,15 @@ exports.listBusiness = async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 };
+
+exports.fetchAll=async(req,res)=>{
+  const businesses= await Business.findAll()
+
+  businesses
+
+
+
+
+
+
+}
