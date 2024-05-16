@@ -100,11 +100,10 @@ const fetchUserData=async()=>{
 }
 
   const handleSubmit = async() => {
-    const userId=await AsyncStorage.getItem('userId')
-
-
     validateForm();
+ const userId = await AsyncStorage.getItem("userId");
 
+ console.log(errors);
     // Check if there are any errors
     if (Object.keys(errors).length === 0) {
 
@@ -113,7 +112,7 @@ const fetchUserData=async()=>{
     console.log(fullName+" "+_username+" "+_email+" "+_dateOfBirth+" "+_zipCode+" "+newPassword+" "+currentPassword)
 await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_phone,_zipCode,_email,_bio,currentPassword,newPassword,userId})
 .then((res)=>{
-  console.log('im in profile update handlesubmit')
+  // console.log('im in profile update handlesubmit')
   console.log(res.data.message)
 })
 .catch((err)=>{
