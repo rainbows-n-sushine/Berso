@@ -47,7 +47,8 @@ const BusinessRegistration = () => {
     averagePrice:"",
     description:""
    })
-const [categories,setCategories]=useState({})
+const [categories,setCategories]=useState([])
+const [categoriesFetched,setCategoriesFetched]=useState([])
 
 
 //setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
@@ -73,7 +74,37 @@ const data=[
       });
     }
 
+    async function getCategories(){
+console.log('mi here')
+
+      await api.get('category/fetchAll')
+      .then((res)=>{
+
+        console.log(res.data.category)
+        let allCategory=res.data.category
+
+        console.log('this is the whole category',allCategory)
+for(var i=0;i<=allCategory.length;i++){
+  //let id=JSON.stringify(allCategory[i]._id)
+  let id=allCategory[i]._id
+let category={value:allCategory[i].name,key:id}
+setCategoriesFetched([...categoriesFetched,category])
+
+}
+      
+        
+
+
+      })
+      .catch((err)=>{
+        if(err){
+          console.log(err)
+        }
+      })
+    }
+    getCategories();
     loadFonts();
+    
   }, []);
 
 
@@ -237,11 +268,11 @@ const handleSubmit=async()=>{
                   onChangeText={(text) => {setCategories(text)}}
                 /> */}
                 <MultipleSelectList
-                setSelected={(val)=>{setSelected(val)}}
-                data={data}
+                setSelected={(val)=>{setCategories(val)}}
+                data={categoriesFetched}
                 label="Categories"
-                save="value"
-                onSelect={()=>{handleCategories(selected)}}
+                save="key"
+                // onSelect={()=>{handleCategories(selected)}}
                 // onSelect={()=>{handleCategories()}}
 
 
