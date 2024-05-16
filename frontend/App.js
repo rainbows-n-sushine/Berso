@@ -3,7 +3,7 @@ import React from 'react';
 //import { Text, View } from 'react-native';
 import Login from './Pages/Login';
 import Registration from './Pages/Registration';
-import { NavigationContainer } from '@react-navigation/native';
+import  {NavigationContainer}  from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from './Pages/HomeScreen';
