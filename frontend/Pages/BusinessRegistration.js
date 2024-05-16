@@ -21,13 +21,6 @@ import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
 import api from '../../util/Util'
-import {MultipleSelectList} from 'react-native-dropdown-select-list'
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
-
-
-
 const BusinessRegistration = () => {
 
   const windowHeight = Dimensions.get("window").height;
@@ -47,23 +40,7 @@ const BusinessRegistration = () => {
     averagePrice:"",
     description:""
    })
-const [categories,setCategories]=useState([])
-const [categoriesFetched,setCategoriesFetched]=useState([])
-
-
-//setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
-const [selected,setSelected]=useState([])
-
-
-
-
-const data=[
-  {key:'1',value:'Restaurants',disabled:false},
-  {key:'2',value:'Shops',disabled:false},
-  {key:'3',value:'Hotels',disabled:false},
-  {key:'4',value:'Malls',disabled:true},
-  {key:'5',value:'Hair Salons',disabled:false},
-]
+const [categories,setCategories]=useState({restaurant:false,shop:false,bar:false})
 
 
 
@@ -74,74 +51,8 @@ const data=[
       });
     }
 
-    async function getCategories(){
-console.log('mi here')
-
-      await api.get('category/fetchAll')
-      .then((res)=>{
-
-        console.log(res.data.category)
-        let allCategory=res.data.category
-
-        console.log('this is the whole category',allCategory)
-for(var i=0;i<=allCategory.length;i++){
-  //let id=JSON.stringify(allCategory[i]._id)
-  let id=allCategory[i]._id
-let category={value:allCategory[i].name,key:id}
-setCategoriesFetched([...categoriesFetched,category])
-
-}
-      
-        
-
-
-      })
-      .catch((err)=>{
-        if(err){
-          console.log(err)
-        }
-      })
-    }
-    getCategories();
     loadFonts();
-    
   }, []);
-
-
-
-  // const handleSelected=(val)=>{
-   
-
-
-  // }
-  const handleCategories=(value)=>{
-    const isSelected=false
-    console.log(value)
-    console.log(typeof value)
-    for(var i=0;i<=value.length;i++){
-      categories[value[i]]=!isSelected
-
-      // setCategories({...categories,[value[i]]:!isSelected})
-
-    }
-  
-
-
-   
-    // const selectedCategories= value.split(",")
-    // for (var i=0;i<=selectedCategories.length(); i++){
-    //   setCategories({...categories,[selectedCategories[i]]:!isSelected})
-
-    // }
-  
-
-      
-
-    
-    
-
-
-  }
 
 
 const handleChange=(name,value)=>{
@@ -151,16 +62,12 @@ const handleChange=(name,value)=>{
 
 }
 const handleSubmit=async()=>{
-  console.log(categories)
-  const userId=await AsyncStorage.getItem('userId')
-
   
-  console.log("this is the value of categories "+categories.Shops)
 
   console.log('im in handle submit')
   console.log(business)
  
-  await api.post('business/register-business',{business,categories,userId})
+  await api.post('business/register-business',{business,categories})
     .then((res)=>{
       console.log("im in then")
       console.log(res.data)
@@ -261,21 +168,11 @@ const handleSubmit=async()=>{
                     handleChange("phone", text);
                   }}
                 />
-                {/* <TextInput
+                <TextInput
                   style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80 px-4 mb-4`}
                   placeholder="Category"
                   // value={firstName}
-                  onChangeText={(text) => {setCategories(text)}}
-                /> */}
-                <MultipleSelectList
-                setSelected={(val)=>{setCategories(val)}}
-                data={categoriesFetched}
-                label="Categories"
-                save="key"
-                // onSelect={()=>{handleCategories(selected)}}
-                // onSelect={()=>{handleCategories()}}
-
-
+                  onChangeText={(text) => {}}
                 />
               </View>
               <View>

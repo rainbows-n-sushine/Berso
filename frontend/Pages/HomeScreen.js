@@ -1,11 +1,11 @@
 import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
 import React,{useContext} from "react";
 import { Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import ParallaxScrollView from "../Components/ParallaxScrollView";
+import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
 const  {width} = Dimensions.get('window')
 import { useNavigation } from "@react-navigation/native";
-import SearchBusinessScreen from "./SearchResultsScreen";
-import { AuthContext } from "../../context/AuthContext";
+import SearchBusinessScreen from "./SearchBusinessScreen";
+import { AuthContext } from "../context/AuthContext";
 
 const HomeScreen = () => {
   const {logout,login}=useContext(AuthContext)
@@ -21,7 +21,7 @@ const HomeScreen = () => {
         <Image
           className="w-screen top-0 h-[300] "
           // style={{ backgroundColor: "white" }}
-          source={require("../Images/HomeBG.jpg")}
+          source={require("../assets/Images/HomeBG.jpg")}
           resizeMode="cover"
         />
       )}
@@ -75,15 +75,19 @@ const HomeScreen = () => {
             <View className="m-4 items-center">
               <View className="flex  items-center justify-between ">
                 <View className="flex flex-row  items-center justify-between ">
-                 <TouchableOpacity onPress={() => {
-            navigation.navigate("BusinessList", { category: "Coffee Shops" });
-          }}>
-             <View className="items-center justify-center  m-2 flex-1  ">
-                    <Ionicons name="cafe" size={22} color="orange" />
-                    <Text className="text-normal font-bold text-orange-400 mt-3 ">
-                      Coffee Shops
-                    </Text>
-                  </View>
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("BusinessList", {
+                        category: "Coffee Shops",
+                      });
+                    }}
+                  >
+                    <View className="items-center justify-center  m-2 flex-1  ">
+                      <Ionicons name="cafe" size={22} color="orange" />
+                      <Text className="text-normal font-bold text-orange-400 mt-3 ">
+                        Coffee Shops
+                      </Text>
+                    </View>
                   </TouchableOpacity>
                   <View className="items-center m-1 justify-center flex-1">
                     <MaterialIcons name="restaurant" size={22} color="orange" />
@@ -167,7 +171,7 @@ const HomeScreen = () => {
                 </View>
               </View>
             </View>
-            <View>
+            {/* <View>
               <TouchableOpacity onPress={logout}>
               
                 <Text>logout</Text>
@@ -179,8 +183,7 @@ const HomeScreen = () => {
               
               <Text>login</Text>
             </TouchableOpacity>
-            </View>
-
+            </View> */}
           </View>
         </ScrollView>
       </View>

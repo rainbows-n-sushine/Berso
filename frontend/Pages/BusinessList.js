@@ -32,7 +32,7 @@ const BusinessList = ({ route }) => {
             <Pressable className="mt-5 bg-orange-100">
               <View>
                 <Image
-                  source={require("../Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg")}
+                  source={require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg")}
                   className="w-full h-[180px] rounded-md"
                   resizeMode="cover"
                   // style={tw`w-30 h-30 border border-gray-300`}

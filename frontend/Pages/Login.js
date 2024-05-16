@@ -9,6 +9,8 @@ import {
   Dimensions,
   ScrollView,
   SafeAreaView,
+  Modal,
+  Alert,
 } from "react-native";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
@@ -16,8 +18,8 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import Registration from "./Registration";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
-import api from "../../util/Util";
+import { AuthContext } from "../context/AuthContext";
+import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import {BASE_URL} from '../../.env'
 
@@ -30,7 +32,7 @@ const Login = ({ navigation }) => {
   // const {login}=useContext(AuthContext)
   const { login, logout } = useContext(AuthContext);
   // const BASE_URL=process.env.BASE_URL
- 
+
 
   const HandleSignup = ({ Registration }) => {
     navigation.navigate("Registration");
@@ -58,6 +60,7 @@ const Login = ({ navigation }) => {
   
    // ${BASE_URL}
 await login(credential,password)
+  Alert.alert("Login Successful!", "Welcome back!");
 navigation.navigate('Home')
   // return await api.post("user/signin",{credential,password})
   //   .then((res)=>{  
@@ -81,11 +84,19 @@ navigation.navigate('Home')
     // })
 
   };
-
+const [isModalVisible, setIsModalVisible] = useState(false);
+const toggleDatePicker = function () {
+  setShowPicker(!showPicker);
+};
+  
+  // Function to handle modal close
+  const closeModal = () => {
+    setIsModalVisible(false);
+  };
   const windowHeight = Dimensions.get("window").height;
   return (
     <ImageBackground
-      source={require("../Images/logo22.jpg")}
+      source={require("../assets/Images/logo22.jpg")}
       style={tw`flex-1`}
       resizeMode="cover"
     >
@@ -107,7 +118,7 @@ navigation.navigate('Home')
 
           <View style={tw`items-center mb-4`}>
             <Image
-              source={require("../Images/logo-removebg.png")}
+              source={require("../assets/Images/logo-removebg.png")}
               style={tw`w-32 h-32`}
             />
           </View>
@@ -148,8 +159,46 @@ navigation.navigate('Home')
             >
               <Text style={tw`text-white font-bold`}>Login</Text>
             </TouchableOpacity>
+            <Modal
+              visible={isModalVisible}
+              transparent={true}
+              animationType="fade"
+              onRequestClose={closeModal}
+            >
+              <View
+                style={{
+                  flex: 1,
+                  justifyContent: "center",
+                  alignItems: "center",
+                  backgroundColor: "rgba(0, 0, 0, 0.5)",
+                }}
+              >
+                <View
+                  style={{
+                    backgroundColor: "white",
+                    padding: 20,
+                    borderRadius: 10,
+                  }}
+                >
+                  <Text style={{ fontSize: 18, marginBottom: 10 }}>
+                    Login Successful!
+                  </Text>
+                  <TouchableOpacity onPress={closeModal}>
+                    <Text
+                      style={{
+                        color: "blue",
+                        textDecorationLine: "underline",
+                      }}
+                    >
+                      Close
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            </Modal>
           </View>
         </View>
+
         <View style={tw`border-b border-gray-300 my-8`} />
 
         <TouchableOpacity
