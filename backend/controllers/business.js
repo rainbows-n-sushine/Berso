@@ -66,9 +66,18 @@ exports.listBusiness = async (req, res) => {
 };
 
 exports.fetchAll=async(req,res)=>{
-  const businesses= await Business.findAll()
+  const businesses= await Business.find()
 
-  businesses
+  try{
+    return res.json({message:"businesses fetched successfully",businesses:businesses,success:true})
+  }catch{(err)=>{
+    if(err){
+      console.log(err)
+      res.json({message:"error in fetching businesses",success:false})
+    }
+  }
+
+  }
 
 
 
