@@ -1,8 +1,8 @@
 //import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 //import { Text, View } from 'react-native';
-import Login from './Pages/Login';
-import Registration from './Pages/Registration';
+import Login from './assets/Pages/Login';
+import Registration from './assets/Pages/Registration';
 import  {NavigationContainer}  from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
