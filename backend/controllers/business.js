@@ -66,7 +66,7 @@ exports.listBusiness = async (req, res) => {
 };
 
 exports.fetchAll=async(req,res)=>{
-  const businesses= await Business.find().maxTimeMS(30000);
+  const businesses= await Business.find()
 
   try{
     return res.json({message:"businesses fetched successfully",businesses:businesses,success:true})
