@@ -8,6 +8,8 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from './assets/Pages/HomeScreen';
 import Profile from './assets/Pages/Profile';
+import HomeScreen from './assets/Pages/HomeScreen';
+import Profile from './assets/Pages/Profile';
 import TabNavigator from './assets/Navigation/TabNavigator';
 import AppNav from './assets/Navigation/AppNav.js'
 
