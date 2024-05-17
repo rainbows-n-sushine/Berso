@@ -24,59 +24,28 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
+import ParallaxScrollView from "../Components/ParallaxScrollView";
 const { width } = Dimensions.get("window");
 import { useNavigation } from "@react-navigation/native";
-import MarketCard from "../assets/Components/marketCard";
-import { dummyRestaurantsData } from "../assets/Data/restaurantsData";
-import { AuthContext } from "../context/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "../util/Util";
+import MarketCard from "../Components/marketCard";
+import { dummyRestaurantsData } from "../Data/restaurantsData";
+import { AuthContext } from "../../context/AuthContext";
 
 const Profile = ({ dummyRestaurantsData }) => {
   const navigation = useNavigation();
 const [modalVisible, setModalVisible] = useState(false);
  const [currentIndex, setCurrentIndex] = useState(0);
 
- const { isLoading, userToken } = useContext(AuthContext); 
- const [_username, setUserName] = useState("");
- const [_bio, setBio] = useState("");
- const [errors, setErrors] = useState("");
- const [profilePic, setProfilePic] = useState(null);
  const handleSwipe = (index) => {
    setCurrentIndex(index);
  };
+const { isLoading, userToken } = useContext(AuthContext); 
+  const data = dummyRestaurantsData?.food?.map((item, index) => ({
+    title: item.category,
+    data: item.meals,
+    index,
+  }));
 
-   useEffect(() => {
-     fetchUserData();
-   }, []);
-const fetchUserData = async () => {
-  const userId = await AsyncStorage.getItem("userId");
-  console.log(typeof userId);
-  console.log("this is the userId inside fetch data: " + userId);
-  await api
-    .post("user/user-profile-data", { userId })
-    .then((res) => {
-      if (res.data.success === true) {
-        const { user } = res.data;
-
-        console.log("this is the user " + user);
-        console.log(user.name);
-        const { username, bio, profilepic } = user;
-        
-        setUserName(username);
-        setBio(bio);
-        setProfilePic(profilepic);
-      } else {
-        Alert.alert(res.data.message);
-      }
-    })
-    .catch((err) => {
-      if (err) {
-        console.log("Error in fetch Data: ", err.message);
-      }
-    });
-};
   //  const renderItem: ListRenderItem<any> = ({ item, index }) => (
   //   <Link href={{ pathname: '/modalFood', params: { id: id, itemId: item.id } }} asChild>
   //     <TouchableOpacity
@@ -108,7 +77,7 @@ const fetchUserData = async () => {
 
   // console.log("the fuck is happening", data);
   return (
-    <View className="flex-1 bg-white">
+    <View className="flex-1">
       {isLoading ? (
         <>
           <View>
@@ -171,10 +140,10 @@ const fetchUserData = async () => {
                    */}
                   <View className="items-center justify-between">
                     <Image
-                      source={require("../assets/Images/defaultprofile.png")}
+                      source={require("../Images/defaultprofile.png")}
                       style={tw`w-20 h-20 rounded-full border border-orange-300`}
                     />
-                    <Text className="mt-1 text-lg">{_username}</Text>
+                    <Text className="mt-1 text-base">Username</Text>
                   </View>
                   <View className="flex-row mt-2 justify-between items-center">
                     <View className="items-center flex-row mx-1">
@@ -323,19 +292,15 @@ const fetchUserData = async () => {
         </>
       ) : (
         <>
-          <SafeAreaView className="flex items-center justify-between">
-            <Image
-              source={require("../assets/Images/VectorSignin.jpg")}
-              style={tw`w-full h-100 `}
-            />
+          <SafeAreaView>
             <Text className="text-xl">Sign in to continue</Text>
             <TouchableOpacity
-              className="bg-orange-100 px-4 py-1 rounded-xl"
+              className="bg-white p-3 rounded-xl"
               onPress={() => {
                 navigation.navigate("Login");
               }}
             >
-              <Text className="text-xl font-semibold">Login</Text>
+              <Text>Login</Text>
             </TouchableOpacity>
           </SafeAreaView>
         </>

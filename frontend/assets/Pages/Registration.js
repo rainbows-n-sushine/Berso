@@ -12,7 +12,6 @@ import {
   Pressable,
   Platform,
   Alert,
-  Modal,
 } from "react-native";
 import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
@@ -20,7 +19,7 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import api from "../util/Util";
+import api from "../../util/Util";
 
 import * as Font from "expo-font";
 
@@ -148,14 +147,11 @@ const Registration = () => {
           }
         });
     }
-    Alert.alert("Singing Up Successful!", "Now Login with credentials!");
-    setIsModalVisible(true);
-    navigation.navigate("Login");
   };
 
   // const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get("window").height;
-  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const toggleDatePicker = function () {
     setShowPicker(!showPicker);
   };
@@ -184,7 +180,7 @@ const Registration = () => {
   return (
     <View style={tw`flex-1`}>
       <ImageBackground
-        source={require("../assets/Images/logo22.jpg")}
+        source={require("../Images/logo22.jpg")}
         style={tw`flex-1`}
         resizeMode="cover"
       >

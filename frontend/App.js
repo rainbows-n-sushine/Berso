@@ -6,8 +6,8 @@ import Registration from './Pages/Registration';
 import  {NavigationContainer}  from '@react-navigation/native';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from './Pages/HomeScreen';
-import Profile from './Pages/Profile';
+import HomeScreen from './assets/Pages/HomeScreen';
+import Profile from './assets/Pages/Profile';
 import TabNavigator from './assets/Navigation/TabNavigator';
 import AppNav from './assets/Navigation/AppNav.js'
 
