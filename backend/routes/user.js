@@ -5,7 +5,7 @@ const {
   userValidation,
 } = require("../middleware/validation/user");
 const { isAuth } = require("../middleware/auth");
-const {signUp,signin,updateUserProfile,fetchUserData,updateUserProfilePic} = require('../controllers/user')
+const {signUp,signin,updateUserProfile,fetchUserData,updateUserProfilePic,fetchAll} = require('../controllers/user')
 
 router.post('/signup',signUp)
 router.post('/signin',signin)
@@ -17,5 +17,5 @@ router.post('/create-post',isAuth,(req,res)=>{
 
 router.post("/update-profile", updateUserProfile);
 router.post("/update-profilepic", updateUserProfilePic);
-
+router.get('/fetch-all',fetchAll)
 module.exports = router;

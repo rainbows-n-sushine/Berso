@@ -230,3 +230,22 @@ if(user){
 }
 
 }
+
+exports.fetchAll=async(req,res)=>{
+
+   try {
+    const users= await User.find()
+    return res.json({success:true,message:"the users have been fetched",users:users})
+
+    
+   } catch (error) {
+    if (error){
+
+      console.log(error)
+      return res.json({success:false,message:'error has occured'})
+    }
+    
+   }
+
+
+}

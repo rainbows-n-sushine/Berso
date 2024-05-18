@@ -77,6 +77,7 @@ const data=[
     async function getCategories(){
 console.log('mi here')
 
+
       await api.get('category/fetchAll')
       .then((res)=>{
 
@@ -84,18 +85,18 @@ console.log('mi here')
         let allCategory=res.data.category
 
         console.log('this is the whole category',allCategory)
-for(var i=0;i<=allCategory.length;i++){
+        let categoryCollection=[]
+for(var i=0;i<allCategory.length;i++){
   //let id=JSON.stringify(allCategory[i]._id)
   let id=allCategory[i]._id
-let category={value:allCategory[i].name,key:id}
-setCategoriesFetched([...categoriesFetched,category])
+  let category={value:allCategory[i].name,key:id}
 
-}
-      
-        
-
-
-      })
+// setCategoriesFetched([,category])
+  categoryCollection.push(category)
+  console.log('this is categories fetched ',category)
+  }
+  setCategoriesFetched(categoryCollection)
+})
       .catch((err)=>{
         if(err){
           console.log(err)
@@ -152,6 +153,7 @@ const handleChange=(name,value)=>{
 }
 const handleSubmit=async()=>{
   console.log(categories)
+  console .log('this is categories fetched: ', categoriesFetched)
   const userId=await AsyncStorage.getItem('userId')
 
   
