@@ -1,4 +1,4 @@
-const { User } = require("../models/user");
+const { BusinessOwner } = require("../models/businessOwner");
 const jwt = require("jsonwebtoken");
 const validator=require('validator')
 const bcrypt=require('bcrypt')
@@ -44,7 +44,7 @@ exports.updateUserProfilePic = async (req, res) => {
 
       // Perform any other operation like saving to database
       // For example, if using Mongoose:
-      const saveImage = new User({
+      const saveImage = new BusinessOwner({
         profilepic: {
           data: data,
           contentType: "image/jpg",
@@ -55,7 +55,7 @@ exports.updateUserProfilePic = async (req, res) => {
       // Respond with success message
       return res.status(200).json({
         success: true,
-        message: "Profile picture uploaded successfully",
+        message: "Profile picture of business owner uploaded successfully",
         filePath,
       });
     });
@@ -68,22 +68,22 @@ exports.signUp = async (req, res) => {
 
   console.log(req.body);
 
-  const isNewUser = await User.isUniqueCredentials(email, username);
+  const isNewbusinessOwner = await BusinessOwner.isUniqueCredentials(email, username);
 
-  if (!isNewUser.email && !isNewUser.username) {
-    console.log("both not isNewUser.username  and  isNewUser.email ");
+  if (!isNewbusinessOwner.email && !isNewbusinessOwner.username) {
+    console.log("both not isNewbusinessOwner.username  and  isNewbusinessOwner.email ");
     return res.json({
       success: false,
       message: "This email and username is already in use, try sign-in",
     });
-  } else if (!isNewUser.email) {
-    console.log("not  isNewUser.email ");
+  } else if (!isNewbusinessOwner.email) {
+    console.log("not  isNewbusinessOwner.email ");
     return res.json({
       success: false,
       message: "This email is already in use, try sign-in",
     });
-  } else if (!isNewUser.username) {
-    console.log("not isNewUser.username");
+  } else if (!isNewbusinessOwner.username) {
+    console.log("not isNewbusinessOwner.username");
     return res.json({
       success: false,
       message: "This email is already in use, try sign-in",
@@ -91,8 +91,8 @@ exports.signUp = async (req, res) => {
   } else {
     const { fullName, username, email, dateOfBirth, zipCode, password } =
       req.body;
-    console.log("isNewUser.username  and  isNewUser.email");
-    const user = await User({
+    console.log("isNewbusinessOwner.username  and  isNewbusinessOwner.email");
+    const businessOwner = await BusinessOwner({
       name: fullName,
       dob: dateOfBirth,
       zip_code: zipCode,
@@ -103,7 +103,7 @@ exports.signUp = async (req, res) => {
     // await user.save();
     console.log("saved");
     try {
-      await user.save();
+      await businessOwner.save();
       console.log("User saved successfully");
     } catch (error) {
       console.error("Error saving user:", error);
@@ -124,29 +124,29 @@ exports.signin = async (req, res) => {
   const validEmail = validator.isEmail(credential);
 
   // const userExists = await User.userExists(email,password);
-let user={}
-let userId=""
+let businessOwner={}
+let businessOwnerId=""
   if(validEmail){
-   user = await User.findOne({ email: credential});
+   businessOwner= await BusinessOwner.findOne({ email: credential});
     }
 else{
-   user = await User.findOne({ username: credential});
+   businessOwner = await BusinessOwner.findOne({ username: credential});
  
 }
 
-  console.log(user);
+  console.log(businessOwner);
 
-  if (user) { 
-    userId=user._id
-    console.log(user._id)
-    const comparePassword = await user.comparePassword(password);
+  if (businessOwner) { 
+    businessOwner=businessOwner._id
+    console.log(businessOwner._id)
+    const comparePassword = await businessOwner.comparePassword(password);
     
     if (comparePassword) {
-      const userToken = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
+      const businessOwnerToken = jwt.sign({ businessOwnerId: businessOwner._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
 
-      return res.json({ success: true, message: "user is signed in!", userToken:userToken,userId:userId });
+      return res.json({ success: true, message: "business owner is signed in!", businessOwnerToken:businessOwnerToken,businessOwnerId:businessOwnerId });
     } else {
       return res.json({
         success: false,
@@ -161,18 +161,18 @@ else{
   }
 };
 
-exports.updateUserProfile = async (req, res) => {
-  const { username, dateOfBirth, fullName, email, phone, zipCode, bio, currentPassword, newPassword,userId } = req.body;
-  if(userId){
-    let user= await User.findOne({_id:userId})
-    const oldPassword=user.password
+exports.updateBusinessOwnerProfile = async (req, res) => {
+  const { username, dateOfBirth, fullName, email, phone, zipCode, bio, currentPassword, newPassword,businessOwnerId } = req.body;
+  if(businessOwnerId){
+    let businessOwner= await BusinessOwner.findOne({_id:businessOwnerId})
+    const oldPassword=businessOwner.password
     console.log(oldPassword)
     const passwordMatches=await bcrypt.compare(currentPassword,oldPassword)
     console.log("the password matching is "+passwordMatches)
 try {
     if(passwordMatches){
       const hashedPassword =await bcrypt.hash(newPassword,8) 
-     user = await User.findOneAndUpdate({_id:userId},{ 
+     businessOwner = await BusinessOwner.findOneAndUpdate({_id:businessOwnerId},{ 
       
       name :fullName,
     username:username,
@@ -184,16 +184,16 @@ try {
     password: hashedPassword
   
   },{new:true})
-    console.log(user);
+    console.log(businessOwner);
 
     }
     
   
-    if (user) {
-      return res.json({ message: "User is updated", success: true });
+    if (businessOwner) {
+      return res.json({ message: "business owner is updated", success: true });
     } else {
       return res.json({
-        message: "User with that email doesn't exist",
+        message: "business owner with that email doesn't exist",
         success: false,
       });
     }
@@ -204,7 +204,7 @@ try {
     }
   }
   }else{
-    return res.json({error:"user is not signed in"})
+    return res.json({error:"business owner is not signed in"})
   }
 
 
@@ -217,16 +217,16 @@ try {
 
 // }
 
-exports.fetchUserData=async(req,res)=>{
-  const {userId}=req.body
-  console.log('this is the userId inside the fetchUserData in controller '+userId )
+exports.fetchBusinessOwnerData=async(req,res)=>{
+  const {businessOwnerId}=req.body
+  console.log('this is the businessOwnerId inside the fetchBusinessOwnerData in controller '+businessOwnerId )
   // const user_id=JSON.parse(userId)
   // console.log(user_id)
-  const user=await User.findOne({_id:userId})
-if(user){
-  return res.json({success:true, message:"user data has successfully been fetched",user:user})
+  const businessOwner=await BusinessOwner.findOne({_id:businessOwnerId})
+if(businessOwner){
+  return res.json({success:true, message:"businessOwner data has successfully been fetched",businessOwner:businessOwner})
 }else{
-  return res.json({success:false, message:"user is not found"})
+  return res.json({success:false, message:"businessOwner is not found"})
 }
 
 }
@@ -234,8 +234,8 @@ if(user){
 exports.fetchAll=async(req,res)=>{
 
    try {
-    const users= await User.find()
-    return res.json({success:true,message:"the users have been fetched",users:users})
+    const businessOwners= await BusinessOwner.find()
+    return res.json({success:true,message:"the users have been fetched",businessOwners:businessOwners})
 
     
    } catch (error) {

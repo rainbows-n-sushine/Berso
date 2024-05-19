@@ -1,14 +1,34 @@
 import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
-import React,{useContext} from "react";
+import React,{useContext, useEffect,useState} from "react";
 import { Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ParallaxScrollView from "../Components/ParallaxScrollView";
 const  {width} = Dimensions.get('window')
 import { useNavigation } from "@react-navigation/native";
 import SearchBusinessScreen from "./SearchResultsScreen";
 import { AuthContext } from "../../context/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = () => {
-  const {logout,login}=useContext(AuthContext)
+  const {UserLogout,UserLogin, BusinessOwnerLogin, BusinessOwnerLogout}=useContext(AuthContext)
+  const [businessOwnerToken,setBusinessOwnerToken]=useState('')
+  const [userToken,setUserToken]=useState('')
+
+
+  useEffect(()=>{
+    async function getToken(){
+       let _userToken= await AsyncStorage.getItem('userToken')
+    let _businessOwnerToken= await AsyncStorage.getItem('BusinessOwnerToken')
+    if (_userToken){
+
+      setUserToken(_userToken)
+    }else if(_businessOwnerToken){
+      setBusinessOwnerToken(_businessOwnerToken)
+    }
+    }
+    getToken();
+
+   
+  },[])
   
   const navigation = useNavigation();
   return (
@@ -168,13 +188,20 @@ const HomeScreen = () => {
               </View>
             </View>
             <View>
-              <TouchableOpacity onPress={logout}>
+              <TouchableOpacity onPress={()=>{
+                console.log(businessOwnerToken,"this is the business owner token")
+                console.log(userToken,'this is userToken ')
+              
+                userToken? UserLogout():BusinessOwnerLogout();
+              
+
+              }}>
               
                 <Text>logout</Text>
               </TouchableOpacity>
 
               <TouchableOpacity  onPress={() => {
-            navigation.navigate("Login");
+            navigation.navigate("UserLogin");
           }}>
               
               <Text>login</Text>

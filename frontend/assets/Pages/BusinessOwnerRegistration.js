@@ -23,7 +23,7 @@ import api from "../../util/Util";
 
 import * as Font from "expo-font";
 
-const Registration = () => {
+const BusinessOwnerRegistration = () => {
   // useEffect(() => {
   //   async function loadFonts() {
   //     await Font.loadAsync({
@@ -128,7 +128,7 @@ const Registration = () => {
           password
       );
       await api
-        .post("user/signup", {
+        .post("businessOwner/signup", {
           fullName,
           username,
           email,
@@ -403,6 +403,23 @@ const Registration = () => {
 
             <TouchableOpacity
               style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
+              onPress={() => {navigation.navigate('UserRegistration')}}
+            >
+              <View style={tw`flex-row items-center `}>
+                <FontAwesome5
+                  name="user"
+                  size={20}
+                  color="pink"
+                  style={tw`mr-2`}
+                />
+                <Text style={tw`text-black font-bold`}>
+                  Sign up as a user
+                </Text>
+              </View>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
               onPress={() => {}}
             >
               <View style={tw`flex-row items-center `}>
@@ -417,6 +434,7 @@ const Registration = () => {
                 </Text>
               </View>
             </TouchableOpacity>
+            
 
             <TouchableOpacity
               style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
@@ -456,7 +474,7 @@ const Registration = () => {
               <Text style={tw`text-sm text-white`}>Already registered? </Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("Login");
+                  navigation.navigate("BusinessOwnerLogin");
                 }}
               >
                 <Text style={tw`text-sm font-bold text-orange-500`}>Login</Text>
@@ -469,4 +487,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default BusinessOwnerRegistration;

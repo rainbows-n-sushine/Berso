@@ -14,7 +14,8 @@ const AuthProvider=({children})=>{
 const [isLoading, setIsLoading]=useState(false);
 const [userToken,setUserToken]=useState(null)
 const [_userId,_setUserId]=useState('')
-const [refreshing, setRefreshing] = useState(false);
+const [businessOwnerToken,setBusinessOwnerToken]=useState(null)
+const [_businessOwnerId,_setbusinessOwnerId]=useState('')
 
 
 
@@ -32,14 +33,16 @@ useEffect(()=>{
 
 
 
-const login=async(credential,password)=>{
+const UserLogin=async(credential,password)=>{
+
+    await AsyncStorage.removeItem('businessOwnerToken')
 await api.post('user/signin',{credential,password})
 .then((res)=>{
     
     setIsLoading(true)
     console.log(res.data)
     if(res.data.success===true){
-const token=res.data.token
+const token=res.data.userToken
     const userId=res.data.userId
     console.log("this is the userId "+ userId)
     AsyncStorage.setItem('userToken',token)
@@ -51,18 +54,8 @@ const token=res.data.token
     }else{
         Alert.alert(res.data.message)
     }
-    
-
-
-
-    
-
-    // const email= await AsyncStorage.setItem('userEmail',JSON.stringify(userInfo))
+     // const email= await AsyncStorage.setItem('userEmail',JSON.stringify(userInfo))
     setIsLoading(false);
-    
-    
-    
-
 }).catch((error)=>{
 
     if(error){
@@ -72,7 +65,41 @@ const token=res.data.token
 }
 
 
-const logout=async()=>{
+
+const BusinessOwnerLogin=async(credential,password)=>{
+
+    await AsyncStorage.removeItem('businessOwnerToken')
+await api.post('businessOwner/signin',{credential,password})
+.then((res)=>{
+    
+    setIsLoading(true)
+    console.log(res.data)
+    if(res.data.success===true){
+const token=res.data.businessOwnerToken
+    const businessOwnerId=res.data.businessOwnerId
+    console.log("this is the businessOwnerId "+ businessOwnerId)
+    AsyncStorage.setItem('businessOwnerToken',token)
+    AsyncStorage.setItem('businessOwnerId',businessOwnerId)
+    _setBusinessOwnerId(businessOwnerId)
+    setBusinessOwnerToken(token);
+    console.log("this is the businessOwnertoken in login: "+token )
+
+    }else{
+        Alert.alert(res.data.message)
+    }
+     // const email= await AsyncStorage.setItem('userEmail',JSON.stringify(userInfo))
+    setIsLoading(false);
+}).catch((error)=>{
+
+    if(error){
+        console.log('error in businessOwnerlogin authContext: ',error.message)
+    }
+})
+}
+
+
+
+const UserLogout=async()=>{
     // setRefreshing(true)
     setIsLoading(true);
     setUserToken(null)
@@ -80,10 +107,19 @@ const logout=async()=>{
     await AsyncStorage.removeItem('userId')
     setIsLoading(false);
     // setRefreshing(false)
-    let tokenReleased=AsyncStorage.getItem('userToken')
-    
 
-    console.log("this is the value of userToken after logout: "+ tokenReleased)
+}
+
+
+
+const BusinessOwnerLogout=async()=>{
+    // setRefreshing(true)
+    setIsLoading(true);
+    setBusinessOwnerToken(null)
+    await AsyncStorage.removeItem('businessOwnerToken')
+    await AsyncStorage.removeItem('businessOwnerId')
+    setIsLoading(false);
+    // setRefreshing(false)
 
 }
 
@@ -93,9 +129,24 @@ const isLoggedIn=async function(){
     // const email=await AsyncStorage.getItem('email')
     // const password=await AsyncStorage.getItem('email')
     
-    const token=await AsyncStorage.getItem('userToken')
-    console.log(userToken)
-    setUserToken(token)
+    const _userToken=await AsyncStorage.getItem('userToken')
+    const _businessOwnertoken=await AsyncStorage.getItem('businessOwnerToken')
+    const userId=await AsyncStorage.getItem('userId')
+    const businessOwnerId=await AsyncStorage.getItem('businessOwnerId')
+
+    if(_userToken){
+        setUserToken(_userToken)
+        _setUserId(userId) 
+        await AsyncStorage.removeItem('businessOwnerToken')
+    }
+
+    else if (_businessOwnertoken){
+        setBusinessOwnerToken(_businessOwnertoken)
+        _setbusinessOwnerId(businessOwnerId)
+        await AsyncStorage.removeItem('userToken')
+    
+    }
+
     setIsLoading(false)
         
     } catch (error) {
@@ -122,7 +173,7 @@ return(
 
 
 
-    <AuthContext.Provider value={{login,logout,isLoading,userToken}}>
+    <AuthContext.Provider value={{UserLogin,UserLogout,BusinessOwnerLogin,BusinessOwnerLogout,isLoading,userToken,businessOwnerToken}}>
         {children}
     </AuthContext.Provider>
     

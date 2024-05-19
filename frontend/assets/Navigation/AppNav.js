@@ -11,7 +11,7 @@ import AppStack from './AppStack'
 
 const AppNav = () => {
 
-  const {isLoading, userToken}=useContext(AuthContext)
+  const {isLoading, userToken, businessOwnerToken}=useContext(AuthContext)
 //   const [loggedIn,setLoggedIn]=useState(userToken)
 
 //   useEffect(()=>{
@@ -24,6 +24,7 @@ const AppNav = () => {
 useEffect(()=>{
 
   console.log("this is the userToken "+userToken)
+  console.log("this is the businessOwnerToken "+businessOwnerToken)
 },[])
 
   if(isLoading){

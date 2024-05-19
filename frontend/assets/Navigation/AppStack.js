@@ -3,8 +3,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../Pages/HomeScreen";
 import Profile from "../Pages/Profile";
 import TabNavigator from "./TabNavigator";
-import Login from "../Pages/Login";
-import Registration from "../Pages/Registration";
+import UserLogin from "../Pages/UserLogin";
+import UserRegistration from "../Pages/UserRegistration";
+import BusinessOwnerLogin from "../Pages/BusinessOwnerLogin";
+import BusinessOwnerRegistration from "../Pages/BusinessOwnerRegistration";
 
 
 const Stack = createStackNavigator();
@@ -18,15 +20,25 @@ const AppStack = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Login"
-        component={Login}
+        name="UserLogin"
+        component={UserLogin}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Registration"
-        component={Registration}
+        name="UserRegistration"
+        component={UserRegistration}
         options={{ headerShown: false }}
       /> 
+      <Stack.Screen
+        name="BusinessOwnerLogin"
+        component={BusinessOwnerLogin}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="BusinessOwnerRegistration"
+        component={BusinessOwnerRegistration}
+        options={{ headerShown: false }}
+      />
        {/* Add more Stack.Screen components for additional screens*/}
     </Stack.Navigator>
   );

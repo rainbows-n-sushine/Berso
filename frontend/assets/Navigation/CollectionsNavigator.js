@@ -6,8 +6,10 @@ import Profile from "../Pages/Profile";
 import SearchBusinessScreen from "../Pages/SearchBusinessScreen";
 import SearchResultsScreen from "../Pages/SearchResultsScreen";
 import Collections from "../Pages/Collections";
-import Login from "../Pages/Login";
-import Registration from "../Pages/Registration";
+import UserLogin from "../Pages/UserLogin";
+import UserRegistration from "../Pages/UserRegistration";
+import BusinessOwnerLogin from "../Pages/BusinessOwnerLogin";
+import BusinessOwnerRegistration from "../Pages/BusinessOwnerRegistration";
 
 const CollectionsNavigator = () => {
     const Stack = createStackNavigator();
@@ -29,13 +31,24 @@ const CollectionsNavigator = () => {
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Login"
-        component={Login}
+        name="UserLogin"
+        component={UserLogin}
         options={{ headerShown: false }}
       />
       <Stack.Screen
-        name="Registration"
-        component={Registration}
+        name="UserRegistration"
+        component={UserRegistration}
+        options={{ headerShown: false }}
+      />
+
+<Stack.Screen
+        name="BusinessOwnerLogin"
+        component={BusinessOwnerLogin}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="BusinessOwnerRegistration"
+        component={BusinessOwnerRegistration}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen

@@ -30,6 +30,10 @@ app.use(express.json());
 const userRoute=require('./routes/user')
 app.use('/user',userRoute);
 
+const businessOwnerRoute=require('./routes/businessOwner')
+app.use('/businessOwner',businessOwnerRoute);
+
+
 const businessRoute=require('./routes/business')
 app.use('/business',businessRoute)
 
