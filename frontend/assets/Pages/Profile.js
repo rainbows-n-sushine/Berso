@@ -297,7 +297,7 @@ const { isLoading, userToken } = useContext(AuthContext);
             <TouchableOpacity
               className="bg-white p-3 rounded-xl"
               onPress={() => {
-                navigation.navigate("Login");
+                navigation.navigate("UserLogin");
               }}
             >
               <Text>Login</Text>
