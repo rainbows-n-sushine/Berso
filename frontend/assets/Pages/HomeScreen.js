@@ -191,10 +191,11 @@ const HomeScreen = () => {
               <TouchableOpacity onPress={()=>{
                 console.log(businessOwnerToken,"this is the business owner token")
                 console.log(userToken,'this is userToken ')
-              
-                userToken? UserLogout():BusinessOwnerLogout();
-              
-
+                if( userToken){
+                  UserLogout()
+                }else{
+                  BusinessOwnerLogout();
+                 }
               }}>
               
                 <Text>logout</Text>

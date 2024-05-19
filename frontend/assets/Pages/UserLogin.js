@@ -28,12 +28,12 @@ const UserLogin = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   // const {login}=useContext(AuthContext)
-  const { userLogin, userLogout } = useContext(AuthContext);
+  const { UserLogin, UserLogout } = useContext(AuthContext);
   // const BASE_URL=process.env.BASE_URL
  
 
-  const HandleSignup = ({ Registration }) => {
-    navigation.navigate("Registration");
+  const HandleSignup = ({ UserRegistration }) => {
+    navigation.navigate("UserRegistration");
   };
 
   const handleSubmit = async () => {
@@ -57,7 +57,7 @@ const UserLogin = ({ navigation }) => {
     console.log('Password:', password);
   
    // ${BASE_URL}
-await userLogin(credential,password)
+await UserLogin(credential,password)
 navigation.navigate('Home')
   // return await api.post("user/signin",{credential,password})
   //   .then((res)=>{  
