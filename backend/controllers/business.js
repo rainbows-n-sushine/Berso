@@ -78,10 +78,27 @@ exports.fetchAll=async(req,res)=>{
   }
 
   }
+}
 
+exports.getOneBusiness=async(req,res)=>{
+   const {businessId}=req.body
 
+   try {
+    const business=await Business.getOne({_id:businessId})
+    if(business){
+      return res.json({message:"Business fetched successfully" , success:true , business:business})
+    }else{
+      return res.json({message:"Trouble fetching business" , success:false })
+    }
 
-
+   } catch (error) {
+    if(err){
+      console.log(err)
+      res.json({message:"error in fetching business",success:false})
+    }
+    
+   }
+  
 
 
 }
