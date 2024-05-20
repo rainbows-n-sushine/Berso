@@ -45,7 +45,7 @@ const More = () => {
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("BusinessPage");
             }}
           >
             <AntDesign name="setting" size={22} color="black" />

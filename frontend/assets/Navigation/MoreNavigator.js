@@ -6,6 +6,8 @@ import UserProfileManagement from "../../Pages/UserProfileManagement";
 // import MyBusinesses from "../Pages/MyBussinesses";
 import More from "../../Pages/More";
 import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
+import BusinessPage from "../../Pages/BusinessPage";
+
 
 const Stack = createStackNavigator();
 const MoreNavigator = () => {
@@ -21,9 +23,14 @@ const MoreNavigator = () => {
         component={UserProfileManagement}
         options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="BusninessHome"
         component={HomeScreen}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BusinessPage"
+        component={BusinessPage}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen
