@@ -28,7 +28,7 @@ const BusinessOwnerLogin = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   // const {login}=useContext(AuthContext)
-  const { businessOwnerlogin, businessOwnerlogout } = useContext(AuthContext);
+  const { BusinessOwnerLogin, BusinessOwnerLogout } = useContext(AuthContext);
   // const BASE_URL=process.env.BASE_URL
  
 
@@ -57,7 +57,7 @@ const BusinessOwnerLogin = ({ navigation }) => {
     console.log('Password:', password);
   
    // ${BASE_URL}
-await businessOwnerlogin(credential,password)
+await BusinessOwnerLogin(credential,password)
 navigation.navigate('Home')
   // return await api.post("user/signin",{credential,password})
   //   .then((res)=>{  
@@ -152,11 +152,7 @@ navigation.navigate('Home')
         </View>
         <View style={tw`border-b border-gray-300 my-8`} />
 
-        <TouchableOpacity
-          style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
-          onPress={() => {}}
-
-        >
+        
 
 <TouchableOpacity
           style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
@@ -169,8 +165,13 @@ navigation.navigate('Home')
               color="yellow"
               style={tw`mr-2`}
             />
-           <Text style={tw`text-black font-bold`}>Sign up as a regular user</Text>
+           <Text style={tw`text-black font-bold`}>Sign up as user</Text>
           </View>
+          <TouchableOpacity
+          style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
+          onPress={() => {}}
+
+        >
         </TouchableOpacity>
           <View style={tw`flex-row items-center `}>
             <FontAwesome5

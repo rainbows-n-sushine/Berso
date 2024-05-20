@@ -403,11 +403,11 @@ const UserRegistration = () => {
 
             <TouchableOpacity
               style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
-              onPress={() => {}}
+              onPress={() => {navigation.navigate('BusinessOwnerRegistration')}}
             >
               <View style={tw`flex-row items-center `}>
                 <FontAwesome5
-                  name="businessOwner"
+                  name="user"
                   size={20}
                   color="pink"
                   style={tw`mr-2`}

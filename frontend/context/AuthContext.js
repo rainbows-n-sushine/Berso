@@ -68,7 +68,7 @@ const token=res.data.userToken
 
 const BusinessOwnerLogin=async(credential,password)=>{
 
-    await AsyncStorage.removeItem('businessOwnerToken')
+    await AsyncStorage.removeItem('UserToken')
 await api.post('businessOwner/signin',{credential,password})
 .then((res)=>{
     

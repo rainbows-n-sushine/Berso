@@ -477,7 +477,7 @@ const BusinessOwnerRegistration = () => {
                   navigation.navigate("BusinessOwnerLogin");
                 }}
               >
-                <Text style={tw`text-sm font-bold text-orange-500`}>Login</Text>
+                <Text style={tw`text-sm font-bold text-orange-500`}>Login as a business Owner</Text>
               </TouchableOpacity>
             </View>
           </View>
