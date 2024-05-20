@@ -1,4 +1,4 @@
-import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput, Alert } from "react-native";
 import React,{useContext, useEffect,useState} from "react";
 import { Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ParallaxScrollView from "../Components/ParallaxScrollView";
@@ -7,10 +7,12 @@ import { useNavigation } from "@react-navigation/native";
 import SearchBusinessScreen from "./SearchResultsScreen";
 import { AuthContext } from "../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../util/Util";
 
 const HomeScreen = () => {
   const {UserLogout,UserLogin, BusinessOwnerLogin, BusinessOwnerLogout}=useContext(AuthContext)
   const [businessOwnerToken,setBusinessOwnerToken]=useState('')
+  const [categories,setCategories]=useState({})
   const [userToken,setUserToken]=useState('')
 
 
@@ -25,8 +27,29 @@ const HomeScreen = () => {
       setBusinessOwnerToken(_businessOwnerToken)
     }
     }
-    getToken();
+ async function fetchCategories(){
 
+  await api.get('category/fetchAll')
+  .then((res)=>{
+
+   if(res.data.success){
+    let _categories=res.data.categories
+    setCategories(_categories)
+   }else{
+   Alert.alert(res.data.message)
+
+   } 
+  }).catch((error)=>{
+
+    if(error){
+
+      console.log('error in fetchCategories : ',error.message)
+    }
+  })}
+
+
+    getToken();
+    fetchCategories();
    
   },[])
   

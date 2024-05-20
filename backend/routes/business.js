@@ -4,7 +4,7 @@ const router = express.Router();
 // const {validateUserSignup,userValidation}=require('../middleware/validation/user')
 const { isAuth } = require("../middleware/auth");
 router.post("/register-business", registerBusiness);
-router.get("/list-business/:category", listBusiness);
+router.get("/list-business/:categoryId", listBusiness);
 
 router.get('/fetch-all',fetchAll)
 router.post('/getOne',getOneBusiness)
