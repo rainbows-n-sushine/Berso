@@ -7,7 +7,8 @@ console.log("name and the description",name,"  ",description)
         const newCategory= await Category({
 
             name:name,
-            description:description
+            description:description,
+            icon:icon
 
         })
         newCategory.save()

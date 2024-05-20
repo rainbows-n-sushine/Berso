@@ -17,11 +17,6 @@ const businessSchema=new mongoose.Schema({
         
 
     },
-    category:{
-        type:Object,
-
-
-    },
     website:{
         type:String,
        
@@ -63,10 +58,11 @@ const businessSchema=new mongoose.Schema({
 
 
     },
-    icon:{
-        type:String,
-        default:"faBuilding"
-    }
+    category:[{
+        type:mongoose.Schema.Types.ObjectId,
+        ref:"Category"
+
+    }]
 
 })
 

@@ -9,6 +9,9 @@ const categorySchema=new mongoose.Schema({
     description:{
         type:String,
 
+    },
+    icon:{
+        type:String,
     }
 })
 
