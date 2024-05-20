@@ -31,6 +31,7 @@ import MarketCard from "../Components/marketCard";
 import { dummyRestaurantsData } from "../Data/restaurantsData";
 import { AuthContext } from "../../context/AuthContext";
 
+
 const Profile = ({ dummyRestaurantsData }) => {
   const navigation = useNavigation();
 const [modalVisible, setModalVisible] = useState(false);
@@ -166,7 +167,16 @@ const { isLoading, userToken } = useContext(AuthContext);
                         size={22}
                         color="black"
                       />
+                    <TouchableOpacity
+                           
+                            onPress={() => {
+                              setModalVisible(false);
+                              navigation.navigate("AddReview");
+                            }}
+                          >
+
                       <Text className="text-base">Add Review</Text>
+                      </TouchableOpacity>
                     </View>
                     <View className="items-center  mx-4">
                       <Feather name="camera" size={22} color="black" />
