@@ -18,8 +18,18 @@ const BusinessList = ({ route }) => {
   const [businesses, setBusinesses] = useState([]);
 
   useEffect(() => {
-    api.get('business/fetchAll')
-      .then((data) => setBusinesses(data))
+    api.get('business/fetch-all')
+      .then((res) => {
+
+        if (res.success){
+
+          setBusinesses(res.data.businesses)
+        }
+      else{
+        Alert.alert(res.data.message)
+      }
+        
+      })
       .catch((error) => console.error("Error fetching businesses:", error));
   }, [category]);
 

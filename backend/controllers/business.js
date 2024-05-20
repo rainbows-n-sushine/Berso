@@ -73,7 +73,7 @@ exports.fetchAll=async(req,res)=>{
   }catch{(err)=>{
     if(err){
       console.log(err)
-      res.json({message:"error in fetching businesses",success:false})
+      res.json({message:"trouble fetching businesses,try again",success:false})
     }
   }
 
