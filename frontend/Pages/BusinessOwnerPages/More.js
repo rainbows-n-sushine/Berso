@@ -43,6 +43,15 @@ const More = () => {
             <Text className="ml-2">Edit Profile</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center "
+            onPress={() => {
+              navigation.navigate("Home");
+            }}
+          >
+            <Entypo name="shop" size={22} color="black" />
+            <Text className="ml-2">Personal Profile</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
               navigation.navigate("BusinessPage");
@@ -51,7 +60,7 @@ const More = () => {
             <AntDesign name="setting" size={22} color="black" />
             <Text className="ml-2">Settings</Text>
           </TouchableOpacity>
-         
+
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {

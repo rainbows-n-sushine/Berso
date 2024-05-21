@@ -1,68 +1,86 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, Pressable } from "react-native";
+import { View, Text, Image, Pressable, ScrollView, TouchableOpacity } from "react-native";
 import tw from "twrnc";
-import {
-  AntDesign,
-  Entypo,
-  Feather,
-  FontAwesome,
-  FontAwesome5,
-  Foundation,
-  Ionicons,
-  MaterialCommunityIcons,
-  MaterialIcons,
-} from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 const BusinessList = ({ route }) => {
   const { category } = route.params;
-  const [businesses, setBusinesses] = useState([]);
 
+  const dummyData = [
+    {
+      _id: "1",
+      name: "Awesome Restaurant",
+      rating: 4.7,
+      price: "100 €",
+      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+      deliveryTime: "60 min",
+    },
+    {
+      _id: "2",
+      name: "Great Cafe",
+      rating: 4.3,
+      price: "50 €",
+      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+      deliveryTime: "45 min",
+    },
+    {
+      _id: "3",
+      name: "Nice Bakery",
+      rating: 4.5,
+      price: "30 €",
+      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+      deliveryTime: "30 min",
+    },
+  ];
+
+  const [businesses, setBusinesses] = useState([]);
+const navigation = useNavigation();
   useEffect(() => {
-    fetch(`business/${category}`)
-      .then((response) => response.json())
-      .then((data) => setBusinesses(data))
-      .catch((error) => console.error("Error fetching businesses:", error));
-  }, [category]);
+    setBusinesses(dummyData);
+  }, []);
 
   return (
-    <View>
-      <Text>List of {category}</Text>
-      <View className="flex-row">
+    <ScrollView style={tw`p-4`}>
+      <Text style={tw`text-2xl font-bold mb-4`}>List of {category}</Text>
+      <View style={tw`flex-row flex-wrap justify-between`}>
         {businesses.map((business) => (
-          <View key={business._id}>
-            <Pressable className="mt-5 bg-orange-100">
+          <View key={business._id} style={tw`w-full md:w-1/2 lg:w-1/3 p-2`}>
+            <TouchableOpacity
+              onPress={() => {
+                navigation.navigate("BusinessPage");
+              }}
+              style={tw`bg-orange-50 p-4 rounded-md`}
+            >
               <View>
                 <Image
-                  source={require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg")}
-                  className="w-full h-[180px] rounded-md"
+                  source={business.image}
+                  style={tw`w-full h-40 rounded-md`}
                   resizeMode="cover"
-                  // style={tw`w-30 h-30 border border-gray-300`}
                 />
-                <View className="absolute bg-white rounded-sm bottom-2 right-2">
-                  {/* opening hours */}
-                  <Text className="text-sm dont-semibold py-1 px-2">
-                    60 min
+                <View style={tw`absolute bg-white rounded-sm bottom-2 right-2`}>
+                  <Text style={tw`text-sm font-semibold py-1 px-2`}>
+                    {business.deliveryTime}
                   </Text>
                 </View>
               </View>
 
-              <View className="flex flex-row items-center justify-between">
-                {/* Business name*/}
-                <Text className="text-base font-bold mt-2 text-[#2e303d]">
-                  Business
+              <View style={tw`flex-row items-center justify-between mt-2`}>
+                <Text style={tw`text-base font-bold text-[#2e303d]`}>
+                  {business.name}
                 </Text>
-                <View className="flex flex-row items-center">
+                <View style={tw`flex-row items-center`}>
                   <FontAwesome name="star" size={17} color="black" />
-                  {/* Rating */}
-                  <Text className="ml-1 font-bold text-base">4.0</Text>
+                  <Text style={tw`ml-1 font-bold text-base`}>
+                    {business.rating}
+                  </Text>
                 </View>
               </View>
-              {/* Average price */}
-              <Text className="text-sm font-[#6e6d72]">100 €</Text>
-            </Pressable>
+              <Text style={tw`text-sm text-[#6e6d72]`}>{business.price}</Text>
+            </TouchableOpacity>
           </View>
         ))}
       </View>
-    </View>
+    </ScrollView>
   );
 };
 

@@ -4,65 +4,76 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  SectionList,
   ScrollView,
   ActivityIndicator,
 } from "react-native";
 import {
-  AntDesign,
-  FontAwesome,
-  FontAwesome5,
   Ionicons,
+  AntDesign,
+  FontAwesome5,
+  FontAwesome,
+  MaterialCommunityIcons,
+  Feather,
 } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated";
 import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
-import tw from "tailwind-react-native-classnames";
+import tw from "twrnc";
+import { useNavigation } from "@react-navigation/native";
+import {
+  Services,
+  Info,
+  Pictures,
+  Reviews,
+  MoreLikeThis,
+} from "../assets/Components/businessDetails.js";
 
 const dummyPost = {
   profileImage: "../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg",
   name: "Awesome Restaurant",
   rating: 4.7,
+  reviewnumber: 80,
+  category: "Restaurant",
   about: "This is a great restaurant with a variety of delicious foods.",
-  food: [
-    { category: "Appetizers", id: 1 },
-    { category: "Main Courses", id: 2 },
-    { category: "Desserts", id: 3 },
+  allAbout: [
+    { category: "Services", id: 1 },
+    { category: "Info", id: 2 },
+    { category: "Pictures", id: 3 },
+    { category: "Reviews", id: 4 },
+    { category: "More like this", id: 5 },
   ],
 };
 
 const dummyData = [
   {
-    title: "Appetizers",
-    data: [
-      { id: "1", name: "Spring Rolls" },
-      { id: "2", name: "Garlic Bread" },
-    ],
+    title: "Services",
+    data: Services(),
   },
   {
-    title: "Main Courses",
-    data: [
-      { id: "3", name: "Grilled Chicken" },
-      { id: "4", name: "Pasta" },
-    ],
+    title: "Info",
+    data: Info(),
   },
   {
-    title: "Desserts",
-    data: [
-      { id: "5", name: "Ice Cream" },
-      { id: "6", name: "Brownie" },
-    ],
+    title: "Pictures",
+    data: Pictures(),
+  },
+  {
+    title: "Reviews",
+    data: Reviews(),
+  },
+  {
+    title: "More like This",
+    data: MoreLikeThis(),
   },
 ];
 
 const BusinessPage = () => {
   const navigation = useNavigation();
   const [headerIconColor, setHeaderIconColor] = useState("white");
-  const [activeButtonIndex, setActiveButtonIndex] = useState(0);
+  const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isReady, setIsReady] = useState(false);
 
   const opacity = useSharedValue(0);
@@ -78,15 +89,6 @@ const BusinessPage = () => {
 
   const handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
-
-    dummyData.forEach((category, index) => {
-      const sectionTop = index * 260;
-      const sectionBottom = (index + 1) * 260;
-
-      if (scrollPosition >= sectionTop && scrollPosition < sectionBottom) {
-        setActiveButtonIndex(index);
-      }
-    });
 
     if (scrollPosition > 80) {
       setHeaderIconColor("black");
@@ -131,6 +133,26 @@ const BusinessPage = () => {
     });
   }, [headerIconColor]);
 
+  const renderTabButton = (item, index) => (
+    <TouchableOpacity
+      key={index}
+      onPress={() => setActiveTabIndex(index)}
+      style={[
+        tw`px-2 py-1 bg-orange-100`,
+        activeTabIndex === index && tw``,
+      ]}
+    >
+      <Text
+        style={[
+          tw`text-base`,
+          activeTabIndex === index && tw`font-bold text-orange-300`,
+        ]}
+      >
+        {item.category}
+      </Text>
+    </TouchableOpacity>
+  );
+
   if (!isReady) {
     return (
       <View style={tw`flex-1 justify-center items-center`}>
@@ -144,77 +166,173 @@ const BusinessPage = () => {
       <ParallaxScrollView
         style={tw`flex-1`}
         backgroundColor="white"
-        parallaxHeaderHeight={200}
+        parallaxHeaderHeight={370}
         renderBackground={() => (
           <Image
-            style={tw`w-full h-full bg-white`}
+            style={tw`w-full h-full opacity-86`}
             source={require("../assets/Images/HomeBG.jpg")}
             resizeMode="cover"
           />
         )}
-        stickyHeaderHeight={20}
-        contentBackgroundColor="#ecedef"
+        renderForeground={() => (
+          <View className="flex-1 ">
+            <View
+              style={tw`absolute bg-transparent rounded-xl top-30 left-3 flex-row justify-between p-2 items-center`}
+            >
+              <FontAwesome5 name="font" size={35} color="yellow" />
+              <View style={tw` justify-between pr-2 ml-2`}>
+                <Text
+                  // style={{ fontFamily: "berlin-sans" }}
+                  style={tw`text-white text-lg font-bold`}
+                >
+                  {dummyPost.name}
+                </Text>
+                <Text
+                  // style={{ fontFamily: "berlin-sans" }}
+                  style={tw`text-slate-300 text-sm`}
+                >
+                  {dummyPost.category}
+                </Text>
+              </View>
+            </View>
+
+            <View style={tw`bg-white rounded-t-3xl top-48`}>
+              <View style={tw`m-6`}>
+                <View style={tw`flex-row justify-between items-center`}>
+                  <View style={tw`flex-row items-center flex-1`}>
+                    <FontAwesome
+                      name="star"
+                      size={17}
+                      color={ratingStyle.color}
+                    />
+                    <FontAwesome
+                      name="star"
+                      size={17}
+                      color={ratingStyle.color}
+                    />
+                    <FontAwesome
+                      name="star"
+                      size={17}
+                      color={ratingStyle.color}
+                    />
+                    <FontAwesome
+                      name="star"
+                      size={17}
+                      color={ratingStyle.color}
+                    />
+                    <FontAwesome name="star" size={17} color="gray" />
+                    <Text style={tw`ml-1 font-bold text-lg`}>
+                      {dummyPost.rating}
+                    </Text>
+                  </View>
+                  <View style={tw`items-end`}>
+                    <Text style={tw`ml-1 font-base text-lg`}>
+                      ({dummyPost.reviewnumber})reviews
+                    </Text>
+                  </View>
+                </View>
+                <View style={tw`flex-row items-center mt-2`}>
+                  <Ionicons name="bicycle" size={18} color="black" />
+                  <Text style={tw`ml-1 text-sm text-gray-900`}>Delivery</Text>
+                  <Text>・</Text>
+                  <FontAwesome5 name="walking" size={15} color="black" />
+                  <Text style={tw`ml-1 text-sm text-gray-900`}>Pickup</Text>
+                  <Text>・</Text>
+                  <Text style={tw`font-bold text-sm`}>More Info</Text>
+                  <AntDesign
+                    name="right"
+                    size={14}
+                    color="black"
+                    style={tw`ml-1`}
+                  />
+                </View>
+              </View>
+              <View className="flex-row mb-7 mt-2 justify-between items-center px-4">
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("AddReview");
+                  }}
+                >
+                  <View className="items-center mx-2">
+                    <MaterialCommunityIcons
+                      name="comment-edit-outline"
+                      size={20}
+                      color="black"
+                    />
+                    <Text className="text-base">Add Review</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    // navigation.navigate("AddBusiness");
+                  }}
+                >
+                  <View className="items-center  mx-2">
+                    <Feather name="phone" size={20} color="black" />
+                    <Text className="text-base">Call</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    // navigation.navigate("AddBusiness");
+                  }}
+                >
+                  <View className="items-center mx-2">
+                    <Feather name="map-pin" size={20} color="black" />
+                    <Text className="text-base">View map</Text>
+                  </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    // navigation.navigate("AddBusiness");
+                  }}
+                >
+                  <View className="items-center mx-2">
+                    <MaterialCommunityIcons
+                      name="web"
+                      size={20}
+                      color="black"
+                    />
+                    <Text className="text-base">Visit website</Text>
+                  </View>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        )}
+        stickyHeaderHeight={30}
+        contentBackgroundColor="#EAE2DA"
         // renderStickyHeader={() => (
-        //   <View style={tw`justify-end ml-7 h-16`}>
-        //     {/* <Text style={tw`text-2xl font-bold`}>{dummyPost.name}</Text> */}
+        //   <View
+        //     style={tw`flex-row justify-between items-center mb-4 top-4 mx-2`}
+        //   >
+        //     <TouchableOpacity
+        //       onPress={() => {
+        //         navigation.goBack();
+        //       }}
+        //     >
+        //       <AntDesign name="arrowleft" size={24} color="black" />
+        //     </TouchableOpacity>
         //   </View>
         // )}
         scrollEvent={handleScroll}
       >
-        <View style={tw`flex-1 bg-white rounded-t-3xl `}>
-          <View style={tw`m-6`}>
-            <View style={tw`flex-row justify-between items-center`}>
-              <Text style={tw`text-2xl font-bold text-gray-900`}>
-                {dummyPost.name}
-              </Text>
-              <View style={tw`flex-row items-center`}>
-                <FontAwesome name="star" size={17} color={ratingStyle.color} />
-                <Text style={tw`ml-1 font-bold text-lg`}>
-                  {dummyPost.rating}
-                </Text>
-              </View>
-            </View>
-            <View style={tw`flex-row items-center mt-2`}>
-              <Ionicons name="bicycle" size={18} color="black" />
-              <Text style={tw`ml-1 text-sm text-gray-900`}>Delivery</Text>
-              <Text>・</Text>
-              <FontAwesome5 name="walking" size={15} color="black" />
-              <Text style={tw`ml-1 text-sm text-gray-900`}>Pickup</Text>
-              <Text>・</Text>
-              <Text style={tw`font-bold text-sm`}>More Info</Text>
-              <AntDesign
-                name="right"
-                size={14}
-                color="black"
-                style={tw`ml-1`}
-              />
-            </View>
-            <View style={tw`h-[0.5px] bg-gray-400 my-4`} />
-            <Text style={tw`text-sm text-gray-900`}>{dummyPost.about}</Text>
+        <View style={tw`flex-1 bg-white rounded-t-3xl `}></View>
+        <View style={tw`flex-1 rounded-b-3xl`}>
+          <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+            {dummyPost.allAbout.map((item, index) =>
+              renderTabButton(item, index)
+            )}
+          </ScrollView>
+          <View style={tw`flex-1 mt-3 bg-white rounded-t-xl `}>
+            {/* Only render the content of the active tab */}
+            {dummyData[activeTabIndex] && (
+              <SectionContent section={dummyData[activeTabIndex]} />
+            )}
           </View>
         </View>
-        <View style={tw`flex-1 bg-white mt-2 rounded-b-3xl`}>
-          <SectionList
-            sections={dummyData}
-            scrollEnabled={false}
-            keyExtractor={(item, index) => `${item.id}-${index}`}
-            renderItem={({ item }) => (
-              <View style={tw`flex-row justify-between items-center p-4`}>
-                <Text>{item.name}</Text>
-              </View>
-            )}
-            ItemSeparatorComponent={() => (
-              <View style={tw`border-b-[0.5px] border-gray-400`} />
-            )}
-            renderSectionHeader={({ section: { title } }) => (
-              <Text style={tw`text-2xl font-bold text-gray-900 mt-2 ml-6`}>
-                {title}
-              </Text>
-            )}
-          />
-        </View>
       </ParallaxScrollView>
-      <Animated.View
+      {/* <Animated.View
         style={[tw`absolute h-12 left-0 right-0 bottom-0`, animatedStyles]}
       >
         <View style={tw`justify-center pt-2 bg-white`}>
@@ -223,30 +341,24 @@ const BusinessPage = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={tw`px-4 items-center space-x-2`}
           >
-            {dummyPost.food.map((item, index) => (
-              <TouchableOpacity
-                key={index}
-                onPress={() => setActiveButtonIndex(index)}
-                style={[
-                  tw`px-2 py-1 rounded-full bg-gray-400`,
-                  activeButtonIndex === index && tw`bg-blue-500`,
-                ]}
-              >
-                <Text
-                  style={[
-                    tw`text-base`,
-                    activeButtonIndex === index && tw`font-bold text-white`,
-                  ]}
-                >
-                  {item.category}
-                </Text>
-              </TouchableOpacity>
-            ))}
+            {dummyPost.allAbout.map((item, index) =>
+              renderTabButton(item, index)
+            )}
           </ScrollView>
         </View>
-      </Animated.View>
+      </Animated.View> */}
     </View>
   );
 };
+
+const SectionContent = ({ section }) => (
+  <View style={tw`pt-4 pl-4 pr-1`}>
+    <Text style={tw`text-2xl font-bold text-gray-900 mb-2`}>
+      {section.title}
+    </Text>
+    {/* Render the content returned by the function */}
+    {section.data}
+  </View>
+);
 
 export default BusinessPage;

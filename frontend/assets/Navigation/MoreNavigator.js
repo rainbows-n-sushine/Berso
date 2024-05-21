@@ -33,6 +33,7 @@ const MoreNavigator = () => {
         component={BusinessPage}
         options={{ headerShown: false }}
       />
+      
       {/* <Stack.Screen
         name="SearchBusiness"
         component={SearchBusinessScreen}

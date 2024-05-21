@@ -6,6 +6,8 @@ import Profile from "../../Pages/Profile";
 import SearchBusinessScreen from "../../Pages/SearchBusinessScreen";
 import SearchResultsScreen from "../../Pages/SearchResultsScreen";
 import BusinessList from "../../Pages/BusinessList";
+import BusinessPage from '../../Pages/BusinessPage';
+import AddReview from '../../Pages/AddReview';
 
 const Stack = createStackNavigator();
 const HomeNavigator = () => {
@@ -30,6 +32,16 @@ const HomeNavigator = () => {
         name="BusinessList"
         component={BusinessList}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="BusinessPage"
+        component={BusinessPage}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="AddReview"
+        component={AddReview}
+        options={{ headerShown: true }}
       />
 
       {/* Add more Stack.Screen components for additional screens */}
