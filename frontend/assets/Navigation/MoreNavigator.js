@@ -4,10 +4,9 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import UserProfileManagement from "../Pages/UserProfileManagement";
 // import MyBusinesses from "../Pages/MyBussinesses";
-import More from "../Pages/More";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-
+import More from "../../Pages/More";
+import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
+import BusinessPage from "../../Pages/BusinessPage";
 
 
 const Stack = createStackNavigator();
@@ -24,12 +23,17 @@ const MoreNavigator = () => {
         component={UserProfileManagement}
         options={{ headerShown: false }}
       />
-      
-       {/* <Stack.Screen
-        name="MyBusinesses"
-        component={MyBusinesses}
+      <Stack.Screen
+        name="BusninessHome"
+        component={HomeScreen}
         options={{ headerShown: false }}
-      /> */}
+      />
+      <Stack.Screen
+        name="BusinessPage"
+        component={BusinessPage}
+        options={{ headerShown: false }}
+      />
+      
       {/* <Stack.Screen
         name="SearchBusiness"
         component={SearchBusinessScreen}

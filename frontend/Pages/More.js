@@ -19,12 +19,12 @@ import {
   Feather,
 } from "@expo/vector-icons";
 
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useBusinessTab } from "../context/BusinessTabContext";
 
 const More = () => {
-
+  const { setBusinessTab } = useBusinessTab();
   const {logout}=useContext(AuthContext)
   const navigation = useNavigation();
   return (
@@ -32,7 +32,7 @@ const More = () => {
       <ScrollView>
         <View style={tw`items-center mb-3`}>
           <Image
-            source={require("../Images/logo-removebg.png")}
+            source={require("../assets/Images/logo-removebg.png")}
             style={tw`w-32 h-32`}
           />
         </View>
@@ -50,7 +50,7 @@ const More = () => {
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("BusinessPage");
             }}
           >
             <AntDesign name="setting" size={22} color="black" />
@@ -59,7 +59,8 @@ const More = () => {
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("BusninessHome");
+              setBusinessTab(true);
             }}
           >
             <Entypo name="shop" size={22} color="black" />
@@ -104,9 +105,18 @@ const More = () => {
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
-              AsyncStorage.removeItem('userToken')
-            logout()
-            navigation.navigate("Home");
+              navigation.navigate("Login");
+            }}
+          >
+            <Feather name="log-in" size={22} color="black" />
+            <Text className="ml-2">Log In</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
+            onPress={() => {
+              AsyncStorage.removeItem("userToken");
+              logout();
+              navigation.navigate("Home");
             }}
           >
             <Feather name="log-out" size={22} color="black" />

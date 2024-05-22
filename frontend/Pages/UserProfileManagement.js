@@ -27,9 +27,9 @@ import {
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import api from '../../util/Util';
+import api from '../util/Util';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 
 
 const UserProfileManagement = () => {

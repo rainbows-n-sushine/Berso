@@ -24,12 +24,12 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import ParallaxScrollView from "../Components/ParallaxScrollView";
+import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
 const { width } = Dimensions.get("window");
 import { useNavigation } from "@react-navigation/native";
-import MarketCard from "../Components/marketCard";
-import { dummyRestaurantsData } from "../Data/restaurantsData";
-import { AuthContext } from "../../context/AuthContext";
+import MarketCard from "../assets/Components/marketCard";
+import { dummyRestaurantsData } from "../assets/Data/restaurantsData";
+import { AuthContext } from "../context/AuthContext";
 
 const Profile = ({ dummyRestaurantsData }) => {
   const navigation = useNavigation();

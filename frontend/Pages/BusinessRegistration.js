@@ -20,7 +20,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
-import api from '../../util/Util'
+import api from '../util/Util'
 import {MultipleSelectList} from 'react-native-dropdown-select-list'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 

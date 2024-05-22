@@ -14,26 +14,26 @@ import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Registration from "./UserRegistration";
+import BusinessRegistration from "./BusinessRegistration";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
-import api from "../../util/Util";
+import { AuthContext } from "../context/AuthContext";
+import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import {BASE_URL} from '../../.env'
 
 //you can be adding {navigation} as an event in
 
-const UserLogin = ({ navigation }) => {
+const BusinessOwnerLogin = ({ navigation }) => {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   // const {login}=useContext(AuthContext)
-  const { UserLogin, UserLogout } = useContext(AuthContext);
+  const { BusinessOwnerLogin, BusinessOwnerLogout } = useContext(AuthContext);
   // const BASE_URL=process.env.BASE_URL
  
 
-  const HandleSignup = ({ UserRegistration }) => {
-    navigation.navigate("UserRegistration");
+  const HandleSignup = ({ BusinessRegistration }) => {
+    navigation.navigate("BusinessRegistration");
   };
 
   const handleSubmit = async () => {
@@ -57,7 +57,7 @@ const UserLogin = ({ navigation }) => {
     console.log('Password:', password);
   
    // ${BASE_URL}
-await UserLogin(credential,password)
+await BusinessOwnerLogin(credential,password)
 navigation.navigate('Home')
   // return await api.post("user/signin",{credential,password})
   //   .then((res)=>{  
@@ -152,25 +152,27 @@ navigation.navigate('Home')
         </View>
         <View style={tw`border-b border-gray-300 my-8`} />
 
-        <TouchableOpacity
+        
+
+<TouchableOpacity
           style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
-          onPress={() => {navigation.navigate('BusinessOwnerRegistration')}}
+          onPress={() => {navigation.navigate('UserLogin')}}
         >
           <View style={tw`flex-row items-center `}>
             <FontAwesome5
               name="google"
               size={20}
-              color="black"
+              color="yellow"
               style={tw`mr-2`}
             />
-            <Text style={tw`text-black font-bold`}>Sign up as Business Owner</Text>
+           <Text style={tw`text-black font-bold`}>Sign up as user</Text>
           </View>
-        </TouchableOpacity>
-
-        <TouchableOpacity
+          <TouchableOpacity
           style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
           onPress={() => {}}
+
         >
+        </TouchableOpacity>
           <View style={tw`flex-row items-center `}>
             <FontAwesome5
               name="google"
@@ -222,14 +224,14 @@ navigation.navigate('Home')
           <Text style={tw`text-sm text-white`}>Don't have an account? </Text>
           <TouchableOpacity
             onPress={() => {
-              navigation.navigate("UserRegistration");
+              navigation.navigate("BusinessOwnerRegistration");
             }}
           >
             <Text
               style={tw`text-sm font-bold text-yellow-500`}
               onPress={HandleSignup}
             >
-              Sign up
+              Sign up as Business Owner
             </Text>
           </TouchableOpacity>
         </View>
@@ -238,4 +240,4 @@ navigation.navigate('Home')
   );
 };
 
-export default UserLogin;
+export default BusinessOwnerLogin;

@@ -1,11 +1,11 @@
 import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
 import React,{useContext, useEffect,useState} from "react";
 import { Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import ParallaxScrollView from "../Components/ParallaxScrollView";
+import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
 const  {width} = Dimensions.get('window')
 import { useNavigation } from "@react-navigation/native";
 import SearchBusinessScreen from "./SearchResultsScreen";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = () => {

@@ -19,11 +19,11 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import api from "../../util/Util";
+import api from "../util/Util";
 
 import * as Font from "expo-font";
 
-const BusinessOwnerRegistration = () => {
+const UserRegistration = () => {
   // useEffect(() => {
   //   async function loadFonts() {
   //     await Font.loadAsync({
@@ -128,7 +128,7 @@ const BusinessOwnerRegistration = () => {
           password
       );
       await api
-        .post("businessOwner/signup", {
+        .post("user/signup", {
           fullName,
           username,
           email,
@@ -403,7 +403,7 @@ const BusinessOwnerRegistration = () => {
 
             <TouchableOpacity
               style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
-              onPress={() => {navigation.navigate('UserRegistration')}}
+              onPress={() => {navigation.navigate('BusinessOwnerRegistration')}}
             >
               <View style={tw`flex-row items-center `}>
                 <FontAwesome5
@@ -413,7 +413,7 @@ const BusinessOwnerRegistration = () => {
                   style={tw`mr-2`}
                 />
                 <Text style={tw`text-black font-bold`}>
-                  Sign up as a user
+                  Sign up as a business Owner
                 </Text>
               </View>
             </TouchableOpacity>
@@ -474,10 +474,10 @@ const BusinessOwnerRegistration = () => {
               <Text style={tw`text-sm text-white`}>Already registered? </Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("BusinessOwnerLogin");
+                  navigation.navigate("UserLogin");
                 }}
               >
-                <Text style={tw`text-sm font-bold text-orange-500`}>Login as a business Owner</Text>
+                <Text style={tw`text-sm font-bold text-orange-500`}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -487,4 +487,4 @@ const BusinessOwnerRegistration = () => {
   );
 };
 
-export default BusinessOwnerRegistration;
+export default UserRegistration;
