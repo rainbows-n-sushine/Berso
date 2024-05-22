@@ -2,7 +2,7 @@ const { Business } = require("../models/business");
 exports.registerBusiness = async (req, res) => {
   console.log("im in business condtrollers");
 
-    const {business,categories,userId}=req.body
+    const {business,categories,businessOwnerId}=req.body
     console.log(business)
     console.log(categories)
     const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
@@ -22,7 +22,7 @@ exports.registerBusiness = async (req, res) => {
      average_price:averagePrice,
      description:description,
      category:categories,
-     user:userId
+     business_owner:businessOwnerId
 
 
     })
@@ -79,9 +79,106 @@ exports.fetchAll=async(req,res)=>{
 
   }
 
+}
+
+exports.fetchOne=async(req,res)=>{
+
+const {businessId}=req.params
+
+try {
+  const business=await Business.findOne({_id:businessId})
+
+  if (business){
+
+    return res.json ({message:"business fetched successfully",success:true,business:business })
+  }
+  else{
+
+    return res.json ({message:"erorr fetching teh business",success:false})
+  }
+
+  
+} catch (error) {
+
+  if(error){
+
+    console.log('error in fetchOne: ',error.message)
+  }}}
 
 
 
+
+  exports.deleteBusiness=async(req,res)=>{
+  const {businessId} =req.params
+
+  try {
+    const business=await business.findIdAndDelete(businessId)
+    if (business){
+
+      return res.json ({message:"business deleted successfully",success:true})
+    }else{
+      return res.json ({message:"Business doesnt exist. Deleting failed.",success:false})      
+    }
+    
+  } catch (error) {
+    if(error){
+
+      console.log('error in delete business: ',error.message)
+    }
+    
+  }
+  
+}
+
+exports.updateOne=async(req,res)=>{
+
+  const {businessId,business,categories,businessOwnerId} =req.body
+
+  const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
+
+
+  try {
+    
+    const business_db= await Business.findOneAndUpdate({_id:businessId},{
+
+     business_name:businessName,
+     email:email,
+     phone:phone,
+     website:website,
+     location:location,
+     address:address,
+     business_days:businessDays,
+     opening_hours:openingHours,
+     average_price:averagePrice,
+     description:description,
+     category:categories,
+     business_owner:businessOwnerId
+    },{new:true})
+
+    if(business_db){
+    return res.json({message:"Bussiness information updated successfully", success:true})
+
+    }else{
+      return res.json({message:"Try again, failed at updating business information", success:false})
+
+
+    }
+
+  } catch (error) {
+    
+  }
+
+
+    
 
 
 }
+
+
+
+
+
+
+
+
+
