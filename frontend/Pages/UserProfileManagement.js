@@ -248,7 +248,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
     setModalVisible(false);
   };
 
-  const defaultProfilePic = require("../Images/defaultprofile.png");
+  const defaultProfilePic = require("../assets/Images/defaultprofile.png");
 
   const sentToBackend = async (profilePicUri) => {
     try {

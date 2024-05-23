@@ -27,7 +27,7 @@ const BusinessOwnerRegistration = () => {
   // useEffect(() => {
   //   async function loadFonts() {
   //     await Font.loadAsync({
-  //       "berlin-sans": require("../fonts/berlin-sans/BerlinSans.ttf"),
+  //       "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
   //       // "berlin-sans-bold": require("../fonts/berlin-sans/BerlinSansBold.ttf"),
   //     });
   //   }
@@ -180,7 +180,7 @@ const BusinessOwnerRegistration = () => {
   return (
     <View style={tw`flex-1`}>
       <ImageBackground
-        source={require("../Images/logo22.jpg")}
+        source={require("../assets/Images/logo22.jpg")}
         style={tw`flex-1`}
         resizeMode="cover"
       >
@@ -204,7 +204,7 @@ const BusinessOwnerRegistration = () => {
 
             {/* <View style={tw`items-center mb-8`}>
               <Image
-                source={require("../Images/logo-removebg.png")}
+                source={require("../assets/Images/logo-removebg.png")}
                 style={tw`w-32 h-32`}
               />
             </View> */}

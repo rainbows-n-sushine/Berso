@@ -140,7 +140,7 @@ const { isLoading, userToken } = useContext(AuthContext);
                    */}
                   <View className="items-center justify-between">
                     <Image
-                      source={require("../Images/defaultprofile.png")}
+                      source={require("../assets/Images/defaultprofile.png")}
                       style={tw`w-20 h-20 rounded-full border border-orange-300`}
                     />
                     <Text className="mt-1 text-base">Username</Text>

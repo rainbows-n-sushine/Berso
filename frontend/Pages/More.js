@@ -21,11 +21,11 @@ import {
 
 import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useBusinessTab } from "../context/BusinessTabContext";
+import { BusinessTabContext } from "../context/BusinessTabContext";
 
 const More = () => {
-  const { setBusinessTab } = useBusinessTab();
-  const {logout}=useContext(AuthContext)
+  const { setBusinessTab } = useContext(BusinessTabContext)
+  const {UserLogout}=useContext(AuthContext)
   const navigation = useNavigation();
   return (
     <SafeAreaView className="flex-1 bg-[#F2E8DE]">
@@ -115,7 +115,7 @@ const More = () => {
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
               AsyncStorage.removeItem("userToken");
-              logout();
+              UserLogout();
               navigation.navigate("Home");
             }}
           >

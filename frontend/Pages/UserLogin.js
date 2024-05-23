@@ -85,7 +85,7 @@ navigation.navigate('Home')
   const windowHeight = Dimensions.get("window").height;
   return (
     <ImageBackground
-      source={require("../Images/logo22.jpg")}
+      source={require("../assets/Images/logo22.jpg")}
       style={tw`flex-1`}
       resizeMode="cover"
     >
@@ -107,7 +107,7 @@ navigation.navigate('Home')
 
           <View style={tw`items-center mb-4`}>
             <Image
-              source={require("../Images/logo-removebg.png")}
+              source={require("../assets/Images/logo-removebg.png")}
               style={tw`w-32 h-32`}
             />
           </View>

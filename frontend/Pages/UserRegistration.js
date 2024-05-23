@@ -27,7 +27,7 @@ const UserRegistration = () => {
   // useEffect(() => {
   //   async function loadFonts() {
   //     await Font.loadAsync({
-  //       "berlin-sans": require("../fonts/berlin-sans/BerlinSans.ttf"),
+  //       "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
   //       // "berlin-sans-bold": require("../fonts/berlin-sans/BerlinSansBold.ttf"),
   //     });
   //   }
@@ -180,7 +180,7 @@ const UserRegistration = () => {
   return (
     <View style={tw`flex-1`}>
       <ImageBackground
-        source={require("../Images/logo22.jpg")}
+        source={require("../assets/Images/logo22.jpg")}
         style={tw`flex-1`}
         resizeMode="cover"
       >

@@ -41,7 +41,7 @@ const HomeScreen = () => {
         <Image
           className="w-screen top-0 h-[300] "
           // style={{ backgroundColor: "white" }}
-          source={require("../Images/HomeBG.jpg")}
+          source={require("../assets/Images/HomeBG.jpg")}
           resizeMode="cover"
         />
       )}

@@ -5,7 +5,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import UserProfileManagement from "../../Pages/UserProfileManagement";
 // import MyBusinesses from "../Pages/MyBussinesses";
 import More from "../../Pages/More";
-import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
+import HomeScreen from "../../Pages/HomeScreen";
 import BusinessPage from "../../Pages/BusinessPage";
 
 
