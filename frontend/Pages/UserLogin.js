@@ -14,7 +14,7 @@ import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Registration from "./UserRegistration";
+//import Registration from "./UserRegistration";
 import axios from "axios";
 import { AuthContext } from "../context/AuthContext";
 import api from "../util/Util";
