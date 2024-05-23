@@ -57,9 +57,9 @@ const businessSchema=new mongoose.Schema({
         
 
     },
-    user:{
+    business_owner:{
         type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
+        ref:'BusinessOwner'
 
 
     },
