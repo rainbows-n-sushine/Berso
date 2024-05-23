@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import tw from "twrnc";
-import React,{useContext} from "react";
+import React,{ useContext, useState} from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   FontAwesome5,
@@ -25,8 +25,30 @@ import { BusinessTabContext } from "../context/BusinessTabContext";
 
 const More = () => {
   const { setBusinessTab } = useContext(BusinessTabContext)
-  const {UserLogout}=useContext(AuthContext)
+  const {UserLogout, BusinessOwnerLogout}=useContext(AuthContext)
   const navigation = useNavigation();
+  const [businessOwnerToken,setBusinessOwnerToken]=useState('')
+  const [userToken,setUserToken]=useState('')
+
+
+  useEffect(()=>{
+    async function getToken(){
+       let _userToken= await AsyncStorage.getItem('userToken')
+    let _businessOwnerToken= await AsyncStorage.getItem('BusinessOwnerToken')
+    if (_userToken){
+
+      setUserToken(_userToken)
+    }else if(_businessOwnerToken){
+      setBusinessOwnerToken(_businessOwnerToken)
+    }
+    }
+    getToken();
+
+   
+  },[])
+
+
+
   return (
     <SafeAreaView className="flex-1 bg-[#F2E8DE]">
       <ScrollView>
@@ -114,8 +136,13 @@ const More = () => {
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
-              AsyncStorage.removeItem("userToken");
-              UserLogout();
+              console.log(businessOwnerToken,"this is the business owner token")
+              console.log(userToken,'this is userToken ')
+              if( userToken){
+                UserLogout()
+              }else{
+                BusinessOwnerLogout();
+               }
               navigation.navigate("Home");
             }}
           >
