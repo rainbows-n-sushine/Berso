@@ -36,6 +36,12 @@ app.use('/business',businessRoute)
 const categoryRoute=require('./routes/category')
 app.use('/category',categoryRoute);
 
+const recommendationRoute = require('./routes/recommendation');
+app.use('/recommendation', recommendationRoute);
+
+const reviewRoute = require("./routes/review");
+app.use("/reviews", reviewRoute);
+
 app.listen(8000, () => {
   console.log("Server is running successfully");
 });

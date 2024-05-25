@@ -66,7 +66,21 @@ const businessSchema=new mongoose.Schema({
     icon:{
         type:String,
         default:"faBuilding"
-    }
+
+
+    },
+    average_rating:{
+        type: Number,
+        default: 0,
+
+
+    },
+    review_count: {
+        type: Number,
+        default: 0,
+
+
+    },
 
 })
 
