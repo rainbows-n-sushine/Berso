@@ -85,3 +85,16 @@ exports.fetchAll=async(req,res)=>{
 
 
 }
+
+exports.updateBusinessRating = async (businessId, rating) => {
+  try {
+    const business = await Business.findById(businessId);
+    if (business) {
+      business.review_count++;
+      business.average_rating = (business.average_rating * (business.review_count - 1) + rating) / business.review_count;
+      await business.save();
+    }
+  } catch (error) {
+    console.error("Error updating business rating:", error);
+  }
+};
