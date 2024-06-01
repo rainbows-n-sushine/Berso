@@ -7,6 +7,7 @@ import UserLogin from "../../Pages/UserLogin";
 import UserRegistration from "../../Pages/UserRegistration";
 import BusinessOwnerLogin from "../../Pages/BusinessOwnerLogin";
 import BusinessOwnerRegistration from "../../Pages/BusinessOwnerRegistration";
+import More from "../../Pages/More";
 
 
 const Stack = createStackNavigator();
@@ -39,8 +40,14 @@ const AppStack = () => {
         component={BusinessOwnerRegistration}
         options={{ headerShown: false }}
       />
+       <Stack.Screen
+        name="More"
+        component={More}
+        options={{ headerShown: false }}
+      />
        {/* Add more Stack.Screen components for additional screens*/}
     </Stack.Navigator>
+    
   );
 };
 

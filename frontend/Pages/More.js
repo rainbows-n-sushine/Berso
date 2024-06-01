@@ -8,7 +8,7 @@ import {
   View,
 } from "react-native";
 import tw from "twrnc";
-import React,{ useContext, useState} from "react";
+import React,{ useContext, useState, useEffect} from "react";
 import { useNavigation } from "@react-navigation/native";
 import {
   FontAwesome5,
@@ -21,11 +21,11 @@ import {
 
 import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { BusinessTabContext } from "../context/BusinessTabContext";
+import { useBusinessTab, setBusinessTab} from "../context/BusinessTabContext";
 
 const More = () => {
-  const { setBusinessTab } = useContext(BusinessTabContext)
-  const {UserLogout, BusinessOwnerLogout}=useContext(AuthContext)
+  const { setBusinessTab } = useBusinessTab()
+  const { UserLogout, BusinessOwnerLogout } = useContext(AuthContext)
   const navigation = useNavigation();
   const [businessOwnerToken,setBusinessOwnerToken]=useState('')
   const [userToken,setUserToken]=useState('')
@@ -81,7 +81,7 @@ const More = () => {
           <TouchableOpacity
             className="bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center"
             onPress={() => {
-              navigation.navigate("BusninessHome");
+              navigation.navigate("BusinessHome");
               setBusinessTab(true);
             }}
           >

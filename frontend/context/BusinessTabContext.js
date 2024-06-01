@@ -19,6 +19,6 @@ export default BusinessTabProvider;
 
 
 //Custom hook to consume the context
-// export const useBusinessTab = () => {
-//   return useContext(BusinessTabContext);
-// };
+export const useBusinessTab = () => {
+  return useContext(BusinessTabContext);
+};

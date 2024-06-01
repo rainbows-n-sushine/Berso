@@ -5,9 +5,8 @@ import { createStackNavigator } from "@react-navigation/stack";
 import UserProfileManagement from "../../Pages/UserProfileManagement";
 // import MyBusinesses from "../Pages/MyBussinesses";
 import More from "../../Pages/More";
-import HomeScreen from "../../Pages/HomeScreen";
 import BusinessPage from "../../Pages/BusinessPage";
-
+import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
 
 const Stack = createStackNavigator();
 const MoreNavigator = () => {
@@ -23,11 +22,17 @@ const MoreNavigator = () => {
         component={UserProfileManagement}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
-        name="BusninessHome"
+       <Stack.Screen
+        name="BusinessHome"
         component={HomeScreen}
         options={{ headerShown: false }}
       />
+      {/* <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{ headerShown: false }}
+      /> */}
+      
       <Stack.Screen
         name="BusinessPage"
         component={BusinessPage}
