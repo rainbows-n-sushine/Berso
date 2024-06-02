@@ -324,7 +324,7 @@ const BusinessPage = () => {
               renderTabButton(item, index)
             )}
           </ScrollView>
-          <View style={tw`flex-1 mt-3 bg-white rounded-t-xl `}>
+          <View style={tw`flex-1 mt-1 bg-white rounded-t-xl `}>
             {/* Only render the content of the active tab */}
             {dummyData[activeTabIndex] && (
               <SectionContent section={dummyData[activeTabIndex]} />
@@ -352,7 +352,7 @@ const BusinessPage = () => {
 };
 
 const SectionContent = ({ section }) => (
-  <View style={tw`pt-4 pl-4 pr-1`}>
+  <View style={tw`pt-4 pl-2 pr-1`}>
     <Text style={tw`text-2xl font-bold text-gray-900 mb-2`}>
       {section.title}
     </Text>
