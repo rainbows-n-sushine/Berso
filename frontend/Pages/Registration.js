@@ -124,7 +124,7 @@ const Registration = () => {
         source={
           isBusinessOwner
             ? // ? require("../assets/Images/businessownersignup.png")
-              require("../assets/Images/logo22.jpg")
+              require("../assets/Images/businessownerlogo22.jpg")
             : require("../assets/Images/logo22.jpg")
         }
         style={tw`flex-1`}
