@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage }).single("profilePic");
  
-exports.updateUserProfilePic = async (req, res) => {
+exports.updateBusinessOwnerProfilePic = async (req, res) => {
   upload(req, res, function (err) {
     if (err) {
       // Handle upload errors
