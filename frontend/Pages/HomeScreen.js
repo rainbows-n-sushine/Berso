@@ -94,6 +94,7 @@ const HomeScreen = () => {
           <View className="flex rounded-xl m-4 bg-white ">
             <View className="m-4 items-center">
               <View className="flex  items-center justify-between ">
+                {/* the rows */}
                 <View className="flex flex-row  items-center justify-between ">
                  <TouchableOpacity onPress={() => {
             navigation.navigate("BusinessList", { category: "Coffee Shops" });
@@ -119,14 +120,29 @@ const HomeScreen = () => {
                     </Text>
                   </View>
                 </View>
-
+                {/* the rows */}
                 <View className="flex flex-row items-center justify-between pt-3 ">
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("BusinessList", {
+                      category: "Coffee Shops",
+                    });
+                  }}
+                >
                   <View className="items-center m-1 justify-center flex-1">
                     <Entypo name="aircraft" size={22} color="orange" />
                     <Text className="text-normal font-bold  text-orange-400 mt-3 ">
                       Tour & Travel
                     </Text>
                   </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("BusinessList", {
+                      category: "Coffee Shops",
+                    });
+                  }}
+                >
                   <View className="items-center m-1 justify-center flex-1">
                     <MaterialIcons
                       name="delivery-dining"
@@ -137,37 +153,68 @@ const HomeScreen = () => {
                       Delivery
                     </Text>
                   </View>
-
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("BusinessList", {
+                      category: "Coffee Shops",
+                    });
+                  }}
+                >
                   <View className="items-center m-1 justify-center flex-1">
                     <Entypo name="drink" size={22} color="orange" />
                     <Text className="text-normal font-bold  text-orange-400 mt-3 ">
                       Bars
                     </Text>
                   </View>
-                </View>
-
-                <View className="flex flex-row items-center justify-between pt-3 ">
+                </TouchableOpacity>
+              </View>
+              <View className="flex flex-row items-center justify-between pt-3 ">
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("BusinessList", {
+                      category: "Coffee Shops",
+                    });
+                  }}
+                >
                   <View className="items-center m-1 justify-center flex-1">
                     <FontAwesome5 name="spa" size={22} color="orange" />
                     <Text className="text-normal font-bold  text-orange-400 mt-3  ">
                       Spas & Salons
                     </Text>
                   </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("BusinessList", {
+                      category: "Coffee Shops",
+                    });
+                  }}
+                >
                   <View className="items-center m-1 justify-center flex-1">
                     <Entypo name="shop" size={23} color="orange" />
                     <Text className="text-normal font-bold  text-orange-400 mt-3  ">
                       Shops
                     </Text>
                   </View>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate("BusinessList", {
+                      category: "Coffee Shops",
+                    });
+                  }}
+                >
                   <View className="items-center m-1 justify-center flex-1">
                     <Feather name="more-horizontal" size={22} color="orange" />
                     <Text className="text-normal font-bold  text-orange-400 mt-3  ">
                       More
                     </Text>
                   </View>
-                </View>
+                </TouchableOpacity>
               </View>
             </View>
+          </View>
           </View>
 
           <View className="flex rounded-xl mx-3 bg-white">
