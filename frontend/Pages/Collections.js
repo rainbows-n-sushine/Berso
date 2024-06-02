@@ -2,7 +2,7 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-na
 import React,{useState,useEffect, useContext} from 'react'
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 const Collections = () => {
 
   const [userToken,setUserToken]= useState(null)
@@ -67,7 +67,7 @@ console.log(userToken)
               <TouchableOpacity
                 className="bg-white p-3 rounded-xl"
                 onPress={() => {
-                  navigation.navigate("Login");
+                  navigation.navigate("UserLogin");
                 }}
               >
                 <Text>Login</Text>

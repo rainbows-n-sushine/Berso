@@ -16,8 +16,8 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import BusinessRegistration from "./BusinessRegistration";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
-import api from "../../util/Util";
+import { AuthContext } from "../context/AuthContext";
+import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import {BASE_URL} from '../../.env'
 
@@ -28,7 +28,7 @@ const BusinessOwnerLogin = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   // const {login}=useContext(AuthContext)
-  const { businessOwnerlogin, businessOwnerlogout } = useContext(AuthContext);
+  const { BusinessOwnerLogin, BusinessOwnerLogout } = useContext(AuthContext);
   // const BASE_URL=process.env.BASE_URL
  
 
@@ -57,7 +57,7 @@ const BusinessOwnerLogin = ({ navigation }) => {
     console.log('Password:', password);
   
    // ${BASE_URL}
-await businessOwnerlogin(credential,password)
+await BusinessOwnerLogin(credential,password)
 navigation.navigate('Home')
   // return await api.post("user/signin",{credential,password})
   //   .then((res)=>{  
@@ -85,7 +85,7 @@ navigation.navigate('Home')
   const windowHeight = Dimensions.get("window").height;
   return (
     <ImageBackground
-      source={require("../Images/logo22.jpg")}
+      source={require("../assets/Images/logo22.jpg")}
       style={tw`flex-1`}
       resizeMode="cover"
     >
@@ -107,7 +107,7 @@ navigation.navigate('Home')
 
           <View style={tw`items-center mb-4`}>
             <Image
-              source={require("../Images/logo-removebg.png")}
+              source={require("../assets/Images/logo-removebg.png")}
               style={tw`w-32 h-32`}
             />
           </View>
@@ -152,11 +152,7 @@ navigation.navigate('Home')
         </View>
         <View style={tw`border-b border-gray-300 my-8`} />
 
-        <TouchableOpacity
-          style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
-          onPress={() => {}}
-
-        >
+        
 
 <TouchableOpacity
           style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
@@ -169,8 +165,13 @@ navigation.navigate('Home')
               color="yellow"
               style={tw`mr-2`}
             />
-           <Text style={tw`text-black font-bold`}>Sign up as a regular user</Text>
+           <Text style={tw`text-black font-bold`}>Sign up as user</Text>
           </View>
+          <TouchableOpacity
+          style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
+          onPress={() => {}}
+
+        >
         </TouchableOpacity>
           <View style={tw`flex-row items-center `}>
             <FontAwesome5

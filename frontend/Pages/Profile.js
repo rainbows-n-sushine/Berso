@@ -24,12 +24,12 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
-import ParallaxScrollView from "../Components/ParallaxScrollView";
+import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
 const { width } = Dimensions.get("window");
 import { useNavigation } from "@react-navigation/native";
-import MarketCard from "../Components/marketCard";
-import { dummyRestaurantsData } from "../Data/restaurantsData";
-import { AuthContext } from "../../context/AuthContext";
+import MarketCard from "../assets/Components/marketCard";
+import { dummyRestaurantsData } from "../assets/Data/restaurantsData";
+import { AuthContext } from "../context/AuthContext";
 
 
 const Profile = ({ dummyRestaurantsData }) => {
@@ -141,7 +141,7 @@ const { isLoading, userToken } = useContext(AuthContext);
                    */}
                   <View className="items-center justify-between">
                     <Image
-                      source={require("../Images/defaultprofile.png")}
+                      source={require("../assets/Images/defaultprofile.png")}
                       style={tw`w-20 h-20 rounded-full border border-orange-300`}
                     />
                     <Text className="mt-1 text-base">Username</Text>
@@ -307,7 +307,7 @@ const { isLoading, userToken } = useContext(AuthContext);
             <TouchableOpacity
               className="bg-white p-3 rounded-xl"
               onPress={() => {
-                navigation.navigate("Login");
+                navigation.navigate("UserLogin");
               }}
             >
               <Text>Login</Text>

@@ -1,11 +1,11 @@
 import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
 import React,{useContext, useEffect,useState} from "react";
 import { Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
-import ParallaxScrollView from "../Components/ParallaxScrollView";
+import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
 const  {width} = Dimensions.get('window')
 import { useNavigation } from "@react-navigation/native";
 import SearchBusinessScreen from "./SearchResultsScreen";
-import { AuthContext } from "../../context/AuthContext";
+import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const HomeScreen = () => {
@@ -41,7 +41,7 @@ const HomeScreen = () => {
         <Image
           className="w-screen top-0 h-[300] "
           // style={{ backgroundColor: "white" }}
-          source={require("../Images/HomeBG.jpg")}
+          source={require("../assets/Images/HomeBG.jpg")}
           resizeMode="cover"
         />
       )}
@@ -191,10 +191,11 @@ const HomeScreen = () => {
               <TouchableOpacity onPress={()=>{
                 console.log(businessOwnerToken,"this is the business owner token")
                 console.log(userToken,'this is userToken ')
-              
-                userToken? UserLogout():BusinessOwnerLogout();
-              
-
+                if( userToken){
+                  UserLogout()
+                }else{
+                  BusinessOwnerLogout();
+                 }
               }}>
               
                 <Text>logout</Text>

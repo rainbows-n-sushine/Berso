@@ -1,10 +1,10 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import HomeScreen from "../Pages/HomeScreen";
-import Profile from "../Pages/Profile";
+import HomeScreen from "../../Pages/HomeScreen";
+import Profile from "../../Pages/Profile";
 import TabNavigator_newbie from "./TabNavigator_newbie";
-import Login from "../Pages/UserLogin";
-import Registration from "../Pages/UserRegistration";
+import Login from "../../Pages/UserLogin";
+import Registration from "../../Pages/UserRegistration";
 
 
 const Stack = createStackNavigator();

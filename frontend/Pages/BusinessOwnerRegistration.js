@@ -19,15 +19,15 @@ import { FontAwesome5 } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
-import api from "../../util/Util";
+import api from "../util/Util";
 
 import * as Font from "expo-font";
 
-const UserRegistration = () => {
+const BusinessOwnerRegistration = () => {
   // useEffect(() => {
   //   async function loadFonts() {
   //     await Font.loadAsync({
-  //       "berlin-sans": require("../fonts/berlin-sans/BerlinSans.ttf"),
+  //       "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
   //       // "berlin-sans-bold": require("../fonts/berlin-sans/BerlinSansBold.ttf"),
   //     });
   //   }
@@ -128,7 +128,7 @@ const UserRegistration = () => {
           password
       );
       await api
-        .post("user/signup", {
+        .post("businessOwner/signup", {
           fullName,
           username,
           email,
@@ -180,7 +180,7 @@ const UserRegistration = () => {
   return (
     <View style={tw`flex-1`}>
       <ImageBackground
-        source={require("../Images/logo22.jpg")}
+        source={require("../assets/Images/logo22.jpg")}
         style={tw`flex-1`}
         resizeMode="cover"
       >
@@ -204,7 +204,7 @@ const UserRegistration = () => {
 
             {/* <View style={tw`items-center mb-8`}>
               <Image
-                source={require("../Images/logo-removebg.png")}
+                source={require("../assets/Images/logo-removebg.png")}
                 style={tw`w-32 h-32`}
               />
             </View> */}
@@ -403,17 +403,17 @@ const UserRegistration = () => {
 
             <TouchableOpacity
               style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
-              onPress={() => {}}
+              onPress={() => {navigation.navigate('UserRegistration')}}
             >
               <View style={tw`flex-row items-center `}>
                 <FontAwesome5
-                  name="businessOwner"
+                  name="user"
                   size={20}
                   color="pink"
                   style={tw`mr-2`}
                 />
                 <Text style={tw`text-black font-bold`}>
-                  Sign up as a business Owner
+                  Sign up as a user
                 </Text>
               </View>
             </TouchableOpacity>
@@ -474,10 +474,10 @@ const UserRegistration = () => {
               <Text style={tw`text-sm text-white`}>Already registered? </Text>
               <TouchableOpacity
                 onPress={() => {
-                  navigation.navigate("UserLogin");
+                  navigation.navigate("BusinessOwnerLogin");
                 }}
               >
-                <Text style={tw`text-sm font-bold text-orange-500`}>Login</Text>
+                <Text style={tw`text-sm font-bold text-orange-500`}>Login as a business Owner</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -487,4 +487,4 @@ const UserRegistration = () => {
   );
 };
 
-export default UserRegistration;
+export default BusinessOwnerRegistration;

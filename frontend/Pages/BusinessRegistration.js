@@ -20,7 +20,7 @@ import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation } from "@react-navigation/native";
 import * as Font from "expo-font";
-import api from '../../util/Util'
+import api from '../util/Util'
 import {MultipleSelectList} from 'react-native-dropdown-select-list'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -70,7 +70,7 @@ const data=[
   useEffect(() => {
     async function loadFonts() {
       await Font.loadAsync({
-        "berlin-sans": require("../fonts/berlin-sans/BerlinSans.ttf"),
+        "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
       });
     }
 
@@ -198,7 +198,7 @@ const handleSubmit=async()=>{
 
           {/* <View style={tw`items-center mb-8`}>
               <Image
-                source={require("../Images/logo-removebg.png")}
+                source={require("../assets/Images/logo-removebg.png")}
                 style={tw`w-32 h-32`}
               />
             </View> */}

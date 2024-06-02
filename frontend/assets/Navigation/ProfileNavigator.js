@@ -1,10 +1,16 @@
 import { StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 import { createStackNavigator } from "@react-navigation/stack";
+<<<<<<< HEAD
 import Profile from "../Pages/Profile";
 import BusinessRegistration from '../Pages/BusinessRegistration';
 import UserProfileManagement from '../Pages/UserProfileManagement';
 import AddReview from '../Pages/AddReview';
+=======
+import Profile from "../../Pages/Profile";
+import BusinessRegistration from '../../Pages/BusinessRegistration';
+import UserProfileManagement from '../../Pages/UserProfileManagement';
+>>>>>>> hbranch
 
 
 const Stack = createStackNavigator();

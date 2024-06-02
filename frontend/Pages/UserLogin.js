@@ -14,10 +14,10 @@ import tw from "twrnc";
 import { AntDesign } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import Registration from "./UserRegistration";
+//import Registration from "./UserRegistration";
 import axios from "axios";
-import { AuthContext } from "../../context/AuthContext";
-import api from "../../util/Util";
+import { AuthContext } from "../context/AuthContext";
+import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import {BASE_URL} from '../../.env'
 
@@ -28,12 +28,12 @@ const UserLogin = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   // const {login}=useContext(AuthContext)
-  const { userLogin, userLogout } = useContext(AuthContext);
+  const { UserLogin, UserLogout } = useContext(AuthContext);
   // const BASE_URL=process.env.BASE_URL
  
 
-  const HandleSignup = ({ Registration }) => {
-    navigation.navigate("Registration");
+  const HandleSignup = ({ UserRegistration }) => {
+    navigation.navigate("UserRegistration");
   };
 
   const handleSubmit = async () => {
@@ -57,7 +57,7 @@ const UserLogin = ({ navigation }) => {
     console.log('Password:', password);
   
    // ${BASE_URL}
-await userLogin(credential,password)
+await UserLogin(credential,password)
 navigation.navigate('Home')
   // return await api.post("user/signin",{credential,password})
   //   .then((res)=>{  
@@ -85,7 +85,7 @@ navigation.navigate('Home')
   const windowHeight = Dimensions.get("window").height;
   return (
     <ImageBackground
-      source={require("../Images/logo22.jpg")}
+      source={require("../assets/Images/logo22.jpg")}
       style={tw`flex-1`}
       resizeMode="cover"
     >
@@ -107,7 +107,7 @@ navigation.navigate('Home')
 
           <View style={tw`items-center mb-4`}>
             <Image
-              source={require("../Images/logo-removebg.png")}
+              source={require("../assets/Images/logo-removebg.png")}
               style={tw`w-32 h-32`}
             />
           </View>
@@ -154,7 +154,7 @@ navigation.navigate('Home')
 
         <TouchableOpacity
           style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-15`}
-          onPress={() => {navigation.navigate('BusinessOwnerRegisteration')}}
+          onPress={() => {navigation.navigate('BusinessOwnerRegistration')}}
         >
           <View style={tw`flex-row items-center `}>
             <FontAwesome5
