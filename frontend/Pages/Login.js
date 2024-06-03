@@ -23,95 +23,65 @@ import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import {BASE_URL} from '../../.env'
 
-//you can be adding {navigation} as an event in
-
 const Login = ({ navigation }) => {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
-  // const {login}=useContext(AuthContext)
+  const [isBusinessOwner, setIsBusinessOwner] = useState(false); // New state
   const { UserLogin, BusinessOwnerLogin } = useContext(AuthContext);
-  // const BASE_URL=process.env.BASE_URL
-
 
   const HandleSignup = ({ Registration }) => {
     navigation.navigate("Registration");
   };
 
   const handleSubmit = async () => {
-    // Reset previous errors
     setErrors({});
+    const validationErrors = {};
 
-     const validationErrors = {};
- 
-     if (!credential) {
-      validationErrors.credential = 'Please enter a proper email or username';
-    } 
-     if (!password) {
-       validationErrors.password = 'Please enter your password';
-     }
- 
-     if (Object.keys(validationErrors).length > 0) {
-       setErrors(validationErrors);
-       return;
-     }
-    console.log('Credential:', credential);
-    console.log('Password:', password);
-  
-   // ${BASE_URL}
-await login(credential,password)
-  Alert.alert("Login Successful!", "Welcome back!");
-navigation.navigate('Home')
-  // return await api.post("user/signin",{credential,password})
-  //   .then((res)=>{  
+    if (!credential) {
+      validationErrors.credential = "Please enter a proper email or username";
+    }
+    if (!password) {
+      validationErrors.password = "Please enter your password";
+    }
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
 
-  //       console.log(res.data)
-  //      if(res.data.success===true) {
-  //       const token=res.data.token
-  //       login()
-  //       console.log('this is the token thrown from the backend   '+token)
-  //       AsyncStorage.setItem('userToken',token )
-  //      }
-        
-      
-  //   })
-    // .catch((error)=>{
-    //   if(error){
-    //     console.log("Error in handleSubmit", error.message)
+    console.log("Credential:", credential);
+    console.log("Password:", password);
 
-    //   }
+    await (isBusinessOwner
+      ? BusinessOwnerLogin(credential, password)
+      : UserLogin(credential, password));
 
-    // })
-
+    Alert.alert("Login Successful!", "Welcome back!");
+    navigation.navigate("Home");
   };
-const [isModalVisible, setIsModalVisible] = useState(false);
-const toggleDatePicker = function () {
-  setShowPicker(!showPicker);
-};
-  
-  // Function to handle modal close
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const closeModal = () => {
     setIsModalVisible(false);
   };
+
   const windowHeight = Dimensions.get("window").height;
+
   return (
     <ImageBackground
-      source={require("../assets/Images/logo22.jpg")}
+      source={
+        isBusinessOwner
+          ? require("../assets/Images/businessownerlogo22.jpg")
+          : require("../assets/Images/logo22.jpg")
+      }
       style={tw`flex-1`}
       resizeMode="cover"
     >
-      <ScrollView
-        // contentContainerStyle={tw`justify-center items-center`}
-        style={{ height: windowHeight }}
-      >
+      <ScrollView style={{ height: windowHeight }}>
         <View style={tw`flex-1 p-4 justify-center`}>
           <View style={tw`flex-row justify-between items-center mb-4`}>
-            {/* <AntDesign name="arrowleft" size={24} color="white" /> */}
-            <TouchableOpacity
-              onPress={() => {
-                navigation.goBack();
-              }}
-            >
+            <TouchableOpacity onPress={() => navigation.goBack()}>
               <Text style={tw`text-white`}>Skip</Text>
             </TouchableOpacity>
           </View>
@@ -122,12 +92,12 @@ const toggleDatePicker = function () {
               style={tw`w-32 h-32`}
             />
           </View>
-          <View style={tw``}>
+          <View>
             <Text
               className={`text-lg font-bold py-4 text-center text-white`}
               style={{ fontFamily: "berlin-sans", fontSize: 40 }}
             >
-              Login
+              {isBusinessOwner ? "Business Owner Login" : "Login"}
             </Text>
             <TextInput
               style={tw`w-full h-12 border bg-white border-gray-300 rounded-xl w-70 ml-10 px-4 mb-4`}
@@ -159,6 +129,20 @@ const toggleDatePicker = function () {
             >
               <Text style={tw`text-white font-bold`}>Login</Text>
             </TouchableOpacity>
+            <View style={tw`flex-row justify-center mt-8 mx-3`}>
+              <Text style={tw`text-sm text-white`}>
+                Want to login as Business Owner?{" "}
+              </Text>
+              <TouchableOpacity
+                onPress={() => setIsBusinessOwner(!isBusinessOwner)}
+              >
+                <Text style={tw`text-sm font-bold text-yellow-500`}>
+                  {isBusinessOwner
+                    ? "Login as User"
+                    : "Login as Business Owner"}
+                </Text>
+              </TouchableOpacity>
+            </View>
             <Modal
               visible={isModalVisible}
               transparent={true}
@@ -212,12 +196,6 @@ const toggleDatePicker = function () {
               color="black"
               style={tw`mr-2`}
             />
-            {/* <Image 
-              source=
-              {{
-                uri: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB+0lEQVR4nGNgoCf4X8/A9r+EOfh/IWPD/xKm+v/lzP7/6xlYSDeohkH1fwrTyf9uDH//2zL8R8HujH//pzMd+1/NoEycYbWsaf+9GDENwmZwMUsWfsPKWbL/OxIwCNnASuYA3Ia1Myj892b8g6IpkvHl/yKmov+ZDLL/6xnE/pczFf6PZnwBNqyc2R+/69awTfkfx4QwLJ1xN0619Wwa+A37z8D0/yDb8/8H2P//72ABu4yBEvD/AKvu/4Ps/+F4J7sTuprgzvmPceGwrll3m6eWWSEZyOaJYuB+Bh50AyXLLv3HhyunVNcgDNzP7kGpgRVTa6qRDGTVgRn27yD7//N7ZDCSA7o3HZrWfUE2sGZmZQBqpBxge/b1APf/tq0W//M2Ob4hFO4ercvfwQzTrD78N3TVKmYUBZd3S85I3ej232d9ABg3b7XYh8uwlP7+w8iui++ZfAJD0dwtukqRG7z+wgwE4YLNDq+mbDcq7d5iKD9nu4n6tC2GNQWbHN4lzSn+L1t+Hu666okl2PP1lO0GeUEbfOEG4sNJi1P+a9cc/Fc+tS4Xb9hM22KQF4XmUmw4ZoPn36mbbPAXDjCwYJu2cvMWy+ORGzwxDI7e4Pm3bav50Vkb9RSJMgwZzDxjzDpzh37AlC1G9VO3GdTN26nnW/+fgYlkgygBAOrTuFLcL9uXAAAAAElFTkSuQmCC",
-              }} /> */}
-
             <Text style={tw`text-black font-bold`}>Continue with Google</Text>
           </View>
         </TouchableOpacity>
