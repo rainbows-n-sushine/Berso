@@ -1,4 +1,4 @@
-import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput } from "react-native";
+import { View, Text, Image, SafeAreaView, ScrollView, Dimensions, TouchableOpacity, TextInput, Alert } from "react-native";
 import React,{useContext, useEffect,useState} from "react";
 import { Entypo, Feather, FontAwesome, FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
@@ -7,10 +7,17 @@ import { useNavigation } from "@react-navigation/native";
 import SearchBusinessScreen from "./SearchResultsScreen";
 import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../util/Util";
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+library.add(fas);
 
 const HomeScreen = () => {
   const {UserLogout,UserLogin, BusinessOwnerLogin, BusinessOwnerLogout}=useContext(AuthContext)
   const [businessOwnerToken,setBusinessOwnerToken]=useState('')
+  const [categories,setCategories]=useState({})
   const [userToken,setUserToken]=useState('')
 
 
@@ -25,8 +32,29 @@ const HomeScreen = () => {
       setBusinessOwnerToken(_businessOwnerToken)
     }
     }
-    getToken();
+ async function fetchCategories(){
 
+  await api.get('category/fetchAll')
+  .then((res)=>{
+
+   if(res.data.success){
+    let _categories=res.data.categories
+    setCategories(_categories)
+   }else{
+   Alert.alert(res.data.message)
+
+   } 
+  }).catch((error)=>{
+
+    if(error){
+
+      console.log('error in fetchCategories : ',error.message)
+    }
+  })}
+
+
+    getToken();
+    fetchCategories();
    
   },[])
   
@@ -96,16 +124,30 @@ const HomeScreen = () => {
               <View className="flex  items-center justify-between ">
                 {/* the rows */}
                 <View className="flex flex-row  items-center justify-between ">
-                 <TouchableOpacity onPress={() => {
-            navigation.navigate("BusinessList", { category: "Coffee Shops" });
+                 
+                 {categories.map((category)=>(
+
+         <TouchableOpacity onPress={() => {
+            navigation.navigate("BusinessList", { category: category._id });
           }}>
              <View className="items-center justify-center  m-2 flex-1  ">
-                    <Ionicons name="cafe" size={22} color="orange" />
+                    {/* <Ionicons name="cafe" size={22} color="orange" /> */}
+                    <FontAwesomeIcon icon={['fas', category.icon]} />
                     <Text className="text-normal font-bold text-orange-400 mt-3 ">
                       Coffee Shops
                     </Text>
                   </View>
                   </TouchableOpacity>
+
+
+                 ))
+
+
+                 }
+                 
+
+
+
                   <View className="items-center m-1 justify-center flex-1">
                     <MaterialIcons name="restaurant" size={22} color="orange" />
                     <Text className="text-normal font-bold  text-orange-400 mt-3  ">

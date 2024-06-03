@@ -43,13 +43,20 @@ res.json({message:"business successfuly created", success:true,business:business
 };
 
 exports.listBusiness = async (req, res) => {
-  const { category } = req.params;
+  const { categoryId } = req.params;
   try {
     // Log the category being fetched
     console.log("Fetching businesses for category:", category);
 
     // Query the database for businesses with the specified category
-    const businesses = await Business.find({ category });
+
+try {
+  const businesses = await Business.find({ category:{$in:[categoryId]}});
+  
+} catch (error) {
+  
+}
+    
 
     // Log the retrieved businesses
     console.log("Retrieved businesses:", businesses);

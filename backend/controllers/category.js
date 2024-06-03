@@ -7,7 +7,8 @@ console.log("name and the description",name,"  ",description)
         const newCategory= await Category({
 
             name:name,
-            description:description
+            description:description,
+            icon:icon
 
         })
         newCategory.save()
@@ -21,7 +22,14 @@ exports.fetchAll=async(req,res)=>{
 
    const categories= await Category.find()
    try {
-     res.json({success:true, message:"category is fetched", category:categories})
+    if(categories){
+
+        res.json({success:true, message:"category is fetched", categories:categories})
+    }else{
+
+        res.json({success:false, message:"No categories yet."})
+    }
+     
 
    } catch (error) {
     if(error){console.log("the error in fetchAll category is : ",error)}
