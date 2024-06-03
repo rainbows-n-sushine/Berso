@@ -75,7 +75,7 @@ const businessSchema=new mongoose.Schema({
 
 
     },
-    review_count: {
+    rating_count: {
         type: Number,
         default: 0,
 
