@@ -33,7 +33,6 @@ const Review = require('../models/review')
 //     res.status(500).json({ success: false, error: "Internal server error" });
 //   }
 // };
-// const { Review } = require("../models/review")
 
 exports.addReview=async(req,res)=>{
     const {title,description,userId,businessId}=req.body
