@@ -79,21 +79,6 @@ const Registration = () => {
         confirmPassword,
       };
       if (isBusinessOwner) {
-        userData.businessName = businessName;
-        userData.businessAddress = businessAddress;
-
-        await api.post("business/register-business", {businessName,businessAddress})
-        .then((res) => {
-          Alert.alert("Business registered successfully!");
-          setIsModalVisible(true);
-          navigation.navigate("Login");
-        })
-        .catch((err) => {
-          if (err) {
-            console.log(err.message);
-          }
-        });
-
 
        return  await api.post("businessOwner/signup", {userData})
         .then((res) => {

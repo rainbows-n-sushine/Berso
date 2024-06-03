@@ -18,7 +18,20 @@
 // import { useNavigation } from "@react-navigation/native";
 // import api from "../util/Util";
 
+// import * as Font from "expo-font";
+
 // const UserRegistration = () => {
+//   // useEffect(() => {
+//   //   async function loadFonts() {
+//   //     await Font.loadAsync({
+//   //       "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
+//   //       // "berlin-sans-bold": require("../fonts/berlin-sans/BerlinSansBold.ttf"),
+//   //     });
+//   //   }
+
+//   //   loadFonts();
+//   // }, []);
+
 //   const [firstName, setFirstName] = useState("");
 //   const [middleName, setMiddleName] = useState("");
 //   const [lastName, setLastName] = useState("");
@@ -96,7 +109,18 @@
 //     }
 //   };
 
-//   const toggleDatePicker = () => setShowPicker(!showPicker);
+//   // const windowWidth = Dimensions.get('window').width;
+//   const windowHeight = Dimensions.get("window").height;
+
+//   const toggleDatePicker = function () {
+//     setShowPicker(!showPicker);
+//   };
+
+//   const onChange = function ({ type }, selectedDate) {
+//     if (type == "set") {
+//       const currentDate = selectedDate;
+//       setDate(currentDate);
+//       console.log(currentDate);
 
 //   const onChange = (event, selectedDate) => {
 //     if (selectedDate) {
@@ -124,7 +148,7 @@
 //         source={
 //           isBusinessOwner
 //             ? // ? require("../assets/Images/businessownersignup.png")
-//               require("../assets/Images/businessownerlogo22.jpg")
+//               require("../assets/Images/logo22.jpg")
 //             : require("../assets/Images/logo22.jpg")
 //         }
 //         style={tw`flex-1`}
@@ -337,6 +361,23 @@
 //             <View style={tw`border-b border-gray-300 my-8`} />
 //             <TouchableOpacity
 //               style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
+//               onPress={() => {navigation.navigate('BusinessOwnerRegistration')}}
+//             >
+//               <View style={tw`flex-row items-center `}>
+//                 <FontAwesome5
+//                   name="user"
+//                   size={20}
+//                   color="pink"
+//                   style={tw`mr-2`}
+//                 />
+//                 <Text style={tw`text-black font-bold`}>
+//                   Sign up as a business Owner
+//                 </Text>
+//               </View>
+//             </TouchableOpacity>
+
+//             <TouchableOpacity
+//               style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
 //               onPress={() => {}}
 //             >
 //               <View style={tw`flex-row items-center`}>
@@ -351,6 +392,8 @@
 //                 </Text>
 //               </View>
 //             </TouchableOpacity>
+            
+
 //             <TouchableOpacity
 //               style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
 //               onPress={() => {}}
@@ -385,7 +428,11 @@
 //             </TouchableOpacity>
 //             <View style={tw`flex-row justify-center mt-8`}>
 //               <Text style={tw`text-sm text-white`}>Already registered? </Text>
-//               <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+//               <TouchableOpacity
+//                 onPress={() => {
+//                   navigation.navigate("UserLogin");
+//                 }}
+//               >
 //                 <Text style={tw`text-sm font-bold text-orange-500`}>Login</Text>
 //               </TouchableOpacity>
 //             </View>
