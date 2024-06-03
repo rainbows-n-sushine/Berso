@@ -30,7 +30,7 @@ const Login = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
   // const {login}=useContext(AuthContext)
-  const { login, logout } = useContext(AuthContext);
+  const { UserLogin, BusinessOwnerLogin } = useContext(AuthContext);
   // const BASE_URL=process.env.BASE_URL
 
 

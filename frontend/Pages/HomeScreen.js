@@ -36,10 +36,12 @@ library.add(fas);
 //           }
 
 const HomeScreen = () => {
-  const {UserLogout,UserLogin, BusinessOwnerLogin, BusinessOwnerLogout}=useContext(AuthContext)
+  const {UserLogout,BusinessOwnerLogout}=useContext(AuthContext)
   const [businessOwnerToken,setBusinessOwnerToken]=useState('')
   const [categories,setCategories]=useState([])
   const [userToken,setUserToken]=useState('')
+
+
 
 
   useEffect(()=>{
