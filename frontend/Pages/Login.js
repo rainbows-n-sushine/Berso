@@ -94,7 +94,10 @@ const Login = ({ navigation }) => {
           </View>
           <View>
             <Text
-              style={[tw`text-lg font-bold py-4 text-center text-white`, { fontFamily: "berlin-sans", fontSize: 40 }]}
+              style={[
+                tw`text-lg font-bold py-4 text-center text-white`,
+                { fontFamily: "berlin-sans", fontSize: 40 },
+              ]}
             >
               {isBusinessOwner ? "Business Owner Login" : "Login"}
             </Text>
@@ -128,7 +131,7 @@ const Login = ({ navigation }) => {
             >
               <Text style={tw`text-white font-bold`}>Login</Text>
             </TouchableOpacity>
-            <View style={tw`flex-row justify-center mt-8 mx-3`}>
+            <View style={tw` items-center justify-center mt-8 `}>
               <Text style={tw`text-sm text-white`}>
                 Want to login as Business Owner?{" "}
               </Text>

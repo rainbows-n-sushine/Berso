@@ -349,55 +349,57 @@ const Registration = () => {
                 </Text>
               </TouchableOpacity>
             </View>
-            <View style={tw`border-b border-gray-300 my-8`} />
-            <TouchableOpacity
-              style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
-              onPress={() => {}}
-            >
-              <View style={tw`flex-row items-center`}>
-                <FontAwesome5
-                  name="google"
-                  size={20}
-                  color="black"
-                  style={tw`mr-2`}
-                />
-                <Text style={tw`text-black font-bold`}>
-                  Continue with Google
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
-              onPress={() => {}}
-            >
-              <View style={tw`flex-row items-center`}>
-                <FontAwesome5
-                  name="facebook"
-                  size={20}
-                  color="white"
-                  style={tw`mr-2`}
-                />
-                <Text style={tw`text-white font-bold`}>
-                  Continue with Facebook
-                </Text>
-              </View>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={tw`bg-black rounded-full h-12 items-center justify-center mb-4 w-60 ml-10`}
-              onPress={() => {}}
-            >
-              <View style={tw`flex-row items-center justify-center`}>
-                <FontAwesome5
-                  name="apple"
-                  size={20}
-                  color="white"
-                  style={tw`mr-2`}
-                />
-                <Text style={tw`text-white font-bold`}>
-                  Continue with Apple
-                </Text>
-              </View>
-            </TouchableOpacity>
+            <View style={tw`border-b border-gray-300 my-8 `} />
+            <View style={tw` items-center`}>
+              <TouchableOpacity
+                style={tw`bg-white rounded-full h-12 items-center justify-center mb-4 w-60 `}
+                onPress={() => {}}
+              >
+                <View style={tw`flex-row items-center`}>
+                  <FontAwesome5
+                    name="google"
+                    size={20}
+                    color="black"
+                    style={tw`mr-2`}
+                  />
+                  <Text style={tw`text-black font-bold`}>
+                    Continue with Google
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={tw`bg-blue-500 rounded-full h-12 items-center justify-center mb-4 w-60 `}
+                onPress={() => {}}
+              >
+                <View style={tw`flex-row items-center`}>
+                  <FontAwesome5
+                    name="facebook"
+                    size={20}
+                    color="white"
+                    style={tw`mr-2`}
+                  />
+                  <Text style={tw`text-white font-bold`}>
+                    Continue with Facebook
+                  </Text>
+                </View>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={tw`bg-black rounded-full h-12 items-center justify-center mb-4 w-60 `}
+                onPress={() => {}}
+              >
+                <View style={tw`flex-row items-center justify-center`}>
+                  <FontAwesome5
+                    name="apple"
+                    size={20}
+                    color="white"
+                    style={tw`mr-2`}
+                  />
+                  <Text style={tw`text-white font-bold`}>
+                    Continue with Apple
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            </View>
             <View style={tw`flex-row justify-center mt-8`}>
               <Text style={tw`text-sm text-white`}>Already registered? </Text>
               <TouchableOpacity onPress={() => navigation.navigate("Login")}>
