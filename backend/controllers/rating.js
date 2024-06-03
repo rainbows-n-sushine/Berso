@@ -1,14 +1,13 @@
 const Rating = require('../models/rating')
 exports.createRating = async (req, res) => {
   try {
-    const { businessId, rating, comment } = req.body;
+    const { businessId, rating } = req.body;
     const userId = req.user._id;
 
     const review = new Review({
       user: userId,
       business: businessId,
-      rating,
-      comment,
+      rating
     });
 
     await review.save();
