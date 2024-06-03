@@ -24,17 +24,17 @@ description:{
 
 
   },
-  rating: {
-    type: Number,
-    required: true,
+  // rating: {
+  //   type: Number,
+  //   required: true,
 
 
-  },
-  comment: {
-    type: String,
+  // },
+  // comment: {
+  //   type: String,
 
 
-  },
+  // },
   created_at: {
     type: Date,
     default: Date.now,
