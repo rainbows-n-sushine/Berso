@@ -90,10 +90,10 @@ if(comment){
  exports.getOneComment=async(req,res)=>{
     const {commentId}=req.body
     try {
-        const comment= await Comment.findOne({_id:commentId})
+        const comment= await Comment.findById(commentId)
 
         if(comment){
-return res.json({message:"here is the detail of the Comment ", success:true, comment:comment })
+          return res.json({message:"here is the detail of the Comment ", success:true, comment:comment })
 
         }
         else{

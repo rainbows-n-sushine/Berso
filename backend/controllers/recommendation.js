@@ -56,7 +56,7 @@ exports.filterReviews = async (req, res) => {
     const network = new brain.NeuralNetwork();
     network.train(labeledReviewData);
     const mlFilteredReviews = reviews.filter(review => {
-      const prediction = network.run(review.comment);
+      const prediction = network.run(review.description) && network.run(review.title);
       return prediction.label === 'genuine';
     });
 
@@ -74,32 +74,32 @@ exports.filterReviews = async (req, res) => {
   }
 };
 
-async function getUserBusinessMatrix() {
-  try {
-    const users = await User.find();
-    const businesses = await Business.find();
+// async function getUserBusinessMatrix() {
+//   try {
+//     const users = await User.find();
+//     const businesses = await Business.find();
 
-    const matrix = [];
+//     const matrix = [];
 
-    for (const user of users) {
-      const userReviews = await Review.find({ user: user._id });
-      const userRow = [];
+//     for (const user of users) {
+//       const userReviews = await Review.find({ user: user._id });
+//       const userRow = [];
 
-      for (const business of businesses) {
-        const userReview = userReviews.find(review => review.business.toString() === business._id.toString());
-        const rating = userReview ? userReview.rating : 0;
-        userRow.push(rating);
-      }
+//       for (const business of businesses) {
+//         const userReview = userReviews.find(review => review.business.toString() === business._id.toString());
+//         const rating = userReview ? userReview.rating : 0;
+//         userRow.push(rating);
+//       }
 
-      matrix.push(userRow);
-    }
+//       matrix.push(userRow);
+//     }
 
-    return matrix;
-  } catch (error) {
-    console.error("Error creating user-business matrix:", error);
-    throw error;
-  }
-}
+//     return matrix;
+//   } catch (error) {
+//     console.error("Error creating user-business matrix:", error);
+//     throw error;
+//   }
+// }
 
 async function getUserPreferences(userId) {
   try {
@@ -108,18 +108,19 @@ async function getUserPreferences(userId) {
       throw new Error("User not found");
     }
 
-    const userReviews = await Review.find({ user: userId }).populate("business");
+    const userRating = await Rating.find({ user: userId }).populate("business");
     const userPreferences = {};
 
-    for (const review of userReviews) {
-      const business = review.business;
-      const categories = business.category;
+    for (const rating of userRating) {
+      const business = rating.business;
+      const _business = await Business.findById(business);
+      const categories = _business.category;
 
       for (const category of categories) {
         if (userPreferences[category]) {
-          userPreferences[category] += review.rating;
+          userPreferences[category] += rating.rating;
         } else {
-          userPreferences[category] = review.rating;
+          userPreferences[category] = rating.rating;
         }
       }
     }
@@ -138,14 +139,14 @@ async function getUserPreferences(userId) {
 function applyFilteringRules(review) {
   // Rule 1: Minimum word count
   const minWordCount = 10;
-  const wordCount = review.comment.trim().split(/\s+/).length;
+  const wordCount = review.description.trim().split(/\s+/).length;
   if (wordCount < minWordCount) {
     return false;
   }
 
   // Rule 2: Specific keywords that indicate a fake review
   const fakeKeywords = ["fake", "scam", "fraud", "not genuine"];
-  const reviewText = review.comment.toLowerCase();
+  const reviewText = review.description.toLowerCase();
   for (const keyword of fakeKeywords) {
     if (reviewText.includes(keyword)) {
       return false;
@@ -153,7 +154,7 @@ function applyFilteringRules(review) {
   }
 
   // Rule 3: Rating consistency with comment sentiment
-  const sentiment = analyzeSentiment(review.comment);
+  const sentiment = analyzeSentiment(review.description);
   const ratingThreshold = 3;
   if (
     (sentiment === "positive" && review.rating < ratingThreshold) ||
