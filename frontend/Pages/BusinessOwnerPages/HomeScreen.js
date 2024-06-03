@@ -1,9 +1,11 @@
-import { View, Text, Animated, Easing } from "react-native";
+import { View, Text, Animated, Easing, TouchableOpacity } from "react-native";
 import React from "react";
 import tw from "twrnc";
 import LineChartComponent from "../../assets/Data/LineChart";
+import { useNavigation } from "@react-navigation/native";
 // import { BarChart, Grid } from 'react-native-svg-charts';
 const HomeScreen = () => {
+  const navigation = useNavigation();
    const data = [
     { label: 'Category 1', value: 20 },
     { label: 'Category 2', value: 40 },
@@ -23,12 +25,15 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <View
-      style={[
-        tw`flex-1 items-center justify-center`,
-        tw`bg-gradient-to-r from-blue-400 to-purple-500`,
-      ]}
-    >
+    <View style={[tw`flex-1 items-center justify-center`, tw`bg-orange-100`]}>
+      {/* <TouchableOpacity
+        onPress={() => {
+          navigation.goBack();
+         
+        }}
+      >
+        <Text style={[tw`text-sm font-bold text-black -top-10`]}>go back</Text>
+      </TouchableOpacity> */}
       <Text style={[tw`text-4xl font-bold text-black mb-8`]}>Dashboard</Text>
 
       <Animated.View
