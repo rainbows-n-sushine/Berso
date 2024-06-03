@@ -42,33 +42,27 @@ res.json({message:"business successfuly created", success:true,business:business
   }
 };
 
-exports.listBusiness = async (req, res) => {
+exports.fetchByCategory = async (req, res) => {
   const { categoryId } = req.params;
-  try {
-    // Log the category being fetched
-    console.log("Fetching businesses for category:", category);
-
-    // Query the database for businesses with the specified category
+console.log('this it hhsvjhvsh cate  :', categoryId)
 
 try {
   const businesses = await Business.find({ category:{$in:[categoryId]}});
-  
-} catch (error) {
-  
-}
-    
 
-    // Log the retrieved businesses
     console.log("Retrieved businesses:", businesses);
 
-    // Send the retrieved businesses as JSON response
-    res.json(businesses);
-  } catch (error) {
-    // Log any errors that occur during the process
-    console.error("Error fetching businesses:", error);
+    if(businesses){
 
-    // Send an error response with status code 500 (Internal Server Error)
+      res.json({success:true,message:"businesses in the category fetched successfully",businesses:businesses})
+    }else{
+      res.json({success:false,message:"businesses in the category failed to fetch"})
+
+    }
+  } catch (error) {
+
+    console.error("Error fetching businesses:", error);
     res.status(500).json({ error: "Internal server error" });
+
   }
 };
 
@@ -209,12 +203,5 @@ exports.updateBusinessRating = async (businessId, rating) => {
     console.error("Error updating business rating:", error);
   }
 };
-
-
-
-
-
-
-
 
 

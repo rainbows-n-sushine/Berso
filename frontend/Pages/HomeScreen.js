@@ -15,25 +15,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 library.add(fas);
 
 
-// {categories.map((category)=>(
 
-//   <TouchableOpacity onPress={() => {
-//      navigation.navigate("BusinessList", { category: category._id });
-//    }}>
-//       <View className="items-center justify-center  m-2 flex-1  ">
-//              {/* <Ionicons name="cafe" size={22} color="orange" /> */}
-//              <FontAwesomeIcon icon={['fas', category.icon]} />
-//              <Text className="text-normal font-bold text-orange-400 mt-3 ">
-//                Coffee Shops
-//              </Text>
-//            </View>
-//            </TouchableOpacity>
-
-
-//           ))
-
-
-//           }
 
 const HomeScreen = () => {
   const {UserLogout,BusinessOwnerLogout}=useContext(AuthContext)
@@ -147,6 +129,25 @@ const HomeScreen = () => {
               <View className="flex  items-center justify-between ">
                 {/* the rows */}
                 <View className="flex flex-row  items-center justify-between ">
+                {categories.map((category)=>(
+
+              <TouchableOpacity key={category._id} onPress={() => {
+                navigation.navigate("BusinessList", { category: category });
+                  }}>
+           <View className="items-center justify-center  m-2 flex-1  ">
+           {/* <Ionicons name="cafe" size={22} color="orange" /> */}
+           {/* <FontAwesomeIcon icon={['fas', category.icon]} /> */}
+           <Text className="text-normal font-bold text-orange-400 mt-3 ">
+             {category.name}
+           </Text>
+         </View>
+         </TouchableOpacity>
+
+
+        ))
+
+
+        }
                             
 
 
@@ -167,6 +168,9 @@ const HomeScreen = () => {
                 </View>
                 {/* the rows */}
                 <View className="flex flex-row items-center justify-between pt-3 ">
+
+
+
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate("BusinessList", {

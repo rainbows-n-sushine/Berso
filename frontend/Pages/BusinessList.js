@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, Pressable, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, Image, Pressable, ScrollView, TouchableOpacity,Alert } from "react-native";
 import tw from "twrnc";
 import {
   AntDesign,
@@ -47,7 +47,9 @@ const BusinessList = ({ route }) => {
   const [businesses, setBusinesses] = useState([]);
 const navigation = useNavigation();
   useEffect(() => {
-    api.get('business/fetch-all')
+    console.log('this is the id of teh category: ',category._id)
+    const categoryId=category._id
+    api.get(`business/fetch-by-category/${categoryId}`)
       .then((res) => {
 
         if (res.success){
@@ -64,7 +66,7 @@ const navigation = useNavigation();
 
   return (
     <ScrollView style={tw`p-4`}>
-      <Text style={tw`text-2xl font-bold mb-4`}>List of {category}</Text>
+      <Text style={tw`text-2xl font-bold mb-4`}>List of {category.name}</Text>
       <View style={tw`flex-row flex-wrap justify-between`}>
         {businesses.map((business) => (
           <View key={business._id} style={tw`w-full md:w-1/2 lg:w-1/3 p-2`}>
