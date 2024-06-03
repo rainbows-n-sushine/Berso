@@ -7,17 +7,38 @@ import { useNavigation } from "@react-navigation/native";
 import SearchBusinessScreen from "./SearchResultsScreen";
 import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import api from "../../util/Util";
+import api from "../util/Util";
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 library.add(fas);
 
+
+// {categories.map((category)=>(
+
+//   <TouchableOpacity onPress={() => {
+//      navigation.navigate("BusinessList", { category: category._id });
+//    }}>
+//       <View className="items-center justify-center  m-2 flex-1  ">
+//              {/* <Ionicons name="cafe" size={22} color="orange" /> */}
+//              <FontAwesomeIcon icon={['fas', category.icon]} />
+//              <Text className="text-normal font-bold text-orange-400 mt-3 ">
+//                Coffee Shops
+//              </Text>
+//            </View>
+//            </TouchableOpacity>
+
+
+//           ))
+
+
+//           }
+
 const HomeScreen = () => {
   const {UserLogout,UserLogin, BusinessOwnerLogin, BusinessOwnerLogout}=useContext(AuthContext)
   const [businessOwnerToken,setBusinessOwnerToken]=useState('')
-  const [categories,setCategories]=useState({})
+  const [categories,setCategories]=useState([])
   const [userToken,setUserToken]=useState('')
 
 
@@ -124,27 +145,7 @@ const HomeScreen = () => {
               <View className="flex  items-center justify-between ">
                 {/* the rows */}
                 <View className="flex flex-row  items-center justify-between ">
-                 
-                 {categories.map((category)=>(
-
-         <TouchableOpacity onPress={() => {
-            navigation.navigate("BusinessList", { category: category._id });
-          }}>
-             <View className="items-center justify-center  m-2 flex-1  ">
-                    {/* <Ionicons name="cafe" size={22} color="orange" /> */}
-                    <FontAwesomeIcon icon={['fas', category.icon]} />
-                    <Text className="text-normal font-bold text-orange-400 mt-3 ">
-                      Coffee Shops
-                    </Text>
-                  </View>
-                  </TouchableOpacity>
-
-
-                 ))
-
-
-                 }
-                 
+                            
 
 
 
@@ -291,7 +292,7 @@ const HomeScreen = () => {
               </TouchableOpacity>
 
               <TouchableOpacity  onPress={() => {
-            navigation.navigate("UserLogin");
+            navigation.navigate("Login");
           }}>
               
               <Text>login</Text>

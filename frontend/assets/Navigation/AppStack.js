@@ -3,10 +3,13 @@ import { createStackNavigator } from "@react-navigation/stack";
 import HomeScreen from "../../Pages/HomeScreen";
 import Profile from "../../Pages/Profile";
 import TabNavigator from "./TabNavigator";
-import UserLogin from "../../Pages/UserLogin";
-import UserRegistration from "../../Pages/UserRegistration";
-import BusinessOwnerLogin from "../../Pages/BusinessOwnerLogin";
-import BusinessOwnerRegistration from "../../Pages/BusinessOwnerRegistration";
+// import UserLogin from "../../Pages/UserLogin";
+// import UserRegistration from "../../Pages/UserRegistration";
+// import BusinessOwnerLogin from "../../Pages/BusinessOwnerLogin";
+// import BusinessOwnerRegistration from "../../Pages/BusinessOwnerRegistration";
+
+import Login from "../../Pages/Login";
+import Registration from "../../Pages/Registration";
 import More from "../../Pages/More";
 
 
@@ -20,7 +23,7 @@ const AppStack = () => {
         component={TabNavigator}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="UserLogin"
         component={UserLogin}
         options={{ headerShown: false }}
@@ -38,6 +41,17 @@ const AppStack = () => {
        <Stack.Screen
         name="BusinessOwnerRegistration"
         component={BusinessOwnerRegistration}
+        options={{ headerShown: false }}
+      /> */}
+
+<Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="Registration"
+        component={Registration}
         options={{ headerShown: false }}
       />
        <Stack.Screen

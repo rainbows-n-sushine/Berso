@@ -1,41 +1,39 @@
-<<<<<<< HEAD
 const Review = require('../models/review')
-exports.createReview = async (req, res) => {
-  try {
-    const { businessId, rating, comment } = req.body;
-    const userId = req.user._id;
+// exports.createReview = async (req, res) => {
+//   try {
+//     const { businessId, rating, comment } = req.body;
+//     const userId = req.user._id;
 
-    const review = new Review({
-      user: userId,
-      business: businessId,
-      rating,
-      comment,
-    });
+//     const review = new Review({
+//       user: userId,
+//       business: businessId,
+//       rating,
+//       comment,
+//     });
 
-    await review.save();
-    await updateBusinessRating(businessId, rating);
+//     await review.save();
+//     await updateBusinessRating(businessId, rating);
 
-    res.status(201).json({ success: true, message: "Review created successfully" });
-  } catch (error) {
-    console.error("Error creating review:", error);
-    res.status(500).json({ success: false, error: "Internal server error" });
-  }
-};
+//     res.status(201).json({ success: true, message: "Review created successfully" });
+//   } catch (error) {
+//     console.error("Error creating review:", error);
+//     res.status(500).json({ success: false, error: "Internal server error" });
+//   }
+// };
 
-exports.getReviewsByBusiness = async (req, res) => {
-  try {
-    const { businessId } = req.params;
+// exports.getReviewsByBusiness = async (req, res) => {
+//   try {
+//     const { businessId } = req.params;
 
-    const reviews = await Review.find({ business: businessId }).populate("user", "name");
+//     const reviews = await Review.find({ business: businessId }).populate("user", "name");
 
-    res.json({ success: true, reviews });
-  } catch (error) {
-    console.error("Error retrieving reviews:", error);
-    res.status(500).json({ success: false, error: "Internal server error" });
-  }
-};
-=======
-const { Review } = require("../models/review")
+//     res.json({ success: true, reviews });
+//   } catch (error) {
+//     console.error("Error retrieving reviews:", error);
+//     res.status(500).json({ success: false, error: "Internal server error" });
+//   }
+// };
+// const { Review } = require("../models/review")
 
 exports.addReview=async(req,res)=>{
     const {title,description,userId,businessId}=req.body
@@ -143,4 +141,3 @@ return res.json({message:"here is the detail of the review ", success:true, revi
 
 
  }
->>>>>>> hbranch

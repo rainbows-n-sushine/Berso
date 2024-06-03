@@ -6,10 +6,13 @@ import Profile from "../../Pages/Profile";
 import SearchBusinessScreen from "../../Pages/SearchBusinessScreen";
 import SearchResultsScreen from "../../Pages/SearchResultsScreen";
 import Collections from "../../Pages/Collections";
-import UserLogin from "../../Pages/UserLogin";
-import UserRegistration from "../../Pages/UserRegistration";
-import BusinessOwnerLogin from "../../Pages/BusinessOwnerLogin";
-import BusinessOwnerRegistration from "../../Pages/BusinessOwnerRegistration";
+// import UserLogin from "../../Pages/UserLogin";
+// import UserRegistration from "../../Pages/UserRegistration";
+// import BusinessOwnerLogin from "../../Pages/BusinessOwnerLogin";
+// import BusinessOwnerRegistration from "../../Pages/BusinessOwnerRegistration";
+
+import Login from "../../Pages/Login";
+import Registration from "../../Pages/Registration";
 
 const CollectionsNavigator = () => {
     const Stack = createStackNavigator();
@@ -30,7 +33,7 @@ const CollectionsNavigator = () => {
         component={Collections}
         options={{ headerShown: false }}
       />
-      <Stack.Screen
+      {/* <Stack.Screen
         name="UserLogin"
         component={UserLogin}
         options={{ headerShown: false }}
@@ -41,7 +44,7 @@ const CollectionsNavigator = () => {
         options={{ headerShown: false }}
       />
 
-<Stack.Screen
+      <Stack.Screen
         name="BusinessOwnerLogin"
         component={BusinessOwnerLogin}
         options={{ headerShown: false }}
@@ -49,6 +52,18 @@ const CollectionsNavigator = () => {
        <Stack.Screen
         name="BusinessOwnerRegistration"
         component={BusinessOwnerRegistration}
+        options={{ headerShown: false }}
+      /> */}
+
+
+     <Stack.Screen
+        name="Login"
+        component={Login}
+        options={{ headerShown: false }}
+      />
+       <Stack.Screen
+        name="Registration"
+        component={Registration}
         options={{ headerShown: false }}
       />
       {/* <Stack.Screen

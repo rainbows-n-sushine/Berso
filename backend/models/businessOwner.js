@@ -31,13 +31,16 @@ username:{
   bio: {
     type: String,
   },
-
-  // avatar: Buffer,
-
-  profilepic: {
+ profilepic: {
     data: Buffer,
     contentType: String,
   },
+  date:{
+    type:Date,
+    default:Date.now()
+  },
+
+
 });
 
 businessOwnerSchema.statics.isUniqueCredentials = async function (email, username) {

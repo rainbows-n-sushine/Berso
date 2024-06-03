@@ -63,7 +63,7 @@ exports.updateBusinessOwnerProfilePic = async (req, res) => {
 };
 
 exports.signUp = async (req, res) => {
-  const { username, email } = req.body;
+  const { username, email } = req.body.userData;
   // fullName,username,email,dateOfBirth,zipCode,password,confirmPassword
 
   console.log(req.body);
@@ -90,7 +90,7 @@ exports.signUp = async (req, res) => {
     });
   } else {
     const { fullName, username, email, dateOfBirth, zipCode, password } =
-      req.body;
+      req.body.userData;
     console.log("isNewbusinessOwner.username  and  isNewbusinessOwner.email");
     const businessOwner = await BusinessOwner({
       name: fullName,
