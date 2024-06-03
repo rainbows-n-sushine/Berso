@@ -17,7 +17,8 @@ import MoreNavigator from "./MoreNavigator";
 import HomeScreen from '../../Pages/BusinessOwnerPages/HomeScreen';
 import Profile from '../../Pages/BusinessOwnerPages/Profile';
 import More from '../../Pages/BusinessOwnerPages/More';
-import BusinessProfilePage from '../../Pages/BusinessOwnerPages/OtherP';
+import BusinessProfilePage from '../../Pages/BusinessOwnerPages/Profile';
+
 const Tab = createBottomTabNavigator();
 const TabNavigatorB = () => {
   return (

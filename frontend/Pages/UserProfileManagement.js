@@ -13,6 +13,7 @@ import {
   Platform,
   Alert,
   Modal,
+  SafeAreaView,
 } from "react-native";
 import tw from "twrnc";
 import * as ImagePicker from "expo-image-picker";
@@ -546,7 +547,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                   setBio(text);
                 }}
               />
-            
+
               <View style={tw`border-b border-white my-4 `} />
               <Text
                 style={{ fontFamily: "berlin-sans" }}
@@ -568,7 +569,7 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                   {errors.currentPassword}
                 </Text>
               )}
-               <Text
+              <Text
                 style={{ fontFamily: "berlin-sans" }}
                 className="text-base  text-stone-500 font-bold mb-1"
               >
@@ -588,32 +589,36 @@ await api.post('user/update-profile',{fullName,_username,_email,_dateOfBirth,_ph
                   {errors.newPassword}
                 </Text>
               )}
-           <TouchableOpacity
+              <TouchableOpacity
                 style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
                 onPress={handleSubmit}
               >
-                  <Text
-                    className={{ fontFamily: "berlin-sans" }}
-                    style={tw`text-white font-bold`}
-                  >
-                    Update profile
-                  </Text>
-                  </TouchableOpacity>
-              </View>
+                <Text
+                  className={{ fontFamily: "berlin-sans" }}
+                  style={tw`text-white font-bold`}
+                >
+                  Update profile
+                </Text>
+              </TouchableOpacity>
             </View>
+          </View>
         ) : (
           <>
-            <View>
-              <Text className="text-xl">Sign in to continue</Text>
+            <SafeAreaView style={tw`flex items-center justify-between`}>
+              <Image
+                source={require("../assets/Images/VectorSignin.jpg")}
+                style={tw`w-full h-100`}
+              />
+              <Text style={tw`text-xl`}>Sign in to continue</Text>
               <TouchableOpacity
-                className="bg-white p-3 rounded-xl"
+                style={tw`bg-orange-100 px-4 py-1 rounded-xl`}
                 onPress={() => {
                   navigation.navigate("Login");
                 }}
               >
-                <Text>Login</Text>
+                <Text style={tw`text-xl font-semibold`}>Login</Text>
               </TouchableOpacity>
-            </View>
+            </SafeAreaView>
           </>
         )}
       </ScrollView>

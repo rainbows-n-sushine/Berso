@@ -36,7 +36,7 @@ const MoreNavigator = () => {
       <Stack.Screen
         name="BusinessPage"
         component={BusinessPage}
-        options={{ headerShown: false }}
+        options={{ headerShown: true }}
       />
       
       {/* <Stack.Screen

@@ -1,43 +1,44 @@
-import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React,{useState,useEffect, useContext} from 'react'
+import React, { useState, useEffect, useContext } from "react";
+import {
+  Image,
+  SafeAreaView,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { AuthContext } from "../context/AuthContext";
+import tw from "twrnc";
+
 const Collections = () => {
+  const [userToken, setUserToken] = useState(null);
+  const [displayCollection, setDisplayCollection] = useState(false);
 
-  const [userToken,setUserToken]= useState(null)
+  useEffect(() => {
+    async function getToken() {
+      console.log(userToken);
+      let token = await AsyncStorage.getItem("userToken");
+      console.log(displayCollection);
+      console.log(token);
+      setUserToken(token);
+      if (token === null) {
+        setDisplayCollection(false);
+      } else {
+        setDisplayCollection(true);
+      }
+    }
+    getToken();
+  }, []);
 
-  const [displayCollection,setDisplayCollection]=useState(false)
+  const navigation = useNavigation();
+  const { isLoading } = useContext(AuthContext);
 
-
-
-  useEffect(()=>{
-    async function getToken(){
-console.log(userToken)
-  let token=await AsyncStorage.getItem('userToken')
-  console.log(displayCollection)
-
-  console.log(token)
-    setUserToken(token)
-    if(token===null){
-      setDisplayCollection(false)
-          }else{
-            setDisplayCollection(true)
-          }
-
-
-    } 
-    getToken()
-  
-  },[])
-  
- 
-    const navigation = useNavigation();
-   
-     const { isLoading } = useContext(AuthContext); 
   return (
-    <SafeAreaView className="flex-1 bg-[#F2E8DE] items-center justify-between top-8">
-      <View className="flex items-center justify-between">
+    <View
+      style={tw`flex-1 bg-white items-center justify-between `}
+    >
+      <View style={tw`flex items-center justify-between`}>
         {/* 
         {displayCollection&&
         
@@ -51,35 +52,34 @@ console.log(userToken)
             </View>
           </>
         ) : userToken ? (
-          <View>
-            <Text className="text-xl text-center">Collections</Text>
-            <TouchableOpacity
-              className="bg-white p-3 rounded-xl items-center"
-              
-            >
+          <SafeAreaView>
+            <Text style={tw`text-xl text-center`}>Collections</Text>
+            <TouchableOpacity style={tw`bg-white p-3 rounded-xl items-center`}>
               <Text>user has logged in</Text>
             </TouchableOpacity>
-          </View>
+          </SafeAreaView>
         ) : (
           <>
-            <View>
-              <Text className="text-xl">Sign in for collections</Text>
+            <SafeAreaView style={tw`flex items-center justify-between`}>
+              <Image
+                source={require("../assets/Images/VectorSignin.jpg")}
+                style={tw`h-96 w-96 `}
+              />
+              <Text style={tw`text-xl`}>Sign in to continue</Text>
               <TouchableOpacity
-                className="bg-white p-3 rounded-xl"
+                style={tw`bg-orange-100 px-4 py-1 rounded-xl`}
                 onPress={() => {
-                  navigation.navigate("UserLogin");
+                  navigation.navigate("Login");
                 }}
               >
-                <Text>Login</Text>
+                <Text style={tw`text-xl font-semibold`}>Login</Text>
               </TouchableOpacity>
-            </View>
+            </SafeAreaView>
           </>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
-}
+};
 
-export default Collections
-
-// const styles = StyleSheet.create({})
+export default Collections;

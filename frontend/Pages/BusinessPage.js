@@ -84,7 +84,7 @@ const BusinessPage = () => {
   useEffect(() => {
     setTimeout(() => {
       setIsReady(true);
-    }, 2000); // Replace with actual data fetching logic
+    }, 1000); // Replace with actual data fetching logic
   }, []);
 
   const handleScroll = (event) => {
