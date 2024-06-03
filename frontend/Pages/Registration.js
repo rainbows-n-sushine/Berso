@@ -155,13 +155,15 @@ const Registration = () => {
             </View>
             <View>
               <Text
-                style={{ fontFamily: "berlin-sans", fontSize: 40 }}
-                className="text-2xl text-white font-bold mb-4 py-2 text-center"
+                style={[
+                  tw`text-2xl text-white font-bold mb-4 py-2 text-center`,
+                  { fontFamily: "berlin-sans", fontSize: 40 },
+                ]}
               >
                 Registration
               </Text>
             </View>
-            <View className="items-center">
+            <View style={tw`items-center`}>
               <TextInput
                 style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
                 placeholder="First Name"
@@ -240,18 +242,18 @@ const Registration = () => {
                 />
               )}
               {showPicker && Platform.OS === "ios" && (
-                <View className="items-center justify-between my-3">
+                <View style={tw`items-center justify-between my-3`}>
                   <TouchableOpacity
-                    className="bg-white w-72 items-center justify-between my-1 py-2 rounded-lg"
+                    style={tw`bg-white w-72 items-center justify-between my-1 py-2 rounded-lg`}
                     onPress={confirmIOSDate}
                   >
-                    <Text className="text-base">Confirm</Text>
+                    <Text style={tw`text-base`}>Confirm</Text>
                   </TouchableOpacity>
                   <TouchableOpacity
-                    className="bg-white w-72 items-center justify-between my-1 py-2 rounded-lg"
+                    style={tw`bg-white w-72 items-center justify-between my-1 py-2 rounded-lg`}
                     onPress={toggleDatePicker}
                   >
-                    <Text className="text-base">Cancel</Text>
+                    <Text style={tw`text-base`}>Cancel</Text>
                   </TouchableOpacity>
                 </View>
               )}

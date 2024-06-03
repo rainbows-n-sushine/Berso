@@ -94,8 +94,7 @@ const Login = ({ navigation }) => {
           </View>
           <View>
             <Text
-              className={`text-lg font-bold py-4 text-center text-white`}
-              style={{ fontFamily: "berlin-sans", fontSize: 40 }}
+              style={[tw`text-lg font-bold py-4 text-center text-white`, { fontFamily: "berlin-sans", fontSize: 40 }]}
             >
               {isBusinessOwner ? "Business Owner Login" : "Login"}
             </Text>
