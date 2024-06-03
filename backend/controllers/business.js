@@ -46,10 +46,11 @@ exports.fetchByCategory = async (req, res) => {
   const { categoryId } = req.params;
 console.log('this it hhsvjhvsh cate  :', categoryId)
 
+const id=JSON.parse(categoryId)
 
 
 try {
-  const businesses = await Business.find({ category:{$in:[categoryId]}});
+  const businesses = await Business.find({ category:{$in:[id]}});
 
     console.log("Retrieved businesses:", businesses);
 
