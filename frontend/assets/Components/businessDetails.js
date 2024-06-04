@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import {
   View,
   Text,
@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   FlatList,
   Image,
+  TextInput,
 } from "react-native";
 import tw from "twrnc";
 import {
@@ -59,6 +60,17 @@ const dummyReviews = [
       avatar: require("../Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"), // Use require for local images
     },
     likes: 10,
+    liked: false,
+    comments: [
+      {
+        id: 1,
+        user: {
+          id: 3,
+          username: "@commenter1",
+        },
+        text: "I agree!",
+      },
+    ],
   },
   {
     id: 2,
@@ -70,52 +82,129 @@ const dummyReviews = [
       avatar: "../Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg", // Use URL for online images
     },
     likes: 5,
+    liked: false,
+    comments: [],
   },
   // Add more dummy reviews as needed
 ];
 
-const handleLike = (reviewId) => {
-  // Implement your like functionality here, e.g., send a request to the backend
-  console.log("Liked review with ID:", reviewId);
-};
+const ReviewItem = ({ item }) => {
+  const [likes, setLikes] = useState(item.likes);
+  const [liked, setLiked] = useState(item.liked);
+  const [newComment, setNewComment] = useState("");
 
-const renderItem = ({ item }) => (
-  <View style={tw`p-4 border-b border-gray-300`}>
-    <View style={tw`flex-row items-center mb-2`}>
+  const handleLike = () => {
+    if (liked) {
+      setLikes(likes - 1);
+    } else {
+      setLikes(likes + 1);
+    }
+    setLiked(!liked);
+  };
+
+  const handleAddComment = () => {
+    if (newComment.trim().length > 0) {
+      // Find the review by id and add the new comment
+      const reviewIndex = dummyReviews.findIndex(
+        (review) => review.id === item.id
+      );
+      if (reviewIndex !== -1) {
+        dummyReviews[reviewIndex].comments.push({
+          id: dummyReviews[reviewIndex].comments.length + 1,
+          user: {
+            id: 4, // Example user id for the new comment
+            username: "@newCommenter", // Example username for the new comment
+          },
+          text: newComment,
+        });
+        setNewComment(""); // Clear the input field after adding the comment
+      }
+    }
+  };
+
+  const renderComment = ({ item }) => (
+    <View style={tw`flex-row items-center my-2 `}>
+      <Text style={tw`font-bold mr-2`}>{item.user.username}</Text>
+      <Text>{item.text}</Text>
+    </View>
+  );
+
+  return (
+    <View style={tw`bg-slate-50 rounded-xl p-6 shadow-md mb-6`}>
+      <View style={tw`flex-row items-center mb-2`}>
+        <Image
+          source={
+            typeof item.user.avatar === "string"
+              ? { uri: item.user.avatar }
+              : item.user.avatar
+          }
+          style={tw`w-8 h-8 rounded-full mr-2`}
+        />
+        <Text style={tw`font-bold text-lg`}>{item.user.username}</Text>
+      </View>
       <Image
         source={
-          typeof item.user.avatar === "string"
-            ? { uri: item.user.avatar }
-            : item.user.avatar
+          typeof item.photo === "string" ? { uri: item.photo } : item.photo
         }
-        style={tw`w-8 h-8 rounded-full mr-2`}
+        style={tw`w-full h-40 mb-2 w-70 ml-4`}
+        resizeMode="cover"
       />
-      <Text style={tw`font-bold`}>{item.user.username}</Text>
-    </View>
-    <Image
-      source={typeof item.photo === "string" ? { uri: item.photo } : item.photo}
-      style={tw`w-full h-40 mb-2`}
-      resizeMode="cover"
-    />
-    <Text style={tw`mb-2`}>{item.text}</Text>
-    <TouchableOpacity onPress={() => handleLike(item.id)}>
-      <View style={tw`flex-row items-center`}>
-        <Feather name="thumbs-up" size={20} color="blue" style={tw`mr-1`} />
-        <Text>{item.likes}</Text>
+      <Text style={tw`mb-2 text-center text-base`}>{item.text}</Text>
+      <View style={tw`flex-row items-center justify-center my-3`}>
+        <TouchableOpacity onPress={handleLike}>
+          <View style={tw`items-center justify-center`}>
+            <FontAwesome
+              name="thumbs-up"
+              size={24}
+              color={liked ? "orange" : "gray"}
+              style={tw`mr-1`}
+            />
+            <Text>{likes} Helpfull</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={handleLike}>
+          <View style={tw` items-center justify-center ml-5`}>
+            <FontAwesome
+              name="thumbs-down"
+              size={24}
+              color={liked ? "orange" : "gray"}
+              style={tw`mr-1`}
+            />
+            <Text>{likes} Not Helpfull</Text>
+          </View>
+        </TouchableOpacity>
       </View>
-    </TouchableOpacity>
-  </View>
-);
+      <FlatList
+        data={item.comments}
+        renderItem={renderComment}
+        keyExtractor={(comment) => comment.id.toString()}
+      />
+
+      <View style={tw`flex-row items-center mt-2`}>
+        <TextInput
+          style={tw`border border-gray-300 p-2 flex-1 mr-2`}
+          placeholder="Add a comment"
+          value={newComment}
+          onChangeText={setNewComment}
+        />
+        <TouchableOpacity onPress={handleAddComment}>
+          <Text style={tw`text-orange-500`}>Post</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+};
 
 const Reviews = () => (
   <View style={tw`p-4 bg-white`}>
     <FlatList
       data={dummyReviews}
-      renderItem={renderItem}
+      renderItem={({ item }) => <ReviewItem item={item} />}
       keyExtractor={(item) => item.id.toString()}
     />
   </View>
 );
+
 
 
 const Services = () => (

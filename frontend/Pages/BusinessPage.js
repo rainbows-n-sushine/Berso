@@ -336,7 +336,7 @@ const BusinessPage = () => {
               renderTabButton(item, index)
             )}
           </ScrollView>
-          <View style={tw`flex-1 mt-1 bg-white rounded-t-xl `}>
+          <View style={tw`flex-1 bg-white `}>
             {/* Only render the content of the active tab */}
             {dummyData[activeTabIndex] && (
               <SectionContent section={dummyData[activeTabIndex]} />
