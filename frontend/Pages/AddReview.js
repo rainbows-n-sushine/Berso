@@ -19,15 +19,9 @@ import {
   MaterialIcons,
 } from "@expo/vector-icons";
 const AddReview = ({ navigation }) => {
-<<<<<<< HEAD
   const [review, setReview] = useState({});
   const [rating, setRating] = useState(0);
-  const [image, setImage] = useState(null);
-=======
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState("");
-  const [images, setImages] = useState([]);
->>>>>>> 19618681e5d848914f5aa4077dc0f9b148800a6a
+  const [image, setImage] = useState([]);
 
 
 
@@ -59,7 +53,6 @@ const AddReview = ({ navigation }) => {
     }
   };
 
-<<<<<<< HEAD
   const handleChange=(name,value)=>{
    console.log("this is the valeue in handle change" ,value)
 
@@ -71,11 +64,9 @@ const AddReview = ({ navigation }) => {
 
 
   }
-=======
   const removeImage = (uri) => {
     setImages((prevImages) => prevImages.filter((image) => image !== uri));
   };
->>>>>>> 19618681e5d848914f5aa4077dc0f9b148800a6a
 
   const submitReview = () => {
     if (!review || !rating) {
@@ -97,7 +88,6 @@ const AddReview = ({ navigation }) => {
       <Text style={tw`text-2xl font-bold mb-4`}>Add Review</Text>
 
       <TextInput
-<<<<<<< HEAD
         style={tw`border p-2 mb-4 rounded-xl `}
         placeholder="Write your review title..."
         name="title"
@@ -108,9 +98,6 @@ const AddReview = ({ navigation }) => {
 
       <TextInput
         style={tw`border p-2 mb-4 rounded-xl `}
-=======
-        style={tw`border p-2 mb-4 rounded-xl`}
->>>>>>> 19618681e5d848914f5aa4077dc0f9b148800a6a
         placeholder="Write your review..."
         name='description'
         value={review.description}
