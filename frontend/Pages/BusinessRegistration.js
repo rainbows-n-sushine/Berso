@@ -81,8 +81,8 @@ console.log('mi here')
       await api.get('category/fetchAll')
       .then((res)=>{
 
-        console.log(res.data.category)
-        let allCategory=res.data.category
+        console.log(res.data.categories)
+        let allCategory=res.data.categories
 
         console.log('this is the whole category',allCategory)
         let categoryCollection=[]
