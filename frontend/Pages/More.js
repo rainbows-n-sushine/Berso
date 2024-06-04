@@ -27,9 +27,24 @@ import { useBusinessTab, setBusinessTab } from "../context/BusinessTabContext";
 
 const More = () => {
   const { setBusinessTab } = useBusinessTab();
-  const { UserLogout, BusinessOwnerLogout } = useContext(AuthContext);
+  const { UserLogout, BusinessOwnerLogout, _businessOwnerId,_userId} = useContext(AuthContext);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+
+
+  useEffect(()=>{
+
+    const getBusinesses =async()=>{
+
+      await api.get(`business/${businessOwnerId}`)
+      .get
+
+
+    }
+    getBuinesses()
+
+
+  },[])
 
   // Dummy data for businesses
   const businesses = [
