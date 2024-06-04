@@ -1,6 +1,6 @@
 const { Business } = require("../models/business");
 const { Review } = require("../models/review");
-const { RecommendationClient } = require('@algolia/recommend');
+const { Rating } = require("../models/rating");
 const natural = require('natural');
 const TfIdf = natural.TfIdf;
 const brain = require('brain.js');
@@ -10,42 +10,28 @@ exports.getRecommendations = async (req, res) => {
   try {
     const userId = req.user._id;
 
-    const recommendationClient = new RecommendationClient({
-      applicationID: 'ALGOLIA_APPLICATION_ID',
-      apiKey: 'ALGOLIA_API_KEY',
-      indexName: 'ALGOLIA_INDEX_NAME',
-    });
-
-    const cfRecommendations = await recommendationClient.getRecommendations([
-      {
-        indexName: 'YOUR_ALGOLIA_INDEX_NAME',
-        objectID: userId,
-        model: 'bought-together',
-        maxRecommendations: 10,
-      },
-    ]);
-
     const userPreferences = await getUserPreferences(userId);
-    const tfidf = new TfIdf();
     const businesses = await Business.find();
-    businesses.forEach(business => {
-      tfidf.addDocument(business.description);
-    });
-    const cbRecommendations = businesses.map(business => {
-      const similarity = tfidf.tfidf(userPreferences, business.description);
+
+    const tfidfScores = calculateTFIDF(businesses);
+    const userVector = createUserVector(userPreferences, tfidfScores);
+
+    const recommendedBusinesses = businesses.map(business => {
+      const businessVector = createBusinessVector(business, tfidfScores);
+      const similarity = cosineSimilarity(userVector, businessVector);
       return { business, similarity };
     });
-    cbRecommendations.sort((a, b) => b.similarity - a.similarity);
 
-    const recommendedBusinessIds = [...cfRecommendations.results[0].hits.map(hit => hit.objectID), ...cbRecommendations.map(item => item.business._id)];
-    const recommendations = await Business.find({ _id: { $in: recommendedBusinessIds } });
+    recommendedBusinesses.sort((a, b) => b.similarity - a.similarity);
+    const topRecommendations = recommendedBusinesses.slice(0, 10).map(item => item.business);
 
-    res.json({ success: true, recommendations });
+    res.json({ success: true, recommendations: topRecommendations });
   } catch (error) {
     console.error("Error generating recommendations:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
+
 
 exports.filterReviews = async (req, res) => {
   try {
@@ -53,11 +39,27 @@ exports.filterReviews = async (req, res) => {
 
     let reviews = await Review.find({ business: businessId });
 
+    // Preprocess the reviews data for training
+    const trainingData = reviews.map(review => ({
+      input: {
+        description: review.description,
+        title: review.title
+      },
+      output: {
+        genuine: 1
+      }
+    }));
+
     const network = new brain.NeuralNetwork();
-    network.train(labeledReviewData);
+    network.train(trainingData);
+
     const mlFilteredReviews = reviews.filter(review => {
-      const prediction = network.run(review.description) && network.run(review.title);
-      return prediction.label === 'genuine';
+      const input = {
+        description: review.description,
+        title: review.title
+      };
+      const prediction = network.run(input);
+      return prediction.genuine > 0.5; // Consider the review as genuine if the prediction is greater than 0.5
     });
 
     const rbFilteredReviews = reviews.filter(review => {
@@ -73,7 +75,6 @@ exports.filterReviews = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
-
 // async function getUserBusinessMatrix() {
 //   try {
 //     const users = await User.find();
@@ -201,4 +202,77 @@ function calculateRecommendationScore(business, userPreferences) {
   }
 
   return score;
+}
+
+function calculateTFIDF(businesses) {
+  const tfidfScores = {};
+  const totalDocuments = businesses.length;
+
+  businesses.forEach(business => {
+    const words = business.description.toLowerCase().split(/\W+/);
+    const wordFrequency = {};
+
+    words.forEach(word => {
+      if (word) {
+        if (wordFrequency[word]) {
+          wordFrequency[word]++;
+        } else {
+          wordFrequency[word] = 1;
+        }
+      }
+    });
+
+    Object.keys(wordFrequency).forEach(word => {
+      const tf = wordFrequency[word] / words.length;
+      const documentsWithWord = businesses.filter(b => b.description.toLowerCase().includes(word)).length;
+      const idf = Math.log(totalDocuments / (1 + documentsWithWord));
+      const tfidf = tf * idf;
+
+      if (tfidfScores[word]) {
+        tfidfScores[word].push({ business: business._id, score: tfidf });
+      } else {
+        tfidfScores[word] = [{ business: business._id, score: tfidf }];
+      }
+    });
+  });
+
+  return tfidfScores;
+}
+
+function createUserVector(userPreferences, tfidfScores) {
+  const userVector = {};
+
+  for (const category in userPreferences) {
+    const words = category.toLowerCase().split(/\W+/);
+    words.forEach(word => {
+      if (tfidfScores[word]) {
+        userVector[word] = userPreferences[category];
+      }
+    });
+  }
+
+  return userVector;
+}
+
+function createBusinessVector(business, tfidfScores) {
+  const businessVector = {};
+
+  const words = business.description.toLowerCase().split(/\W+/);
+  words.forEach(word => {
+    if (tfidfScores[word]) {
+      const tfidfScore = tfidfScores[word].find(item => item.business.toString() === business._id.toString());
+      if (tfidfScore) {
+        businessVector[word] = tfidfScore.score;
+      }
+    }
+  });
+
+  return businessVector;
+}
+
+function cosineSimilarity(vector1, vector2) {
+  const dotProduct = Object.keys(vector1).reduce((sum, key) => sum + (vector1[key] || 0) * (vector2[key] || 0), 0);
+  const magnitude1 = Math.sqrt(Object.keys(vector1).reduce((sum, key) => sum + Math.pow(vector1[key] || 0, 2), 0));
+  const magnitude2 = Math.sqrt(Object.keys(vector2).reduce((sum, key) => sum + Math.pow(vector2[key] || 0, 2), 0));
+  return dotProduct / (magnitude1 * magnitude2);
 }
