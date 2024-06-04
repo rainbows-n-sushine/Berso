@@ -1,5 +1,12 @@
 import React from "react";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TouchableOpacity,
+  FlatList,
+  Image,
+} from "react-native";
 import tw from "twrnc";
 import {
   AntDesign,
@@ -40,6 +47,77 @@ const dummyPost = {
     { category: "More like this", id: 5 },
   ],
 };
+
+const dummyReviews = [
+  {
+    id: 1,
+    text: "This place is awesome!",
+    photo: require("../Images/Home.jpg"), // Use require for local images
+    user: {
+      id: 1,
+      username: "@user1",
+      avatar: require("../Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"), // Use require for local images
+    },
+    likes: 10,
+  },
+  {
+    id: 2,
+    text: "Great experience!",
+    photo: require("../Images/Home.jpg"), // Use URL for online images
+    user: {
+      id: 2,
+      username: "@user2",
+      avatar: "../Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg", // Use URL for online images
+    },
+    likes: 5,
+  },
+  // Add more dummy reviews as needed
+];
+
+const handleLike = (reviewId) => {
+  // Implement your like functionality here, e.g., send a request to the backend
+  console.log("Liked review with ID:", reviewId);
+};
+
+const renderItem = ({ item }) => (
+  <View style={tw`p-4 border-b border-gray-300`}>
+    <View style={tw`flex-row items-center mb-2`}>
+      <Image
+        source={
+          typeof item.user.avatar === "string"
+            ? { uri: item.user.avatar }
+            : item.user.avatar
+        }
+        style={tw`w-8 h-8 rounded-full mr-2`}
+      />
+      <Text style={tw`font-bold`}>{item.user.username}</Text>
+    </View>
+    <Image
+      source={typeof item.photo === "string" ? { uri: item.photo } : item.photo}
+      style={tw`w-full h-40 mb-2`}
+      resizeMode="cover"
+    />
+    <Text style={tw`mb-2`}>{item.text}</Text>
+    <TouchableOpacity onPress={() => handleLike(item.id)}>
+      <View style={tw`flex-row items-center`}>
+        <Feather name="thumbs-up" size={20} color="blue" style={tw`mr-1`} />
+        <Text>{item.likes}</Text>
+      </View>
+    </TouchableOpacity>
+  </View>
+);
+
+const Reviews = () => (
+  <View style={tw`p-4 bg-white`}>
+    <FlatList
+      data={dummyReviews}
+      renderItem={renderItem}
+      keyExtractor={(item) => item.id.toString()}
+    />
+  </View>
+);
+
+
 const Services = () => (
   <ScrollView style={tw`p-4`}>
     <View
@@ -56,7 +134,7 @@ const Services = () => (
 );
 
 const Info = () => (
-  < View style={tw`p-2`}>
+  <View style={tw`p-2`}>
     <View style={tw`bg-white p-4 rounded-lg shadow`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
         Contact Details
@@ -163,20 +241,6 @@ const Pictures = () => (
   </ScrollView>
 );
 
-const Reviews = () => (
-  <ScrollView style={tw`p-4`}>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Ice Cream</Text>
-    </View>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Brownie</Text>
-    </View>
-  </ScrollView>
-);
 
 const MoreLikeThis = () => (
   <ScrollView style={tw`p-4`}>

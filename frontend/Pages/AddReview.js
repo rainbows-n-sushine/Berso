@@ -68,6 +68,23 @@ const AddReview = ({ navigation }) => {
     navigation.goBack();
   };
 
+  const StarRating = () => {
+    return (
+      <View style={tw`flex-row justify-center mb-4`}>
+        {[1, 2, 3, 4, 5].map((star) => (
+          <TouchableOpacity key={star} onPress={() => setRating(star)}>
+            <FontAwesome
+              name={star <= rating ? "star" : "star-o"}
+              size={30}
+              color={star <= rating ? "orange" : "gray"}
+              style={tw`mx-1`}
+            />
+          </TouchableOpacity>
+        ))}
+      </View>
+    );
+  };
+
   return (
     <SafeAreaView style={tw`flex-1 p-4 m-3`}>
       <Text style={tw`text-2xl font-bold mb-4`}>Add Review</Text>
@@ -79,14 +96,14 @@ const AddReview = ({ navigation }) => {
         onChangeText={setReview}
         multiline
       />
-
-      <TextInput
+      <StarRating />
+      {/* <TextInput
         style={tw`border p-2 mb-4 rounded-xl`}
         placeholder="Rating (1-5)"
         value={rating}
         onChangeText={setRating}
         keyboardType="numeric"
-      />
+      /> */}
 
       <TouchableOpacity
         onPress={pickImage}

@@ -53,17 +53,17 @@ const { isLoading, userToken } = useContext(AuthContext);
   //       className={`${styles.itemContainer} ${
   //         count >= 1 && foundMeals?.id === item.id ? styles.greenBorder : ''
   //       }`}>
-  //       <View className="flex flex-1 justify-center my-6 mr-8 ml-6">
-  //         <View className="flex flex-row items-center">
+  //       <View style={tw`flex flex-1 justify-center my-6 mr-8 ml-6">
+  //         <View style={tw`flex flex-row items-center">
   //           {count >= 1 && foundMeals?.id === item.id && (
-  //             <View className="bg-[#34BB78] items-center w-6 h-7 rounded-md mr-2">
-  //               <Text className="text-lg text-white font-semibold">{count}</Text>
+  //             <View style={tw`bg-[#34BB78] items-center w-6 h-7 rounded-md mr-2">
+  //               <Text style={tw`text-lg text-white font-semibold">{count}</Text>
   //             </View>
   //           )}
-  //           <Text className="text-base">{item.name}</Text>
+  //           <Text style={tw`text-base">{item.name}</Text>
   //         </View>
-  //         <Text className="text-sm text-[#6e6d72]">{item.info}</Text>
-  //         <Text className="">{item.price} €</Text>
+  //         <Text style={tw`text-sm text-[#6e6d72]">{item.info}</Text>
+  //         <Text style={tw`">{item.price} €</Text>
   //       </View>
   //       <Image
   //         source={{ uri: item.img }}
@@ -88,28 +88,28 @@ const { isLoading, userToken } = useContext(AuthContext);
       ) : userToken ? (
         <>
           <ParallaxScrollView
-            className="flex-1"
+            style={tw`flex-1`}
             // styles={{ flex: 1 }}
             backgroundColor="white"
             parallaxHeaderHeight={300}
-            renderBackground={() => <View className="bg-black top-8"></View>}
+            renderBackground={() => <View style={tw`bg-black top-8`}></View>}
             stickyHeaderHeight={90}
             contentBackgroundColor="#F2E8DE"
             // renderStickyHeader={() => (
-            //   <View className="flex justify-between top-4">
-            //     <View className="ml-4">
-            //       <Text className=" text-orange-400 text-lg font-semibold">
+            //   <View style={tw`flex justify-between top-4`}>
+            //     <View style={tw`ml-4`}>
+            //       <Text style={tw` text-orange-400 text-lg font-semibold`}>
             //         My Reviews and Photos
             //       </Text>
             //     </View>
-            //     <View className="flex flex-row items-center justify-between py-3 divide-x-2 divide-gray-200">
-            //       <View className="items-center w-1/2 ">
-            //         <Text className=" text-black text-lg font-semibold mx-3">
+            //     <View style={tw`flex flex-row items-center justify-between py-3 divide-x-2 divide-gray-200`}>
+            //       <View style={tw`items-center w-1/2`}>
+            //         <Text style={tw` text-black text-lg font-semibold mx-3`}>
             //           Reviews
             //         </Text>
             //       </View>
-            //       <View className="items-center w-1/2">
-            //         <Text className="  text-black text-lg font-semibold mx-3">
+            //       <View style={tw`items-center w-1/2`}>
+            //         <Text style={tw`  text-black text-lg font-semibold mx-3`}>
             //           Photos
             //         </Text>
             //       </View>
@@ -117,10 +117,10 @@ const { isLoading, userToken } = useContext(AuthContext);
             //   </View>
             // )}
             renderForeground={() => (
-              <SafeAreaView className="flex  bg-white">
-                <View className="flex-row-reverse ml-2 mt-2">
+              <SafeAreaView style={tw`flex  bg-white`}>
+                <View style={tw`flex-row-reverse ml-2 mt-2`}>
                   <TouchableOpacity
-                    className="px-2"
+                    style={tw`px-2`}
                     onPress={() => {
                       navigation.navigate("EditUserProfile");
                     }}
@@ -128,7 +128,7 @@ const { isLoading, userToken } = useContext(AuthContext);
                     <Feather name="share" size={24} color="black" />
                   </TouchableOpacity>
                   <TouchableOpacity
-                    className="px-2"
+                    style={tw`px-2`}
                     onPress={() => {
                       navigation.navigate("EditUserProfile");
                     }}
@@ -136,32 +136,32 @@ const { isLoading, userToken } = useContext(AuthContext);
                     <Feather name="edit" size={24} color="black" />
                   </TouchableOpacity>
                 </View>
-                <View className="flex items-center justify-between mt-9">
+                <View style={tw`flex items-center justify-between mt-9`}>
                   {/* <FontAwesome name="user-circle-o" size={60} color="black" />
                    */}
-                  <View className="items-center justify-between">
+                  <View style={tw`items-center justify-between`}>
                     <Image
                       source={require("../assets/Images/defaultprofile.png")}
                       style={tw`w-20 h-20 rounded-full border border-orange-300`}
                     />
-                    <Text className="mt-1 text-base">Username</Text>
+                    <Text style={tw`mt-1 text-base`}>Username</Text>
                   </View>
-                  <View className="flex-row mt-2 justify-between items-center">
-                    <View className="items-center flex-row mx-1">
+                  <View style={tw`flex-row mt-2 justify-between items-center`}>
+                    <View style={tw`items-center flex-row mx-1`}>
                       <Feather name="users" size={12} color="lightgray" />
-                      <Text className="text-sm  text-neutral-400">45</Text>
+                      <Text style={tw`text-sm  text-neutral-400`}>45</Text>
                     </View>
-                    <View className="items-center flex-row mx-1">
+                    <View style={tw`items-center flex-row mx-1`}>
                       <FontAwesome name="photo" size={12} color="lightgray" />
-                      <Text className="text-sm text-neutral-400">12</Text>
+                      <Text style={tw`text-sm text-neutral-400`}>12</Text>
                     </View>
-                    <View className="items-center flex-row mx-1">
+                    <View style={tw`items-center flex-row mx-1`}>
                       <Foundation name="comments" size={12} color="lightgray" />
-                      <Text className="text-sm  text-neutral-400">18</Text>
+                      <Text style={tw`text-sm  text-neutral-400`}>18</Text>
                     </View>
                   </View>
-                  <View className="flex-row my-7 justify-between items-center">
-                    <View className="items-center mx-4">
+                  <View style={tw`flex-row my-7 justify-between items-center`}>
+                    <View style={tw`items-center mx-4`}>
                       <MaterialCommunityIcons
                         name="comment-edit-outline"
                         size={22}
@@ -173,13 +173,13 @@ const { isLoading, userToken } = useContext(AuthContext);
                           navigation.navigate("AddReview");
                         }}
                       >
-                        <Text className="text-base">Add Review</Text>
+                        <Text style={tw`text-base`}>Add Review</Text>
                       </TouchableOpacity>
                     </View>
-                    <View className="items-center  mx-4">
+                    <View style={tw`items-center  mx-4`}>
                       <Feather name="camera" size={22} color="black" />
 
-                      <Text className="text-base">Add Photo</Text>
+                      <Text style={tw`text-base`}>Add Photo</Text>
                     </View>
                     <TouchableOpacity
                       onPress={() => {
@@ -187,9 +187,9 @@ const { isLoading, userToken } = useContext(AuthContext);
                         setModalVisible(true);
                       }}
                     >
-                      <View className="items-center mx-4">
+                      <View style={tw`items-center mx-4`}>
                         <AntDesign name="isv" size={22} color="black" />
-                        <Text className="text-base">Add Business</Text>
+                        <Text style={tw`text-base`}>Add Business</Text>
                       </View>
                     </TouchableOpacity>
                     <Modal
@@ -204,7 +204,7 @@ const { isLoading, userToken } = useContext(AuthContext);
                         style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}
                       >
                         <View style={tw`bg-white p-8 rounded-md w-80`}>
-                          <View className="p-2">
+                          <View style={tw`p-2`}>
                             <Text style={tw`text-base text-center`}>
                               What is your relationship with the business you'd
                               like to add?
@@ -252,16 +252,16 @@ const { isLoading, userToken } = useContext(AuthContext);
               </SafeAreaView>
             )}
           >
-            {/* <ScrollView className="bg-orange-50"> */}
+            {/* <ScrollView style={tw`bg-orange-50`}> */}
             {/* <FlatList
-        className="flex-1 mt-4"
+        style={tw`flex-1 mt-4`}
         data={dummyRestaurantsData}
         showsVerticalScrollIndicator={false}
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={() => (
           <>
-            <View className="bg-white px-1 rounded-t-xl flex-col divide-y divide-gray-100 ">
-              <Text className=" text-orange-400 text-lg font-semibold">
+            <View style={tw`bg-white px-1 rounded-t-xl flex-col divide-y divide-gray-100`}>
+              <Text style={tw` text-orange-400 text-lg font-semibold`}>
                 My Reviews
               </Text>
             </View>
@@ -269,13 +269,13 @@ const { isLoading, userToken } = useContext(AuthContext);
           </>
       //   )}
       //   renderItem={({ item }) => (
-      //     <View className="bg-white px-9 r-0">
+      //     <View style={tw`bg-white px-9 r-0`}>
       //       <MarketCard restaurantData={item} />
       //     </View>
       //   )}
       // /> */}
 
-            <View className="flex bg-white mt-2 rounded-t-2xl">
+            <View style={tw`flex bg-white mt-2 rounded-t-2xl`}>
               <View>
                 {/* <SectionList
             sections={data}
@@ -283,11 +283,11 @@ const { isLoading, userToken } = useContext(AuthContext);
             keyExtractor={(item, index) => `${item.id + index}`}
             renderItem={renderItem}
             ItemSeparatorComponent={() => (
-              <View className="border-[0.5px] border-slate-300" />
+              <View style={tw`border-[0.5px] border-slate-300`} />
             )}
-            // SectionSeparatorComponent={() => <View className="border-[0.5px] border-slate-300" />}
+            // SectionSeparatorComponent={() => <View style={tw`border-[0.5px] border-slate-300`} />}
             renderSectionHeader={({ section: { title, index } }) => (
-              <Text className="text-2xl font-bold text-[#2e303d] my-2 ml-6">
+              <Text style={tw`text-2xl font-bold text-[#2e303d] my-2 ml-6`}>
                 {title}
               </Text>
             )}
@@ -305,9 +305,7 @@ const { isLoading, userToken } = useContext(AuthContext);
               source={require("../assets/Images/VectorSignin.jpg")}
               style={tw`w-full h-100 `}
             />
-            <Text style={tw`text-xl`} className="">
-              Sign in to continue
-            </Text>
+            <Text style={tw`text-xl`}>Sign in to continue</Text>
             <TouchableOpacity
               style={tw`bg-orange-100 px-4 py-1 rounded-xl`}
               onPress={() => {
