@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -149,7 +149,8 @@ await api.post('rating/add',{rating,userId,businessId})
 
   const StarRating = () => {
     return (
-      <View style={tw`flex-row justify-center mb-4`}>
+      <View style={tw`flex-row items-center mb-4`}>
+        <Text style={tw`text-base`}>Rate:</Text>
         {[1, 2, 3, 4, 5].map((star) => (
           <TouchableOpacity key={star} onPress={() => setRating(star)}>
             <FontAwesome
@@ -178,7 +179,7 @@ await api.post('rating/add',{rating,userId,businessId})
       />
 
       <TextInput
-        style={tw`border p-2 mb-4 rounded-xl `}
+        style={tw`border p-2 mb-4 pb-30 rounded-xl `}
         placeholder="Write your review..."
         name='description'
         value={review.description}

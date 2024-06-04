@@ -130,7 +130,7 @@ const ReviewItem = ({ item }) => {
   );
 
   return (
-    <View style={tw`bg-slate-50 rounded-lg p-6 shadow-md mb-6`}>
+    <View style={tw`bg-slate-50 rounded-xl p-6 shadow-md mb-6`}>
       <View style={tw`flex-row items-center mb-2`}>
         <Image
           source={
