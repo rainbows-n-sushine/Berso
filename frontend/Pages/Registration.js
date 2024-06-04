@@ -307,28 +307,7 @@ const Registration = () => {
               {isBusinessOwner && (
                 <>
                   <View style={tw`border-b border-gray-300 my-4`} />
-                  <TextInput
-                    style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
-                    placeholder="Business Name"
-                    value={businessName}
-                    onChangeText={setBusinessName}
-                  />
-                  {errors.businessName && (
-                    <Text style={tw`text-red-500 ml-10 mb-2`}>
-                      {errors.businessName}
-                    </Text>
-                  )}
-                  <TextInput
-                    style={tw`w-full h-12 border bg-white border-gray-300 rounded-2xl w-80 px-4 mb-4`}
-                    placeholder="Business Address"
-                    value={businessAddress}
-                    onChangeText={setBusinessAddress}
-                  />
-                  {errors.businessAddress && (
-                    <Text style={tw`text-red-500 ml-10 mb-2`}>
-                      {errors.businessAddress}
-                    </Text>
-                  )}
+                  
                 </>
               )}
               <TouchableOpacity

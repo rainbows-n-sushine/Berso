@@ -141,7 +141,7 @@ console.log('isVlaid Email: ',validEmail)
   if (businessOwner) { 
     businessOwner=businessOwner._id
     console.log(businessOwner._id)
-    const comparePassword = await businessOwner.comparePassword(password);
+    const comparePassword = await businessOwner.comparePassword(credential);
     
     if (comparePassword) {
       const businessOwnerToken = jwt.sign({ businessOwnerId: businessOwner._id }, process.env.JWT_SECRET, {
