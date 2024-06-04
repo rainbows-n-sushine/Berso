@@ -14,6 +14,7 @@ import {
   FontAwesome,
   MaterialCommunityIcons,
   Feather,
+  Fontisto,
 } from "@expo/vector-icons";
 import Animated, {
   useAnimatedStyle,
@@ -126,7 +127,7 @@ const BusinessPage = () => {
           <TouchableOpacity
             style={tw`w-10 h-10 rounded-full justify-center items-center`}
           >
-            <Ionicons name="search-outline" size={24} color={headerIconColor} />
+            <Fontisto name="favorite" size={24} color={headerIconColor} />
           </TouchableOpacity>
         </View>
       ),

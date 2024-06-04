@@ -261,9 +261,7 @@ const HomeScreen = () => {
                   </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
-                      navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
-                      });
+                      navigation.navigate("CathagoryList")
                     }}
                   >
                     <View style={tw`items-center m-1 justify-center flex-1`}>
