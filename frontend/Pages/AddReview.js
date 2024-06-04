@@ -3,19 +3,31 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   Image,
   TouchableOpacity,
   Alert,
   SafeAreaView,
+  FlatList,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import tw from "twrnc";
-
+import {
+  AntDesign,
+  Feather,
+  FontAwesome,
+  FontAwesome5,
+  MaterialIcons,
+} from "@expo/vector-icons";
 const AddReview = ({ navigation }) => {
+<<<<<<< HEAD
   const [review, setReview] = useState({});
   const [rating, setRating] = useState(0);
   const [image, setImage] = useState(null);
+=======
+  const [review, setReview] = useState("");
+  const [rating, setRating] = useState("");
+  const [images, setImages] = useState([]);
+>>>>>>> 19618681e5d848914f5aa4077dc0f9b148800a6a
 
 
 
@@ -37,11 +49,17 @@ const AddReview = ({ navigation }) => {
       quality: 1,
     });
 
-    if (!result.cancelled) {
-      setImage(result.uri);
+    if (!result.canceled) {
+      const pickedImage =
+        result.assets && result.assets.length > 0
+          ? result.assets[0].uri
+          : result.uri;
+      console.log("Image selected:", pickedImage); // Log the URI of the selected image
+      setImages((prevImages) => [...prevImages, pickedImage]);
     }
   };
 
+<<<<<<< HEAD
   const handleChange=(name,value)=>{
    console.log("this is the valeue in handle change" ,value)
 
@@ -53,6 +71,11 @@ const AddReview = ({ navigation }) => {
 
 
   }
+=======
+  const removeImage = (uri) => {
+    setImages((prevImages) => prevImages.filter((image) => image !== uri));
+  };
+>>>>>>> 19618681e5d848914f5aa4077dc0f9b148800a6a
 
   const submitReview = () => {
     if (!review || !rating) {
@@ -60,21 +83,21 @@ const AddReview = ({ navigation }) => {
       return;
     }
 
-    
-    console.log("Review submitted:", { review, rating, image });
+    console.log("Review submitted:", { review, rating, images });
 
-    
+    // Clear the form
     setReview("");
     setRating("");
-    setImage(null);
+    setImages([]);
     navigation.goBack();
   };
 
   return (
-    <SafeAreaView style={tw`flex-1 p-4 bg-white`}>
+    <SafeAreaView style={tw`flex-1 p-4 m-3`}>
       <Text style={tw`text-2xl font-bold mb-4`}>Add Review</Text>
 
       <TextInput
+<<<<<<< HEAD
         style={tw`border p-2 mb-4 rounded-xl `}
         placeholder="Write your review title..."
         name="title"
@@ -85,6 +108,9 @@ const AddReview = ({ navigation }) => {
 
       <TextInput
         style={tw`border p-2 mb-4 rounded-xl `}
+=======
+        style={tw`border p-2 mb-4 rounded-xl`}
+>>>>>>> 19618681e5d848914f5aa4077dc0f9b148800a6a
         placeholder="Write your review..."
         name='description'
         value={review.description}
@@ -93,7 +119,7 @@ const AddReview = ({ navigation }) => {
       />
 
       <TextInput
-        style={tw`border p-2 mb-4 rounded-xl `}
+        style={tw`border p-2 mb-4 rounded-xl`}
         placeholder="Rating (1-5)"
         value={rating}
         onChangeText={(text)=>setRating(text)}
@@ -107,13 +133,28 @@ const AddReview = ({ navigation }) => {
         <Text style={tw`text-white text-center`}>Pick an image (optional)</Text>
       </TouchableOpacity>
 
-      {image && (
-        <Image
-          source={{ uri: image }}
-          style={tw`w-full h-40 mb-4`}
-          resizeMode="cover"
-        />
-      )}
+      <FlatList
+        data={images}
+        renderItem={({ item }) => (
+          <View style={tw`relative w-20 h-20 m-2`}>
+            <Image
+              source={{ uri: item }}
+              style={tw`w-full h-full rounded`}
+              resizeMode="cover"
+            />
+            <TouchableOpacity
+              style={tw`absolute -top-3 -right-2 p-1 rounded-full`}
+              onPress={() => removeImage(item)}
+            >
+              <Feather name="x-circle" size={20} color="red" />
+              {/* <Text style={tw`text-white text-xs`}>X</Text> */}
+            </TouchableOpacity>
+          </View>
+        )}
+        keyExtractor={(item, index) => index.toString()}
+        numColumns={3}
+        style={tw`mb-4`}
+      />
 
       <TouchableOpacity
         onPress={submitReview}

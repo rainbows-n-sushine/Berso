@@ -247,19 +247,24 @@ const BusinessPage = () => {
                   />
                 </View>
               </View>
-              <View className="flex-row mb-7 mt-2 justify-between items-center px-4">
+              <View
+                style={tw`flex-row mb-7 mt-2 justify-between items-center px-4`}
+              
+              >
                 <TouchableOpacity
                   onPress={() => {
                     navigation.navigate("AddReview");
                   }}
                 >
-                  <View className="items-center mx-2">
+                  <View style={tw`items-center mx-2`}>
                     <MaterialCommunityIcons
                       name="comment-edit-outline"
                       size={20}
                       color="black"
                     />
-                    <Text className="text-base">Add Review</Text>
+                    <Text style={tw`text-base`}>
+                      Add Review
+                    </Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -267,9 +272,11 @@ const BusinessPage = () => {
                     // navigation.navigate("AddBusiness");
                   }}
                 >
-                  <View className="items-center  mx-2">
+                  <View style={tw`items-center  mx-2`}>
                     <Feather name="phone" size={20} color="black" />
-                    <Text className="text-base">Call</Text>
+                    <Text style={tw`text-base`}>
+                      Call
+                    </Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -277,9 +284,11 @@ const BusinessPage = () => {
                     // navigation.navigate("AddBusiness");
                   }}
                 >
-                  <View className="items-center mx-2">
+                  <View style={tw`items-center mx-2`}>
                     <Feather name="map-pin" size={20} color="black" />
-                    <Text className="text-base">View map</Text>
+                    <Text style={tw`text-base`}>
+                      View map
+                    </Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -287,13 +296,15 @@ const BusinessPage = () => {
                     // navigation.navigate("AddBusiness");
                   }}
                 >
-                  <View className="items-center mx-2">
+                  <View style={tw`items-center mx-2`}>
                     <MaterialCommunityIcons
                       name="web"
                       size={20}
                       color="black"
                     />
-                    <Text className="text-base">Visit website</Text>
+                    <Text style={tw`text-base`}>
+                      Visit website
+                    </Text>
                   </View>
                 </TouchableOpacity>
               </View>

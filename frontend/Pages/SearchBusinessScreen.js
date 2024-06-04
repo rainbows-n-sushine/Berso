@@ -18,9 +18,9 @@ import {
   AntDesign,
   EvilIcons,
 } from "@expo/vector-icons";
-
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
 import { useAppContext } from "../AppContext";
+import tw from "twrnc";
 
 const SearchBusinessScreen = () => {
   const setCoordinates = useAppContext();
@@ -61,8 +61,7 @@ const SearchBusinessScreen = () => {
     handleAddressPress();
   }, [headerVisible]);
 
-  const handleSelectPalce = (place) => {
-    // console.log('Selected place: ', place.formatted_address);
+  const handleSelectPlace = (place) => {
     const { lat, lng } = place.geometry.location;
     setCoordinates({ latitude: lat, longitude: lng });
     router.replace({
@@ -79,7 +78,7 @@ const SearchBusinessScreen = () => {
           placeholder="Enter a new address"
           fetchDetails
           onPress={(data, details = null) => {
-            handleSelectPalce(details);
+            handleSelectPlace(details);
           }}
           query={{
             key: googleAPI,
@@ -87,31 +86,27 @@ const SearchBusinessScreen = () => {
             type: "address",
           }}
           styles={{
-            textInput: {
-              alignSelf: "center",
-              alignItems: "center",
-              justifyContent: "center",
-            },
+            textInput: tw`self-center items-center justify-center`,
           }}
           renderLeftButton={() => (
             <AntDesign
               name="search1"
               size={20}
               color="black"
-              style={{ alignSelf: "center", marginLeft: 15, marginRight: 10 }}
+              style={tw`self-center ml-4 mr-2`}
             />
           )}
           renderRightButton={() => (
             <TouchableOpacity
               onPress={toggleHeaderVisibility}
-              style={{ alignSelf: "center" }}
+              style={tw`self-center`}
             >
-              <Text style={{ marginRight: 50, color: "#5a5a5a" }}>Cancel</Text>
+              <Text style={tw`mr-12 text-gray-600`}>Cancel</Text>
             </TouchableOpacity>
           )}
           enablePoweredByContainer={false}
           renderRow={(item) => (
-            <View className="flex flex-row items-center">
+            <View style={tw`flex flex-row items-center`}>
               <Feather name="map-pin" size={18} color="black" />
               <Text>{item.description}</Text>
             </View>
@@ -122,104 +117,32 @@ const SearchBusinessScreen = () => {
       headerBackVisible: false,
     });
   };
+
   return (
-    <SafeAreaView className="flex-1 p-4 mt-6 bg-[#F2E8DE]">
-      <View className="flex rounded-lg mx-1 bg-white pl-2 mb-3">
-        <View className="flex flex-row items-center justify-between m-2">
-          <TouchableOpacity
-            onPress={() => {
-              navigation.goBack();
-            }}
-          >
+    <SafeAreaView style={tw`flex-1 p-4 mt-6 bg-[#F2E8DE]`}>
+      <View style={tw`rounded-lg mx-1 bg-white pl-2 mb-3`}>
+        <View style={tw`flex-row items-center justify-between m-2`}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
             <FontAwesome name="angle-left" size={20} color="black" />
           </TouchableOpacity>
           <TextInput
-            className="text-base font-bold text-[#dedddd] ml-2 border-gray-300"
-            placeholder="Search for nearby restaurants,salons.."
-            onKeyPress={() => {
-              navigation.navigate("SearchResults");
-            }}
+            style={tw`flex-1 text-base font-bold text-gray-400 ml-2 border-b border-gray-300`}
+            placeholder="Search for nearby restaurants, salons..."
+            onSubmitEditing={() => navigation.navigate("SearchResults")}
           />
         </View>
       </View>
-      <View className="flex rounded-lg  mr-3 ml-3 bg-white pl-5">
-        <View className="flex flex-row items-center m-2">
+      <View style={tw`rounded-lg mr-3 ml-3 bg-white pl-5`}>
+        <View style={tw`flex-row items-center m-2`}>
           <EvilIcons name="location" size={20} color="black" />
           <TextInput
-            className="text-base font-bold text-black ml-2 "
+            style={tw`text-base font-bold text-black ml-2`}
             placeholder="Current Location"
-            on
           />
         </View>
       </View>
-
-      {/* <Animated.View style={[styles.container, { marginTop: containerMargin }]}>
-        <View style={styles.textContainer}>
-          <Link href="/SearchResultsScreen" asChild>
-            <TouchableOpacity style={styles.closeButton}>
-              <Ionicons name="close-outline" size={30} color={"#161616"} />
-            </TouchableOpacity>
-          </Link>
-          <View style={styles.deliveryText}>
-            <Text style={styles.title}>Delivery address</Text>
-          </View>
-        </View>
-
-        <TouchableOpacity
-          style={styles.inputContainer}
-          onPress={toggleHeaderVisibility}
-        >
-          <AntDesign
-            name="search1"
-            size={22}
-            color="black"
-            style={{ alignSelf: "center", marginLeft: 15 }}
-          />
-          <View style={styles.input}>
-            <Text style={styles.inputText}>Enter a new address</Text>
-          </View>
-        </TouchableOpacity>
-      </Animated.View> */}
     </SafeAreaView>
   );
 };
 
 export default SearchBusinessScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1,
-//     marginHorizontal: 20,
-//   },
-//   textContainer: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//   },
-//   closeButton: {},
-//   deliveryText: {
-//     marginRight: "auto",
-//     marginLeft: "auto",
-//   },
-//   title: {
-//     fontWeight: "bold",
-//     fontSize: 16,
-//     marginRight: 30,
-//   },
-//   inputContainer: {
-//     flexDirection: "row",
-//     alignItems: "center",
-//     marginTop: 4,
-//     borderRadius: 8,
-//     backgroundColor: "#e5e7eb",
-
-//     paddingHorizontal: 6,
-//     paddingVertical: 14,
-//   },
-//   input: {
-//     flex: 1,
-//     paddingLeft: 8,
-//   },
-//   inputText: {
-//     color: "gray",
-//   },
-// });
