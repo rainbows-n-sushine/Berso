@@ -23,6 +23,7 @@ import * as Font from "expo-font";
 import api from '../util/Util'
 import {MultipleSelectList} from 'react-native-dropdown-select-list'
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../context/AuthContext";
 
 
 
@@ -33,6 +34,21 @@ const BusinessRegistration = () => {
   const windowHeight = Dimensions.get("window").height;
   const navigation = useNavigation();
  const [modalVisible, setModalVisible] = useState(false);
+ const [businessOwnerId,setBusinessOwnerId]=useState('')
+ const {_businessOwnerId}=useContext(AuthContext)
+
+ useEffect(()=>{
+  const checkOwner=async()=>{
+
+    const isBusinessOwner=await AsyncStorage.getItem('registerBusinessByOwner')
+    if(isBusinessOwner==='true'){
+   setBusinessOwnerId(_businessOwnerId)   
+    }
+  }
+
+
+
+ },[])
 
 
   const [business,setBusiness]=useState({
@@ -162,10 +178,20 @@ const handleSubmit=async()=>{
   console.log('im in handle submit')
   console.log(business)
  
-  await api.post('business/register-business',{business,categories,userId})
+  await api.post('business/register-business',{business,categories,businessOwnerId})
     .then((res)=>{
       console.log("im in then")
       console.log(res.data)
+
+      if(res.data.success){
+
+        Alert.alert(res.data.message)
+
+      }else{
+        Alert.alert(res.data.messsage)
+
+        
+      }
     })
     .catch((error )=>{
   

@@ -30,12 +30,14 @@ import { useNavigation } from "@react-navigation/native";
 import MarketCard from "../assets/Components/marketCard";
 import { dummyRestaurantsData } from "../assets/Data/restaurantsData";
 import { AuthContext } from "../context/AuthContext";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 const Profile = ({ dummyRestaurantsData }) => {
   const navigation = useNavigation();
 const [modalVisible, setModalVisible] = useState(false);
  const [currentIndex, setCurrentIndex] = useState(0);
+ const  {_businessOwnerId}=useContext(AuthContext)
 
  const handleSwipe = (index) => {
    setCurrentIndex(index);
@@ -46,6 +48,21 @@ const { isLoading, userToken } = useContext(AuthContext);
     data: item.meals,
     index,
   }));
+
+  const RegisterBusinessByAnyone=async()=>{
+    await AsyncStorage.removeItem('registerBusinessByOwner')
+    navigation.navigate("AddBusiness");
+
+
+  }
+
+
+  const RegisterBusinessByOwner=async()=>{
+    await AsyncStorage.setItem('registerBusinessByOwner','true')
+    navigation.navigate("AddBusiness");
+
+
+  }
 
   //  const renderItem: ListRenderItem<any> = ({ item, index }) => (
   //   <Link href={{ pathname: '/modalFood', params: { id: id, itemId: item.id } }} asChild>
@@ -214,7 +231,7 @@ const { isLoading, userToken } = useContext(AuthContext);
                             style={tw`border border-gray-200 py-2 my-1`}
                             onPress={() => {
                               setModalVisible(false);
-                              navigation.navigate("AddBusiness");
+                              RegisterBusinessByAnyone
                             }}
                           >
                             <Text style={tw`text-base text-center `}>
@@ -224,14 +241,30 @@ const { isLoading, userToken } = useContext(AuthContext);
                           <TouchableOpacity
                             style={tw`py-2 border border-gray-200 my-1`}
                             onPress={() => {
-                              navigation.navigate("AddBusiness");
+                              RegisterBusinessByAnyone
                               setModalVisible(false);
                             }}
                           >
                             <Text style={tw`text-base text-center `}>
-                              I work at the business
+                              i work at the business
                             </Text>
                           </TouchableOpacity>
+                          {_businessOwnerId &&
+
+                          <TouchableOpacity
+                            style={tw`py-2 border border-gray-200 my-1`}
+                            onPress={() => {
+                              RegisterBusinessByOwner                                        
+                              setModalVisible(false);
+                            }}
+                          >
+                            <Text style={tw`text-base text-center `}>
+                              I own the business
+                            </Text>
+                          </TouchableOpacity>
+
+                          }
+                          
                           <TouchableOpacity
                             style={tw`py-2`}
                             onPress={() => {

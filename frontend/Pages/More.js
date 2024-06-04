@@ -30,29 +30,43 @@ const More = () => {
   const { UserLogout, BusinessOwnerLogout, _businessOwnerId,_userId} = useContext(AuthContext);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
+  const [businesses,setBusinesses]=useState([])
 
 
   useEffect(()=>{
 
     const getBusinesses =async()=>{
 
-      await api.get(`business/${businessOwnerId}`)
-      .get
+      await api.get(`business/getByBusinessOwner/${_businessOwnerId}`)
+      .then((res)=>{
+        if(res.data.success){
+          let _businesses=res.data.businesses
+          setBusinesses(_businesses)
+          Alert.alert(res.data.message)
+        }else{
+          console.log(res.data.message)
+        }
+       })
+       .catch((err)=>{
+        if(err){
+          console.log('error in getBusinesses in homesScreen business owner pages: ',err.message)
+        }
+       })
 
 
     }
-    getBuinesses()
+    getBusinesses()
 
 
   },[])
 
   // Dummy data for businesses
-  const businesses = [
-    { id: 1, name: "Business 1", logo: "../assets/Images/logo-removebg.png" },
-    { id: 2, name: "Business 2", logo: "../assets/Images/logo-removebg.png" },
-    { id: 3, name: "Business 3", logo: "../assets/Images/logo-removebg.png" },
-    // Add more businesses as needed
-  ];
+  // const businesses = [
+  //   { id: 1, name: "Business 1", logo: "../assets/Images/logo-removebg.png" },
+  //   { id: 2, name: "Business 2", logo: "../assets/Images/logo-removebg.png" },
+  //   { id: 3, name: "Business 3", logo: "../assets/Images/logo-removebg.png" },
+  //   // Add more businesses as needed
+  // ];
 
   const renderItem = ({ item }) => (
     <TouchableOpacity

@@ -1,11 +1,15 @@
 import { View, Text, Animated, Easing, TouchableOpacity } from "react-native";
-import React,{useEffect,useState} from "react";
+import React,{useEffect,useState,useContext} from "react";
 import tw from "twrnc";
 import LineChartComponent from "../../assets/Data/LineChart";
 import { useNavigation } from "@react-navigation/native";
+import { AuthContext } from "../../context/AuthContext";
 // import { BarChart, Grid } from 'react-native-svg-charts';
 const HomeScreen = () => {
   const navigation = useNavigation();
+
+
+  const {_businessOwnerId}=useContext(AuthContext)
 
 
   
@@ -28,9 +32,16 @@ const HomeScreen = () => {
   }, []);
 
 
-  useEffect(()=>{
+  // useEffect(()=>{
+  //   const getBuinesses=async()=>{
+
+
+  //   }
+  //   getBusinesses()
+
+
     
-  },[])
+  // },[])
 
   return (
     <View style={[tw`flex-1 items-center justify-center`, tw`bg-orange-100`]}>
