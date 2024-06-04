@@ -18,10 +18,29 @@ import {
   FontAwesome5,
   MaterialIcons,
 } from "@expo/vector-icons";
+import api from "../util/Util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const AddReview = ({ navigation }) => {
   const [review, setReview] = useState({});
   const [rating, setRating] = useState(0);
-  const [image, setImage] = useState([]);
+  const [images, setImages] = useState([]);
+  const [userId,setUserId]=useState('')
+  const [businessId,setBusinessId]=useState('')
+
+
+  useEffect(()=>{
+ const getUserId=async()=>{
+
+  const user=await AsyncStorage.getItem('userId')
+  setUserId(user)
+  console.log('tihs is the value of the userId: ',user)
+
+}
+    getUserId()
+
+ },[])
+
+
 
 
 
@@ -61,20 +80,65 @@ const AddReview = ({ navigation }) => {
       ...preValue,[name]:value
         }))
 
-
-
   }
+
+
   const removeImage = (uri) => {
     setImages((prevImages) => prevImages.filter((image) => image !== uri));
   };
 
-  const submitReview = () => {
+  const submitReview = async() => {
     if (!review || !rating) {
       Alert.alert("Error", "Please provide a review and rating.");
       return;
     }
 
     console.log("Review submitted:", { review, rating, images });
+await api.post('review/add',{review,userId,businessId,images})
+.then((res)=>{
+
+  if(res.success){
+
+    Alert.alert(res.data.message)
+    
+
+  }else{
+    Alert.alert(res.data.message)
+    
+  }
+})
+.catch((error)=>{
+  if(error){
+    console.log(error)
+  }
+})
+
+
+if(rating>0){
+await api.post('rating/add',{rating,userId,businessId})
+.then((res)=>{
+
+  if(res.success){
+
+    Alert.alert("you have successfully rated the business")
+    navigation.navigate('Home')
+
+  }else{
+    Alert.alert(res.data.message)
+    
+  }
+})
+.catch((error)=>{
+  if(error){
+    console.log(error)
+  }
+})
+
+}else{
+  navigation.navigate('Home')
+}
+
+
 
     // Clear the form
     setReview("");
