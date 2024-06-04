@@ -8,6 +8,7 @@ import SearchResultsScreen from "../../Pages/SearchResultsScreen";
 import BusinessList from "../../Pages/BusinessList";
 import BusinessPage from '../../Pages/BusinessPage';
 import AddReview from '../../Pages/AddReview';
+import CatagoriesList from '../../Pages/CatagoriesList';
 
 const Stack = createStackNavigator();
 const HomeNavigator = () => {
@@ -42,6 +43,11 @@ const HomeNavigator = () => {
         name="AddReview"
         component={AddReview}
         options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="CathagoryList"
+        component={CatagoriesList}
+        options={{ headerShown: false }}
       />
 
       {/* Add more Stack.Screen components for additional screens */}

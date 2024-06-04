@@ -107,7 +107,7 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("BusinessHome");
+              // navigation.navigate("BusinessHome");
               // setBusinessTab(true);
               setModalVisible(true);
             }}
