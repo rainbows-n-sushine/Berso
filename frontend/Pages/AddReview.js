@@ -13,9 +13,13 @@ import * as ImagePicker from "expo-image-picker";
 import tw from "twrnc";
 
 const AddReview = ({ navigation }) => {
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState("");
+  const [review, setReview] = useState({});
+  const [rating, setRating] = useState(0);
   const [image, setImage] = useState(null);
+
+
+
+
 
   const pickImage = async () => {
     // Ask for permission to access the media library
@@ -37,6 +41,18 @@ const AddReview = ({ navigation }) => {
       setImage(result.uri);
     }
   };
+
+  const handleChange=(name,value)=>{
+   console.log("this is the valeue in handle change" ,value)
+
+    setReview((preValue)=>({
+
+      ...preValue,[name]:value
+        }))
+
+
+
+  }
 
   const submitReview = () => {
     if (!review || !rating) {
@@ -60,9 +76,19 @@ const AddReview = ({ navigation }) => {
 
       <TextInput
         style={tw`border p-2 mb-4 rounded-xl `}
+        placeholder="Write your review title..."
+        name="title"
+        preValue={review.title}
+        onChangeText={(text)=>handleChange(text)}
+        multiline
+      />
+
+      <TextInput
+        style={tw`border p-2 mb-4 rounded-xl `}
         placeholder="Write your review..."
-        value={review}
-        onChangeText={setReview}
+        name='description'
+        value={review.description}
+        onChangeText={(text)=>handleChange(text)}
         multiline
       />
 
@@ -70,7 +96,7 @@ const AddReview = ({ navigation }) => {
         style={tw`border p-2 mb-4 rounded-xl `}
         placeholder="Rating (1-5)"
         value={rating}
-        onChangeText={setRating}
+        onChangeText={(text)=>setRating(text)}
         keyboardType="numeric"
       />
 
