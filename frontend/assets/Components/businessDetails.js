@@ -130,7 +130,7 @@ const ReviewItem = ({ item }) => {
   );
 
   return (
-    <View style={tw`bg-slate-50 rounded-xl p-6 shadow-md mb-6`}>
+    <View style={tw`bg-white rounded-2xl p-4 shadow-md border border-gray-100 mb-6`}>
       <View style={tw`flex-row items-center mb-2`}>
         <Image
           source={
@@ -196,30 +196,144 @@ const ReviewItem = ({ item }) => {
 };
 
 const Reviews = () => (
-  <View style={tw`p-4 bg-white`}>
-    <FlatList
-      data={dummyReviews}
-      renderItem={({ item }) => <ReviewItem item={item} />}
-      keyExtractor={(item) => item.id.toString()}
-    />
+  <View style={tw`p-1`}>
+    <View style={tw`bg-white p-4 rounded-lg shadow mb-4`}>
+      <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
+        Leave a review
+      </Text>
+      <TextInput
+        style={tw`border border-gray-300 p-2 flex-1 mr-2 mt-4`}
+        placeholder="Add a review"
+        // value={}
+        // onChangeText={}
+      />
+      <Text style={tw`text-base text-gray-700 text-center`}>Tab to leave a review</Text>
+    </View>
+    <View style={tw`bg-white p-3 rounded-lg shadow`}>
+      <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
+        Recommanded Reviews
+      </Text>
+
+      <FlatList
+        data={dummyReviews}
+        renderItem={({ item }) => <ReviewItem item={item} />}
+        keyExtractor={(item) => item.id.toString()}
+      />
+      <TouchableOpacity
+        style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
+        // onPress={handleSubmit}
+      >
+        <Text
+          className={{ fontFamily: "berlin-sans" }}
+          style={tw`text-white font-bold`}
+        >
+          More reviews
+        </Text>
+      </TouchableOpacity>
+    </View>
   </View>
 );
 
 
-
+// Dummy data for services
+const dummyServices = [
+  {
+    id: "1",
+    title: "Fine Dining",
+    description: "Exquisite cuisine and impeccable service",
+    icon: "restaurant",
+  },
+  {
+    id: "2",
+    title: "Catering",
+    description: "Custom menus for events and gatherings",
+    icon: "shoppingcart",
+  },
+  {
+    id: "3",
+    title: "Takeout",
+    description: "Quick and convenient meals to-go",
+    icon: "meh",
+  },
+  {
+    id: "4",
+    title: "Delivery",
+    description: "Hot meals delivered right to your door",
+    icon: "enviromento",
+  },
+  {
+    id: "5",
+    title: "Bar & Lounge",
+    description: "Craft cocktails and a relaxing ambiance",
+    icon: "cocktail",
+  },
+  {
+    id: "6",
+    title: "Private Dining",
+    description: "Exclusive space for intimate gatherings",
+    icon: "table",
+  },
+];
 const Services = () => (
-  <ScrollView style={tw`p-4`}>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Spring Rolls</Text>
-    </View>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Garlic Bread</Text>
-    </View>
-  </ScrollView>
+  <View style={tw`flex-1 bg-gray-100 py-5 px-4`}>
+    <FlatList
+      data={dummyServices}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <View
+          style={tw`bg-white rounded-lg shadow-lg p-4 mb-4 flex-row items-center`}
+        >
+          {item.icon === "restaurant" && (
+            <Ionicons
+              name="restaurant-outline"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          {item.icon === "shoppingcart" && (
+            <Feather
+              name="shopping-cart"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          {item.icon === "meh" && (
+            <AntDesign name="meh" size={24} color="#f59e0b" style={tw`mr-4`} />
+          )}
+          {item.icon === "enviromento" && (
+            <Feather
+              name="map-pin"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          {item.icon === "cocktail" && (
+            <MaterialIcons
+              name="local-bar"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          {item.icon === "table" && (
+            <MaterialIcons
+              name="table-restaurant"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          <View style={tw`flex-1`}>
+            <Text style={tw`font-bold text-lg mb-2`}>{item.title}</Text>
+            <Text style={tw`text-gray-600`}>{item.description}</Text>
+          </View>
+        </View>
+      )}
+    />
+  </View>
 );
 
 const Info = () => (
@@ -314,20 +428,40 @@ const Info = () => (
     </View>
   </View>
 );
+const dummyPhotos = [
+  { id: "1", url: require("../Images/Home.jpg") },
+  {
+    id: "2",
+    url: require("../Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+  },
+  { id: "3", url: require("../Images/Home.jpg") },
+  { id: "4", url: require("../Images/Home.jpg") },
+  {
+    id: "5",
+    url: require("../Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+  },
+  {
+    id: "6",
+    url: require("../Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+  },
+  { id: "7", url: require("../Images/Home.jpg") },
+  { id: "8", url: require("../Images/Home.jpg") },
+  { id: "9", url: require("../Images/Home.jpg") },
+  { id: "10", url: require("../Images/Home.jpg") },
+];
 
 const Pictures = () => (
-  <ScrollView style={tw`p-4`}>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Ice Cream</Text>
-    </View>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Brownie</Text>
-    </View>
-  </ScrollView>
+  <View style={tw`p-2 flex-1 bg-white rounded-xl shadow`}>
+    <FlatList
+      data={dummyPhotos}
+      keyExtractor={(item) => item.id}
+      numColumns={2}
+      renderItem={({ item }) => (
+        <Image source={item.url} style={tw`w-1/2 h-35 rounded-lg`} />
+      )}
+      contentContainerStyle={tw`px-2`}
+    />
+  </View>
 );
 
 
