@@ -32,16 +32,16 @@ const HomeScreen = () => {
   }, []);
 
 
-  // useEffect(()=>{
-  //   const getBuinesses=async()=>{
+  useEffect(()=>{
+    const getBuinesses=async()=>{
 
 
-  //   }
-  //   getBusinesses()
+    }
+    getBusinesses()
 
 
     
-  // },[])
+  },[])
 
   return (
     <View style={[tw`flex-1 items-center justify-center`, tw`bg-orange-100`]}>
