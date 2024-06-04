@@ -20,8 +20,10 @@ console.log("name and the description",name,"  ",description)
 
 exports.fetchAll=async(req,res)=>{
 
-   const categories= await Category.find()
    try {
+    
+    const categories= await Category.find()
+
     if(categories){
 
         res.json({success:true, message:"category is fetched", categories:categories})

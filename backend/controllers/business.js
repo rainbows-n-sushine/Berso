@@ -31,12 +31,16 @@ exports.registerBusiness = async (req, res) => {
     try { 
     await business_db.save()
     console.log(business_db)
-res.json({message:"business successfuly created", success:true,business:business_db})
+    if(business_db){
 
-    
+      res.json({message:"business successfuly created", success:true,business:business_db})
+    }else{
+
+      res.json({message:"business creation was unsuccessfull",success:false})
+    } 
 } catch (error) {
     if(error){
-
+        return res.json({success:false,message:"error while creating businesses"})
         console.log("error in business registery",error.message())
     }
   }
@@ -46,11 +50,11 @@ exports.fetchByCategory = async (req, res) => {
   const { categoryId } = req.params;
 console.log('this it hhsvjhvsh cate  :', categoryId)
 
-const id=JSON.parse(categoryId)
+// const id=JSON.parse(categoryId)
 
 
 try {
-  const businesses = await Business.find({ category:{$in:[id]}});
+  const businesses = await Business.find({ category:{$in:[cateoryId]}});
 
     console.log("Retrieved businesses:", businesses);
 
@@ -210,3 +214,26 @@ exports.updateBusinessRating = async (businessId, rating) => {
 };
 
 
+exports.getByBusinessOwner=async(req,res)=>{
+
+const {_businessOwnerId}=req.params
+
+try {
+
+  const businesses= await Business.find({business_owner:_businessOwnerId})
+  if(businesses){
+    return res.json({success:true,message:"Here are your businesses",businesses:businesses})
+  }else{
+    return res.json({success:false,message:"You currently have no business registered."})
+  }
+  
+} catch (error) {
+  if(error){
+
+    console.log("error in getBusinessOwner in backend: ",error.message)
+  }
+  
+}
+
+
+}

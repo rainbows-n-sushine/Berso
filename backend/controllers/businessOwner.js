@@ -119,13 +119,14 @@ exports.signUp = async (req, res) => {
 exports.signin = async (req, res) => {
   const { credential, password } = req.body;
 
-  console.log("in in sign in controller");
+  console.log("in in businessOwner sign in controller");
   console.log(credential + "   " + password);
   const validEmail = validator.isEmail(credential);
 
   // const userExists = await User.userExists(email,password);
 let businessOwner={}
 let businessOwnerId=""
+
   if(validEmail){
    businessOwner= await BusinessOwner.findOne({ email: credential});
     }
@@ -134,6 +135,7 @@ else{
  
 }
 
+console.log('isVlaid Email: ',validEmail)
   console.log(businessOwner);
 
   if (businessOwner) { 

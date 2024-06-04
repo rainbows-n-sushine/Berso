@@ -173,7 +173,7 @@ return(
 
 
 
-    <AuthContext.Provider value={{UserLogin,UserLogout,BusinessOwnerLogin,BusinessOwnerLogout,isLoading,userToken,businessOwnerToken}}>
+    <AuthContext.Provider value={{UserLogin,UserLogout,BusinessOwnerLogin,BusinessOwnerLogout,isLoading,userToken,businessOwnerToken,_businessOwnerId,_userId}}>
         {children}
     </AuthContext.Provider>
     

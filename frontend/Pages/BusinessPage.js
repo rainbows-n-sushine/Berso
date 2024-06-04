@@ -93,7 +93,7 @@ const BusinessPage = () => {
 
     if (scrollPosition > 80) {
       setHeaderIconColor("black");
-      opacity.value = withTiming(1);
+      opacity.value = withTiming(0);
     } else {
       setHeaderIconColor("white");
       opacity.value = withTiming(0);
@@ -139,7 +139,7 @@ const BusinessPage = () => {
       key={index}
       onPress={() => setActiveTabIndex(index)}
       style={[
-        tw`px-2 py-1 bg-orange-100`,
+        tw`px-4 py-1 bg-orange-100`,
         activeTabIndex === index && tw``,
       ]}
     >
@@ -157,7 +157,7 @@ const BusinessPage = () => {
   if (!isReady) {
     return (
       <View style={tw`flex-1 justify-center items-center`}>
-        <ActivityIndicator size="large" color="#0000ff" />
+        <ActivityIndicator size="large" color="#FF5800" />
       </View>
     );
   }
@@ -336,7 +336,7 @@ const BusinessPage = () => {
               renderTabButton(item, index)
             )}
           </ScrollView>
-          <View style={tw`flex-1 bg-white `}>
+          <View style={tw`flex-1 bg-slate-50 `}>
             {/* Only render the content of the active tab */}
             {dummyData[activeTabIndex] && (
               <SectionContent section={dummyData[activeTabIndex]} />
