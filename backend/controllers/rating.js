@@ -1,19 +1,29 @@
 const Rating = require('../models/rating')
-import { Business } from '../models/business';
-import { updateBusinessRating } from './business';
+const { Business } = require ('../models/business')
+const { updateBusinessRating } = require ('./business')
 
 exports.createRating = async (req, res) => {
   try {
-    const { businessId, rating } = req.body;
-    const userId = req.user._id;
+    const { businessId, rating, userId } = req.body;
+    const oldRating=await Rating.findOne({user:userId,business:businessId})
+    let _rating={}
 
-    const _rating = new Rating({
+    if(oldRating){
+     _rating = await Rating.findOneAndUpdate({
+        rating
+      });
+
+    }else{
+
+     _rating = new Rating({
       user: userId,
       business: businessId,
       rating
     });
 
+  }
     await _rating.save();
+    
     await updateBusinessRating(businessId, _rating);
 
     res.status(201).json({ success: true, message: "Review created successfully" });
@@ -23,7 +33,7 @@ exports.createRating = async (req, res) => {
   }
 };
 
-exports.getRatingsByBusiness = async (req, res) => {
+exports.getBusinessRating = async (req, res) => {
   try {
     const { businessId } = req.params;
 

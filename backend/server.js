@@ -45,7 +45,11 @@ const recommendationRoute = require('./routes/recommendation');
 app.use('/recommendation', recommendationRoute);
 
 const reviewRoute = require("./routes/review");
-app.use("/reviews", reviewRoute);
+app.use("/review", reviewRoute);
+
+const ratingRoute = require("./routes/rating");
+app.use("/rating", ratingRoute);
+
 
 app.listen(8000, () => {
   console.log("Server is running successfully");

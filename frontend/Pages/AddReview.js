@@ -18,10 +18,33 @@ import {
   FontAwesome5,
   MaterialIcons,
 } from "@expo/vector-icons";
+import api from "../util/Util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const AddReview = ({ navigation }) => {
-  const [review, setReview] = useState("");
-  const [rating, setRating] = useState("");
+  const [review, setReview] = useState({});
+  const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
+  const [userId,setUserId]=useState('')
+  const [businessId,setBusinessId]=useState('')
+
+
+  useEffect(()=>{
+ const getUserId=async()=>{
+
+  const user=await AsyncStorage.getItem('userId')
+  setUserId(user)
+  console.log('tihs is the value of the userId: ',user)
+
+}
+    getUserId()
+
+ },[])
+
+
+
+
+
+
 
   const pickImage = async () => {
     // Ask for permission to access the media library
@@ -49,17 +72,73 @@ const AddReview = ({ navigation }) => {
     }
   };
 
+  const handleChange=(name,value)=>{
+   console.log("this is the valeue in handle change" ,value)
+
+    setReview((preValue)=>({
+
+      ...preValue,[name]:value
+        }))
+
+  }
+
+
   const removeImage = (uri) => {
     setImages((prevImages) => prevImages.filter((image) => image !== uri));
   };
 
-  const submitReview = () => {
+  const submitReview = async() => {
     if (!review || !rating) {
       Alert.alert("Error", "Please provide a review and rating.");
       return;
     }
 
     console.log("Review submitted:", { review, rating, images });
+await api.post('review/add',{review,userId,businessId,images})
+.then((res)=>{
+
+  if(res.success){
+
+    Alert.alert(res.data.message)
+    
+
+  }else{
+    Alert.alert(res.data.message)
+    
+  }
+})
+.catch((error)=>{
+  if(error){
+    console.log(error)
+  }
+})
+
+
+if(rating>0){
+await api.post('rating/add',{rating,userId,businessId})
+.then((res)=>{
+
+  if(res.success){
+
+    Alert.alert("you have successfully rated the business")
+    navigation.navigate('Home')
+
+  }else{
+    Alert.alert(res.data.message)
+    
+  }
+})
+.catch((error)=>{
+  if(error){
+    console.log(error)
+  }
+})
+
+}else{
+  navigation.navigate('Home')
+}
+
+
 
     // Clear the form
     setReview("");
@@ -90,10 +169,20 @@ const AddReview = ({ navigation }) => {
       <Text style={tw`text-2xl font-bold mb-4`}>Add Review</Text>
 
       <TextInput
-        style={tw`border p-2 mb-4 rounded-xl`}
+        style={tw`border p-2 mb-4 rounded-xl `}
+        placeholder="Write your review title..."
+        name="title"
+        preValue={review.title}
+        onChangeText={(text)=>handleChange(text)}
+        multiline
+      />
+
+      <TextInput
+        style={tw`border p-2 mb-4 rounded-xl `}
         placeholder="Write your review..."
-        value={review}
-        onChangeText={setReview}
+        name='description'
+        value={review.description}
+        onChangeText={(text)=>handleChange(text)}
         multiline
       />
       <StarRating />
@@ -101,7 +190,7 @@ const AddReview = ({ navigation }) => {
         style={tw`border p-2 mb-4 rounded-xl`}
         placeholder="Rating (1-5)"
         value={rating}
-        onChangeText={setRating}
+        onChangeText={(text)=>setRating(text)}
         keyboardType="numeric"
       /> */}
 
