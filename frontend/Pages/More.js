@@ -84,7 +84,7 @@ const More = () => {
 
           console.log('these are the businesses under _businesses: ',_businesses)
           setBusinesses(_businesses)
-          Alert.alert(res.data.message)
+          // Alert.alert(res.data.message)
         }else{
           console.log(res.data.message)
         }

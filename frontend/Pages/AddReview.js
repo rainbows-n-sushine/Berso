@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useContext } from "react";
 import {
   View,
   Text,
@@ -20,25 +20,26 @@ import {
 } from "@expo/vector-icons";
 import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../context/AuthContext";
 const AddReview = ({ navigation }) => {
   const [review, setReview] = useState({});
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
-  const [userId,setUserId]=useState('')
-  const [businessId,setBusinessId]=useState('')
+  // const [userId,setUserId]=useState('')
+  // const [businessId,setBusinessId]=useState('')
+//   const {businessId,userId}=useContext(AuthContext)
 
+//   useEffect(()=>{
+//  const getUserId=async()=>{
 
-  useEffect(()=>{
- const getUserId=async()=>{
+//   const user=await AsyncStorage.getItem('userId')
+//   setUserId(user)
+//   console.log('tihs is the value of the userId: ',user)
 
-  const user=await AsyncStorage.getItem('userId')
-  setUserId(user)
-  console.log('tihs is the value of the userId: ',user)
+// }
+//     getUserId()
 
-}
-    getUserId()
-
- },[])
+//  },[])
 
 
 
