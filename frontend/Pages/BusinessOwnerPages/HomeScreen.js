@@ -5,13 +5,62 @@ import LineChartComponent from "../../assets/Data/LineChart";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import api from "../../util/Util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 // import { BarChart, Grid } from 'react-native-svg-charts';
 const HomeScreen = () => {
   const navigation = useNavigation();
 
 
   const {_businessOwnerId}=useContext(AuthContext)
-  const {businessInfo,setBusinessInfo}=useState({})
+  const {currentBusiness,setCurrentBusiness}=useState('')
+  // const {businessInfo,setBusinessInfo}=useState({
+
+  //   totalReviews:null,
+  //   averageRating:null,
+  //   totalViews:null
+
+
+  // })
+  const[totalReviews,setTotalReviews]=useState(null)
+  const[averageRating,setAverageRating]=useState(null)
+  const[totalViews,setTotalViews]=useState(null)
+
+
+
+  useEffect(()=>{
+
+    const getBusiness=async()=>{
+ const businessId=await AsyncStorage.getItem('currentBusiness')
+   await api.get(`business/get-one/${businessId}`)
+   .then((res)=>{
+    if(res.data.success){
+      // setBusinessInfo((preValue)=>({
+
+      //   ...preValue,[totalReviews]:56,
+      //   [averageRating]:res.data.average_rating,
+      //   [totalViews]:67
+      // }))
+      setAverageRating(res.data.business.average_rating)
+      setTotalReviews(10)
+      setTotalViews(234)
+
+
+    }
+   }).catch((error)=>{
+
+    if(error){
+      console.log('this is the erro in getBusiness: ',error.message)
+    }
+   })
+
+    
+
+    }
+    getBusiness()
+   
+
+
+  },[])
 
 
 
@@ -36,22 +85,6 @@ const HomeScreen = () => {
   }, []);
 
 
-  useEffect(()=>{
-    const getBusinesses=async()=>{
-      await api.get(`business/get-one-by-business-owner/${_businessOwnerId,businessId}`)
-      .then((res)=>{
-
-
-        
-      })
-
-
-    }
-    getBusinesses()
-
-
-    
-  },[])
 
   return (
     <View style={[tw`flex-1 items-center justify-center`, tw`bg-orange-100`]}>
@@ -79,7 +112,7 @@ const HomeScreen = () => {
         ]}
       >
         <Text style={[tw`text-lg font-semibold text-gray-800`]}>
-          Total Views: 100
+          Total Views: {totalViews}
         </Text>
       </Animated.View>
       <Animated.View
@@ -91,7 +124,7 @@ const HomeScreen = () => {
         ]}
       >
         <Text style={[tw`text-lg font-semibold text-gray-800`]}>
-          Total Reviews: 50
+          Total Reviews:  {totalReviews}
         </Text>
       </Animated.View>
       <Animated.View
@@ -103,7 +136,7 @@ const HomeScreen = () => {
         ]}
       >
         <Text style={[tw`text-lg font-semibold text-gray-800`]}>
-          Average Rating: 4.5
+          Average Rating:  {averageRating}
         </Text>
       </Animated.View>
       {/* <BarChart

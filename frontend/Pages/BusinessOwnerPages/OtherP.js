@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   ScrollView,
@@ -30,6 +30,8 @@ const business = {
     "https://example.com/photo3.jpg",
   ],
 };
+
+
 
 const Header = () => {
   return (

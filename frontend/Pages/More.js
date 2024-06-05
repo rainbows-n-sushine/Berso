@@ -34,6 +34,10 @@ const More = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [businesses,setBusinesses]=useState([])
 
+  const setBusinessClicked=async(businessId)=>{
+    await AsyncStorage.setItem('currentBusiness',businessId)
+  }
+
 
   // Dummy data for businesses
   // const businesses = [
@@ -47,6 +51,8 @@ const More = () => {
     <TouchableOpacity
       style={tw`flex-row items-center p-2 border-b border-gray-300`}
       onPress={() => {
+        console.log('this is the id of the item: ',item._id)
+        setBusinessClicked(item._id)
         navigation.navigate("BusninessHome");
         setBusinessTab(true);
       }}

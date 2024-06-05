@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import {
   View,
   ScrollView,
@@ -14,6 +14,8 @@ import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import tw from "twrnc";
 import ParallaxScrollView from "../../assets/Components/ParallaxScrollView";
 import { ImageBackground } from "react-native";
+import api from "../../util/Util";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 const business = {
   name: "Sample Restaurant",
   category: "Restaurant",
@@ -31,7 +33,44 @@ const business = {
   ],
 };
 
+
+
 const Header = () => {
+  
+  const [businessInfo,setBusinessInfo]=useState({})
+
+
+useEffect(()=>{
+
+
+  getBusinessInfo()
+
+
+},[])
+
+const getBusinessInfo=async()=>{
+  console.log("this is the business in profile")
+  const businessId= await AsyncStorage.getItem('currentBusiness')
+  console.log('this is the id of the business ',businessId)
+
+  await api.get(`business/get-one/${businessId}`)
+ .then((res)=>{
+  console.log(res.data)
+  if(res.data.success){
+    setBusinessInfo(res.data.business)
+
+    console.log("this is the business in profile getBusinessInfo", res.data.business)
+  }else{
+    console.log(res.data.message)
+  }
+ }).catch((error)=>{
+
+  if(error){
+    console.log('this is the erro in getBusiness: ',error.message)
+  }
+ })
+  }
+
   return (
     <View style={tw`h-[60]`} >
       <ImageBackground

@@ -107,12 +107,12 @@ exports.fetchAll=async(req,res)=>{
 exports.fetchOne=async(req,res)=>{
 
 const {businessId}=req.params
-
+console.log('im in here')
 try {
-  const business=await Business.findOne({_id:businessId})
+  const business=await Business.findById(businessId)
 
   if (business){
-
+  console.log('im in here')
     return res.json ({message:"business fetched successfully",success:true,business:business })
   }
   else{
