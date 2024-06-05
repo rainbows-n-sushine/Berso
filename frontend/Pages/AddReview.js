@@ -21,10 +21,12 @@ import {
 import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/AuthContext";
+import RNPickerSelect from "react-native-picker-select";
 const AddReview = ({ navigation }) => {
   const [review, setReview] = useState({});
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
+   const [businessId, setBusinessId] = useState(null);
   // const [userId,setUserId]=useState('')
   // const [businessId,setBusinessId]=useState('')
 //   const {businessId,userId}=useContext(AuthContext)
@@ -41,7 +43,11 @@ const AddReview = ({ navigation }) => {
 
 //  },[])
 
-
+const dummyBusinesses = [
+  { label: "Business One", value: "1" },
+  { label: "Business Two", value: "2" },
+  { label: "Business Three", value: "3" },
+];
 
 
 
@@ -169,22 +175,30 @@ await api.post('rating/add',{rating,userId,businessId})
   return (
     <SafeAreaView style={tw`flex-1 p-4 m-3`}>
       <Text style={tw`text-2xl font-bold mb-4`}>Add Review</Text>
-
+      <RNPickerSelect
+        onValueChange={(value) => setBusinessId(value)}
+        items={dummyBusinesses}
+        style={{
+          inputIOS: tw`border p-2 mb-4 rounded-xl`,
+          inputAndroid: tw`border p-2 mb-4 rounded-xl`,
+        }}
+        placeholder={{ label: "Select a business", value: null }}
+      />
       <TextInput
         style={tw`border p-2 mb-4 rounded-xl `}
         placeholder="Write your review title..."
         name="title"
         preValue={review.title}
-        onChangeText={(text)=>handleChange(text)}
+        onChangeText={(text) => handleChange(text)}
         multiline
       />
 
       <TextInput
         style={tw`border p-2 mb-4 pb-30 rounded-xl `}
         placeholder="Write your review..."
-        name='description'
+        name="description"
         value={review.description}
-        onChangeText={(text)=>handleChange(text)}
+        onChangeText={(text) => handleChange(text)}
         multiline
       />
       <StarRating />
