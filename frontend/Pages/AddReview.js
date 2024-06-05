@@ -179,13 +179,13 @@ await api.post('rating/add',{rating,userId,businessId})
         onValueChange={(value) => setBusinessId(value)}
         items={dummyBusinesses}
         style={{
-          inputIOS: tw`border p-2 mb-4 rounded-xl`,
-          inputAndroid: tw`border p-2 mb-4 rounded-xl`,
+          inputIOS: tw`border p-2 mb-4 rounded-xl bg-white`,
+          inputAndroid: tw`border p-2 mb-4 rounded-xl bg-white`,
         }}
         placeholder={{ label: "Select a business", value: null }}
       />
       <TextInput
-        style={tw`border p-2 mb-4 rounded-xl `}
+        style={tw`border p-2 mb-4 rounded-xl bg-white `}
         placeholder="Write your review title..."
         name="title"
         preValue={review.title}
@@ -194,7 +194,7 @@ await api.post('rating/add',{rating,userId,businessId})
       />
 
       <TextInput
-        style={tw`border p-2 mb-4 pb-30 rounded-xl `}
+        style={[tw`border p-2 mb-4 rounded-xl  bg-white `, { height: 100 }]}
         placeholder="Write your review..."
         name="description"
         value={review.description}

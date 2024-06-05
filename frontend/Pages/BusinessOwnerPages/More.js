@@ -52,7 +52,7 @@ const More = () => {
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={handleSwitchBack}
           >
-            <Entypo name="shop" size={22} color="black" />
+            <FontAwesome name="user-circle-o" size={22} color="black" />
             <Text style={tw`ml-2`}>Personal Profile</Text>
           </TouchableOpacity>
           <TouchableOpacity

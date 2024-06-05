@@ -99,6 +99,7 @@ const More = () => {
     }
     
     async function getToken() {
+      console.log('hiii');
       let _userToken = await AsyncStorage.getItem("userToken");
       let _businessOwnerToken = await AsyncStorage.getItem(
         "BusinessOwnerToken"
@@ -113,7 +114,6 @@ const More = () => {
     getBusinesses()
     getToken();
   }, []);
-
   return (
     <SafeAreaView style={tw`flex-1 bg-[#F2E8DE]`}>
       <ScrollView>
@@ -190,7 +190,7 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("ReportProblem");
             }}
           >
             <Octicons name="report" size={21} color="black" />
