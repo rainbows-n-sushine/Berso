@@ -29,7 +29,7 @@ const ProfileNavigator = () => {
       <Stack.Screen
         name="AddReview"
         component={AddReview}
-         options={{ headerShown: false }}
+         options={{ headerShown: true }}
       />
        {/*<Stack.Screen
         name="SearchResults"

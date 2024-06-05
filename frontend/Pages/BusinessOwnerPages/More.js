@@ -18,10 +18,16 @@ import {
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { useBusinessTab } from '../../context/BusinessTabContext';
 const More = () => {
+ 
   const navigation = useNavigation();
+  const { setBusinessTab } = useBusinessTab();
 
+  const handleSwitchBack = () => {
+    setBusinessTab(false);
+    navigation.navigate('Home');
+  };
   return (
     <SafeAreaView style={tw`flex-1 bg-[#F2E8DE]`}>
       <ScrollView>
@@ -44,9 +50,7 @@ const More = () => {
           </TouchableOpacity>
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
-            onPress={() => {
-              navigation.navigate("Home");
-            }}
+            onPress={handleSwitchBack}
           >
             <Entypo name="shop" size={22} color="black" />
             <Text style={tw`ml-2`}>Personal Profile</Text>
@@ -54,7 +58,7 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("BusinessPage");
+              navigation.navigate("");
             }}
           >
             <AntDesign name="setting" size={22} color="black" />
