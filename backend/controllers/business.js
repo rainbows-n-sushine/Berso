@@ -1,5 +1,5 @@
 
-const mongoose=require('mongoose')
+const mongoose =require('mongoose')
 const { Business } = require("../models/business");
 exports.registerBusiness = async (req, res) => {
   console.log("im in business condtrollers");

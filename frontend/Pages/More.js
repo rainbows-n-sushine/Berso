@@ -8,6 +8,7 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Alert
 } from "react-native";
 import tw from "twrnc";
 import React, { useContext, useState, useEffect } from "react";
@@ -24,6 +25,7 @@ import {
 import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useBusinessTab, setBusinessTab } from "../context/BusinessTabContext";
+import api from "../util/Util";
 
 const More = () => {
   const { setBusinessTab } = useBusinessTab();
@@ -32,38 +34,6 @@ const More = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [businesses,setBusinesses]=useState([])
 
-
-  useEffect(()=>{
-
-    const getBusinesses =async()=>{
-      console.log('im here',businessOwnerId)
-
-      await api.get(`business/get-by-business-owner/${businessOwnerId}`)
-      .then((res)=>{
-        
-        if(res.data.success){
-          
-          let _businesses=res.data.businesses
-
-          console.log('these are the businesses under _businesses: ',_businesses)
-          setBusinesses(_businesses)
-          Alert.alert(res.data.message)
-        }else{
-          console.log(res.data.message)
-        }
-       })
-       .catch((err)=>{
-        if(err){
-          console.log('error in getBusinesses in homesScreen business owner pages: ',err.message)
-        }
-       })
-
-
-    }
-    getBusinesses()
-
-
-  },[])
 
   // Dummy data for businesses
   // const businesses = [
@@ -95,6 +65,33 @@ const More = () => {
   const [userToken, setUserToken] = useState("");
 
   useEffect(() => {
+
+    const getBusinesses =async()=>{
+      console.log('im here',businessOwnerId)
+
+      await api.get(`business/get-by-business-owner/${businessOwnerId}`)
+      .then((res)=>{
+        
+        if(res.data.success){
+          
+          let _businesses=res.data.businesses
+
+          console.log('these are the businesses under _businesses: ',_businesses)
+          setBusinesses(_businesses)
+          Alert.alert(res.data.message)
+        }else{
+          console.log(res.data.message)
+        }
+       })
+       .catch((err)=>{
+        if(err){
+          console.log('error in getBusinesses in homesScreen business owner pages: ',err.message)
+        }
+       })
+
+
+    }
+    
     async function getToken() {
       let _userToken = await AsyncStorage.getItem("userToken");
       let _businessOwnerToken = await AsyncStorage.getItem(
@@ -106,6 +103,8 @@ const More = () => {
         setBusinessOwnerToken(_businessOwnerToken);
       }
     }
+
+    getBusinesses()
     getToken();
   }, []);
 

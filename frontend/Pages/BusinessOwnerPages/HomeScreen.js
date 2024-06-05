@@ -37,7 +37,7 @@ const HomeScreen = () => {
 
 
   useEffect(()=>{
-    const getBuinesses=async()=>{
+    const getBusinesses=async()=>{
       await api.get(`business/get-one-by-business-owner/${_businessOwnerId,businessId}`)
       .then((res)=>{
 
