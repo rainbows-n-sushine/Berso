@@ -231,7 +231,7 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
                             style={tw`border border-gray-200 py-2 my-1`}
                             onPress={() => {
                               setModalVisible(false);
-                              RegisterBusinessByAnyone
+                              RegisterBusinessByAnyone()
                               navigation.navigate("AddBusiness");
                             }}
                           >
@@ -242,7 +242,7 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
                           <TouchableOpacity
                             style={tw`py-2 border border-gray-200 my-1`}
                             onPress={() => {
-                              RegisterBusinessByAnyone
+                              RegisterBusinessByAnyone()
                               navigation.navigate("AddBusiness");
                               setModalVisible(false);
                             }}
@@ -256,7 +256,7 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
                           <TouchableOpacity
                             style={tw`py-2 border border-gray-200 my-1`}
                             onPress={() => {
-                              RegisterBusinessByOwner  
+                              RegisterBusinessByOwner()
                               navigation.navigate("AddBusiness");                                      
                               setModalVisible(false);
                             }}

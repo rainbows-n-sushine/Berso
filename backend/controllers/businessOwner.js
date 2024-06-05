@@ -125,7 +125,6 @@ exports.signin = async (req, res) => {
 
   // const businessOwnerExists = await BusinessOwner.businessOwnerExists(email,password);
 let businessOwner={}
-let businessOwnerId=""
   if(validEmail){
     businessOwner = await BusinessOwner.findOne({ email: credential});
     }
@@ -137,8 +136,8 @@ else{
   console.log(businessOwner);
 
   if (businessOwner) { 
-    businessOwnerId=businessOwner._id
-    console.log(businessOwner._id)
+   let businessOwnerId=businessOwner._id
+    console.log('this is the businesss ownerId',businessOwner._id)
     const comparePassword = await businessOwner.comparePassword(password);
     
     if (comparePassword) {

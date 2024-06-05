@@ -34,18 +34,20 @@ const BusinessRegistration = () => {
   const windowHeight = Dimensions.get("window").height;
   const navigation = useNavigation();
  const [modalVisible, setModalVisible] = useState(false);
- const [businessOwnerId,setBusinessOwnerId]=useState({})
+ const [businessOwnerId,setBusinessOwnerId]=useState('')
 
  useEffect(()=>{
   const checkOwner=async()=>{
-
     const isBusinessOwner=await AsyncStorage.getItem('registerBusinessByOwner')
-    if(isBusinessOwner==='true'){
+    console.log('this is the register busine s: ',isBusinessOwner)
+     if(isBusinessOwner==='true'){
       let businessOwner= await AsyncStorage.getItem('businessOwnerId')
+      console.log("this is the businessOnwer id :",businessOwner)
       setBusinessOwnerId(businessOwner)
     
     }
   }
+  checkOwner()
  },[])
 
 

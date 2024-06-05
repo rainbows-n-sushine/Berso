@@ -79,7 +79,7 @@ const token=res.data.businessOwnerToken
     const _businessOwnerId=res.data.businessOwnerId
     console.log("this is the businessOwnerId "+ _businessOwnerId)
     AsyncStorage.setItem('businessOwnerToken',token)
-    AsyncStorage.setItem('businessOwnerId',businessOwnerId)
+    AsyncStorage.setItem('businessOwnerId',_businessOwnerId)
     setBusinessOwnerId(_businessOwnerId)
     setBusinessOwnerToken(token);
     console.log("this is the businessOwnertoken in login: "+token )
@@ -133,6 +133,11 @@ const isLoggedIn=async function(){
     const _businessOwnertoken=await AsyncStorage.getItem('businessOwnerToken')
     const _userId=await AsyncStorage.getItem('userId')
     const _businessOwnerId=await AsyncStorage.getItem('businessOwnerId')
+
+    console.log('userToken : ',_userToken)
+    console.log('_businessOwnertoken : ',_businessOwnertoken)
+    console.log('_userId: ',_userId)
+    console.log('_businessOwnerId',_businessOwnerId)
 
     if(_userToken){
         setUserToken(_userToken)

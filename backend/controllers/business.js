@@ -1,3 +1,4 @@
+
 const mongoose=require('mongoose')
 const { Business } = require("../models/business");
 exports.registerBusiness = async (req, res) => {
@@ -14,10 +15,10 @@ exports.registerBusiness = async (req, res) => {
       //   throw new Error('Missing businessOwnerId');
       // }
   
-      const isValidObjectId = mongoose.Types.ObjectId.isValid(businessOwnerId);
-      if (!isValidObjectId) {
-        throw new Error('Invalid businessOwnerId');
-      }
+      // const isValidObjectId = mongoose.Types.ObjectId.isValid(businessOwnerId);
+      // if (!isValidObjectId) {
+      //   throw new Error('Invalid businessOwnerId');
+      // }
   
       const business_db = new Business({
         business_name: businessName,
@@ -31,7 +32,7 @@ exports.registerBusiness = async (req, res) => {
         average_price: averagePrice,
         description: description,
         category: categories,
-        business_owner: mongoose.Types.ObjectId(businessOwnerId), // Convert string to ObjectId
+        business_owner: businessOwnerId, // Convert string to ObjectId
       });
   
       await business_db.save();
@@ -215,11 +216,14 @@ exports.updateBusinessRating = async (businessId, rating) => {
 
 exports.getByBusinessOwner=async(req,res)=>{
 
-const {_businessOwnerId}=req.params
+const {businessOwnerId}=req.params
+console.log('this is their id  ',businessOwnerId)
 
 try {
 
-  const businesses= await Business.find({business_owner:_businessOwnerId})
+  const businesses= await Business.find({business_owner:businessOwnerId})
+
+  console.log('here are the businesses: ',businesses)
   if(businesses){
     return res.json({success:true,message:"Here are your businesses",businesses:businesses})
   }else{

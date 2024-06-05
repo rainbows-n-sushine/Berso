@@ -13,17 +13,20 @@ import tw from "twrnc";
 
 const Collections = () => {
   const [userToken, setUserToken] = useState(null);
+  const [businessOwnerToken, setBusinessOwnerToken] = useState(null);
   const [displayCollection, setDisplayCollection] = useState(false);
+  
 
-  const {businessOwnerToken}=useContext(AuthContext)
+  // const {businessOwnerToken}=useContext(AuthContext)
 
   useEffect(() => {
     async function getToken() {
       console.log(userToken);
-      let token = await AsyncStorage.getItem("userToken");
+      let _userToken = await AsyncStorage.getItem("userToken");
+      let _businessOwnerToken = await AsyncStorage.getItem("businessOwnerToken");
       console.log(displayCollection);
-      console.log(token);
-      setUserToken(token);
+      setUserToken(_userToken);
+      setBusinessOwnerToken(_businessOwnerToken)
       if (token === null) {
         setDisplayCollection(false);
       } else {
@@ -53,7 +56,7 @@ const Collections = () => {
               <Text>Loading...</Text>
             </View>
           </>
-        ) : userToken|| businessOwnerToken ? (
+        ) : userToken || businessOwnerToken ? (
           <SafeAreaView>
             <Text style={tw`text-xl text-center`}>Collections</Text>
             <TouchableOpacity style={tw`bg-white p-3 rounded-xl items-center`}>

@@ -36,11 +36,16 @@ const More = () => {
   useEffect(()=>{
 
     const getBusinesses =async()=>{
+      console.log('im here',businessOwnerId)
 
-      await api.get(`business/backend/routes/business.js/${businessOwnerId}`)
+      await api.get(`business/get-by-business-owner/${businessOwnerId}`)
       .then((res)=>{
+        
         if(res.data.success){
+          
           let _businesses=res.data.businesses
+
+          console.log('these are the businesses under _businesses: ',_businesses)
           setBusinesses(_businesses)
           Alert.alert(res.data.message)
         }else{
@@ -80,7 +85,7 @@ const More = () => {
         source={{ uri: item.logo }}
         style={tw`w-8 h-8 rounded-full mr-2`}
       />
-      <Text>{item.name}</Text>
+      <Text>{item.business_name}</Text>
     </TouchableOpacity>
   );
 
@@ -164,7 +169,7 @@ const More = () => {
                 <FlatList
                   data={businesses}
                   renderItem={renderItem}
-                  keyExtractor={(item) => item.id.toString()}
+                  keyExtractor={(item) => item._id.toString()}
                 />
                 <TouchableOpacity
                   style={tw`mt-4 bg-orange-400 p-2 rounded-lg`}
