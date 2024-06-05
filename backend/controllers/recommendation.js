@@ -1,10 +1,14 @@
 const { Business } = require("../models/business");
 const { Review } = require("../models/review");
 const { Rating } = require("../models/rating");
-const natural = require('natural');
-const TfIdf = natural.TfIdf;
 const brain = require('brain.js');
 const { User } = require("../models/user");
+const natural = require('natural');
+const tokenizer = new natural.WordTokenizer();
+const Analyzer = natural.SentimentAnalyzer;
+const stemmer = natural.PorterStemmer;
+const analyzer = new Analyzer("English", stemmer, "afinn");
+
 
 exports.getRecommendations = async (req, res) => {
   try {
@@ -32,42 +36,24 @@ exports.getRecommendations = async (req, res) => {
   }
 };
 
-
 exports.filterReviews = async (req, res) => {
   try {
     const businessId = req.params.businessId;
+    const reviews = await Review.find({ business: businessId }).populate('comment');
 
-    let reviews = await Review.find({ business: businessId });
+    const filteredReviews = reviews.filter(review => {
+      const reviewText = review.title + ' ' + review.description;
+      const commentText = review.comment ? review.comment.text : '';
+      const combinedText = reviewText + ' ' + commentText;
 
-    // Preprocess the reviews data for training
-    const trainingData = reviews.map(review => ({
-      input: {
-        description: review.description,
-        title: review.title
-      },
-      output: {
-        genuine: 1
-      }
-    }));
+      const tokens = tokenizer.tokenize(combinedText.toLowerCase());
+      const sentiment = analyzer.getSentiment(tokens);
 
-    const network = new brain.NeuralNetwork();
-    network.train(trainingData);
+      const isPositiveSentiment = sentiment >= 0;
+      const containsKeywords = tokens.some(token => ['great', 'excellent', 'good'].includes(token));
 
-    const mlFilteredReviews = reviews.filter(review => {
-      const input = {
-        description: review.description,
-        title: review.title
-      };
-      const prediction = network.run(input);
-      return prediction.genuine > 0.5; // Consider the review as genuine if the prediction is greater than 0.5
+      return isPositiveSentiment && containsKeywords;
     });
-
-    const rbFilteredReviews = reviews.filter(review => {
-      const isGenuine = applyFilteringRules(review);
-      return isGenuine;
-    });
-
-    const filteredReviews = [...mlFilteredReviews, ...rbFilteredReviews];
 
     res.json({ success: true, reviews: filteredReviews });
   } catch (error) {
