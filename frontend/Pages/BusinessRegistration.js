@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from "react";
+import React, { useEffect,useState,useContext } from "react";
 import {
   View,
   TextInput,
@@ -34,20 +34,18 @@ const BusinessRegistration = () => {
   const windowHeight = Dimensions.get("window").height;
   const navigation = useNavigation();
  const [modalVisible, setModalVisible] = useState(false);
- const [businessOwnerId,setBusinessOwnerId]=useState('')
- const {_businessOwnerId}=useContext(AuthContext)
+ const [businessOwnerId,setBusinessOwnerId]=useState({})
 
  useEffect(()=>{
   const checkOwner=async()=>{
 
     const isBusinessOwner=await AsyncStorage.getItem('registerBusinessByOwner')
     if(isBusinessOwner==='true'){
-   setBusinessOwnerId(_businessOwnerId)   
+      let businessOwner= await AsyncStorage.getItem('businessOwnerId')
+      setBusinessOwnerId(businessOwner)
+    
     }
   }
-
-
-
  },[])
 
 
@@ -176,7 +174,9 @@ const handleSubmit=async()=>{
   console.log("this is the value of categories "+categories.Shops)
 
   console.log('im in handle submit')
+  console.log('this is the business owner id: ',businessOwnerId)
   console.log(business)
+  
  
   await api.post('business/register-business',{business,categories,businessOwnerId})
     .then((res)=>{

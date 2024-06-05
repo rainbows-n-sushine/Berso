@@ -123,32 +123,30 @@ exports.signin = async (req, res) => {
   console.log(credential + "   " + password);
   const validEmail = validator.isEmail(credential);
 
-  // const userExists = await User.userExists(email,password);
+  // const businessOwnerExists = await BusinessOwner.businessOwnerExists(email,password);
 let businessOwner={}
 let businessOwnerId=""
-
   if(validEmail){
-   businessOwner= await BusinessOwner.findOne({ email: credential});
+    businessOwner = await BusinessOwner.findOne({ email: credential});
     }
 else{
-   businessOwner = await BusinessOwner.findOne({ username: credential});
+  businessOwner = await BusinessOwner.findOne({ username: credential});
  
 }
 
-console.log('isVlaid Email: ',validEmail)
   console.log(businessOwner);
 
   if (businessOwner) { 
-    businessOwner=businessOwner._id
+    businessOwnerId=businessOwner._id
     console.log(businessOwner._id)
-    const comparePassword = await businessOwner.comparePassword(credential);
+    const comparePassword = await businessOwner.comparePassword(password);
     
     if (comparePassword) {
       const businessOwnerToken = jwt.sign({ businessOwnerId: businessOwner._id }, process.env.JWT_SECRET, {
         expiresIn: "1d",
       });
 
-      return res.json({ success: true, message: "business owner is signed in!", businessOwnerToken:businessOwnerToken,businessOwnerId:businessOwnerId });
+      return res.json({ success: true, message: "businessOwner is signed in!", businessOwnerToken:businessOwnerToken,businessOwnerId:businessOwnerId });
     } else {
       return res.json({
         success: false,
@@ -158,10 +156,12 @@ console.log('isVlaid Email: ',validEmail)
   } else {
     return res.json({
       success: false,
-      message: "user with that email is not found, try sign up",
+      message: "businessOwner with that email is not found, try sign up",
     });
   }
 };
+
+
 
 exports.updateBusinessOwnerProfile = async (req, res) => {
   const { username, dateOfBirth, fullName, email, phone, zipCode, bio, currentPassword, newPassword,businessOwnerId } = req.body;

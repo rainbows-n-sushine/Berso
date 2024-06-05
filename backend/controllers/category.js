@@ -21,6 +21,7 @@ console.log("name and the description",name,"  ",description)
 exports.fetchAll=async(req,res)=>{
 
    try {
+    console.log('im herr')
     
     const categories= await Category.find()
 

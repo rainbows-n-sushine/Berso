@@ -1,3 +1,4 @@
+const mongoose=require('mongoose')
 const { Business } = require("../models/business");
 exports.registerBusiness = async (req, res) => {
   console.log("im in business condtrollers");
@@ -7,43 +8,41 @@ exports.registerBusiness = async (req, res) => {
     console.log(categories)
     const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
 
-
-    
-    const business_db= await Business({
-
-     business_name:businessName,
-     email:email,
-     phone:phone,
-     website:website,
-     location:location,
-     address:address,
-     business_days:businessDays,
-     opening_hours:openingHours,
-     average_price:averagePrice,
-     description:description,
-     category:categories,
-     business_owner:businessOwnerId
-
-
-    })
-    console.log(business_db)
-    
-    try { 
-    await business_db.save()
-    console.log(business_db)
-    if(business_db){
-
-      res.json({message:"business successfuly created", success:true,business:business_db})
-    }else{
-
-      res.json({message:"business creation was unsuccessfull",success:false})
-    } 
-} catch (error) {
-    if(error){
-        return res.json({success:false,message:"error while creating businesses"})
-        console.log("error in business registery",error.message())
+    console.log('this is the business from the frontend: ',business)
+    try {
+      // if (!businessOwnerId) {
+      //   throw new Error('Missing businessOwnerId');
+      // }
+  
+      const isValidObjectId = mongoose.Types.ObjectId.isValid(businessOwnerId);
+      if (!isValidObjectId) {
+        throw new Error('Invalid businessOwnerId');
+      }
+  
+      const business_db = new Business({
+        business_name: businessName,
+        email: email,
+        phone: phone,
+        website: website,
+        location: location,
+        address: address,
+        business_days: businessDays,
+        opening_hours: openingHours,
+        average_price: averagePrice,
+        description: description,
+        category: categories,
+        business_owner: mongoose.Types.ObjectId(businessOwnerId), // Convert string to ObjectId
+      });
+  
+      await business_db.save();
+      console.log(business_db);
+  
+      res.json({ message: "Business successfully created", success: true, business: business_db });
+    } catch (error) {
+      console.error(error);
+      res.json({ success: false, message: "Error while creating business" });
     }
-  }
+
 };
 
 exports.fetchByCategory = async (req, res) => {
@@ -54,7 +53,7 @@ console.log('this it hhsvjhvsh cate  :', categoryId)
 
 
 try {
-  const businesses = await Business.find({ category:{$in:[cateoryId]}});
+  const businesses = await Business.find({ category:{$in:[categoryId]}});
 
     console.log("Retrieved businesses:", businesses);
 

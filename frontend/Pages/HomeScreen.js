@@ -50,7 +50,7 @@ const HomeScreen = () => {
         setBusinessOwnerToken(_businessOwnerToken);
       }
     }
-    async function fetchCategories() {
+    const fetchCategories=async()=> {
       await api
         .get("category/fetchAll")
         .then((res) => {

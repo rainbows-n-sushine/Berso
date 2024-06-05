@@ -15,6 +15,8 @@ const Collections = () => {
   const [userToken, setUserToken] = useState(null);
   const [displayCollection, setDisplayCollection] = useState(false);
 
+  const {businessOwnerToken}=useContext(AuthContext)
+
   useEffect(() => {
     async function getToken() {
       console.log(userToken);
@@ -51,7 +53,7 @@ const Collections = () => {
               <Text>Loading...</Text>
             </View>
           </>
-        ) : userToken ? (
+        ) : userToken|| businessOwnerToken ? (
           <SafeAreaView>
             <Text style={tw`text-xl text-center`}>Collections</Text>
             <TouchableOpacity style={tw`bg-white p-3 rounded-xl items-center`}>

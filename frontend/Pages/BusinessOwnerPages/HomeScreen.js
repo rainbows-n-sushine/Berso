@@ -4,12 +4,16 @@ import tw from "twrnc";
 import LineChartComponent from "../../assets/Data/LineChart";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
+import api from "../../util/Util";
 // import { BarChart, Grid } from 'react-native-svg-charts';
 const HomeScreen = () => {
   const navigation = useNavigation();
 
 
   const {_businessOwnerId}=useContext(AuthContext)
+  const {businessInfo,setBusinessInfo}=useState({})
+
+
 
 
   
@@ -34,6 +38,12 @@ const HomeScreen = () => {
 
   useEffect(()=>{
     const getBuinesses=async()=>{
+      await api.get(`business/get-one-by-business-owner/${_businessOwnerId,businessId}`)
+      .then((res)=>{
+
+
+        
+      })
 
 
     }
@@ -54,6 +64,11 @@ const HomeScreen = () => {
         <Text style={[tw`text-sm font-bold text-black -top-10`]}>go back</Text>
       </TouchableOpacity> */}
       <Text style={[tw`text-4xl font-bold text-black mb-8`]}>Dashboard</Text>
+
+      {
+
+
+      }
 
       <Animated.View
         style={[

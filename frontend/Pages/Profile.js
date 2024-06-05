@@ -37,12 +37,12 @@ const Profile = ({ dummyRestaurantsData }) => {
   const navigation = useNavigation();
 const [modalVisible, setModalVisible] = useState(false);
  const [currentIndex, setCurrentIndex] = useState(0);
- const  {_businessOwnerId}=useContext(AuthContext)
+ const  {businessOwnerId}=useContext(AuthContext)
 
  const handleSwipe = (index) => {
    setCurrentIndex(index);
  };
-const { isLoading, userToken } = useContext(AuthContext); 
+const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext); 
   const data = dummyRestaurantsData?.food?.map((item, index) => ({
     title: item.category,
     data: item.meals,
@@ -51,7 +51,7 @@ const { isLoading, userToken } = useContext(AuthContext);
 
   const RegisterBusinessByAnyone=async()=>{
     await AsyncStorage.removeItem('registerBusinessByOwner')
-    navigation.navigate("AddBusiness");
+    
 
 
   }
@@ -59,7 +59,7 @@ const { isLoading, userToken } = useContext(AuthContext);
 
   const RegisterBusinessByOwner=async()=>{
     await AsyncStorage.setItem('registerBusinessByOwner','true')
-    navigation.navigate("AddBusiness");
+    
 
 
   }
@@ -102,7 +102,7 @@ const { isLoading, userToken } = useContext(AuthContext);
             <Text>Loading...</Text>
           </View>
         </>
-      ) : userToken ? (
+      ) : userToken||businessOwnerToken ? (
         <>
           <ParallaxScrollView
             style={tw`flex-1`}
@@ -232,6 +232,7 @@ const { isLoading, userToken } = useContext(AuthContext);
                             onPress={() => {
                               setModalVisible(false);
                               RegisterBusinessByAnyone
+                              navigation.navigate("AddBusiness");
                             }}
                           >
                             <Text style={tw`text-base text-center `}>
@@ -242,6 +243,7 @@ const { isLoading, userToken } = useContext(AuthContext);
                             style={tw`py-2 border border-gray-200 my-1`}
                             onPress={() => {
                               RegisterBusinessByAnyone
+                              navigation.navigate("AddBusiness");
                               setModalVisible(false);
                             }}
                           >
@@ -249,12 +251,13 @@ const { isLoading, userToken } = useContext(AuthContext);
                               i work at the business
                             </Text>
                           </TouchableOpacity>
-                          {_businessOwnerId &&
+                          {businessOwnerId &&
 
                           <TouchableOpacity
                             style={tw`py-2 border border-gray-200 my-1`}
                             onPress={() => {
-                              RegisterBusinessByOwner                                        
+                              RegisterBusinessByOwner  
+                              navigation.navigate("AddBusiness");                                      
                               setModalVisible(false);
                             }}
                           >

@@ -27,7 +27,7 @@ import { useBusinessTab, setBusinessTab } from "../context/BusinessTabContext";
 
 const More = () => {
   const { setBusinessTab } = useBusinessTab();
-  const { UserLogout, BusinessOwnerLogout, _businessOwnerId,_userId} = useContext(AuthContext);
+  const { UserLogout, BusinessOwnerLogout, businessOwnerId,userId} = useContext(AuthContext);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [businesses,setBusinesses]=useState([])
@@ -37,7 +37,7 @@ const More = () => {
 
     const getBusinesses =async()=>{
 
-      await api.get(`business/getByBusinessOwner/${_businessOwnerId}`)
+      await api.get(`business/backend/routes/business.js/${businessOwnerId}`)
       .then((res)=>{
         if(res.data.success){
           let _businesses=res.data.businesses

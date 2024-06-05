@@ -5,7 +5,7 @@ const router = express.Router();
 const { isAuth } = require("../middleware/auth");
 router.post("/register-business", registerBusiness);
 router.get("/fetch-by-category/:categoryId", fetchByCategory);
-router.get('/get-by-business-owner/:businessOwnerId',getByBusinessOwner)
+router.get('/get-by-business-owner/:_businessOwnerId',getByBusinessOwner)
 router.get('/fetch-all',fetchAll)
 router.get('/get-one/:businessId',fetchOne)
 router.delete('/delete/:businessId',deleteBusiness)

@@ -13,15 +13,15 @@ const AuthProvider=({children})=>{
  
 const [isLoading, setIsLoading]=useState(false);
 const [userToken,setUserToken]=useState(null)
-const [_userId,_setUserId]=useState('')
+const [userId,setUserId]=useState('')
 const [businessOwnerToken,setBusinessOwnerToken]=useState(null)
-const [_businessOwnerId,_setbusinessOwnerId]=useState('')
+const [businessOwnerId,setBusinessOwnerId]=useState('')
 
 
 
 useEffect(()=>{
     isLoggedIn();
-},[]);
+},[UserLogin,BusinessOwnerLogin,UserLogout,BusinessOwnerLogout]);
 
 // const handleLogin=()=>{
 // navigation.navigate('Login')
@@ -43,11 +43,11 @@ await api.post('user/signin',{credential,password})
     console.log(res.data)
     if(res.data.success===true){
 const token=res.data.userToken
-    const userId=res.data.userId
-    console.log("this is the userId "+ userId)
+    const _userId=res.data.userId
+    console.log("this is the userId "+ _userId)
     AsyncStorage.setItem('userToken',token)
     AsyncStorage.setItem('userId',userId)
-    _setUserId(userId)
+    setUserId(_userId)
     setUserToken(token);
     console.log("this is the token in login: "+token )
 
@@ -76,11 +76,11 @@ await api.post('businessOwner/signin',{credential,password})
     console.log(res.data)
     if(res.data.success===true){
 const token=res.data.businessOwnerToken
-    const businessOwnerId=res.data.businessOwnerId
-    console.log("this is the businessOwnerId "+ businessOwnerId)
+    const _businessOwnerId=res.data.businessOwnerId
+    console.log("this is the businessOwnerId "+ _businessOwnerId)
     AsyncStorage.setItem('businessOwnerToken',token)
     AsyncStorage.setItem('businessOwnerId',businessOwnerId)
-    _setBusinessOwnerId(businessOwnerId)
+    setBusinessOwnerId(_businessOwnerId)
     setBusinessOwnerToken(token);
     console.log("this is the businessOwnertoken in login: "+token )
 
@@ -131,18 +131,18 @@ const isLoggedIn=async function(){
     
     const _userToken=await AsyncStorage.getItem('userToken')
     const _businessOwnertoken=await AsyncStorage.getItem('businessOwnerToken')
-    const userId=await AsyncStorage.getItem('userId')
-    const businessOwnerId=await AsyncStorage.getItem('businessOwnerId')
+    const _userId=await AsyncStorage.getItem('userId')
+    const _businessOwnerId=await AsyncStorage.getItem('businessOwnerId')
 
     if(_userToken){
         setUserToken(_userToken)
-        _setUserId(userId) 
+        setUserId(_userId) 
         await AsyncStorage.removeItem('businessOwnerToken')
     }
 
     else if (_businessOwnertoken){
         setBusinessOwnerToken(_businessOwnertoken)
-        _setbusinessOwnerId(businessOwnerId)
+        setBusinessOwnerId(_businessOwnerId)
         await AsyncStorage.removeItem('userToken')
     
     }
@@ -173,7 +173,7 @@ return(
 
 
 
-    <AuthContext.Provider value={{UserLogin,UserLogout,BusinessOwnerLogin,BusinessOwnerLogout,isLoading,userToken,businessOwnerToken,_businessOwnerId,_userId}}>
+    <AuthContext.Provider value={{UserLogin,UserLogout,BusinessOwnerLogin,BusinessOwnerLogout,isLoading,userToken,businessOwnerToken,businessOwnerId,userId}}>
         {children}
     </AuthContext.Provider>
     
