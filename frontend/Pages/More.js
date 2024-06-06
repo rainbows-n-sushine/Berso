@@ -29,23 +29,16 @@ import api from "../util/Util";
 
 const More = () => {
   const { setBusinessTab } = useBusinessTab();
-  const { UserLogout, BusinessOwnerLogout, businessOwnerId,userId} = useContext(AuthContext);
+  const { UserLogout, BusinessOwnerLogout, businessOwnerId,businessOwnerToken,userId,userToken} = useContext(AuthContext);
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [businesses,setBusinesses]=useState([])
+  const [isBusinessOwner,setIsBusinessOwner]=useState(false)
 
   const setBusinessClicked=async(businessId)=>{
     await AsyncStorage.setItem('currentBusiness',businessId)
   }
 
-
-  // Dummy data for businesses
-  // const businesses = [
-  //   { id: 1, name: "Business 1", logo: "../assets/Images/logo-removebg.png" },
-  //   { id: 2, name: "Business 2", logo: "../assets/Images/logo-removebg.png" },
-  //   { id: 3, name: "Business 3", logo: "../assets/Images/logo-removebg.png" },
-  //   // Add more businesses as needed
-  // ];
 
   const renderItem = ({ item }) => (
     <TouchableOpacity
@@ -67,11 +60,12 @@ const More = () => {
 
   const modalHeight = Math.min(300, businesses.length * 50 + 120); // Maximum height is 300
 
-  const [businessOwnerToken, setBusinessOwnerToken] = useState("");
-  const [userToken, setUserToken] = useState("");
 
   useEffect(() => {
     console.log('im in more useeffect')
+    if(businessOwnerToken!==""){
+      setIsBusinessOwner(true)
+    }
 
     const getBusinesses =async()=>{
       console.log('im here',businessOwnerId)
@@ -98,22 +92,9 @@ const More = () => {
 
 
     }
-    
-    async function getToken() {
-      console.log('hiii');
-      let _userToken = await AsyncStorage.getItem("userToken");
-      let _businessOwnerToken = await AsyncStorage.getItem(
-        "BusinessOwnerToken"
-      );
-      if (_userToken) {
-        setUserToken(_userToken);
-      } else if (_businessOwnerToken) {
-        setBusinessOwnerToken(_businessOwnerToken);
-      }
-    }
 
     getBusinesses()
-    getToken();
+   
   }, []);
   return (
     <SafeAreaView style={tw`flex-1 bg-[#F2E8DE]`}>
@@ -144,7 +125,9 @@ const More = () => {
             <AntDesign name="setting" size={22} color="black" />
             <Text style={tw`ml-2`}>Settings</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {isBusinessOwner&&
+          <View> 
+           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
               // navigation.navigate("BusinessHome");
@@ -188,6 +171,9 @@ const More = () => {
               </View>
             </View>
           </Modal>
+          </View>
+          }
+         
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {

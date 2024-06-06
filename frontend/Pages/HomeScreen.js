@@ -289,7 +289,7 @@ const HomeScreen = () => {
                 </View>
               </View>
             </View>
-            <View>
+            {/* <View>
               <TouchableOpacity
                 onPress={() => {
                   console.log(
@@ -314,7 +314,7 @@ const HomeScreen = () => {
               >
                 <Text>login</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
           </View>
         </ScrollView>
       </View>

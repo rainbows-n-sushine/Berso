@@ -88,28 +88,13 @@ exports.fetchAll=async(req,res)=>{
   }
 }
 
-// exports.getOneBusiness=async(req,res)=>{
-//    const {businessId}=req.body
-
-//    try {
-//     const business=await Business.getOne({_id:businessId})
-//     if(business){
-//       return res.json({message:"Business fetched successfully" , success:true , business:business})
-//     }else{
-//       return res.json({message:"Trouble fetching business" , success:false })
-//     }
-//   }
-
-//   }
-
-// }
-
 exports.fetchOne=async(req,res)=>{
 
 const {businessId}=req.params
 console.log('im in here')
 try {
   const business=await Business.findById(businessId)
+  console.log('this is the businessId',busniessId,"and this is the busnes" ,business)
 
   if (business){
   console.log('im in here')

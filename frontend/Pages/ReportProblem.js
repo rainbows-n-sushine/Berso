@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useState,useContext } from "react";
 import { View, Text, TextInput, Button, Alert, TouchableOpacity } from "react-native";
 import tw from "twrnc";
 import api from '../util/Util'
+import { AuthContext } from "../context/AuthContext";
 
 const ReportProblemScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
+  const {userId}=useContext(AuthContext)
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     // Validate form inputs
     if (!name || !email || !description) {
       Alert.alert("Error", "Please fill in all fields");
@@ -21,7 +23,18 @@ const ReportProblemScreen = () => {
     console.log("Email:", email);
     console.log("Description:", description);
 
-    api.
+    await api.post('report/create',{name,email,description, userId})
+    .then((res)=>{
+      console.log(res.data.message)
+      if(res.data.success===true){
+        Alert.alert(res.data.message)
+      }
+    }).catch((error)=>{
+      if (error){
+         console.log("Error in filing a report ",report.message)
+      }
+     
+    })
 
     // Reset form fields after submission
     setName("");

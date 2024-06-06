@@ -1,9 +1,7 @@
 const {Report} = require('../models/report')
+
 exports.fileReport=async(req,res)=>{
-    const {report,userId,businessId}=req.body
-    const {name,email,description}=report
-
-
+    const {name,email,description,userId}=req.body
     try{
         const report= await Report({
 
@@ -11,14 +9,9 @@ exports.fileReport=async(req,res)=>{
             email,
             description,
             user:userId,
-            business:businessId
 
         })
         report.save()
-        const reportId=report._id
-        console.log('this is the new report added ,',report)     
-
-        
 
         return res.json({success:true,message:"report successfully submitted",report:report})
     }catch{

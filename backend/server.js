@@ -55,6 +55,11 @@ const ratingRoute = require("./routes/rating");
 app.use("/rating", ratingRoute);
 
 
+const reportRoute = require("./routes/report");
+app.use("/report", reportRoute);
+
+
+
 app.listen(8000, () => {
   console.log("Server is running successfully");
 });

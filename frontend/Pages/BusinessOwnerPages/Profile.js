@@ -17,52 +17,43 @@ import ParallaxScrollView from "../../assets/Components/ParallaxScrollView";
 import { ImageBackground } from "react-native";
 import api from "../../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// const business = {
-//   name: "Sample Restaurant",
-//   category: "Restaurant",
-//   rating: 4.5,
-//   email: "info@samplerestaurant.com",
-//   phone: "+1234567890",
-//   address: "123 Main Street, City, Country",
-//   hours: "Mon-Fri: 9am-10pm",
-//   description:
-//     "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec interdum leo.",
-//   photos: [
-//     "https://example.com/photo1.jpg",
-//     "https://example.com/photo2.jpg",
-//     "https://example.com/photo3.jpg",
-//   ],
-// };
+const business = {
+  name: "Sample Restaurant",
+  category: "Restaurant",
+  rating: 4.5,
+  email: "info@samplerestaurant.com",
+  phone: "+1234567890",
+  address: "123 Main Street, City, Country",
+  hours: "Mon-Fri: 9am-10pm",
+  description:
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec interdum leo.",
+  photos: [
+    "https://example.com/photo1.jpg",
+    "https://example.com/photo2.jpg",
+    "https://example.com/photo3.jpg",
+  ],
+};
 
 
+const businessFetched={};
 
 const Header = () => {
   
-  const [business,setBusiness]=useState({
+  // const [businessFetched,setBusinessFetched]=useState({
+  //   business_name:" ",
+  //   decription:" ",
+  //   category:[],
+  //   average_rating:0,
+  //   website:" ",
+  //   email:" ",
+  //   phone:" ",
+  //   opening_hours:" ",
+  //   address:" "
 
-    business_name:"",
-    category:[],
-    rating:0,
-    photos:[],
-    website:"",
-    email:"",
-    phone:"",
-    address:"",
-    opening_hours:"",
-    description:""
-    
-    
-  })
+  // })
 
 
 useEffect(()=>{
-
-
-  getBusinessInfo()
-
-
-},[])
-
 const getBusinessInfo=async()=>{
   console.log("this is the business in profile")
   const businessId= await AsyncStorage.getItem('currentBusiness')
@@ -73,7 +64,8 @@ const getBusinessInfo=async()=>{
   console.log(res.data)
   if(res.data.success){
     let _business=res.data.business
-   setBusiness(_business) 
+   businessFetched=_business
+   console.log('this is the updated value of business Fetched, ',businessFetched)
    
 
     console.log("this is the business in profile getBusinessInfo", res.data.business)
@@ -87,6 +79,13 @@ const getBusinessInfo=async()=>{
   }
  })
   }
+
+  getBusinessInfo()
+
+
+},[])
+
+
 
   return (
     <View style={tw`h-[60]`}>
@@ -125,8 +124,8 @@ const getBusinessInfo=async()=>{
           style={tw`w-12 h-12 rounded-full`}
         /> */}
             <View style={tw`ml-4`}>
-              <Text style={tw`font-bold text-lg`}>{business.business_name}</Text>
-              <Text style={tw`text-gray-500`}>{business.category}</Text>
+              <Text style={tw`font-bold text-lg`}>{businessFetched.business_name}</Text>
+              <Text style={tw`text-gray-500`}>{businessFetched.category}</Text>
               <View style={tw`flex-row items-center my-2`}>
                 <FontAwesome
                   name="star"
@@ -147,7 +146,7 @@ const getBusinessInfo=async()=>{
                   style={tw`mr-2`}
                 />
                 <Text style={tw`text-gray-700 mr-2`}>
-                  Rating: {business.rating}
+                  Rating: {businessFetched.average_rating}
                 </Text>
               </View>
             </View>
@@ -294,7 +293,7 @@ const InformationScreen = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Website:</Text>
-          <Text style={tw`text-base text-gray-500`}>{business.website}</Text>
+          <Text style={tw`text-base text-gray-500`}>{businessFetched.website}</Text>
         </View>
         <MaterialCommunityIcons
           name="web"
@@ -308,7 +307,7 @@ const InformationScreen = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Email:</Text>
-          <Text style={tw`text-base text-gray-500`}>{business.email}</Text>
+          <Text style={tw`text-base text-gray-500`}>{businessFetched.email}</Text>
         </View>
         <FontAwesome name="envelope" size={20} color="black" style={tw`mr-2`} />
       </TouchableOpacity>
@@ -317,7 +316,7 @@ const InformationScreen = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Phone:</Text>
-          <Text style={tw`text-base text-gray-500`}>{business.phone}</Text>
+          <Text style={tw`text-base text-gray-500`}>{businessFetched.phone}</Text>
         </View>
         <FontAwesome name="phone" size={20} color="black" style={tw`mr-2`} />
       </TouchableOpacity>
@@ -326,7 +325,7 @@ const InformationScreen = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Address:</Text>
-          <Text style={tw`text-base text-gray-500`}>{business.address}</Text>
+          <Text style={tw`text-base text-gray-500`}>{businessFetched.address}</Text>
         </View>
         <FontAwesome
           name="map-marker"
@@ -348,7 +347,7 @@ const InformationScreen = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Features:</Text>
-          <Text style={tw`text-base text-gray-500`}>{business.opening_hours}</Text>
+          <Text style={tw`text-base text-gray-500`}>{businessFetched.opening_hours}</Text>
         </View>
       </TouchableOpacity>
 
@@ -357,7 +356,7 @@ const InformationScreen = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Hours:</Text>
-          <Text style={tw`text-base text-gray-500`}>{business.opening_hours}</Text>
+          <Text style={tw`text-base text-gray-500`}>{businessFetched.opening_hours}</Text>
         </View>
         <FontAwesome
           name="calendar-times-o"
@@ -371,7 +370,7 @@ const InformationScreen = () => (
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
         Description
       </Text>
-      <Text style={tw`text-base text-gray-700`}>{business.description}</Text>
+      <Text style={tw`text-base text-gray-700`}>{businessFetched.description}</Text>
     </View>
   </ScrollView>
 );
