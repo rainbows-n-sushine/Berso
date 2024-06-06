@@ -23,7 +23,7 @@ exports.fetchAll=async(req,res)=>{
    try {
     console.log('im herr')
     
-    const categories= await Category.find()
+    const categories= await Category.find({})
 
     if(categories){
 

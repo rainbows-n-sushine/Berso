@@ -71,6 +71,7 @@ const More = () => {
   const [userToken, setUserToken] = useState("");
 
   useEffect(() => {
+    console.log('im in more useeffect')
 
     const getBusinesses =async()=>{
       console.log('im here',businessOwnerId)

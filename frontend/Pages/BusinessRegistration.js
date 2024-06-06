@@ -188,6 +188,7 @@ const handleSubmit=async()=>{
       if(res.data.success){
 
         Alert.alert(res.data.message)
+        navigation.navigate('Home')
 
       }else{
         Alert.alert(res.data.messsage)

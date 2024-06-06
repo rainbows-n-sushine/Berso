@@ -49,10 +49,6 @@ const Header = () => {
     address:"",
     opening_hours:"",
     description:""
-
-
-
-    
     
     
   })
@@ -75,7 +71,9 @@ const getBusinessInfo=async()=>{
  .then((res)=>{
   console.log(res.data)
   if(res.data.success){
-    setBusiness(res.data.business)
+    let _business=res.data.business
+   setBusiness(_business) 
+   
 
     console.log("this is the business in profile getBusinessInfo", res.data.business)
   }else{

@@ -22,31 +22,15 @@ import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/AuthContext";
 const AddReview = ({ navigation }) => {
-  const [review, setReview] = useState({});
+  const [review, setReview] = useState({
+    title:"",
+    description:""
+  });
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
-  // const [userId,setUserId]=useState('')
-  // const [businessId,setBusinessId]=useState('')
-//   const {businessId,userId}=useContext(AuthContext)
+   const {businessId,userId}=useContext(AuthContext)
 
-//   useEffect(()=>{
-//  const getUserId=async()=>{
-
-//   const user=await AsyncStorage.getItem('userId')
-//   setUserId(user)
-//   console.log('tihs is the value of the userId: ',user)
-
-// }
-//     getUserId()
-
-//  },[])
-
-
-
-
-
-
-
+   
   const pickImage = async () => {
     // Ask for permission to access the media library
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -89,12 +73,13 @@ const AddReview = ({ navigation }) => {
   };
 
   const submitReview = async() => {
+    console.log('im in submit review')
     if (!review || !rating) {
       Alert.alert("Error", "Please provide a review and rating.");
       return;
     }
 
-    console.log("Review submitted:", { review, rating, images });
+    console.log("Review submitted:",  review );
 await api.post('review/add',{review,userId,businessId,images})
 .then((res)=>{
 

@@ -49,10 +49,13 @@ const navigation = useNavigation();
   useEffect(() => {
     console.log('this is the id of teh category: ',category._id)
     const categoryId=category._id
+    console.log('this is the category id: ',categoryId)
     api.get(`business/fetch-by-category/${categoryId}`)
       .then((res) => {
 
-        if (res.success){
+        if (res.data.success){
+console.log('this is the data fetched fronthe backedn for fetch by category: ',res.data.businesses)
+
 
           setBusinesses(res.data.businesses)
         }

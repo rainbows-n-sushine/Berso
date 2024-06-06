@@ -39,11 +39,11 @@ const HomeScreen = () => {
   const [userToken, setUserToken] = useState("");
 
   useEffect(() => {
-    async function getToken() {
+    const getToken=async()=> {
+      console.log('im in getToken ')
       let _userToken = await AsyncStorage.getItem("userToken");
-      let _businessOwnerToken = await AsyncStorage.getItem(
-        "BusinessOwnerToken"
-      );
+      let _businessOwnerToken = await AsyncStorage.getItem("BusinessOwnerToken");
+
       if (_userToken) {
         setUserToken(_userToken);
       } else if (_businessOwnerToken) {
@@ -57,6 +57,7 @@ const HomeScreen = () => {
           if (res.data.success) {
             let _categories = res.data.categories;
             setCategories(_categories);
+            console.log('this is categorue s: ',_categories )
           } else {
             Alert.alert(res.data.message);
           }
