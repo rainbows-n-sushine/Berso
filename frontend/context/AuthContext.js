@@ -44,6 +44,8 @@ await api.post('user/signin',{credential,password})
     if(res.data.success===true){
 const token=res.data.userToken
     const _userId=res.data.userId
+
+    console.log('im in auth context and this is the value of user._id',userId)
     console.log("this is the userId "+ _userId)
     AsyncStorage.setItem('userToken',token)
     AsyncStorage.setItem('userId',userId)
@@ -143,12 +145,14 @@ const isLoggedIn=async function(){
         setUserToken(_userToken)
         setUserId(_userId) 
         await AsyncStorage.removeItem('businessOwnerToken')
+        await AsyncStorage.removeItem('businessOwnerId')
     }
 
     else if (_businessOwnertoken){
         setBusinessOwnerToken(_businessOwnertoken)
         setBusinessOwnerId(_businessOwnerId)
         await AsyncStorage.removeItem('userToken')
+        await AsyncStorage.removeItem('userId')
     
     }
 
@@ -178,7 +182,7 @@ return(
 
 
 
-    <AuthContext.Provider value={{UserLogin,UserLogout,BusinessOwnerLogin,BusinessOwnerLogout,isLoading,userToken,businessOwnerToken,businessOwnerId,userId}}>
+    <AuthContext.Provider value={{UserLogin,UserLogout,BusinessOwnerLogin,BusinessOwnerLogout,isLoading,userToken,businessOwnerToken,businessOwnerId,userId,isLoggedIn}}>
         {children}
     </AuthContext.Provider>
     

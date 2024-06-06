@@ -30,12 +30,13 @@ const AddReview = ({ navigation, onSeach, onSelectItem }) => {
   });
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
-  const {businessId,userId}=useContext(AuthContext)
+  const {userId}=useContext(AuthContext)
   const [businesses,setBusinesses]=useState([])
-  const [business_id,setBusinessId]=useState('')
+  const [businessId,setBusinessId]=useState('')
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const[selectedBusiness,setSelectedBusiness]=useState('')
+
 
   useEffect(()=>{
     const fetchBusinesses=async()=>{
@@ -118,6 +119,8 @@ const AddReview = ({ navigation, onSeach, onSelectItem }) => {
     }
 
     console.log("Review submitted:",  review );
+    console.log('this is the businessId: ', businessId)
+    console.log('this is the userId: ', userId)
 await api.post('review/add',{review,userId,businessId,images})
 .then((res)=>{
 
@@ -151,7 +154,7 @@ await api.post('review/add',{review,userId,businessId,images})
 
 
 if(rating>0){
-await api.post('rating/add',{rating,userId,businessId})
+await api.post('rating/create',{rating,userId,businessId})
 .then((res)=>{
 
   if(res.success){

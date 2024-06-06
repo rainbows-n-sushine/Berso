@@ -138,7 +138,7 @@ else{
 
   if (user) { 
     userId=user._id
-    console.log(user._id)
+    console.log('this is the user._id in the user controller :',user._id)
     const comparePassword = await user.comparePassword(password);
     
     if (comparePassword) {
