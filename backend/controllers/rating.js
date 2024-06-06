@@ -16,7 +16,7 @@ exports.createRating = async (req, res) => {
     let _rating={}
 
 
-    if(oldRating){
+    if(oldRating!=null){
 
       console.log('it is an old rating: ')
        _rating = await Rating.findOneAndUpdate({user:userId,business:businessId},{
@@ -36,7 +36,7 @@ exports.createRating = async (req, res) => {
   }
     await _rating.save();
     
-    await updateBusinessRating(businessId, _rating);
+    await updateBusinessRating(businessId, rating);
 
     res.status(201).json({ success: true, message: "Review created successfully" });
   } catch (error) {
