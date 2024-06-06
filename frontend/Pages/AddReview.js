@@ -21,6 +21,7 @@ import {
 import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/AuthContext";
+import RNPickerSelect from "react-native-picker-select";
 const AddReview = ({ navigation }) => {
   const [review, setReview] = useState({
     title:"",
@@ -154,22 +155,30 @@ await api.post('rating/add',{rating,userId,businessId})
   return (
     <SafeAreaView style={tw`flex-1 p-4 m-3`}>
       <Text style={tw`text-2xl font-bold mb-4`}>Add Review</Text>
-
+      <RNPickerSelect
+        onValueChange={(value) => setBusinessId(value)}
+        items={dummyBusinesses}
+        style={{
+          inputIOS: tw`border p-2 mb-4 rounded-xl bg-white`,
+          inputAndroid: tw`border p-2 mb-4 rounded-xl bg-white`,
+        }}
+        placeholder={{ label: "Select a business", value: null }}
+      />
       <TextInput
-        style={tw`border p-2 mb-4 rounded-xl `}
+        style={tw`border p-2 mb-4 rounded-xl bg-white `}
         placeholder="Write your review title..."
         name="title"
         preValue={review.title}
-        onChangeText={(text)=>handleChange(text)}
+        onChangeText={(text) => handleChange(text)}
         multiline
       />
 
       <TextInput
-        style={tw`border p-2 mb-4 pb-30 rounded-xl `}
+        style={[tw`border p-2 mb-4 rounded-xl  bg-white `, { height: 100 }]}
         placeholder="Write your review..."
-        name='description'
+        name="description"
         value={review.description}
-        onChangeText={(text)=>handleChange(text)}
+        onChangeText={(text) => handleChange(text)}
         multiline
       />
       <StarRating />

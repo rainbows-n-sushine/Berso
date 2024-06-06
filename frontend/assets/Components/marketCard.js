@@ -3,8 +3,9 @@ import React from 'react';
 import { dummyRestaurantsData } from '../Data/restaurantsData';
 import { FontAwesome } from '@expo/vector-icons';
 import { Link } from 'expo-router';
-
+import { useNavigation } from "@react-navigation/native";
 const MarketCard = ({ restaurantData }) => {
+    const navigation = useNavigation();
   const ratingStyle = {
     color: restaurantData.rating < 4.5 ? 'black' : '#FF8C00',
   };
@@ -17,7 +18,12 @@ const MarketCard = ({ restaurantData }) => {
       }}
       asChild
     >
-      <Pressable className="mt-6 ">
+      <Pressable
+        onPress={() => {
+          navigation.navigate("BusinessPage");
+        }}
+        className="mt-6 "
+      >
         <View>
           <Image
             source={{ uri: restaurantData.profileImage }}
@@ -42,7 +48,9 @@ const MarketCard = ({ restaurantData }) => {
             </Text>
           </View>
         </View>
-        <Text className="text-sm font-[#6e6d72]">{restaurantData.price} birr</Text>
+        <Text className="text-sm font-[#6e6d72]">
+          {restaurantData.price} birr
+        </Text>
       </Pressable>
     </Link>
   );

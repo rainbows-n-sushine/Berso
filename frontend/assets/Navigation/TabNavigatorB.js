@@ -18,6 +18,7 @@ import HomeScreen from '../../Pages/BusinessOwnerPages/HomeScreen';
 import Profile from '../../Pages/BusinessOwnerPages/Profile';
 import More from '../../Pages/BusinessOwnerPages/More';
 import BusinessProfilePage from '../../Pages/BusinessOwnerPages/Profile';
+import MoreNavB from './MoreNavB';
 
 const Tab = createBottomTabNavigator();
 const TabNavigatorB = () => {
@@ -57,7 +58,7 @@ const TabNavigatorB = () => {
 
       <Tab.Screen
         name="MoreNavB"
-        component={More}
+        component={MoreNavB}
         options={{
           title: "More",
           //   tabBarShowLabel: false,

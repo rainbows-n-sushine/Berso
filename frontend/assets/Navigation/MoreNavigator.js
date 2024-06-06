@@ -7,6 +7,7 @@ import UserProfileManagement from "../../Pages/UserProfileManagement";
 import More from "../../Pages/More";
 import BusinessPage from "../../Pages/BusinessPage";
 import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
+import ReportProblem from "../../Pages/ReportProblem";
 
 const Stack = createStackNavigator();
 const MoreNavigator = () => {
@@ -22,7 +23,7 @@ const MoreNavigator = () => {
         component={UserProfileManagement}
         options={{ headerShown: false }}
       />
-       <Stack.Screen
+      <Stack.Screen
         name="BusinessHome"
         component={HomeScreen}
         options={{ headerShown: false }}
@@ -32,13 +33,18 @@ const MoreNavigator = () => {
         component={HomeScreen}
         options={{ headerShown: false }}
       /> */}
-      
+
       <Stack.Screen
         name="BusinessPage"
         component={BusinessPage}
         options={{ headerShown: true }}
       />
-      
+      <Stack.Screen
+        name="ReportProblem"
+        component={ReportProblem}
+        options={{ headerShown: true }}
+      />
+
       {/* <Stack.Screen
         name="SearchBusiness"
         component={SearchBusinessScreen}

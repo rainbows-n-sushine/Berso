@@ -14,7 +14,7 @@ import {
   Alert,
 } from "react-native";
 import tw from "twrnc";
-import { AntDesign, Feather } from "@expo/vector-icons";
+import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
@@ -240,20 +240,20 @@ const handleSubmit=async()=>{
               Register Business
             </Text>
           </View>
-          <View className="">
+          <View style={tw``}>
             <TouchableOpacity
               onPress={() => setModalVisible(true)}
-              className="p-10 items-center  border-orange-300 border-8 rounded-2xl mb-5"
+              style={tw`p-10 items-center  border-orange-300 border-8 rounded-2xl mb-5`}
             >
               <Feather name="share" size={100} color="orange" />
             </TouchableOpacity>
-           
+
             {/* <TouchableOpacity
               // onPress={}
               onPress={() => {
                 navigation.navigate("");
               }}
-              className="bg-red-400"
+              style={tw`bg-red-400`}
             >
               <View
                 style={tw`absolute bottom-0 left-8 bg-white rounded-full p-1`}
@@ -261,11 +261,13 @@ const handleSubmit=async()=>{
                 <MaterialIcons name="add-a-photo" size={26} color="#FB923C" />
               </View>
             </TouchableOpacity> */}
-            <View className=" justify-center items-center">
+            <View style={tw` justify-center items-center`}>
               <View>
                 <Text
-                  style={{ fontFamily: "berlin-sans" }}
-                  className="text-lg font-bold mb-4 berlinSans text-stone-700"
+                  style={[
+                    tw`text-lg font-bold mb-4 berlinSans text-stone-700`,
+                    { fontFamily: "berlin-sans" },
+                  ]}
                 >
                   Required Information
                 </Text>
@@ -298,21 +300,41 @@ const handleSubmit=async()=>{
                   // value={firstName}
                   onChangeText={(text) => {setCategories(text)}}
                 /> */}
-                <MultipleSelectList
-                setSelected={(val)=>{setCategories(val)}}
-                data={categoriesFetched}
-                label="Categories"
-                save="key"
-                // onSelect={()=>{handleCategories(selected)}}
-                // onSelect={()=>{handleCategories()}}
+                <View
+                  style={tw`w-full border bg-orange-50 border-gray-100 rounded-2xl w-80  mb-4`}
+                >
+                  <MultipleSelectList
+                    setSelected={(val) => {
+                      setCategories(val);
+                    }}
+                    data={categoriesFetched}
+                    label="Categories"
+                    save="key"
+                    boxStyles={{
+                      borderWidth: 0,
+                      borderColor: "transparent",
+                      alignItems: "center",
+                    }}
+                    inputStyles={{
+                      color: "gray",
+                    }}
+                    dropdownStyles={{
+                      borderWidth: 0.1,
+                      borderColor: "gray",
+                    }}
+                    
 
-
-                />
+                    // onSelect={()=>{handleCategories(selected)}}
+                    // onSelect={()=>{handleCategories()}}
+                  />
+                </View>
               </View>
               <View>
                 <Text
-                  style={{ fontFamily: "berlin-sans" }}
-                  className="text-lg font-bold mb-4 berlinSans  text-stone-700"
+                  style={[
+                    tw`text-lg font-bold mb-4 berlinSans  text-stone-700`,
+                    { fontFamily: "berlin-sans" },
+                  ]}
                 >
                   Optional Details
                 </Text>

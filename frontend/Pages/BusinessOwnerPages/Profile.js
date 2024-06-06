@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   Dimensions,
   SafeAreaView,
+  FlatList,
 } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import PagerView from "react-native-pager-view";
-import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
+import { FontAwesome, MaterialCommunityIcons, Feather, Ionicons, AntDesign, MaterialIcons } from "@expo/vector-icons";
 import tw from "twrnc";
 import ParallaxScrollView from "../../assets/Components/ParallaxScrollView";
 import { ImageBackground } from "react-native";
@@ -88,13 +89,32 @@ const getBusinessInfo=async()=>{
   }
 
   return (
-    <View style={tw`h-[60]`} >
+    <View style={tw`h-[60]`}>
       <ImageBackground
         source={require("../../assets/Images/HomeBG.jpg")}
         style={tw`flex-1`}
         resizeMode="cover"
       >
-        <View style={tw`flex-row items-center bg-white top-60 `}>
+        <SafeAreaView style={tw`flex-row-reverse ml-2 mt-2`}>
+          <TouchableOpacity
+            style={tw`px-2`}
+            onPress={() => {
+              // navigation.navigate("EditUserProfile");
+            }}
+          >
+            <Feather name="share" size={24} color="white" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={tw`px-2`}
+            onPress={() => {
+              // navigation.navigate("EditUserProfile");
+            }}
+          >
+            <Feather name="edit" size={24} color="white" />
+          </TouchableOpacity>
+        </SafeAreaView>
+
+        <View style={tw`flex-row items-center bg-white top-42 `}>
           <Image
             source={require("../../assets/Images/randomlogo.png")}
             style={tw`w-12 h-12`}
@@ -107,7 +127,7 @@ const getBusinessInfo=async()=>{
             <View style={tw`ml-4`}>
               <Text style={tw`font-bold text-lg`}>{business.business_name}</Text>
               <Text style={tw`text-gray-500`}>{business.category}</Text>
-              <View style={tw`flex-row items-center`}>
+              <View style={tw`flex-row items-center my-2`}>
                 <FontAwesome
                   name="star"
                   size={15}
@@ -137,10 +157,106 @@ const getBusinessInfo=async()=>{
     </View>
   );
 };
+const dummyServices = [
+  {
+    id: "1",
+    title: "Fine Dining",
+    description: "Exquisite cuisine and impeccable service",
+    icon: "restaurant",
+  },
+  {
+    id: "2",
+    title: "Catering",
+    description: "Custom menus for events and gatherings",
+    icon: "shoppingcart",
+  },
+  {
+    id: "3",
+    title: "Takeout",
+    description: "Quick and convenient meals to-go",
+    icon: "meh",
+  },
+  {
+    id: "4",
+    title: "Delivery",
+    description: "Hot meals delivered right to your door",
+    icon: "enviromento",
+  },
+  {
+    id: "5",
+    title: "Bar & Lounge",
+    description: "Craft cocktails and a relaxing ambiance",
+    icon: "cocktail",
+  },
+  {
+    id: "6",
+    title: "Private Dining",
+    description: "Exclusive space for intimate gatherings",
+    icon: "table",
+  },
+];
 
 const ServicesScreen = () => (
   <ScrollView style={tw`p-4`}>
-    <Text>Content for Services tab</Text>
+    <View style={tw`flex-1 bg-gray-100 py-5 px-4`}>
+    <FlatList
+      data={dummyServices}
+      keyExtractor={(item) => item.id}
+      renderItem={({ item }) => (
+        <View
+          style={tw`bg-white rounded-lg shadow-lg p-4 mb-4 flex-row items-center`}
+        >
+          {item.icon === "restaurant" && (
+            <Ionicons
+              name="restaurant-outline"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          {item.icon === "shoppingcart" && (
+            <Feather
+              name="shopping-cart"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          {item.icon === "meh" && (
+            <AntDesign name="meh" size={24} color="#f59e0b" style={tw`mr-4`} />
+          )}
+          {item.icon === "enviromento" && (
+            <Feather
+              name="map-pin"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          {item.icon === "cocktail" && (
+            <MaterialIcons
+              name="local-bar"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          {item.icon === "table" && (
+            <MaterialIcons
+              name="table-restaurant"
+              size={24}
+              color="#f59e0b"
+              style={tw`mr-4`}
+            />
+          )}
+          <View style={tw`flex-1`}>
+            <Text style={tw`font-bold text-lg mb-2`}>{item.title}</Text>
+            <Text style={tw`text-gray-600`}>{item.description}</Text>
+          </View>
+        </View>
+      )}
+    />
+  </View>
   </ScrollView>
 );
 
