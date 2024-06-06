@@ -8,7 +8,11 @@ exports.createRating = async (req, res) => {
 
     const { businessId, rating, userId } = req.body;
     console.log('this the rating in cretaeRating :businessId ',businessId," rating : ",rating ," userId: ",userId )
-    const oldRating=await Rating.find({user:userId,business:businessId})
+    const oldRating=await Rating.findOne({user:userId,business:businessId})
+
+    
+
+    console.log('this is the old rating ',oldRating)
     let _rating={}
 
 
@@ -18,6 +22,7 @@ exports.createRating = async (req, res) => {
        _rating = await Rating.findOneAndUpdate({user:userId,business:businessId},{
         rating
       },{new:true});
+      console.l
 
     }else{
       console.log('it is a new rating: ')

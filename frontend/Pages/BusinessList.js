@@ -77,7 +77,7 @@ const BusinessList = ({ route }) => {
           <View key={business._id} style={tw`w-full md:w-1/2 lg:w-1/3 p-2`}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("BusinessPage");
+                navigation.navigate("BusinessPage",{business:business});
               }}
               style={tw`bg-orange-50 p-4 rounded-md`}
             >

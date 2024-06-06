@@ -31,6 +31,7 @@ import {
   Reviews,
   MoreLikeThis,
 } from "../assets/Components/businessDetails.js";
+import api from '../util/Util'
 
 const dummyPost = {
   profileImage: "../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg",
@@ -71,11 +72,14 @@ const dummyData = [
   },
 ];
 
-const BusinessPage = () => {
+const BusinessPage = ({route}) => {
   const navigation = useNavigation();
   const [headerIconColor, setHeaderIconColor] = useState("white");
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isReady, setIsReady] = useState(false);
+  const [categories,setCategories]=useState([])
+
+  const {business}=route.params
 
   const opacity = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => ({
@@ -83,10 +87,56 @@ const BusinessPage = () => {
   }));
 
   useEffect(() => {
-    setTimeout(() => {
+    getBusinessCategory();
+        setTimeout(() => {
       setIsReady(true);
     }, 1000); // Replace with actual data fetching logic
   }, []);
+
+  const getBusinessCategory=async()=>{
+    api.get(`category/fetchAll`)
+    .then((res)=>{
+      
+      console.log(res.data.message)
+      if(res.data.success){
+
+
+        const categoriesFetched=res.data.categories
+
+        const businessCategories=business.category
+        let _categories=[]
+
+        console.log("this is the categories of fthe businesses ,",businessCategories)
+
+        console.log('this is the fetched categories : ',categoriesFetched)
+       businessCategories.forEach((category)=>{
+        console.log("this is category.toString() ",category.toString())
+        
+       
+      const foundCategory= categoriesFetched.find((fetchedCategories) =>
+          fetchedCategories._id.toString() === category.toString()        
+        );
+        console.log('i am found category',foundCategory)
+        console.log("this is the found category",foundCategory)
+        if(foundCategory){
+_categories.push(foundCategory.name)
+
+        }
+        
+
+        })
+        return setCategories(_categories)
+
+      }
+      
+    }).catch((error)=>{
+      if(error){
+        console.log(error.message)
+      }
+    })
+
+
+  }
 
   const handleScroll = (event) => {
     const scrollPosition = event.nativeEvent.contentOffset.y;
@@ -101,7 +151,7 @@ const BusinessPage = () => {
   };
 
   const ratingStyle = {
-    color: dummyPost.rating < 4.5 ? "black" : "#FF8C00",
+    color: business.average_rating < 4.5 ? "black" : "#FF8C00",
   };
 
   useLayoutEffect(() => {
@@ -186,14 +236,20 @@ const BusinessPage = () => {
                   // style={{ fontFamily: "berlin-sans" }}
                   style={tw`text-white text-lg font-bold`}
                 >
-                  {dummyPost.name}
+                  {business.business_name}
                 </Text>
-                <Text
+                
+                  {categories.map((category)=>(
+                    <Text
                   // style={{ fontFamily: "berlin-sans" }}
                   style={tw`text-slate-300 text-sm`}
-                >
-                  {dummyPost.category}
-                </Text>
+                >{category},
+
+                  </Text>
+
+                  ))
+                   }
+                
               </View>
             </View>
 
@@ -223,7 +279,7 @@ const BusinessPage = () => {
                     />
                     <FontAwesome name="star" size={17} color="gray" />
                     <Text style={tw`ml-1 font-bold text-lg`}>
-                      {dummyPost.rating}
+                      {business.average_rating}
                     </Text>
                   </View>
                   <View style={tw`items-end`}>
@@ -254,7 +310,7 @@ const BusinessPage = () => {
               >
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("AddReview");
+                    navigation.navigate("AddReview",{inBusiness:true,business_id:business._id});
                   }}
                 >
                   <View style={tw`items-center mx-2`}>

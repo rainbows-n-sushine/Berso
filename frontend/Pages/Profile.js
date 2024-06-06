@@ -200,7 +200,7 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
                     <TouchableOpacity
                       onPress={() => {
                         setModalVisible(false);
-                        navigation.navigate("AddReview");
+                        navigation.navigate("AddReview",{inBusiness:false,business_id:""});
                       }}
                     >
                       <Text style={tw`text-base`}>Add Review</Text>

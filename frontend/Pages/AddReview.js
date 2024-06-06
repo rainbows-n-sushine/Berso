@@ -18,7 +18,7 @@ import api from "../util/Util";
 import { AuthContext } from "../context/AuthContext";
 import { SelectList } from "react-native-dropdown-select-list";
 import { StarRating } from "../assets/Components/starRating";
-const AddReview = ({ navigation }) => {
+const AddReview = ({ navigation,route}) => {
   const [review, setReview] = useState({
     title: "",
     description: "",
@@ -32,8 +32,10 @@ const AddReview = ({ navigation }) => {
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState("");
+  const {inBusiness,business_id}=route.params
 
   useEffect(() => {
+    setBusinessId(business_id)
     const fetchBusinesses = async () => {
       await api
         .get("business/fetch-all")
@@ -169,6 +171,7 @@ await api.post('review/add',{review,userId,businessId,images})
 
 
 if(rating>0){
+  console .log('rating is more than 0')
 await api.post('rating/create',{rating,userId,businessId})
 .then((res)=>{
 
@@ -265,8 +268,10 @@ await api.post('rating/create',{rating,userId,businessId})
       </Text>
 
       <View style={tw`m-3 items-center`}>
-        <View style={tw` flex flex-row items-center`}>
+        
           {/* <FontAwesome name="search" size={20} color="lightgray" /> */}
+          {!inBusiness&&
+          <View style={tw` flex flex-row items-center`}>
           <SelectList
             setSelected={handleSelectItem}
             data={data}
@@ -278,10 +283,9 @@ await api.post('rating/create',{rating,userId,businessId})
             boxStyles={tw`w-80 bg-white rounded-2xl`}
           />
         </View>
-        {/* <Button
-          title="Search"
-          onPress={() => handleSearchTextChange(searchText)}
-        /> */}
+          }
+          
+          
         {selectedBusiness && (
           <View style={tw`flex-1 flex-row`}>
             <Text

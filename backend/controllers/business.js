@@ -199,12 +199,12 @@ exports.updateOne=async(req,res)=>{
 
 exports.updateBusinessRating = async (businessId, rating) => {
   try {
+    console.log('this is the businessId ',businessId, 'this i sthe rating ',rating)
     const business = await Business.findById(businessId);
     if (business) {
       const average_rating = ((business.average_rating * business.rating_count) + rating) / (business.rating_count+1);
      const newCount=business.rating_count+1;
       const updatedBusiness = await Business.findByIdAndUpdate(businessId,{average_rating, rating_count:newCount});
-      await business.save();
 
       console.log('i just updated the average_rating.')
     }else{
@@ -243,3 +243,12 @@ try {
 
 
 }
+
+// exports.getBusinessInfo=async(req,res)=>{
+
+//   const {getBusiness}=req.body
+//   const {category}=getBusiness
+
+
+
+// }
