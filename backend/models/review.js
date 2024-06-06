@@ -13,14 +13,12 @@ description:{
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
-    required: true,
 
 
   },
   business: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Business',
-    required: true,
 
 
   },

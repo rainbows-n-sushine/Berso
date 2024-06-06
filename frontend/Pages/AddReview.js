@@ -94,6 +94,8 @@ const AddReview = ({ navigation }) => {
     }
 
     console.log("Review submitted:",  review );
+    console.log('this is the businessId: ', businessId)
+    console.log('this is the userId: ', userId)
 await api.post('review/add',{review,userId,businessId,images})
 .then((res)=>{
 
@@ -127,7 +129,7 @@ await api.post('review/add',{review,userId,businessId,images})
 
 
 if(rating>0){
-await api.post('rating/add',{rating,userId,businessId})
+await api.post('rating/create',{rating,userId,businessId})
 .then((res)=>{
 
   if(res.success){

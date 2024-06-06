@@ -38,6 +38,16 @@ const Profile = ({ dummyRestaurantsData }) => {
 const [modalVisible, setModalVisible] = useState(false);
  const [currentIndex, setCurrentIndex] = useState(0);
  const  {businessOwnerId}=useContext(AuthContext)
+ const [isBusinessOwner,setIsBusinessOwner]=useState(false)
+ 
+
+ useEffect(()=>{
+
+  if(businessOwnerId!==""){
+
+    setIsBusinessOwner(true)
+  }
+ },[])
 
  const handleSwipe = (index) => {
    setCurrentIndex(index);
@@ -178,21 +188,26 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
                     </View>
                   </View>
                   <View style={tw`flex-row my-7 justify-between items-center`}>
-                    <View style={tw`items-center mx-4`}>
+                    
+
+                      {isBusinessOwner&&
+                      <View style={tw`items-center mx-4`}>
                       <MaterialCommunityIcons
-                        name="comment-edit-outline"
-                        size={22}
-                        color="black"
-                      />
-                      <TouchableOpacity
-                        onPress={() => {
-                          setModalVisible(false);
-                          navigation.navigate("AddReview");
-                        }}
-                      >
-                        <Text style={tw`text-base`}>Add Review</Text>
-                      </TouchableOpacity>
-                    </View>
+                      name="comment-edit-outline"
+                      size={22}
+                      color="black"
+                    />
+                    <TouchableOpacity
+                      onPress={() => {
+                        setModalVisible(false);
+                        navigation.navigate("AddReview");
+                      }}
+                    >
+                      <Text style={tw`text-base`}>Add Review</Text>
+                    </TouchableOpacity>
+                  </View>
+                      }
+                      
                     <View style={tw`items-center  mx-4`}>
                       <Feather name="camera" size={22} color="black" />
 
