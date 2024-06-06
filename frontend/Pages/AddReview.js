@@ -35,6 +35,7 @@ const AddReview = ({ navigation, onSeach, onSelectItem }) => {
   const [business_id,setBusinessId]=useState('')
   const [searchText, setSearchText] = useState('');
   const [searchResults, setSearchResults] = useState([]);
+  const[selectedBusiness,setSelectedBusiness]=useState('')
 
   useEffect(()=>{
     const fetchBusinesses=async()=>{
@@ -59,6 +60,10 @@ const AddReview = ({ navigation, onSeach, onSelectItem }) => {
       fetchBusinesses();
 
   },[])
+
+
+
+  
    
   const pickImage = async () => {
     // Ask for permission to access the media library
@@ -96,18 +101,14 @@ const AddReview = ({ navigation, onSeach, onSelectItem }) => {
 
   }
 
-  const handleSearch = () => {
-    const results = onSearch(searchText);
-    setSearchResults(results);
-  };
-
-  const handleSelectItem = (item) => {
-    onSelectItem(item._id);
-  };
+ 
 
   const removeImage = (uri) => {
     setImages((prevImages) => prevImages.filter((image) => image !== uri));
   };
+
+
+  //submits the review for the business we selected to review
 
   const submitReview = async() => {
     console.log('im in submit review')
@@ -175,7 +176,10 @@ await api.post('rating/add',{rating,userId,businessId})
       <View style={tw`flex-row items-center mb-4`}>
         <Text style={tw`text-base`}>Rate:</Text>
         {[1, 2, 3, 4, 5].map((star) => (
-          <TouchableOpacity key={star} onPress={() => setRating(star)}>
+          <TouchableOpacity key={star} onPress={() =>{
+         console.log("this is the value of rating : ",star)
+            setRating(star)
+          } }>
             <FontAwesome
               name={star <= rating ? "star" : "star-o"}
               size={30}
@@ -186,6 +190,33 @@ await api.post('rating/add',{rating,userId,businessId})
         ))}
       </View>
     );
+  }; 
+  
+  //search functions
+
+  const  handleSearchTextChange=(text)=>{
+    console.log('this is the search text :',searchText)
+    console.log('this is teh searchResults: ',searchResults)
+      
+    const results=businesses.filter((business)=>(
+      business.business_name.includes(text)
+    ))
+    setSearchResults(results)
+    
+
+  }
+  
+  const handleSearch = (text) => {
+    const results = businesses.filter((business)=>(
+      business.business_name.includes(text)
+    ))
+    setSearchResults(results);
+  };
+
+  const handleSelectItem = (item) => {
+    console.log('you just selected: ',item.business_name)
+     setSelectedBusiness(item.business_name)
+     setBusinessId(item._id)
   };
 
   return (
@@ -211,10 +242,11 @@ await api.post('rating/add',{rating,userId,businessId})
               onChangeText={(text)=>{
                 console.log(searchResults)
                 setSearchText(text)
+                handleSearchTextChange(text)
               }} 
               style={tw`text-base font-bold text-[#dedddd] ml-2`}
               />
-              <Button title="Search" onPress={handleSearch} />
+             
               <FlatList
                 data={searchResults}
                 keyExtractor={(item) => item._id.toString()}
@@ -224,7 +256,10 @@ await api.post('rating/add',{rating,userId,businessId})
                   </TouchableOpacity>
                 )}
               />
-                
+               <Button title="Search" onPress={handleSearch} />
+               {selectedBusiness&&
+                <Text>Review {selectedBusiness}</Text>
+               }
               
               {/* <TextInput
                 style={tw`text-base font-bold text-[#dedddd] ml-2 border-gray-300`}
@@ -239,7 +274,7 @@ await api.post('rating/add',{rating,userId,businessId})
         placeholder="Write your review title..."
         name="title"
         preValue={review.title}
-        onChangeText={(text) => handleChange(text)}
+        onChangeText={(text) => handleChange("title",text)}
         multiline
       />
 
@@ -247,8 +282,8 @@ await api.post('rating/add',{rating,userId,businessId})
         style={[tw`border p-2 mb-4 rounded-xl  bg-white `, { height: 100 }]}
         placeholder="Write your review..."
         name="description"
-        value={review.description}
-        onChangeText={(text) => handleChange(text)}
+        preValue={review.description}
+        onChangeText={(text) => handleChange('description',text)}
         multiline
       />
       <StarRating />
