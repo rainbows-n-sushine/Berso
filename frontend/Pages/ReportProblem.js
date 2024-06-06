@@ -31,7 +31,7 @@ const ReportProblemScreen = () => {
 
   return (
     <View style={tw`flex-1 p-4 `}>
-      <Text style={tw`text-2xl font-bold mb-4 `}>Report a Problem</Text>
+      <Text style={[tw`text-2xl font-bold mb-4 `, { fontFamily: "berlin-sans" }]}>Report a Problem</Text>
 
       <TextInput
         style={tw`border p-2 mb-4 rounded-xl bg-white`}
