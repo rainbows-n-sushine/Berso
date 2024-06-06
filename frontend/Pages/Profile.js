@@ -190,7 +190,7 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
                   <View style={tw`flex-row my-7 justify-between items-center`}>
                     
 
-                      {isBusinessOwner&&
+                      {!isBusinessOwner&&
                       <View style={tw`items-center mx-4`}>
                       <MaterialCommunityIcons
                       name="comment-edit-outline"
