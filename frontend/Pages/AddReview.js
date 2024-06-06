@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  Button,
   SafeAreaView,
   FlatList,
 } from "react-native";
@@ -22,15 +23,42 @@ import api from "../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/AuthContext";
 import RNPickerSelect from "react-native-picker-select";
-const AddReview = ({ navigation }) => {
+const AddReview = ({ navigation, onSeach, onSelectItem }) => {
   const [review, setReview] = useState({
     title:"",
     description:""
   });
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
-   const {businessId,userId}=useContext(AuthContext)
+  const {businessId,userId}=useContext(AuthContext)
+  const [businesses,setBusinesses]=useState([])
+  const [business_id,setBusinessId]=useState('')
+  const [searchText, setSearchText] = useState('');
+  const [searchResults, setSearchResults] = useState([]);
 
+  useEffect(()=>{
+    const fetchBusinesses=async()=>{
+      await api.get('business/fetch-all')
+      .then((res)=>{
+        const data=res.data
+        if(data.success){
+          console.log('this is the businesses fetched',data.businesses)
+          setBusinesses(data.businesses)
+
+
+          setSearchResults(data.businesses)
+          return  console.log(data.message)
+        }
+        console.log(data.message)
+
+      })
+      .catch((error)=>{
+        console.log("error in fetchBusinesses in AddReview: ",error.message)
+
+      })}
+      fetchBusinesses();
+
+  },[])
    
   const pickImage = async () => {
     // Ask for permission to access the media library
@@ -68,6 +96,14 @@ const AddReview = ({ navigation }) => {
 
   }
 
+  const handleSearch = () => {
+    const results = onSearch(searchText);
+    setSearchResults(results);
+  };
+
+  const handleSelectItem = (item) => {
+    onSelectItem(item._id);
+  };
 
   const removeImage = (uri) => {
     setImages((prevImages) => prevImages.filter((image) => image !== uri));
@@ -155,15 +191,49 @@ await api.post('rating/add',{rating,userId,businessId})
   return (
     <SafeAreaView style={tw`flex-1 p-4 m-3`}>
       <Text style={tw`text-2xl font-bold mb-4`}>Add Review</Text>
-      <RNPickerSelect
+      {/* <RNPickerSelect
         onValueChange={(value) => setBusinessId(value)}
-        items={dummyBusinesses}
+        items={businesses.business_name}
         style={{
           inputIOS: tw`border p-2 mb-4 rounded-xl bg-white`,
           inputAndroid: tw`border p-2 mb-4 rounded-xl bg-white`,
         }}
         placeholder={{ label: "Select a business", value: null }}
-      />
+      /> */}
+
+
+         <View style={tw`m-3 items-center`}>
+            <View style={tw`flex flex-row items-center`}>
+              <FontAwesome name="search" size={20} color="lightgray" />
+              <TextInput
+              placeholder="Search for business.."
+              value={searchText}
+              onChangeText={(text)=>{
+                console.log(searchResults)
+                setSearchText(text)
+              }} 
+              style={tw`text-base font-bold text-[#dedddd] ml-2`}
+              />
+              <Button title="Search" onPress={handleSearch} />
+              <FlatList
+                data={searchResults}
+                keyExtractor={(item) => item._id.toString()}
+                renderItem={({ item }) => (
+                  <TouchableOpacity onPress={() => handleSelectItem(item)}>
+                    <Text>{item.business_name}</Text>
+                  </TouchableOpacity>
+                )}
+              />
+                
+              
+              {/* <TextInput
+                style={tw`text-base font-bold text-[#dedddd] ml-2 border-gray-300`}
+                placeholder="Search for nearby restaurants,salons.."
+                value={password}
+                onChangeText={(text) => setPassword(text)}
+              /> */}
+            </View>
+          </View>
       <TextInput
         style={tw`border p-2 mb-4 rounded-xl bg-white `}
         placeholder="Write your review title..."
