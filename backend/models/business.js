@@ -80,6 +80,12 @@ const businessSchema=new mongoose.Schema({
 
 
     },
+    review_count:{
+        type: Number,
+        default: 0,
+
+    },
+
     date:{
         type:Date,
         default:Date.now()

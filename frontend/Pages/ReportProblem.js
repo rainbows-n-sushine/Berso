@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, Button, Alert, TouchableOpacity } from "react-native";
 import tw from "twrnc";
+import api from '../util/Util'
 
 const ReportProblemScreen = () => {
   const [name, setName] = useState("");
@@ -19,6 +20,8 @@ const ReportProblemScreen = () => {
     console.log("Name:", name);
     console.log("Email:", email);
     console.log("Description:", description);
+
+    api.
 
     // Reset form fields after submission
     setName("");

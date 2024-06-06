@@ -130,14 +130,15 @@ const AddReview = ({ navigation,route}) => {
   const submitReview = async () => {
 
     console.log('review ',review,"rating ",rating,"businessId :",businessId,"userId ",userId)
-    if (!review || !rating) {
-      Alert.alert("Error", "Please provide a review and rating.");
+    if (!review && !rating) {
+      Alert.alert("Error", "Please provide a review or rating.");
       return;
     }
 
     console.log("Review submitted:",  review );
     console.log('this is the businessId: ', businessId)
     console.log('this is the userId: ', userId)
+    if(review.description){
 await api.post('review/add',{review,userId,businessId,images})
 .then((res)=>{
 
@@ -156,6 +157,11 @@ await api.post('review/add',{review,userId,businessId,images})
     console.log(error)
   }
 })
+
+    }else{
+      return Alert.alert('enter a review description')
+    }
+
 // if (images.length!==0){
 
 //   await api.post('reviewImages/add',{images})
@@ -178,7 +184,7 @@ await api.post('rating/create',{rating,userId,businessId})
   if(res.success){
 
     Alert.alert("you have successfully rated the business")
-    navigation.navigate('Home')
+    
 
   }else{
     Alert.alert(res.data.message)
@@ -194,7 +200,7 @@ await api.post('rating/create',{rating,userId,businessId})
 }else{
   navigation.navigate('Home')
 }
-
+navigation.navigate('Home')
 
 
     // Clear the form

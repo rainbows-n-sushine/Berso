@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
+  Linking
 } from "react-native";
 import {
   Ionicons,
@@ -350,7 +351,7 @@ _categories.push(foundCategory.name)
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate("AddBusiness");
+                    Linking.openURL(business.website)
                   }}
                 >
                   <View style={tw`items-center mx-2`}>
