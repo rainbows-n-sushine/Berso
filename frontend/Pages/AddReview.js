@@ -136,6 +136,18 @@ await api.post('review/add',{review,userId,businessId,images})
     console.log(error)
   }
 })
+// if (images.length!==0){
+
+//   await api.post('reviewImages/add',{images})
+//   .then((res)=>{
+//     console.log(res.data.message)
+//     })
+//     .catch((error)=>{
+//       if(error){
+//        console.log("this is the error in reviewImages: ",error.message) 
+
+//       }})
+// }
 
 
 if(rating>0){

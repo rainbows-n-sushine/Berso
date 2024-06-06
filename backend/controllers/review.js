@@ -1,4 +1,5 @@
-const Review = require('../models/review')
+const {Review} = require('../models/review')
+const {addImage}=require('./reviewImage')
 // exports.createReview = async (req, res) => {
 //   try {
 //     const { businessId, rating, comment } = req.body;
@@ -35,18 +36,22 @@ const Review = require('../models/review')
 // };
 
 exports.addReview=async(req,res)=>{
-    const {title,description,userId,businessId}=req.body
+    const {review,userId,businessId,images}=req.body
+    const {title,description}=review
 
     try{
         const newReview= await Review({
 
            title:title,
            description:description,
-           userId:userId,
-           businessId:businessId
+           user:userId,
+           business:businessId,
 
         })
         newReview.save()
+        const reviewId=newReview._id
+        addImage(images,reviewId)
+
         return res.json({success:true,message:"review successfully submitted"})
     }catch{
         (err)=>{if(err){console.log(err)}}

@@ -47,6 +47,10 @@ app.use('/recommendation', recommendationRoute);
 const reviewRoute = require("./routes/review");
 app.use("/review", reviewRoute);
 
+// const reviewImageRoute = require("./routes/reviewImage");
+// app.use("/reviewImage",reviewImageRoute);
+
+
 const ratingRoute = require("./routes/rating");
 app.use("/rating", ratingRoute);
 
