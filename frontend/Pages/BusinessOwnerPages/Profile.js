@@ -35,7 +35,7 @@ const business = {
 };
 
 
-const businessFetched={};
+let businessFetched={};
 
 const Header = () => {
   
