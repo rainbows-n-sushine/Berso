@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from "react";
+import React,{useEffect,useState,useContext} from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../../Pages/HomeScreen";
 import Profile from "../../Pages/Profile";
@@ -7,9 +7,12 @@ import HomeNavigator from "./HomeNavigator";
 import ProfileNavigator from "./ProfileNavigator";
 import CollectionsNavigator from "./CollectionsNavigator";
 import MoreNavigator from "./MoreNavigator";
+import { AuthContext } from "../../context/AuthContext";
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+
+  
   return (
     <Tab.Navigator
       headerMode="screen"

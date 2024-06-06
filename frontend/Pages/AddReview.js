@@ -30,7 +30,8 @@ const AddReview = ({ navigation, onSeach, onSelectItem }) => {
   });
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
-  const {userId}=useContext(AuthContext)
+  // const {userId,isLoggedIn}=useContext(AuthContext)
+  const [userId,setUserId]=useState('')
   const [businesses,setBusinesses]=useState([])
   const [businessId,setBusinessId]=useState('')
   const [searchText, setSearchText] = useState('');
@@ -39,7 +40,17 @@ const AddReview = ({ navigation, onSeach, onSelectItem }) => {
 
 
   useEffect(()=>{
+    
     const fetchBusinesses=async()=>{
+
+      console.log('mi in sahsd')
+      const user=await AsyncStorage.getItem('userId')
+      const token=await AsyncStorage.getItem('userToken')
+      console.log('this is the id of the user  ',userId)
+      console.log('this is the tokem of the user  ',token)
+
+
+      setUserId(user)
       await api.get('business/fetch-all')
       .then((res)=>{
         const data=res.data
@@ -214,7 +225,7 @@ await api.post('rating/create',{rating,userId,businessId})
     console.log('this is teh searchResults: ',searchResults)
       
     const results=businesses.filter((business)=>(
-      business.business_name.includes(text)
+      business.business_name.toLowerCase().includes(text.toLowerCase())
     ))
     setSearchResults(results)
     
@@ -255,7 +266,7 @@ await api.post('rating/create',{rating,userId,businessId})
               placeholder="Search for business.."
               value={searchText}
               onChangeText={(text)=>{
-                console.log(searchResults)
+                console.log('this is the search results',searchResults)
                 setSearchText(text)
                 handleSearchTextChange(text)
               }} 

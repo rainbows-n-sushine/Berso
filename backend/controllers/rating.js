@@ -1,19 +1,26 @@
-const Rating = require('../models/rating')
+const {Rating} = require('../models/rating')
 const { Business } = require ('../models/business')
 const { updateBusinessRating } = require ('./business')
 
 exports.createRating = async (req, res) => {
   try {
+
+
     const { businessId, rating, userId } = req.body;
-    const oldRating=await Rating.findOne({user:userId,business:businessId})
+    console.log('this the rating in cretaeRating :businessId ',businessId," rating : ",rating ," userId: ",userId )
+    const oldRating=await Rating.find({user:userId,business:businessId})
     let _rating={}
 
+
     if(oldRating){
-     _rating = await Rating.findOneAndUpdate({
+
+      console.log('it is an old rating: ')
+       _rating = await Rating.findOneAndUpdate({user:userId,business:businessId},{
         rating
-      });
+      },{new:true});
 
     }else{
+      console.log('it is a new rating: ')
 
      _rating = new Rating({
       user: userId,

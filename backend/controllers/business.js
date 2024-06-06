@@ -201,9 +201,12 @@ exports.updateBusinessRating = async (businessId, rating) => {
   try {
     const business = await Business.findById(businessId);
     if (business) {
-      business.average_rating = ((business.average_rating * business.rating_count) + rating) / (business.rating_count+1);
-      business.rating_count++;
+      const average_rating = ((business.average_rating * business.rating_count) + rating) / (business.rating_count+1);
+     const newCount=business.rating_count+1;
+      const updatedBusiness = await Business.findByIdAndUpdate(businessId,{average_rating, rating_count:newCount});
       await business.save();
+
+      console.log('i just updated the average_rating.')
     }else{
 
       console.log('the business to be updated hasnt been found')

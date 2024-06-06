@@ -14,7 +14,7 @@ exports.addReview=async(req,res)=>{
     )
 
     try{
-        const newReview= await Review({
+        const review= await Review({
 
            title:title,
            description:description,
@@ -22,9 +22,9 @@ exports.addReview=async(req,res)=>{
            business:businessId,
 
         })
-        newReview.save()
-        const reviewId=newReview._id
-        console.log('this is the new review added ,',newReview)
+        review.save()
+        const reviewId=review._id
+        console.log('this is the new review added ,',review)
 
         if(images.length!==0){
 

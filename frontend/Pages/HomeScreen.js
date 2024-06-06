@@ -33,23 +33,11 @@ library.add(fas);
 const { width } = Dimensions.get("window");
 
 const HomeScreen = () => {
-  const { UserLogout, BusinessOwnerLogout } = useContext(AuthContext);
-  const [businessOwnerToken, setBusinessOwnerToken] = useState("");
+  const { UserLogout, BusinessOwnerLogout ,businessOwnerToken,userToken} = useContext(AuthContext);
   const [categories, setCategories] = useState([]);
-  const [userToken, setUserToken] = useState("");
+ 
 
   useEffect(() => {
-    const getToken=async()=> {
-      console.log('im in getToken ')
-      let _userToken = await AsyncStorage.getItem("userToken");
-      let _businessOwnerToken = await AsyncStorage.getItem("BusinessOwnerToken");
-
-      if (_userToken) {
-        setUserToken(_userToken);
-      } else if (_businessOwnerToken) {
-        setBusinessOwnerToken(_businessOwnerToken);
-      }
-    }
     const fetchCategories=async()=> {
       await api
         .get("category/fetchAll")
@@ -69,7 +57,6 @@ const HomeScreen = () => {
         });
     }
 
-    getToken();
     fetchCategories();
   }, []);
 
@@ -132,26 +119,7 @@ const HomeScreen = () => {
             <View style={tw`m-4 items-center`}>
               <View style={tw`flex items-center justify-between`}>
                 <View style={tw`flex flex-row items-center justify-between`}>
-                  {categories.map((category) => (
-                    <TouchableOpacity
-                      key={category._id}
-                      onPress={() => {
-                        navigation.navigate("BusinessList", {
-                          category: category,
-                        });
-                      }}
-                    >
-                      <View style={tw`items-center justify-center m-2 flex-1`}>
-                        {/* <Ionicons name="cafe" size={22} color="orange" /> */}
-                        {/* <FontAwesomeIcon icon={['fas', category.icon]} /> */}
-                        <Text
-                          style={tw`text-normal font-bold text-orange-400 mt-3`}
-                        >
-                          {category.name}
-                        </Text>
-                      </View>
-                    </TouchableOpacity>
-                  ))}
+                  
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate("BusinessList", {

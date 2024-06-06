@@ -9,9 +9,10 @@ import AppStack from './AppStack'
 import BusinessTabProvider from '../../context/BusinessTabContext'
 
 
+
 const AppNav = () => {
 
-  const {isLoading, userToken, businessOwnerToken}=useContext(AuthContext)
+  const {isLoading, userToken, businessOwnerToken,isLoggedIn}=useContext(AuthContext)
 //   const [loggedIn,setLoggedIn]=useState(userToken)
 
 //   useEffect(()=>{
@@ -23,6 +24,7 @@ const AppNav = () => {
 
 useEffect(()=>{
 
+isLoggedIn()
   console.log("this is the userToken "+userToken)
   console.log("this is the businessOwnerToken "+businessOwnerToken)
 },[])

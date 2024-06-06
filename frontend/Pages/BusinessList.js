@@ -14,8 +14,10 @@ import {
 } from "@expo/vector-icons";
 import api from '../util/Util'
 import { useNavigation } from "@react-navigation/native";
+
 const BusinessList = ({ route }) => {
   const { category } = route.params;
+  const dummyImage=require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg")
 
   const dummyData = [
     {
@@ -45,16 +47,16 @@ const BusinessList = ({ route }) => {
   ];
 
   const [businesses, setBusinesses] = useState([]);
-const navigation = useNavigation();
+  const navigation = useNavigation();
   useEffect(() => {
-    console.log('this is the id of teh category: ',category._id)
+    console.log('this is the id of the category: ',category._id)
     const categoryId=category._id
     console.log('this is the category id: ',categoryId)
     api.get(`business/fetch-by-category/${categoryId}`)
       .then((res) => {
 
         if (res.data.success){
-console.log('this is the data fetched fronthe backedn for fetch by category: ',res.data.businesses)
+        console.log('this is the data fetched fronthe backedn for fetch by category: ',res.data.businesses)
 
 
           setBusinesses(res.data.businesses)
@@ -81,29 +83,29 @@ console.log('this is the data fetched fronthe backedn for fetch by category: ',r
             >
               <View>
                 <Image
-                  source={business.image}
+                  source={dummyImage}
                   style={tw`w-full h-40 rounded-md`}
                   resizeMode="cover"
                 />
                 <View style={tw`absolute bg-white rounded-sm bottom-2 right-2`}>
                   <Text style={tw`text-sm font-semibold py-1 px-2`}>
-                    {business.deliveryTime}
+                    {business.opening_hours}
                   </Text>
                 </View>
               </View>
 
               <View style={tw`flex-row items-center justify-between mt-2`}>
                 <Text style={tw`text-base font-bold text-[#2e303d]`}>
-                  {business.name}
+                  {business.business_name}
                 </Text>
                 <View style={tw`flex-row items-center`}>
                   <FontAwesome name="star" size={17} color="black" />
                   <Text style={tw`ml-1 font-bold text-base`}>
-                    {business.rating}
+                    {business.average_rating}
                   </Text>
                 </View>
               </View>
-              <Text style={tw`text-sm text-[#6e6d72]`}>{business.price}</Text>
+              <Text style={tw`text-sm text-[#6e6d72]`}>{business.average_price}</Text>
             </TouchableOpacity>
           </View>
         ))}

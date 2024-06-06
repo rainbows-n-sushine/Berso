@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
       ? BusinessOwnerLogin(credential, password)
       : UserLogin(credential, password));
 
-    Alert.alert("Login Successful!", "Welcome back!");
+    Alert.alert(res.data.message);
     navigation.navigate("Home");
   };
 

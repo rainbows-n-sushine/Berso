@@ -36,6 +36,7 @@ useEffect(()=>{
 const UserLogin=async(credential,password)=>{
 
     await AsyncStorage.removeItem('businessOwnerToken')
+    await AsyncStorage.removeItem('businessOwnerId')
 await api.post('user/signin',{credential,password})
 .then((res)=>{
     
@@ -45,10 +46,10 @@ await api.post('user/signin',{credential,password})
 const token=res.data.userToken
     const _userId=res.data.userId
 
-    console.log('im in auth context and this is the value of user._id',userId)
+    console.log('im in auth context and this is the value of user._id',_userId)
     console.log("this is the userId "+ _userId)
     AsyncStorage.setItem('userToken',token)
-    AsyncStorage.setItem('userId',userId)
+    AsyncStorage.setItem('userId',_userId)
     setUserId(_userId)
     setUserToken(token);
     console.log("this is the token in login: "+token )
@@ -70,7 +71,8 @@ const token=res.data.userToken
 
 const BusinessOwnerLogin=async(credential,password)=>{
 
-    await AsyncStorage.removeItem('UserToken')
+    await AsyncStorage.removeItem('userToken')
+    await AsyncStorage.removeItem('userId')
 await api.post('businessOwner/signin',{credential,password})
 .then((res)=>{
     
