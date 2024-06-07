@@ -16,6 +16,7 @@ import tw from "twrnc";
 import ParallaxScrollView from "../../assets/Components/ParallaxScrollView";
 import { ImageBackground } from "react-native";
 import api from "../../util/Util";
+import { AuthContext } from "../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 const business = {
   name: "Sample Restaurant",
@@ -36,8 +37,9 @@ const business = {
 
 
 let businessFetched={};
-
+let reviewFetched=[];
 const Header = () => {
+ 
   
   // const [businessFetched,setBusinessFetched]=useState({
   //   business_name:" ",
@@ -54,6 +56,32 @@ const Header = () => {
 
 
 useEffect(()=>{
+// console.log('im in damnn ggahvsfbvskjfduyoyafvkhj,',businessFetched)
+
+  
+
+  const getReview=async()=>{
+
+    const businessId=await AsyncStorage.getItem('currentBusiness')
+    api.get(`review//fetch-all-reviews-for-business/${businessId}`)
+    .then((res)=>{
+      console.log(res.data.message)
+
+      if(res.data.success){
+        reviewFetched=res.data.reviews
+
+      }
+    })
+    .catch((error)=>{
+if(error){
+  console.log(error.message)
+}
+
+    })
+
+
+
+  }
 const getBusinessInfo=async()=>{
   console.log("this is the business in profile")
   const businessId= await AsyncStorage.getItem('currentBusiness')
@@ -79,8 +107,41 @@ const getBusinessInfo=async()=>{
   }
  })
   }
+  const fetchCategories=async()=>{
+    const category=businessFetched.category
+    if(category){
+      console.log('im in damnxghzddx,',businessFetched)
+    console.log('im in fetccennzbkdjgoaegvlakjbvn,nc,/m')
+    await api.post(`business/get-categories`,{category})
+    .then((res)=>{
+      console.log(res.data.message)
 
+      if(res.data.success){
+        categoryFetched=res.data.categories
+
+      }
+    })
+    .catch((error)=>{
+if(error){
+  console.log(error.message)
+}
+
+    })
+
+
+
+
+
+    }
+    
+
+
+  }
+
+  
+  getReview()
   getBusinessInfo()
+  fetchCategories()
 
 
 },[])
@@ -195,7 +256,7 @@ const dummyServices = [
   },
 ];
 
-const ServicesScreen = () => (
+const ServicesScreen = ({businessFetched}) => (
   <ScrollView style={tw`p-4`}>
     <View style={tw`flex-1 bg-gray-100 py-5 px-4`}>
     <FlatList
@@ -259,7 +320,7 @@ const ServicesScreen = () => (
   </ScrollView>
 );
 
-const PhotoScreen = () => (
+const PhotoScreen = ({business}) => (
   <ScrollView style={tw`p-4`}>
     <View style={[tw`p-4 bg-white mt-4`]}>
       <Text style={[tw`text-xl font-semibold text-gray-800 mb-2`]}>Photos</Text>
@@ -276,13 +337,15 @@ const PhotoScreen = () => (
   </ScrollView>
 );
 
-const ReviewsScreen = () => (
+const ReviewsScreen = ({businessFetched}) => (
   <ScrollView style={tw`p-4`}>
     <Text>Content for Services tab</Text>
   </ScrollView>
 );
 
-const InformationScreen = () => (
+const InformationScreen = ({businessFetched}) => (
+
+  
   <ScrollView style={tw`p-2`}>
     <View style={tw`bg-white p-4 rounded-lg shadow`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
@@ -293,6 +356,7 @@ const InformationScreen = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Website:</Text>
+        
           <Text style={tw`text-base text-gray-500`}>{businessFetched.website}</Text>
         </View>
         <MaterialCommunityIcons
@@ -394,15 +458,24 @@ const renderTabBar = (props) => (
   />
 );
 
+// const renderScene = SceneMap({
+//   services: ServicesScreen,
+//   information: InformationScreen,
+//   photos: PhotoScreen,
+//   reviews: ReviewsScreen,
+//   // Add other scenes for Photos, Reviews, Followers, etc.
+// });
+
 const renderScene = SceneMap({
-  services: ServicesScreen,
-  information: InformationScreen,
-  photos: PhotoScreen,
-  reviews: ReviewsScreen,
-  // Add other scenes for Photos, Reviews, Followers, etc.
+  services: () => <ServicesScreen businessFetched={businessFetched} />,
+  information: () => <InformationScreen businessFetched={businessFetched} />,
+  photos: () => <PhotoScreen business={business} />,
+  reviews: () => <ReviewsScreen reviewFetched={reviewFetched} />,
+  
 });
 
 const BusinessProfilePage = () => {
+  
   const [index, setIndex] = useState(0);
   const [routes] = useState([
     { key: "services", title: "Services" },
