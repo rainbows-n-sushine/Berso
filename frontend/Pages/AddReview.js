@@ -18,6 +18,8 @@ import api from "../util/Util";
 import { AuthContext } from "../context/AuthContext";
 import { SelectList } from "react-native-dropdown-select-list";
 import { StarRating } from "../assets/Components/starRating";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 const AddReview = ({ navigation,route}) => {
   const [review, setReview] = useState({
     title: "",
@@ -66,7 +68,7 @@ const AddReview = ({ navigation,route}) => {
       console.log('this is the tokem of the user  ',token)
 
 
-      setUserId(user)
+      // setUserId(user)
       await api.get('business/fetch-all')
       .then((res)=>{
         const data=res.data

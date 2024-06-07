@@ -224,7 +224,7 @@ const [animate, setAnimate] = useState(false);
                     <View style={tw`items-center m-1 justify-center flex-1`}>
                       <MaterialIcons name="coffee" size={22} color="orange" />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         Coffee Shops
                       </Text>
@@ -244,7 +244,7 @@ const [animate, setAnimate] = useState(false);
                         color="orange"
                       />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         Restaurants
                       </Text>
@@ -260,7 +260,7 @@ const [animate, setAnimate] = useState(false);
                     <View style={tw`items-center m-1 flex-1 justify-center`}>
                       <FontAwesome5 name="hotel" size={22} color="orange" />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         Hotels & Resorts
                       </Text>
@@ -280,7 +280,7 @@ const [animate, setAnimate] = useState(false);
                     <View style={tw`items-center m-1 justify-center flex-1`}>
                       <Entypo name="aircraft" size={22} color="orange" />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         Tour & Travel
                       </Text>
@@ -300,7 +300,7 @@ const [animate, setAnimate] = useState(false);
                         color="orange"
                       />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         Delivery
                       </Text>
@@ -316,7 +316,7 @@ const [animate, setAnimate] = useState(false);
                     <View style={tw`items-center m-1 justify-center flex-1`}>
                       <Entypo name="drink" size={22} color="orange" />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         Bars
                       </Text>
@@ -336,7 +336,7 @@ const [animate, setAnimate] = useState(false);
                     <View style={tw`items-center m-1 justify-center flex-1`}>
                       <FontAwesome5 name="spa" size={22} color="orange" />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         Spas & Salons
                       </Text>
@@ -352,7 +352,7 @@ const [animate, setAnimate] = useState(false);
                     <View style={tw`items-center m-1 justify-center flex-1`}>
                       <Entypo name="shop" size={23} color="orange" />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         Shops
                       </Text>
@@ -370,7 +370,7 @@ const [animate, setAnimate] = useState(false);
                         color="orange"
                       />
                       <Text
-                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                        style={tw`text-sm font-bold text-orange-400 mt-3`}
                       >
                         More
                       </Text>
