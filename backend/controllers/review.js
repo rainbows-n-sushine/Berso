@@ -41,11 +41,15 @@ exports.addReview=async(req,res)=>{
 }
 
 exports.fetchAllReviewsForBusiness=async(req,res)=>{
-    const {businessId}=req.body
+    const {businessId}=req.params
 
-   const reviews= await Review.find()
+   const reviews= await Review.find().maxTime(30000)
    try {
-     res.json({success:true, message:"reviews are fetched", reviews:reviews})
+    if(reviews){
+
+        res.json({success:true, message:"reviews are fetched", reviews:reviews}) 
+    }
+    
 
    } catch (error) {
     if(error){console.log("the error in fetchAllReviewsForBusiness is : ",error)}

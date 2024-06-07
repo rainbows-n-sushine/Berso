@@ -1,6 +1,7 @@
 
 const mongoose =require('mongoose')
 const { Business } = require("../models/business");
+const {Category}=require('../models/category')
 exports.registerBusiness = async (req, res) => {
   console.log("im in business condtrollers");
 
@@ -226,6 +227,25 @@ try {
   
 }
 
+
+}
+
+
+exports.getCategories=async(req,res)=>{
+  const {category}=req.body
+  let categories={}
+  let categoriesFetched=[]
+
+console.log('im in getCategories')
+ 
+
+category.forEach((categoryId)=>{
+  categories= Category.findById(categoryId)
+  console.log('this is teh category fetched ',categories)
+    if(categories){
+      categoriesFetched.push(categories)
+    } 
+  })
 
 }
 
