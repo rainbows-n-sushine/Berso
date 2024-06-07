@@ -67,7 +67,14 @@ const More = () => {
       setIsBusinessOwner(true)
     }
 
-    const getBusinesses =async()=>{
+    
+
+    getBusinesses()
+   
+  }, []);
+  
+  
+  const getBusinesses =async()=>{
       console.log('im here',businessOwnerId)
 
       await api.get(`business/get-by-business-owner/${businessOwnerId}`)
@@ -92,10 +99,6 @@ const More = () => {
 
 
     }
-
-    getBusinesses()
-   
-  }, []);
   return (
     <SafeAreaView style={tw`flex-1 bg-[#F2E8DE]`}>
       <ScrollView>
@@ -132,6 +135,7 @@ const More = () => {
             onPress={() => {
               // navigation.navigate("BusinessHome");
               // setBusinessTab(true);
+              getBusinesses();
               setModalVisible(true);
             }}
           >

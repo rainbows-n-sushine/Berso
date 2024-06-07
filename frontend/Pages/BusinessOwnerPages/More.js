@@ -22,6 +22,7 @@ import { useNavigation } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useBusinessTab } from '../../context/BusinessTabContext';
 import { AuthContext } from "../../context/AuthContext";
+import api from '../../util/Util'
 const More = () => {
  
   const navigation = useNavigation();
@@ -34,35 +35,38 @@ const More = () => {
   
   useEffect(() => {
     
-    const getBusinesses =async()=>{
-      console.log('im here',businessOwnerId)
-
-      await api.get(`business/get-by-business-owner/${businessOwnerId}`)
-      .then((res)=>{
-        
-        if(res.data.success){
-          
-          let _businesses=res.data.businesses
-
-          console.log('these are the businesses under _businesses: ',_businesses)
-          setBusinesses(_businesses)
-          // Alert.alert(res.data.message)
-        }else{
-          console.log(res.data.message)
-        }
-       })
-       .catch((err)=>{
-        if(err){
-          console.log('error in getBusinesses in homesScreen business owner pages: ',err.message)
-        }
-       })
-
-
-    }
-
+    
     getBusinesses()
    
   }, []);
+
+
+  const getBusinesses =async()=>{
+    console.log('im here',businessOwnerId)
+
+    await api.get(`business/get-by-business-owner/${businessOwnerId}`)
+    .then((res)=>{
+      
+      if(res.data.success){
+        
+        let _businesses=res.data.businesses
+
+        console.log('these are the businesses under _businesses: ',_businesses)
+        setBusinesses(_businesses)
+        // Alert.alert(res.data.message)
+      }else{
+        console.log(res.data.message)
+      }
+     })
+     .catch((err)=>{
+      if(err){
+        console.log('error in getBusinesses in homesScreen business owner pages: ',err.message)
+      }
+     })
+
+
+  }
+
 
   const setBusinessClicked=async(businessId)=>{
     await AsyncStorage.setItem('currentBusiness',businessId)
@@ -135,6 +139,7 @@ const More = () => {
             onPress={() => {
               // navigation.navigate("BusinessHome");
               // setBusinessTab(true);
+              getBusinesses()
               setModalVisible(true);
             }}
           >

@@ -136,7 +136,7 @@ const Login = ({ navigation }) => {
                 Want to login as Business Owner?{" "}
               </Text>
               <TouchableOpacity
-                onPress={() => setIsBusinessOwner(true)}
+                onPress={() => setIsBusinessOwner(!isBusinessOwner)}
               >
                 <Text style={tw`text-sm font-bold text-yellow-500`}>
                   {isBusinessOwner
