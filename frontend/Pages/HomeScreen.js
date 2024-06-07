@@ -119,7 +119,22 @@ const HomeScreen = () => {
             <View style={tw`m-4 items-center`}>
               <View style={tw`flex items-center justify-between`}>
                 <View style={tw`flex flex-row items-center justify-between`}>
-                  
+                  <TouchableOpacity
+                    onPress={() => {
+                      navigation.navigate("BusinessList", {
+                        category: "Coffee Shops",
+                      });
+                    }}
+                  >
+                    <View style={tw`items-center m-1 justify-center flex-1`}>
+                      <MaterialIcons name="coffee" size={22} color="orange" />
+                      <Text
+                        style={tw`text-normal font-bold text-orange-400 mt-3`}
+                      >
+                        Coffee Shops
+                      </Text>
+                    </View>
+                  </TouchableOpacity>
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate("BusinessList", {
@@ -147,7 +162,6 @@ const HomeScreen = () => {
                       });
                     }}
                   >
-                   
                     <View style={tw`items-center m-1 flex-1 justify-center`}>
                       <FontAwesome5 name="hotel" size={22} color="orange" />
                       <Text

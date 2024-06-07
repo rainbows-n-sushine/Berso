@@ -6,12 +6,14 @@ import {
   Feather,
   FontAwesome,
   FontAwesome5,
+  FontAwesome6,
   Ionicons,
   MaterialIcons,
 } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import api from '../util/Util'
- 
+import Icon from 'react-native-vector-icons/FontAwesome'; // Adjust this import based on the icon set you are using
+import CustomIcon from "../assets/Components/customIcon"; 
 const CatagoriesList = () => {
      const navigation = useNavigation();
      const [categories, setCategories] = useState([]);
@@ -46,21 +48,26 @@ const CatagoriesList = () => {
   }, []);
  
   const renderItem = ({ item }) => (
-    
     <View style={tw`p-4 border-b border-gray-300`}>
-      <TouchableOpacity onPress={()=>{
-
-         navigation.navigate('BusinessList',{category:item})
-      }
-
-     
-    }>
-      <Text style={tw`text-lg`}>{item.name}</Text>
+      <TouchableOpacity
+        onPress={() => {
+          navigation.navigate("BusinessList", { category: item });
+        }}
+      >
+        <CustomIcon
+          iconSet={item.iconSet}
+          iconName={getIconName(item.icon)}
+          size={30}
+          color="#000"
+        />
+        <Text style={tw`text-lg`}>{item.name}</Text>
+        {/* <Text style={tw`text-lg`}>{item.icon}</Text> */}
       </TouchableOpacity>
     </View>
-    
   );
-
+const getIconName = (icon) => {
+  return icon.toLowerCase().replace("fa", "");
+};
 
   return (
     <SafeAreaView style={tw`flex-1 bg-white p-4 `}>
