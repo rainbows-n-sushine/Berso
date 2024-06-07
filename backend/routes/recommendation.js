@@ -7,4 +7,4 @@ router.get("/recommendations", isAuth, recommendationController.getRecommendatio
 router.get("/personalized", isAuth, recommendationController.getPersonalizedRecommendations);
 router.get("/:businessId/filtered", recommendationController.filterReviews);
 
-module.exports = router;
+module.exports = router; 

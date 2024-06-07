@@ -42,6 +42,13 @@ username:{
     data: Buffer,
     contentType: String,
   },
+
+  favorites: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Business",
+    },
+  ],
 });
 
 userSchema.statics.isUniqueCredentials = async function (email, username) {
