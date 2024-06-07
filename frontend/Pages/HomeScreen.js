@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   TextInput,
   Alert,
+  Animated,
+  FlatList,
 } from "react-native";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -61,6 +63,97 @@ const HomeScreen = () => {
   }, []);
 
   const navigation = useNavigation();
+
+   const [recommendations, setRecommendations] = useState([]);
+   const [isReady, setIsReady] = useState(false);
+const [animate, setAnimate] = useState(false);
+
+   
+     // Fetch recommendations data
+     const fetchData = async () => {
+       // Simulated data
+       const sampleData = [
+         {
+           id: 1,
+           name: "Sample Business 1",
+           image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+           description:
+             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+           rating: 4.5,
+         },
+         {
+           id: 2,
+           name: "Sample Business 2",
+           image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+           description:
+             "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+           rating: 3.8,
+         },
+         {
+           id: 3,
+           name: "Sample Business 3",
+           image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+           description:
+             "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+           rating: 4.2,
+         },
+         // Add more sample businesses with images, descriptions, and ratings
+       ];
+       setRecommendations(sampleData);
+       setAnimate(true);
+     };
+
+     // Trigger animation when the component mounts or updates
+     if (!animate && recommendations.length === 0) {
+       fetchData();
+     }
+      const startAnimation = () => {
+        Animated.timing(translateY, {
+          toValue: 0,
+          duration: 3500,
+          useNativeDriver: true,
+        }).start();
+      };
+
+     const renderItem = ({ item, index }) => {
+       const translateY = new Animated.Value(100);
+
+       if (animate) {
+         Animated.timing(translateY, {
+           toValue: 0,
+           duration: 3500, // Increase duration for slower animation
+           delay: index * 200,
+           useNativeDriver: true,
+         }).start();
+       }
+
+       
+
+       return (
+         <Animated.View style={{ transform: [{ translateY }] }}>
+           <View style={tw`mb-3 bg-white rounded-xl p-3`}>
+             <Text style={{ fontSize: 18, fontWeight: "bold" }}>
+               {item.name}
+             </Text>
+             <Text style={{ fontSize: 14, color: "gray" }}>
+               {item.description}
+             </Text>
+             <View style={{ flexDirection: "row", alignItems: "center" }}>
+               <Text style={{ fontSize: 14, color: "gray" }}>Rating: </Text>
+               {[...Array(Math.floor(item.rating))].map((_, i) => (
+                 <Text key={i} style={{ fontSize: 14, color: "#FFD700" }}>
+                   ★
+                 </Text>
+               ))}
+               {item.rating % 1 > 0 && (
+                 <Text style={{ fontSize: 14, color: "#FFD700" }}>½</Text>
+               )}
+             </View>
+           </View>
+         </Animated.View>
+       );
+     };
+
   return (
     <ParallaxScrollView
       style={tw`flex-1`}
@@ -118,7 +211,9 @@ const HomeScreen = () => {
           <View style={tw`flex rounded-xl m-4 bg-white`}>
             <View style={tw`m-4 items-center`}>
               <View style={tw`flex items-center justify-between`}>
-                <View style={tw`flex flex-row items-center justify-between`}>
+                <View
+                  style={tw`flex flex-row items-center justify-between pt-3`}
+                >
                   <TouchableOpacity
                     onPress={() => {
                       navigation.navigate("BusinessList", {
@@ -292,14 +387,19 @@ const HomeScreen = () => {
                 <Text style={tw`text-xl font-bold text-black my-3`}>
                   Picks from your community
                 </Text>
-                <View style={tw`flex rounded-xl py-20 bg-[#F2E8DE]`}>
-                  <View style={tw`m-4`}>
-                    <View style={tw`flex justify-between`}>
-                      <Text style={tw`text-xl font-bold text-black`}>
-                        Not sure where to eat? we got you
-                      </Text>
-                    </View>
-                  </View>
+                <View style={tw`flex rounded-xl py-3 bg-[#F2E8DE]`}>
+                  {/* <View style={tw``}> */}
+                  <Text style={tw`text-xl font-bold p-4`}>
+                    Personalized Recommendations
+                  </Text>
+                  <FlatList
+                    data={recommendations}
+                    renderItem={renderItem}
+                    keyExtractor={(item) => item.id.toString()}
+                    style={tw`mt-2 p-4 `}
+                    onScrollEndDrag={startAnimation}
+                  />
+                  {/* </View> */}
                 </View>
               </View>
             </View>
