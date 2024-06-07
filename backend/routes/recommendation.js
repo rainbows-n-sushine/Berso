@@ -3,6 +3,7 @@ const router = express.Router();
 const recommendationController = require("../controllers/recommendation");
 const { isAuth } = require("../middleware/auth");
 
+// Existing routes
 router.get("/recommendations", isAuth, recommendationController.getRecommendations);
 router.get("/personalized", isAuth, recommendationController.getPersonalizedRecommendations);
 router.get("/:businessId/filtered", recommendationController.filterReviews);
@@ -14,13 +15,5 @@ router.get("/top-rated", recommendationController.getTopRatedBusinesses);
 router.get("/category/:category", recommendationController.getBusinessesByCategory);
 router.get("/user-sentiment", isAuth, recommendationController.getUserSentiment);
 router.get("/personalized-categories", isAuth, recommendationController.getPersonalizedCategoryRecommendations);
-router.get("/search", recommendationController.searchBusinesses);
-router.get("/:businessId", recommendationController.getBusinessDetails);
-router.post("/:businessId/rate", isAuth, recommendationController.rateBusiness);
-router.get("/user/:userId/reviews", recommendationController.getUserReviews);
-router.put("/user/preferences", isAuth, recommendationController.updateUserPreferences);
 
-router.get("/nearby", recommendationController.getNearbyBusinesses);
-router.get("/:businessId/reviews", recommendationController.getBusinessReviews);
-
-module.exports = router; 
+module.exports = router;
