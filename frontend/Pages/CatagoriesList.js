@@ -68,7 +68,11 @@ const CatagoriesList = () => {
     </View>
   );
 const getIconName = (icon) => {
-  return icon.toLowerCase().replace("fa", "");
+  if (icon) {
+    return icon.toLowerCase().replace("fa", "");
+  } else {
+    return "";
+  }
 };
 
   return (

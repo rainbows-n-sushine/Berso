@@ -3,7 +3,7 @@ import { View, Text, TextInput, Button, Alert, TouchableOpacity } from "react-na
 import tw from "twrnc";
 import api from '../util/Util'
 import { AuthContext } from "../context/AuthContext";
-
+import { SelectList } from "react-native-dropdown-select-list";
 const ReportProblemScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -44,11 +44,40 @@ const ReportProblemScreen = () => {
     // Show success message
     Alert.alert("Success", "Problem reported successfully");
   };
+   const [selected, setSelected] = useState(null);
+
+   const handleSelectItem = (item) => {
+     setSelected(item);
+     // handle the selected item as needed
+   };
+
+   const reportType = [
+     { key: "1", value: "Technical Issue" },
+     { key: "2", value: "Inappropriate Action" },
+     { key: "3", value: "Feature Request" },
+     { key: "4", value: "Business Issue" },
+     // add more  types as needed
+   ];
 
   return (
     <View style={tw`flex-1 p-4 `}>
-      <Text style={[tw`text-2xl font-bold mb-4 `, { fontFamily: "berlin-sans" }]}>Report a Problem</Text>
-
+      <Text
+        style={[tw`text-2xl font-bold mb-4 `, { fontFamily: "berlin-sans" }]}
+      >
+        Report a Problem
+      </Text>
+      <View style={tw`flex-row items-center mb-4`}>
+        <SelectList
+          setSelected={handleSelectItem}
+          data={reportType}
+          save="key"
+          placeholder="Select the type of report..."
+          search={true}
+          inputStyles={tw`text-base text-black`}
+          dropdownTextStyles={tw`text-base text-black`}
+          boxStyles={tw`w-80 bg-white rounded-2xl`}
+        />
+      </View>
       <TextInput
         style={tw`border p-2 mb-4 rounded-xl bg-white`}
         value={name}
