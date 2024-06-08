@@ -207,12 +207,18 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
                     </TouchableOpacity>
                   </View>
                       }
-                      
+                       <TouchableOpacity
+                      onPress={() => {
+                        setModalVisible(false);
+                        navigation.navigate("AddPhoto");
+                      }}
+                    >
                     <View style={tw`items-center  mx-4`}>
                       <Feather name="camera" size={22} color="black" />
 
                       <Text style={tw`text-base`}>Add Photo</Text>
                     </View>
+                    </TouchableOpacity>
                     <TouchableOpacity
                       onPress={() => {
                         // navigation.navigate("AddBusiness");

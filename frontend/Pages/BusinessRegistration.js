@@ -12,9 +12,10 @@ import {
   Pressable,
   Platform,
   Alert,
+  Modal,
 } from "react-native";
 import tw from "twrnc";
-import { AntDesign, Feather, FontAwesome } from "@expo/vector-icons";
+import { AntDesign, Feather, FontAwesome,MaterialIcons } from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
@@ -24,7 +25,7 @@ import api from '../util/Util'
 import {MultipleSelectList} from 'react-native-dropdown-select-list'
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../context/AuthContext";
-
+import * as ImagePicker from "expo-image-picker";
 
 
 
@@ -205,6 +206,71 @@ const handleSubmit=async()=>{
     })
   
   }
+const [businessProfilePic, setbusinessProfilePic] = useState(null);
+const pickImageFromGallery = async () => {
+  const permissionResult =
+    await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+  if (permissionResult.granted === false) {
+    Alert.alert("Permission to access camera roll is required!");
+    return;
+  }
+
+  const result = await ImagePicker.launchImageLibraryAsync({
+    mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    allowsEditing: true,
+    aspect: [1, 1],
+    quality: 1,
+  });
+
+  if (!result.cancelled) {
+    saveProfile(result.assets[0].uri);
+    // setbusinessProfilePic(result.assets[0].uri);
+    //  setModalVisible(false);
+  }
+};
+
+const takeImageFromCamera = async () => {
+  const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+  if (permissionResult.granted === false) {
+    Alert.alert("Permission to access camera is required!");
+    return;
+  }
+
+  const result = await ImagePicker.launchCameraAsync({
+    //  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    cameraType: ImagePicker.CameraType.front,
+    allowsEditing: true,
+    aspect: [1, 1],
+    quality: 1,
+  });
+
+  if (!result.cancelled) {
+    saveProfile(result.assets[0].uri);
+    //  setbusinessProfilePic(result.assets[0].uri);
+    //  setModalVisible(false);
+  }
+};
+
+const saveProfile = async (businessProfilePic) => {
+  try {
+    console.log("here");
+    setbusinessProfilePic(businessProfilePic);
+    setModalVisible(false);
+    // sending pp to backend
+    sentToBackend();
+  } catch (error) {
+    console.log("whatt");
+  }
+};
+
+const deletebusinessProfilePic = () => {
+  setbusinessProfilePic(null);
+  setModalVisible(false);
+};
+
+const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jpg");
 
 
 
@@ -241,27 +307,82 @@ const handleSubmit=async()=>{
             </Text>
           </View>
           <View style={tw``}>
-            <TouchableOpacity
-              onPress={() => setModalVisible(true)}
-              style={tw`p-10 items-center  border-orange-300 border-8 rounded-2xl mb-5`}
-            >
-              <Feather name="share" size={100} color="orange" />
-            </TouchableOpacity>
-
-            {/* <TouchableOpacity
-              // onPress={}
-              onPress={() => {
-                navigation.navigate("");
+            <View className="items-center justify-between p-7">
+              <Image
+                source={businessProfilePic ? { uri: businessProfilePic } : defaultbusinessProfilePic}
+                style={tw`w-full h-50 rounded-xl border-8 border-orange-300`}
+              />
+              <TouchableOpacity
+                // onPress={}
+                onPress={() => setModalVisible(true)}
+                className="bg-red-400"
+              >
+                <View
+                  style={tw`absolute bottom-2 left-25 bg-white  p-1`}
+                >
+                  {/* <MaterialIcons name="add-a-photo" size={26} color="#FB923C" /> */}
+                  <Text className="text-orange-500 font-bold">Choose Profile Photo</Text>
+                </View>
+              </TouchableOpacity>
+              {/* <Text className="text-stone-400 ">Change Profile Photo</Text> */}
+            </View>
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalVisible}
+              onRequestClose={() => {
+                setModalVisible(!modalVisible);
               }}
-              style={tw`bg-red-400`}
             >
               <View
-                style={tw`absolute bottom-0 left-8 bg-white rounded-full p-1`}
+                style={tw`flex-1 justify-center items-center bg-black bg-opacity-50`}
               >
-                <MaterialIcons name="add-a-photo" size={26} color="#FB923C" />
+                <View style={tw`bg-white p-8 rounded-md w-80`}>
+                  <TouchableOpacity
+                    style={tw`border-b border-gray-200 py-2 flex-row items-center justify-center`}
+                    onPress={takeImageFromCamera}
+                  >
+                    <Feather name="camera" size={23} color="#FB923C" />
+                    <Text style={tw`text-base`}>Take a Photo</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={tw`border-b border-gray-200 py-2 flex-row items-center justify-center`}
+                    onPress={pickImageFromGallery}
+                  >
+                    <Feather name="image" size={23} color="#FB923C" />
+                    <Text style={tw`text-base text-center`}>
+                      Choose from Library
+                    </Text>
+                  </TouchableOpacity>
+                  {businessProfilePic && (
+                    <TouchableOpacity
+                      style={tw`border-b border-gray-200 py-2 flex-row items-center justify-center`}
+                      onPress={deletebusinessProfilePic}
+                    >
+                      <MaterialIcons
+                        name="delete-outline"
+                        size={24}
+                        color="#FB923C"
+                      />
+                      <Text style={tw`text-base text-center text-black`}>
+                        Delete Profile Picture
+                      </Text>
+                    </TouchableOpacity>
+                  )}
+                  <TouchableOpacity
+                    style={tw`py-2`}
+                    onPress={() => {
+                      setModalVisible(!modalVisible);
+                    }}
+                  >
+                    <Text style={tw`text-base text-center text-orange-400`}>
+                      Cancel
+                    </Text>
+                  </TouchableOpacity>
+                </View>
               </View>
-            </TouchableOpacity> */}
-            <View style={tw` justify-center items-center`}>
+            </Modal>
+            <View style={tw` justify-center items-center mt-4`}>
               <View>
                 <Text
                   style={[
@@ -310,6 +431,7 @@ const handleSubmit=async()=>{
                     data={categoriesFetched}
                     label="Categories"
                     save="key"
+                    placeholder="Select Catagory"
                     boxStyles={{
                       borderWidth: 0,
                       borderColor: "transparent",
@@ -322,7 +444,6 @@ const handleSubmit=async()=>{
                       borderWidth: 0.1,
                       borderColor: "gray",
                     }}
-                    
 
                     // onSelect={()=>{handleCategories(selected)}}
                     // onSelect={()=>{handleCategories()}}

@@ -53,14 +53,16 @@ const CatagoriesList = () => {
         onPress={() => {
           navigation.navigate("BusinessList", { category: item });
         }}
+        style={tw`flex flex-row`}
       >
         <CustomIcon
           iconSet={item.iconSet}
           iconName={getIconName(item.icon)}
           size={30}
           color="#000"
+          style={tw`flex`}
         />
-        <Text style={tw`text-lg`}>{item.name}</Text>
+        <Text style={tw`text-lg flex ml-5`}>{item.name}</Text>
         {/* <Text style={tw`text-lg`}>{item.icon}</Text> */}
       </TouchableOpacity>
     </View>
