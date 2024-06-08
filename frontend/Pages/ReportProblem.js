@@ -7,6 +7,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 const ReportProblemScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [type, setType] = useState(null);
   const [description, setDescription] = useState("");
   const {userId}=useContext(AuthContext)
 
@@ -23,7 +24,7 @@ const ReportProblemScreen = () => {
     console.log("Email:", email);
     console.log("Description:", description);
 
-    await api.post('report/create',{name,email,description, userId})
+    await api.post('report/create',{name,email,description, userId,type})
     .then((res)=>{
       console.log(res.data.message)
       if(res.data.success===true){
@@ -44,10 +45,10 @@ const ReportProblemScreen = () => {
     // Show success message
     Alert.alert("Success", "Problem reported successfully");
   };
-   const [selected, setSelected] = useState(null);
+   
 
    const handleSelectItem = (item) => {
-     setSelected(item);
+     setType(item);
      // handle the selected item as needed
    };
 
@@ -70,7 +71,7 @@ const ReportProblemScreen = () => {
         <SelectList
           setSelected={handleSelectItem}
           data={reportType}
-          save="key"
+          save="value"
           placeholder="Select the type of report..."
           search={true}
           inputStyles={tw`text-base text-black`}

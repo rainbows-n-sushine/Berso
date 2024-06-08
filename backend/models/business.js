@@ -85,11 +85,18 @@ const businessSchema=new mongoose.Schema({
         default: 0,
 
     },
+    //checks if the newly registered business is verified by the admin or not. when it pons out on the admins panel notification
+    status:{
+        type:String,
+        default:"unread"
+
+    },
 
     date:{
         type:Date,
         default:Date.now()
       },
+    
 
 })
 

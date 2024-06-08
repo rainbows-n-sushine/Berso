@@ -1,7 +1,8 @@
 const {Report} = require('../models/report')
+const { report } = require('../routes/user')
 
 exports.fileReport=async(req,res)=>{
-    const {name,email,description,userId}=req.body
+    const {name,email,description,userId,type}=req.body
     try{
         const report= await Report({
 
@@ -9,6 +10,7 @@ exports.fileReport=async(req,res)=>{
             email,
             description,
             user:userId,
+            type
 
         })
         report.save()
@@ -23,7 +25,7 @@ exports.fileReport=async(req,res)=>{
     }
 }
 
-exports.getAllReports=async()=>{
+exports.getAllReports=async(req,res)=>{
 
     try {
         const reports=await Report.find()
@@ -39,8 +41,41 @@ exports.getAllReports=async()=>{
     } catch (error) {
         if(error){
             console.log("error in getAllReports",error.message)
-            return res.json({success:false,message:"There are no reports yet"})
+            return res.json({success:false,message:"failure in fetching reports"})
         }
+        
+    }
+}
+
+
+exports.fetchNewReports=async(req,res)=>{
+
+    try {
+        const reports = await Report.find({ status: { $in: ["unread", "pending"] } });
+        if (reports){
+            console.log('new reports is fetched')
+            console.log("reports is reports",reports)
+            
+             const updatedReports=reports.map((report)=>({
+                ...report.toObject(),
+                notif_type:"New Report"
+            }))
+            console.log("reports is reports",updatedReports)
+
+            return res.json({message:"new reports is fetched", success:true, reports:updatedReports})
+        }else{
+            return res.json({message:"new reports dont exist", success:false})
+
+
+        }
+        
+    } catch (error) {
+        if(error){
+            console.log("error in fetching new busninesses: ",error.message)
+            return res.json({message:"failure in fetching new reports", success:false})
+
+        }
+       
         
     }
 }

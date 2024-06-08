@@ -24,7 +24,7 @@ const reportSchema = new mongoose.Schema({
   },
   status:{
     type:String,
-    default:"pending"
+    default:"unread"
   },
   type:{
     type:String,

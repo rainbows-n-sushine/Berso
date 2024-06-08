@@ -249,6 +249,39 @@ category.forEach((categoryId)=>{
 
 }
 
+
+exports.fetchNewBuinesses=async(req,res)=>{
+
+  try {
+      const businesses = await Business.find({ status: { $in: ["unread", "pending"] } });
+      if (businesses){
+          console.log('new buinesses is fetched')
+          const updatedBusinesses=businesses.map((business)=>({
+
+            ...business.toObject(),
+            notif_type:"New Business"
+            
+        }))
+          console.log("businesses is:",businesses)
+
+          return res.json({message:"new businesses is fetched", success:true, businesses:updatedBusinesses})
+      }else{
+          return res.json({message:"new businesses dont exist", success:false})
+
+
+      }
+      
+  } catch (error) {
+      if(error){
+          console.log("error in fetching new busnesses: ",error.message)
+          return res.json({message:"failure in fetching new businesses", success:false})
+
+      }
+     
+      
+  }
+}
+
 // exports.getBusinessInfo=async(req,res)=>{
 
 //   const {getBusiness}=req.body

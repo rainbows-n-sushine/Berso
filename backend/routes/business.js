@@ -1,5 +1,5 @@
 const express = require("express");
-const { registerBusiness, fetchAll,fetchOne,deleteBusiness,updateOne,fetchByCategory,getByBusinessOwner,getBusinessInfo,getCategories} = require("../controllers/business");
+const { registerBusiness, fetchAll,fetchOne,deleteBusiness,updateOne,fetchByCategory,getByBusinessOwner,getBusinessInfo,getCategories,fetchNewBuinesses} = require("../controllers/business");
 const router = express.Router();
 // const {validateUserSignup,userValidation}=require('../middleware/validation/user')
 const { isAuth } = require("../middleware/auth");
@@ -11,6 +11,7 @@ router.get('/get-one/:businessId',fetchOne)
 router.delete('/delete/:businessId',deleteBusiness)
 router.put('/update-one', updateOne)
 router.post('/get-categories',getCategories)
+router.get('/fetch-new-businesses',fetchNewBuinesses)
 // router.post("/get-business-info",getBusinessInfo)
 
 // router.post('/signin',signin)

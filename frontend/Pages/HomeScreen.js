@@ -303,7 +303,6 @@ const [animate, setAnimate] = useState(false);
                     </View>
                   </TouchableOpacity>
                 </View>
-                {/* 2ndrow */}
                 <View
                   style={tw`flex flex-row items-center justify-between pt-3`}
                 >
@@ -360,7 +359,6 @@ const [animate, setAnimate] = useState(false);
                     </View>
                   </TouchableOpacity>
                 </View>
-                {/* 3rdow */}
                 <View
                   style={tw`flex flex-row items-center justify-between pt-3`}
                 >
