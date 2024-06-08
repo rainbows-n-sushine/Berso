@@ -122,62 +122,61 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("Settings");
             }}
           >
             <AntDesign name="setting" size={22} color="black" />
             <Text style={tw`ml-2`}>Settings</Text>
           </TouchableOpacity>
-          {isBusinessOwner&&
-          <View> 
-           <TouchableOpacity
-            style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
-            onPress={() => {
-              // navigation.navigate("BusinessHome");
-              // setBusinessTab(true);
-              getBusinesses();
-              setModalVisible(true);
-            }}
-          >
-
-            <Entypo name="shop" size={22} color="black" />
-            <Text style={tw`ml-2`}>My Businesses</Text>
-          </TouchableOpacity>
-          
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
-          >
-            <View
-              style={tw`flex-1 justify-center items-center bg-gray-800 bg-opacity-50`}
-            >
-              <View
-                style={[
-                  tw`bg-white p-4 rounded-lg`,
-                  { height: modalHeight, width: 300 },
-                ]}
+          {isBusinessOwner && (
+            <View>
+              <TouchableOpacity
+                style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
+                onPress={() => {
+                  // navigation.navigate("BusinessHome");
+                  // setBusinessTab(true);
+                  getBusinesses();
+                  setModalVisible(true);
+                }}
               >
-                <FlatList
-                  data={businesses}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item._id.toString()}
-                />
-                <TouchableOpacity
-                  style={tw`mt-4 bg-orange-400 p-2 rounded-lg`}
-                  onPress={() => setModalVisible(false)}
+                <Entypo name="shop" size={22} color="black" />
+                <Text style={tw`ml-2`}>My Businesses</Text>
+              </TouchableOpacity>
+
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+              >
+                <View
+                  style={tw`flex-1 justify-center items-center bg-gray-800 bg-opacity-50`}
                 >
-                  <Text style={tw`text-white text-center font-bold`}>
-                    Close
-                  </Text>
-                </TouchableOpacity>
-              </View>
+                  <View
+                    style={[
+                      tw`bg-white p-4 rounded-lg`,
+                      { height: modalHeight, width: 300 },
+                    ]}
+                  >
+                    <FlatList
+                      data={businesses}
+                      renderItem={renderItem}
+                      keyExtractor={(item) => item._id.toString()}
+                    />
+                    <TouchableOpacity
+                      style={tw`mt-4 bg-orange-400 p-2 rounded-lg`}
+                      onPress={() => setModalVisible(false)}
+                    >
+                      <Text style={tw`text-white text-center font-bold`}>
+                        Close
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
             </View>
-          </Modal>
-          </View>
-          }
-         
+          )}
+
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -199,10 +198,14 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("AboutUs");
             }}
           >
-            <FontAwesome name="user-circle-o" size={22} color="black" />
+            <Image
+              source={require("../assets/Images/logo-removebg.png")}
+              style={tw`w-9 h-9`}
+            />
+            {/* <FontAwesome name="user-circle-o" size={22} color="black" /> */}
             <Text style={tw`ml-2`}>About Berso</Text>
           </TouchableOpacity>
           <TouchableOpacity

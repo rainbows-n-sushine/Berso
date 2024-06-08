@@ -270,30 +270,31 @@ navigation.navigate('Home')
   return (
     <ScrollView style={tw`flex-1 p-4 m-3`}>
       <Text
-        style={[tw`text-2xl font-bold mb-4`, { fontFamily: "berlin-sans" }]}
+        style={[
+          tw`text-2xl font-bold mb-4 text-orange-500`,
+          { fontFamily: "berlin-sans" },
+        ]}
       >
         Add Review
       </Text>
 
       <View style={tw`m-3 items-center`}>
-        
-          {/* <FontAwesome name="search" size={20} color="lightgray" /> */}
-          {!inBusiness&&
+        {/* <FontAwesome name="search" size={20} color="lightgray" /> */}
+        {!inBusiness && (
           <View style={tw` flex flex-row items-center`}>
-          <SelectList
-            setSelected={handleSelectItem}
-            data={data}
-            save="key"
-            placeholder="Search for business.."
-            search={true}
-            inputStyles={tw`text-base text-black`}
-            dropdownTextStyles={tw`text-base text-black`}
-            boxStyles={tw`w-80 bg-white rounded-2xl`}
-          />
-        </View>
-          }
-          
-          
+            <SelectList
+              setSelected={handleSelectItem}
+              data={data}
+              save="key"
+              placeholder="Search for business.."
+              search={true}
+              inputStyles={tw`text-base text-black`}
+              dropdownTextStyles={tw`text-base text-black`}
+              boxStyles={tw`w-80 bg-white rounded-2xl`}
+            />
+          </View>
+        )}
+
         {selectedBusiness && (
           <View style={tw`flex-1 flex-row`}>
             <Text
@@ -333,7 +334,7 @@ navigation.navigate('Home')
         onChangeText={(text) => handleChange("description", text)}
         multiline
       />
-      <StarRating rating={rating} setRating={setRating}/>
+      <StarRating rating={rating} setRating={setRating} />
 
       <TouchableOpacity
         onPress={pickImage}

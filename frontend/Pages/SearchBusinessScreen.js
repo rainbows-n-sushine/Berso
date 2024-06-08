@@ -71,7 +71,7 @@ const SearchBusinessScreen = () => {
     });
   };
 const handleMarkerPress = (business) => {
-  navigation.navigate("BusinessPage", { businessId: business.id });
+  navigation.navigate("BusinessPage", { businessId: business.id }); 
 };
   return (
     <SafeAreaView style={tw`flex-1 mt-5 bg-[#F2E8DE]`}>
