@@ -478,12 +478,12 @@ const BusinessRegistration = ({ route }) => {
                     editable={false}
                   /> */}
                   <Text
-                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  px-4 mb-4`}
+                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  p-3 mb-4`}
                   >
                     Latitude: {latitude}
                   </Text>
                   <Text
-                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  px-4 mb-4`}
+                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  p-3 mb-4`}
                   >
                     Longitude: {longitude}
                   </Text>

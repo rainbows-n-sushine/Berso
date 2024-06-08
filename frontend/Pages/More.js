@@ -122,7 +122,7 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("BusinessPage");
+              navigation.navigate("");
             }}
           >
             <AntDesign name="setting" size={22} color="black" />
@@ -190,7 +190,7 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("Maps");
+              navigation.navigate("");
             }}
           >
             <Entypo name="share" size={22} color="black" />
