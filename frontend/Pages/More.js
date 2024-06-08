@@ -190,7 +190,7 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("Maps");
             }}
           >
             <Entypo name="share" size={22} color="black" />

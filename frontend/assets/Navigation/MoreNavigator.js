@@ -8,6 +8,7 @@ import More from "../../Pages/More";
 import BusinessPage from "../../Pages/BusinessPage";
 import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
 import ReportProblem from "../../Pages/ReportProblem";
+import Maps from "../../Pages/Map";
 
 const Stack = createStackNavigator();
 const MoreNavigator = () => {
@@ -42,6 +43,11 @@ const MoreNavigator = () => {
       <Stack.Screen
         name="ReportProblem"
         component={ReportProblem}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="Maps"
+        component={Maps}
         options={{ headerShown: true }}
       />
 

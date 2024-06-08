@@ -19,7 +19,7 @@ import { AntDesign, Feather, FontAwesome,MaterialIcons } from "@expo/vector-icon
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Font from "expo-font";
 import api from '../util/Util'
 import {MultipleSelectList} from 'react-native-dropdown-select-list'
@@ -30,59 +30,52 @@ import * as ImagePicker from "expo-image-picker";
 
 
 
-const BusinessRegistration = () => {
-
+const BusinessRegistration = ({ route }) => {
   const windowHeight = Dimensions.get("window").height;
   const navigation = useNavigation();
- const [modalVisible, setModalVisible] = useState(false);
- const [businessOwnerId,setBusinessOwnerId]=useState('')
+  const [modalVisible, setModalVisible] = useState(false);
+  const [businessOwnerId, setBusinessOwnerId] = useState("");
 
- useEffect(()=>{
-  const checkOwner=async()=>{
-    const isBusinessOwner=await AsyncStorage.getItem('registerBusinessByOwner')
-    console.log('this is the register busine s: ',isBusinessOwner)
-     if(isBusinessOwner==='true'){
-      let businessOwner= await AsyncStorage.getItem('businessOwnerId')
-      console.log("this is the businessOnwer id :",businessOwner)
-      setBusinessOwnerId(businessOwner)
-    
-    }
-  }
-  checkOwner()
- },[])
+  useEffect(() => {
+    const checkOwner = async () => {
+      const isBusinessOwner = await AsyncStorage.getItem(
+        "registerBusinessByOwner"
+      );
+      console.log("this is the register busine s: ", isBusinessOwner);
+      if (isBusinessOwner === "true") {
+        let businessOwner = await AsyncStorage.getItem("businessOwnerId");
+        console.log("this is the businessOnwer id :", businessOwner);
+        setBusinessOwnerId(businessOwner);
+      }
+    };
+    checkOwner();
+  }, []);
 
+  const [business, setBusiness] = useState({
+    businessName: "",
+    email: "",
+    phone: "",
+    website: "",
+    location: "",
+    address: "",
+    businessDays: "",
+    openingHours: "",
+    averagePrice: "",
+    description: "",
+  });
+  const [categories, setCategories] = useState([]);
+  const [categoriesFetched, setCategoriesFetched] = useState([]);
 
-  const [business,setBusiness]=useState({
-    businessName:'',
-    email:'',
-    phone:"",
-    website:"",
-    location:"",
-    address:"",
-    businessDays:"",
-    openingHours:"",
-    averagePrice:"",
-    description:""
-   })
-const [categories,setCategories]=useState([])
-const [categoriesFetched,setCategoriesFetched]=useState([])
+  //setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
+  const [selected, setSelected] = useState([]);
 
-
-//setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
-const [selected,setSelected]=useState([])
-
-
-
-
-const data=[
-  {key:'1',value:'Restaurants',disabled:false},
-  {key:'2',value:'Shops',disabled:false},
-  {key:'3',value:'Hotels',disabled:false},
-  {key:'4',value:'Malls',disabled:true},
-  {key:'5',value:'Hair Salons',disabled:false},
-]
-
-
+  const data = [
+    { key: "1", value: "Restaurants", disabled: false },
+    { key: "2", value: "Shops", disabled: false },
+    { key: "3", value: "Hotels", disabled: false },
+    { key: "4", value: "Malls", disabled: true },
+    { key: "5", value: "Hair Salons", disabled: false },
+  ];
 
   useEffect(() => {
     async function loadFonts() {
@@ -91,188 +84,181 @@ const data=[
       });
     }
 
-    async function getCategories(){
-console.log('mi here')
+    async function getCategories() {
+      console.log("mi here");
 
+      await api
+        .get("category/fetchAll")
+        .then((res) => {
+          console.log(res.data.categories);
+          let allCategory = res.data.categories;
 
-      await api.get('category/fetchAll')
-      .then((res)=>{
+          console.log("this is the whole category", allCategory);
+          let categoryCollection = [];
+          for (var i = 0; i < allCategory.length; i++) {
+            //let id=JSON.stringify(allCategory[i]._id)
+            let id = allCategory[i]._id;
+            let category = { value: allCategory[i].name, key: id };
 
-        console.log(res.data.categories)
-        let allCategory=res.data.categories
-
-        console.log('this is the whole category',allCategory)
-        let categoryCollection=[]
-for(var i=0;i<allCategory.length;i++){
-  //let id=JSON.stringify(allCategory[i]._id)
-  let id=allCategory[i]._id
-  let category={value:allCategory[i].name,key:id}
-
-// setCategoriesFetched([,category])
-  categoryCollection.push(category)
-  console.log('this is categories fetched ',category)
-  }
-  setCategoriesFetched(categoryCollection)
-})
-      .catch((err)=>{
-        if(err){
-          console.log(err)
-        }
-      })
+            // setCategoriesFetched([,category])
+            categoryCollection.push(category);
+            console.log("this is categories fetched ", category);
+          }
+          setCategoriesFetched(categoryCollection);
+        })
+        .catch((err) => {
+          if (err) {
+            console.log(err);
+          }
+        });
     }
     getCategories();
     loadFonts();
-    
   }, []);
 
-
-
   // const handleSelected=(val)=>{
-   
-
 
   // }
-  const handleCategories=(value)=>{
-    const isSelected=false
-    console.log(value)
-    console.log(typeof value)
-    for(var i=0;i<=value.length;i++){
-      categories[value[i]]=!isSelected
+  const handleCategories = (value) => {
+    const isSelected = false;
+    console.log(value);
+    console.log(typeof value);
+    for (var i = 0; i <= value.length; i++) {
+      categories[value[i]] = !isSelected;
 
       // setCategories({...categories,[value[i]]:!isSelected})
-
     }
-  
 
-
-   
     // const selectedCategories= value.split(",")
     // for (var i=0;i<=selectedCategories.length(); i++){
     //   setCategories({...categories,[selectedCategories[i]]:!isSelected})
 
     // }
-  
+  };
 
-      
+  const handleChange = (name, value) => {
+    setBusiness({ ...business, [name]: value });
+  };
+  const handleSubmit = async () => {
+    console.log(categories);
+    console.log("this is categories fetched: ", categoriesFetched);
+    const userId = await AsyncStorage.getItem("userId");
 
-    
-    
+    console.log("this is the value of categories " + categories.Shops);
 
+    console.log("im in handle submit");
+    console.log("this is the business owner id: ", businessOwnerId);
+    console.log(business);
 
-  }
+    await api
+      .post("business/register-business", {
+        business,
+        categories,
+        businessOwnerId,
+      })
+      .then((res) => {
+        console.log("im in then");
+        console.log(res.data);
 
+        if (res.data.success) {
+          Alert.alert(res.data.message);
+          navigation.navigate("Home");
+        } else {
+          Alert.alert(res.data.messsage);
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          console.log(error.message);
+        }
+      });
+  };
+  const [businessProfilePic, setbusinessProfilePic] = useState(null);
+  const pickImageFromGallery = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-const handleChange=(name,value)=>{
-  setBusiness({...business,[name]:value})
-
-
-
-}
-const handleSubmit=async()=>{
-  console.log(categories)
-  console .log('this is categories fetched: ', categoriesFetched)
-  const userId=await AsyncStorage.getItem('userId')
-
-  
-  console.log("this is the value of categories "+categories.Shops)
-
-  console.log('im in handle submit')
-  console.log('this is the business owner id: ',businessOwnerId)
-  console.log(business)
-  
- 
-  await api.post('business/register-business',{business,categories,businessOwnerId})
-    .then((res)=>{
-      console.log("im in then")
-      console.log(res.data)
-
-      if(res.data.success){
-
-        Alert.alert(res.data.message)
-        navigation.navigate('Home')
-
-      }else{
-        Alert.alert(res.data.messsage)
-
-        
-      }
-    })
-    .catch((error )=>{
-  
-   if(error){
-       console.log(error.message)
+    if (permissionResult.granted === false) {
+      Alert.alert("Permission to access camera roll is required!");
+      return;
     }
 
-    })
-  
-  }
-const [businessProfilePic, setbusinessProfilePic] = useState(null);
-const pickImageFromGallery = async () => {
-  const permissionResult =
-    await ImagePicker.requestMediaLibraryPermissionsAsync();
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
 
-  if (permissionResult.granted === false) {
-    Alert.alert("Permission to access camera roll is required!");
-    return;
-  }
+    if (!result.cancelled) {
+      saveProfile(result.assets[0].uri);
+      // setbusinessProfilePic(result.assets[0].uri);
+      //  setModalVisible(false);
+    }
+  };
 
-  const result = await ImagePicker.launchImageLibraryAsync({
-    mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    allowsEditing: true,
-    aspect: [1, 1],
-    quality: 1,
-  });
+  const takeImageFromCamera = async () => {
+    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
-  if (!result.cancelled) {
-    saveProfile(result.assets[0].uri);
-    // setbusinessProfilePic(result.assets[0].uri);
-    //  setModalVisible(false);
-  }
-};
+    if (permissionResult.granted === false) {
+      Alert.alert("Permission to access camera is required!");
+      return;
+    }
 
-const takeImageFromCamera = async () => {
-  const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+    const result = await ImagePicker.launchCameraAsync({
+      //  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      cameraType: ImagePicker.CameraType.front,
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
 
-  if (permissionResult.granted === false) {
-    Alert.alert("Permission to access camera is required!");
-    return;
-  }
+    if (!result.cancelled) {
+      saveProfile(result.assets[0].uri);
+      //  setbusinessProfilePic(result.assets[0].uri);
+      //  setModalVisible(false);
+    }
+  };
 
-  const result = await ImagePicker.launchCameraAsync({
-    //  mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    cameraType: ImagePicker.CameraType.front,
-    allowsEditing: true,
-    aspect: [1, 1],
-    quality: 1,
-  });
+  const saveProfile = async (businessProfilePic) => {
+    try {
+      console.log("here");
+      setbusinessProfilePic(businessProfilePic);
+      setModalVisible(false);
+      // sending pp to backend
+      sentToBackend();
+    } catch (error) {
+      console.log("whatt");
+    }
+  };
 
-  if (!result.cancelled) {
-    saveProfile(result.assets[0].uri);
-    //  setbusinessProfilePic(result.assets[0].uri);
-    //  setModalVisible(false);
-  }
-};
-
-const saveProfile = async (businessProfilePic) => {
-  try {
-    console.log("here");
-    setbusinessProfilePic(businessProfilePic);
+  const deletebusinessProfilePic = () => {
+    setbusinessProfilePic(null);
     setModalVisible(false);
-    // sending pp to backend
-    sentToBackend();
-  } catch (error) {
-    console.log("whatt");
-  }
-};
+  };
 
-const deletebusinessProfilePic = () => {
-  setbusinessProfilePic(null);
-  setModalVisible(false);
-};
+  const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jpg");
 
-const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jpg");
+  // this is what i added
+  const [businessLocation, setBusinessLocation] = useState("");
 
+  const handleLocationPress = () => {
+    navigation.navigate("Maps", { setBusinessLocation });
+  };
 
+  console.log("Route params:", route.params);
+
+  // Check if route.params exists and has the location property
+  const location = route?.params?.location;
+  console.log("Location:", location);
+
+  // Check if location is defined before accessing its properties
+  const latitude = location?.latitude || 0;
+  const longitude = location?.longitude || 0;
+
+  console.log("Latitude:", latitude);
+  console.log("Longitude:", longitude);
+  // until this
 
   return (
     <View style={tw`flex-1 bg-white justify-center`}>
@@ -309,7 +295,11 @@ const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jp
           <View style={tw``}>
             <View className="items-center justify-between p-7">
               <Image
-                source={businessProfilePic ? { uri: businessProfilePic } : defaultbusinessProfilePic}
+                source={
+                  businessProfilePic
+                    ? { uri: businessProfilePic }
+                    : defaultbusinessProfilePic
+                }
                 style={tw`w-full h-50 rounded-xl border-8 border-orange-300`}
               />
               <TouchableOpacity
@@ -317,11 +307,11 @@ const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jp
                 onPress={() => setModalVisible(true)}
                 className="bg-red-400"
               >
-                <View
-                  style={tw`absolute bottom-2 left-25 bg-white  p-1`}
-                >
+                <View style={tw`absolute bottom-2 left-25 bg-white  p-1`}>
                   {/* <MaterialIcons name="add-a-photo" size={26} color="#FB923C" /> */}
-                  <Text className="text-orange-500 font-bold">Choose Profile Photo</Text>
+                  <Text className="text-orange-500 font-bold">
+                    Choose Profile Photo
+                  </Text>
                 </View>
               </TouchableOpacity>
               {/* <Text className="text-stone-400 ">Change Profile Photo</Text> */}
@@ -466,14 +456,30 @@ const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jp
                     handleChange("website", text);
                   }}
                 />
-                <TextInput
-                  style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80 px-4 mb-4`}
-                  placeholder="Location"
-                  // value={firstName}
-                  onChangeText={(text) => {
-                    handleChange("location", text);
-                  }}
-                />
+                <TouchableOpacity onPress={handleLocationPress}>
+                  <TextInput
+                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80  px-4 mb-4`}
+                    placeholder="Press to add Location"
+                    value={location}
+                    editable={false}
+                  />
+                </TouchableOpacity>
+                <View
+                  style={tw`ml-8`}
+                >
+                  <TextInput
+                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  px-4 mb-4`}
+                    placeholder="Latitude"
+                    value={latitude}
+                    editable={false}
+                  />
+                  <TextInput
+                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  px-4 mb-4`}
+                    placeholder="Latitude"
+                    value={longitude}
+                    editable={false}
+                  />
+                </View>
                 <TextInput
                   style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Address"
@@ -482,6 +488,7 @@ const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jp
                     handleChange("address", text);
                   }}
                 />
+
                 <TextInput
                   style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Business Days"

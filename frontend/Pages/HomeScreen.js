@@ -82,7 +82,7 @@ const [animate, setAnimate] = useState(false);
           setAnimate(true);
         }
       }).catch((error)=>{
-        if(error){consosle.log(error.message)}
+        if(error){console.log(error.message)}
       })
     }
 
