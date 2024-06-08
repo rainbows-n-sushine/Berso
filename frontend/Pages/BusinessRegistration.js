@@ -464,10 +464,8 @@ const BusinessRegistration = ({ route }) => {
                     editable={false}
                   />
                 </TouchableOpacity>
-                <View
-                  style={tw`ml-8`}
-                >
-                  <TextInput
+                <View style={tw`ml-8`}>
+                  {/* <TextInput
                     style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  px-4 mb-4`}
                     placeholder="Latitude"
                     value={latitude}
@@ -478,8 +476,20 @@ const BusinessRegistration = ({ route }) => {
                     placeholder="Latitude"
                     value={longitude}
                     editable={false}
-                  />
+                  /> */}
+                  <Text
+                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  px-4 mb-4`}
+                  >
+                    Latitude: {latitude}
+                  </Text>
+                  <Text
+                    style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  px-4 mb-4`}
+                  >
+                    Longitude: {longitude}
+                  </Text>
                 </View>
+
+                <View></View>
                 <TextInput
                   style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80  px-4 mb-4`}
                   placeholder="Address"
