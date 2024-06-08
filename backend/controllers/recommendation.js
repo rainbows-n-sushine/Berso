@@ -12,7 +12,7 @@ const analyzer = new Analyzer("English", stemmer, "afinn");
 
 exports.getRecommendations = async (req, res) => {
   try {
-    const userId = req.user._id;
+    const {userId} = req.params;
 
     const userPreferences = await getUserPreferences(userId);
     const businesses = await Business.find();
