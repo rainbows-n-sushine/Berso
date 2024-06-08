@@ -23,6 +23,28 @@ exports.fileReport=async(req,res)=>{
     }
 }
 
+exports.getAllReports=async()=>{
+
+    try {
+        const reports=await Report.find()
+        if(reports){
+            return res.json({success:true, reports:reports, message:"here are reports"})
+        }
+        else{
+
+            return res.json({success:false,message:"There are no reports yet"})
+        }
+        
+        
+    } catch (error) {
+        if(error){
+            console.log("error in getAllReports",error.message)
+            return res.json({success:false,message:"There are no reports yet"})
+        }
+        
+    }
+}
+
 // exports.fetchAllreportsForBusiness=async(req,res)=>{
 //     const {businessId}=req.body
 

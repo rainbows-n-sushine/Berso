@@ -35,11 +35,21 @@ library.add(fas);
 const { width } = Dimensions.get("window");
 
 const HomeScreen = () => {
-  const { UserLogout, BusinessOwnerLogout ,businessOwnerToken,userToken} = useContext(AuthContext);
+  const { UserLogout,userId,businessId, BusinessOwnerLogout ,businessOwnerToken,userToken} = useContext(AuthContext);
+  const [isUser,setIsUser]=useState(false)
   const [categories, setCategories] = useState([]);
+  const navigation = useNavigation();
+
+  const [recommendations, setRecommendations] = useState([]);
+  const [isReady, setIsReady] = useState(false);
+const [animate, setAnimate] = useState(false);
+
  
 
   useEffect(() => {
+    if(userToken){
+      setIsUser(true)
+    }
     const fetchCategories=async()=> {
       await api
         .get("category/fetchAll")
@@ -59,54 +69,80 @@ const HomeScreen = () => {
         });
     }
 
+    const fetchRecommendations=async()=>{
+
+      console.log('im in fetch receommendations')
+
+      await api.get(`recommendation/get-for-user/${userId}`)
+      .then((res)=>{
+        console.log('this i sfetch recommendations api')
+
+        if(res.data.success){
+          setRecommendations(res.data.recommendations)
+          setAnimate(true);
+        }
+      }).catch((error)=>{
+        if(error){consosle.log(error.message)}
+      })
+    }
+
     fetchCategories();
+    fetchRecommendations()
   }, []);
 
-  const navigation = useNavigation();
-
-   const [recommendations, setRecommendations] = useState([]);
-   const [isReady, setIsReady] = useState(false);
-const [animate, setAnimate] = useState(false);
-
+ 
    
      // Fetch recommendations data
      const fetchData = async () => {
+      // await api.get(`recommendation/get-for-user/${userId}`)
+      // .then((res)=>{
+
+      //   if(res.data.success){
+      //     console.log("\n\n\n\n\n\n\n\n\\nthis is the topRecommendations feched from backend ",res.data.topRecommendations)
+      //     setRecommendations(res.data.recommendations)
+      //   }
+      // }).catch((error)=>{
+      //   if(error){consosle.log(error.message)}
+      // })
        // Simulated data
-       const sampleData = [
-         {
-           id: 1,
-           name: "Sample Business 1",
-           image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
-           description:
-             "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-           rating: 4.5,
-         },
-         {
-           id: 2,
-           name: "Sample Business 2",
-           image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
-           description:
-             "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-           rating: 3.8,
-         },
-         {
-           id: 3,
-           name: "Sample Business 3",
-           image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
-           description:
-             "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-           rating: 4.2,
-         },
-         // Add more sample businesses with images, descriptions, and ratings
-       ];
-       setRecommendations(sampleData);
-       setAnimate(true);
+      //  const sampleData = [
+      //    {
+      //      id: 1,
+      //      name: "Sample Business 1",
+      //      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+      //      description:
+      //        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      //      rating: 4.5,
+      //    },
+      //    {
+      //      id: 2,
+      //      name: "Sample Business 2",
+      //      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+      //      description:
+      //        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      //      rating: 3.8,
+      //    },
+      //    {
+      //      id: 3,
+      //      name: "Sample Business 3",
+      //      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
+      //      description:
+      //        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      //      rating: 4.2,
+      //    },
+      //    // Add more sample businesses with images, descriptions, and ratings
+      //  ];
+      //  setRecommendations(sampleData);
+
+
+       
      };
 
      // Trigger animation when the component mounts or updates
-     if (!animate && recommendations.length === 0) {
-       fetchData();
-     }
+    //  if (!animate && recommendations.length === 0) {
+    //   fetchRecommendations();
+    //   //  fetchData();
+    //  }
       const startAnimation = () => {
         Animated.timing(translateY, {
           toValue: 0,
@@ -133,19 +169,19 @@ const [animate, setAnimate] = useState(false);
          <Animated.View style={{ transform: [{ translateY }] }}>
            <View style={tw`mb-3 bg-white rounded-xl p-3`}>
              <Text style={{ fontSize: 18, fontWeight: "bold" }}>
-               {item.name}
+               {item.business_name}
              </Text>
              <Text style={{ fontSize: 14, color: "gray" }}>
                {item.description}
              </Text>
              <View style={{ flexDirection: "row", alignItems: "center" }}>
                <Text style={{ fontSize: 14, color: "gray" }}>Rating: </Text>
-               {[...Array(Math.floor(item.rating))].map((_, i) => (
+               {[...Array(Math.floor(item.average_rating))].map((_, i) => (
                  <Text key={i} style={{ fontSize: 14, color: "#FFD700" }}>
                    ★
                  </Text>
                ))}
-               {item.rating % 1 > 0 && (
+               {item.average_rating % 1 > 0 && (
                  <Text style={{ fontSize: 14, color: "#FFD700" }}>½</Text>
                )}
              </View>
@@ -382,27 +418,33 @@ const [animate, setAnimate] = useState(false);
           </View>
 
           <View style={tw`flex rounded-xl mx-3 bg-white`}>
-            <View style={tw`m-4`}>
+          <View style={tw`m-4`}>
+            
+              {isUser&&
+              
               <View style={tw`flex justify-between`}>
-                <Text style={tw`text-xl font-bold text-black my-3`}>
-                  Picks from your community
+              <Text style={tw`text-xl font-bold text-black my-3`}>
+                Picks from your community
+              </Text>
+              <View style={tw`flex rounded-xl py-3 bg-[#F2E8DE]`}>
+                {/* <View style={tw``}> */}
+                <Text style={tw`text-xl font-bold p-4`}>
+                  Personalized Recommendations
                 </Text>
-                <View style={tw`flex rounded-xl py-3 bg-[#F2E8DE]`}>
-                  {/* <View style={tw``}> */}
-                  <Text style={tw`text-xl font-bold p-4`}>
-                    Personalized Recommendations
-                  </Text>
-                  <FlatList
-                    data={recommendations}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
-                    style={tw`mt-2 p-4 `}
-                    onScrollEndDrag={startAnimation}
-                  />
-                  {/* </View> */}
-                </View>
+                <FlatList
+                  data={recommendations}
+                  renderItem={renderItem}
+                  keyExtractor={(item) => item._id.toString()}
+                  style={tw`mt-2 p-4 `}
+                  onScrollEndDrag={startAnimation}
+                />
+                {/* </View> */}
               </View>
             </View>
+          
+              }
+              </View>
+              
             {/* <View>
               <TouchableOpacity
                 onPress={() => {

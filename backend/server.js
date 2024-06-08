@@ -41,8 +41,8 @@ app.use('/business',businessRoute)
 const categoryRoute=require('./routes/category')
 app.use('/category',categoryRoute);
 
-// const recommendationRoute = require('./routes/recommendation');
-// app.use('/recommendation', recommendationRoute);
+const recommendationRoute = require('./routes/recommendation');
+app.use('/recommendation', recommendationRoute);
 
 const reviewRoute = require("./routes/review");
 app.use("/review", reviewRoute);

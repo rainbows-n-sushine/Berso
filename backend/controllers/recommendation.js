@@ -1,7 +1,7 @@
 const { Business } = require("../models/business");
 const { Review } = require("../models/review");
 const { Rating } = require("../models/rating");
-const brain = require('brain.js');
+// const brain = require('brain.js');
 const { User } = require("../models/user");
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
@@ -28,8 +28,9 @@ exports.getRecommendations = async (req, res) => {
 
     recommendedBusinesses.sort((a, b) => b.similarity - a.similarity);
     const topRecommendations = recommendedBusinesses.slice(0, 10).map(item => item.business);
+    console.log("this is top Recommmendations: ",topRecommendations)
 
-    res.json({ success: true, recommendations: topRecommendations });
+    res.json({ success: true, recommendations: topRecommendations ,});
   } catch (error) {
     console.error("Error generating recommendations:", error);
     res.status(500).json({ success: false, error: "Internal server error" });

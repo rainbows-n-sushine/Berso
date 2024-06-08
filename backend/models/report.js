@@ -18,6 +18,18 @@ const reportSchema = new mongoose.Schema({
     type: String,
     
   },
+  date: {
+    type: Date,
+    default: Date.now(),
+  },
+  status:{
+    type:String,
+    default:"pending"
+  },
+  type:{
+    type:String,
+    default:"Technical Issue"
+  }
 
   
 });
