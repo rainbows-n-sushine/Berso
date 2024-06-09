@@ -229,28 +229,33 @@ _categories.push(foundCategory.name)
         renderForeground={() => (
           <View className="flex-1 ">
             <View
-              style={tw`absolute bg-transparent rounded-xl top-30 left-3 flex-row justify-between p-2 items-center`}
+              style={tw`absolute bg-transparent rounded-xl top-27 left-3 flex-row justify-between p-2 items-center`}
             >
               <FontAwesome5 name="font" size={35} color="yellow" />
-              <View style={tw` justify-between pr-2 ml-2`}>
+              <View style={tw` justify-between ml-2 `}>
                 <Text
-                  // style={{ fontFamily: "berlin-sans" }}
-                  style={tw`text-white text-lg font-bold`}
+                  // style={}
+                  style={[
+                    tw`text-white text-xl font-bold`,
+                    { fontFamily: "berlin-sans" },
+                  ]}
                 >
                   {business.business_name}
                 </Text>
-                
-                  {categories.map((category)=>(
+
+                <View style={tw`flex-row flex-wrap `}>
+                  {categories.map((category, index) => (
                     <Text
-                  // style={{ fontFamily: "berlin-sans" }}
-                  style={tw`text-slate-300 text-sm`}
-                >{category},
-
-                  </Text>
-
-                  ))
-                   }
-                
+                      key={index}
+                      style={[
+                        tw`text-neutral-100 text-sm mr-2 mb-2`,
+                        { fontFamily: "berlin-sans" },
+                      ]}
+                    >
+                      {category},
+                    </Text>
+                  ))}
+                </View>
               </View>
             </View>
 
@@ -285,7 +290,7 @@ _categories.push(foundCategory.name)
                   </View>
                   <View style={tw`items-end`}>
                     <Text style={tw`ml-1 font-base text-lg`}>
-                      ({dummyPost.reviewnumber})reviews
+                      ({business.reviewnumber})reviews
                     </Text>
                   </View>
                 </View>
@@ -307,11 +312,13 @@ _categories.push(foundCategory.name)
               </View>
               <View
                 style={tw`flex-row mb-7 mt-2 justify-between items-center px-4`}
-              
               >
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("AddReview",{inBusiness:true,business_id:business._id});
+                    navigation.navigate("AddReview", {
+                      inBusiness: true,
+                      business_id: business._id,
+                    });
                   }}
                 >
                   <View style={tw`items-center mx-2`}>
@@ -320,9 +327,7 @@ _categories.push(foundCategory.name)
                       size={20}
                       color="black"
                     />
-                    <Text style={tw`text-base`}>
-                      Add Review
-                    </Text>
+                    <Text style={tw`text-base`}>Add Review</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -332,9 +337,7 @@ _categories.push(foundCategory.name)
                 >
                   <View style={tw`items-center  mx-2`}>
                     <Feather name="phone" size={20} color="black" />
-                    <Text style={tw`text-base`}>
-                      Call
-                    </Text>
+                    <Text style={tw`text-base`}>Call</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -344,14 +347,12 @@ _categories.push(foundCategory.name)
                 >
                   <View style={tw`items-center mx-2`}>
                     <Feather name="map-pin" size={20} color="black" />
-                    <Text style={tw`text-base`}>
-                      View map
-                    </Text>
+                    <Text style={tw`text-base`}>View map</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    Linking.openURL(business.website)
+                    Linking.openURL(business.website);
                   }}
                 >
                   <View style={tw`items-center mx-2`}>
@@ -360,9 +361,7 @@ _categories.push(foundCategory.name)
                       size={20}
                       color="black"
                     />
-                    <Text style={tw`text-base`}>
-                      Visit website
-                    </Text>
+                    <Text style={tw`text-base`}>Visit website</Text>
                   </View>
                 </TouchableOpacity>
               </View>
