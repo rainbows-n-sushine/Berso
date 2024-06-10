@@ -111,7 +111,7 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("EditUserProfile");
+              navigation.navigate("EditProfile");
             }}
           >
             <Entypo name="shop" size={22} color="black" />

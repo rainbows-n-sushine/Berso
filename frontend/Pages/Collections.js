@@ -21,7 +21,7 @@ const Collections = () => {
       id: "1",
       name: "Bistro Cafe",
       description: "A cozy place to enjoy coffee and snacks.",
-      image: "https://via.placeholder.com/150",
+      image: require("../assets/Images/HomeBG.jpg"),
     },
     {
       id: "2",
@@ -76,30 +76,35 @@ const Collections = () => {
           </>
         ) : userToken || businessOwnerToken ? (
           // <SafeAreaView>
-            <View style={tw`flex-1 flex p-3 w-screen`}>
-              <Text style={tw`text-2xl font-bold text-center mb-4`}>
-                My Collections
-              </Text>
-              <FlatList
-                data={favoriteBusinesses}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <View style={tw`bg-white p-4 mb-4 rounded-lg shadow`}>
-                    <Image
-                      source={{ uri: item.image }}
-                      style={tw`w-full h-40 rounded-lg mb-4`}
-                      resizeMode="cover"
-                    />
-                    <Text style={tw`text-xl font-bold`}>{item.name}</Text>
-                    <Text style={tw`text-gray-600`}>
-                      {item.description}
-                    </Text>
-                  </View>
-                )}
-              />
-            </View>
-          // </SafeAreaView>
+          <View style={tw`flex-1  p-3 w-full mt-10  w-96`}>
+            <Text
+              style={[
+                tw`text-3xl font-bold text-center mb-4 text-orange-500`,
+                { fontFamily: "berlin-sans" },
+              ]}
+            >
+              My Collections
+            </Text>
+            <FlatList
+              data={favoriteBusinesses}
+              keyExtractor={(item) => item.id}
+              renderItem={({ item }) => (
+                <View
+                  style={tw`bg-white p-4 mb-4 rounded-lg shadow w-full bg-orange-100`}
+                >
+                  <Image
+                    source={{ uri: item.image }}
+                    style={tw`w-full h-40 rounded-lg mb-4`}
+                    resizeMode="cover"
+                  />
+                  <Text style={tw`text-xl font-bold`}>{item.name}</Text>
+                  <Text style={tw`text-gray-600`}>{item.description}</Text>
+                </View>
+              )}
+            />
+          </View>
         ) : (
+          // </SafeAreaView>
           <>
             <SafeAreaView style={tw`flex items-center justify-between`}>
               <Image

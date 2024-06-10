@@ -121,7 +121,10 @@ const AddPhoto = ({ route }) => {
   return (
     <ScrollView style={tw`flex-1 p-4 m-3`}>
       <Text
-        style={[tw`text-2xl font-bold mb-4`, { fontFamily: "berlin-sans" }]}
+        style={[
+          tw`text-2xl font-bold mb-4 text-orange-500`,
+          { fontFamily: "berlin-sans" },
+        ]}
       >
         Add Photos
       </Text>
