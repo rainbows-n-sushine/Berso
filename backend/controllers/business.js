@@ -9,17 +9,37 @@ exports.registerBusiness = async (req, res) => {
     console.log(business)
     console.log(categories)
     const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
-
-    console.log('this is the business from the frontend: ',business)
-    try {
-      // if (!businessOwnerId) {
-      //   throw new Error('Missing businessOwnerId');
-      // }
+    if (businessOwnerId){
+      try {
   
-      // const isValidObjectId = mongoose.Types.ObjectId.isValid(businessOwnerId);
-      // if (!isValidObjectId) {
-      //   throw new Error('Invalid businessOwnerId');
-      // }
+        const business_db = new Business({
+          business_name: businessName,
+          email: email,
+          phone: phone,
+          website: website,
+          location: location,
+          address: address,
+          business_days: businessDays,
+          opening_hours: openingHours,
+          average_price: averagePrice,
+          description: description,
+          category: categories,
+          business_owner: businessOwnerId, // Convert string to ObjectId
+        });
+    
+        await business_db.save();
+        console.log(business_db);
+    
+        res.json({ message: "Business successfully created", success: true, business: business_db });
+      } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: "Error while creating business" });
+      }
+
+
+    }else{
+      
+      try {
   
       const business_db = new Business({
         business_name: businessName,
@@ -33,7 +53,7 @@ exports.registerBusiness = async (req, res) => {
         average_price: averagePrice,
         description: description,
         category: categories,
-        business_owner: businessOwnerId, // Convert string to ObjectId
+       // Convert string to ObjectId
       });
   
       await business_db.save();
@@ -45,6 +65,8 @@ exports.registerBusiness = async (req, res) => {
       res.json({ success: false, message: "Error while creating business" });
     }
 
+
+    }
 };
 
 exports.fetchByCategory = async (req, res) => {

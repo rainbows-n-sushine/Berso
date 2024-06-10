@@ -132,6 +132,7 @@ async function getUserPreferences(userId) {
 
     for (const business of favoriteBusinesses) {
       const categories = business.category;
+      
 
       for (const category of categories) {
         if (userPreferences[category]) {
@@ -160,12 +161,12 @@ async function getUserPreferences(userId) {
     }
 
     for (const category in userPreferences) {
-      userPreferences[category] /= userReviews.length;
+      userPreferences[category] /= userRating.length;
     }
 
     return userPreferences;
   } catch (error) {
-    console.error("Error retrieving user preferences:", error);
+    console.error("Error retrieving user preferences:", error.message);
     throw error;
   }
 }
