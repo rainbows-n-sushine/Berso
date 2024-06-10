@@ -70,6 +70,7 @@ const [animate, setAnimate] = useState(false);
     }
 
     const fetchRecommendations=async()=>{
+      console.log('this is the userId: ',userId, " and userToken ",userToken)
 
       console.log('im in fetch receommendations')
 

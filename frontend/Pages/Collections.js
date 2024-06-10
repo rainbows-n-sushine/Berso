@@ -13,8 +13,7 @@ import { AuthContext } from "../context/AuthContext";
 import tw from "twrnc";
 
 const Collections = () => {
-  const [userToken, setUserToken] = useState(null);
-  const [businessOwnerToken, setBusinessOwnerToken] = useState(null);
+  const {userToken,businessOwnerToken, userId,businessOwnerId}=useContext(AuthContext)
   const [displayCollection, setDisplayCollection] = useState(false);
   const favoriteBusinesses = [
     {
@@ -40,20 +39,7 @@ const Collections = () => {
   // const {businessOwnerToken}=useContext(AuthContext)
 
   useEffect(() => {
-    async function getToken() {
-      console.log(userToken);
-      let _userToken = await AsyncStorage.getItem("userToken");
-      let _businessOwnerToken = await AsyncStorage.getItem("businessOwnerToken");
-      console.log(displayCollection);
-      setUserToken(_userToken);
-      setBusinessOwnerToken(_businessOwnerToken)
-      if (token === null) {
-        setDisplayCollection(false);
-      } else {
-        setDisplayCollection(true);
-      }
-    }
-    getToken();
+    
   }, []);
 
   const navigation = useNavigation();

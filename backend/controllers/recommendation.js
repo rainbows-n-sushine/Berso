@@ -12,9 +12,11 @@ const analyzer = new Analyzer("English", stemmer, "afinn");
 
 exports.getRecommendations = async (req, res) => {
   try {
+    console.log('im here')
     const {userId} = req.params;
-
+    console.log('im here')
     const userPreferences = await getUserPreferences(userId);
+    console.log('im here')
     const businesses = await Business.find();
 
     const tfidfScores = calculateTFIDF(businesses);
