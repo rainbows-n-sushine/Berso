@@ -455,3 +455,105 @@ exports.getPersonalizedCategoryRecommendations = async (req, res) => {
     res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
+
+exports.evaluateRecommendationAccuracy = async (req, res) => {
+  try {
+    const trainingUsers = await User.find({ /* we need data ezi gar real ones */ });
+    const testingUsers = await User.find({ /* we need data ezi gar real ones */ });
+
+    const businessData = await Business.find();
+    const tfidfScores = calculateTFIDF(businessData);
+
+    let totalPrecision = 0;
+    let totalRecall = 0;
+
+    for (const user of testingUsers) {
+      const userPreferences = await getUserPreferences(user._id);
+      const userVector = createUserVector(userPreferences, tfidfScores);
+
+      const recommendations = await getPersonalizedRecommendations(user._id, userVector, businessData, tfidfScores);
+      const actualInteractions = [...user.favorites, ...user.ratedBusinesses];
+
+      const recommendedSet = new Set(recommendations);
+      const actualSet = new Set(actualInteractions);
+
+      const intersection = [...recommendedSet].filter(businessId => actualSet.has(businessId));
+
+      const precision = intersection.length / recommendedSet.size;
+      const recall = intersection.length / actualSet.size;
+
+      totalPrecision += precision;
+      totalRecall += recall;
+    }
+
+    const averagePrecision = totalPrecision / testingUsers.length;
+    const averageRecall = totalRecall / testingUsers.length;
+
+    res.json({
+      success: true,
+      precision: averagePrecision,
+      recall: averageRecall
+    });
+  } catch (error) {
+    console.error("Error evaluating recommendation accuracy:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getSimilarBusinesses = async (req, res) => {
+  try {
+    const businessId = req.params.businessId;
+    const currentBusiness = await Business.findById(businessId);
+
+    if (!currentBusiness) {
+      return res.status(404).json({ success: false, error: "Business not found" });
+    }
+
+    const similarBusinesses = await Business.find({
+      _id: { $ne: businessId },
+      category: { $in: currentBusiness.category }
+    }).limit(10);
+
+    res.json({ success: true, businesses: similarBusinesses });
+  } catch (error) {
+    console.error("Error getting similar businesses:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getHighRatedBusinesses = async (req, res) => {
+  try {
+    const businesses = await Business.aggregate([
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "business",
+          as: "ratings"
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          description: 1,
+          category: 1,
+          location: 1,
+          image: 1,
+          avgRating: { $avg: "$ratings.rating" }
+        }
+      },
+      {
+        $sort: { avgRating: -1 }
+      },
+      {
+        $limit: 10
+      }
+    ]);
+
+    res.json({ success: true, businesses: businesses });
+  } catch (error) {
+    console.error("Error getting high-rated businesses:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};

@@ -15,5 +15,7 @@ router.get("/top-rated", recommendationController.getTopRatedBusinesses);
 router.get("/category/:category", recommendationController.getBusinessesByCategory);
 router.get("/user-sentiment", isAuth, recommendationController.getUserSentiment);
 router.get("/personalized-categories", isAuth, recommendationController.getPersonalizedCategoryRecommendations);
-
+router.get("/evaluate-accuracy", recommendationController.evaluateRecommendationAccuracy);
+router.get("/similar/:businessId", recommendationController.getSimilarBusinesses);
+router.get("/high-rated", recommendationController.getHighRatedBusinesses);
 module.exports = router;
