@@ -35,6 +35,62 @@ const BusinessRegistration = ({ route }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [businessOwnerId, setBusinessOwnerId] = useState("");
+ const [business, setBusiness] = useState({
+    businessName: "",
+    email: "",
+    phone: "",
+    website: "",
+    address: "",
+    businessDays: "",
+    openingHours: "",
+    averagePrice: "",
+    description: "",
+    latitude:"",
+    longitude:""
+  });
+  const [categories, setCategories] = useState([]);
+  const [categoriesFetched, setCategoriesFetched] = useState([]);
+  const [selected, setSelected] = useState([]);
+
+
+  const markers=route?.params?.markers
+ markers? console.log('this is the markers: ',markers): console.log('')
+  const latitude = markers?.latitude || 0;
+  const longitude = markers?.longitude || 0;
+
+
+  // const {markers}=route.params
+
+
+  // console.log("Latitude:", latitude);
+  // console.log("Longitude:", longitude);
+
+  //setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
+ 
+
+  // const data = [
+  //   { key: "1", value: "Restaurants", disabled: false },
+  //   { key: "2", value: "Shops", disabled: false },
+  //   { key: "3", value: "Hotels", disabled: false },
+  //   { key: "4", value: "Malls", disabled: true },
+  //   { key: "5", value: "Hair Salons", disabled: false },
+
+  // ];
+  
+useEffect(() => {
+ 
+  
+  if(markers){
+    setBusiness((preValue) => ({
+      ...preValue,
+      latitude,
+      longitude,
+    }));
+
+  }
+  
+}, [markers]);
+
 
   useEffect(() => {
     const checkOwner = async () => {
@@ -49,33 +105,11 @@ const BusinessRegistration = ({ route }) => {
       }
     };
     checkOwner();
+
   }, []);
 
-  const [business, setBusiness] = useState({
-    businessName: "",
-    email: "",
-    phone: "",
-    website: "",
-    location: "",
-    address: "",
-    businessDays: "",
-    openingHours: "",
-    averagePrice: "",
-    description: "",
-  });
-  const [categories, setCategories] = useState([]);
-  const [categoriesFetched, setCategoriesFetched] = useState([]);
 
-  //setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
-  const [selected, setSelected] = useState([]);
-
-  const data = [
-    { key: "1", value: "Restaurants", disabled: false },
-    { key: "2", value: "Shops", disabled: false },
-    { key: "3", value: "Hotels", disabled: false },
-    { key: "4", value: "Malls", disabled: true },
-    { key: "5", value: "Hair Salons", disabled: false },
-  ];
+ 
 
   useEffect(() => {
     async function loadFonts() {
@@ -240,24 +274,19 @@ const BusinessRegistration = ({ route }) => {
   const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jpg");
 
   // this is what i added
-  const [businessLocation, setBusinessLocation] = useState("");
+ 
 
-  const handleLocationPress = () => {
-    navigation.navigate("Maps", { setBusinessLocation });
-  };
+  // const handleLocationPress = () => {
+  //   navigation.navigate("Maps");
+  // };
 
-  console.log("Route params:", route.params);
+ 
 
   // Check if route.params exists and has the location property
-  const location = route?.params?.location;
-  console.log("Location:", location);
+
 
   // Check if location is defined before accessing its properties
-  const latitude = location?.latitude || 0;
-  const longitude = location?.longitude || 0;
 
-  console.log("Latitude:", latitude);
-  console.log("Longitude:", longitude);
   // until this
 
   return (
@@ -456,11 +485,12 @@ const BusinessRegistration = ({ route }) => {
                     handleChange("website", text);
                   }}
                 />
-                <TouchableOpacity onPress={handleLocationPress}>
+                <TouchableOpacity onPress={()=>{
+                  navigation.navigate('Maps')
+                }}>
                   <TextInput
                     style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80  px-4 mb-4`}
                     placeholder="Press to add Location"
-                    value={location}
                     editable={false}
                   />
                 </TouchableOpacity>
@@ -480,12 +510,12 @@ const BusinessRegistration = ({ route }) => {
                   <Text
                     style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  p-3 mb-4`}
                   >
-                    Latitude: {latitude}
+                    Latitude: {business.latitude}
                   </Text>
                   <Text
                     style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  p-3 mb-4`}
                   >
-                    Longitude: {longitude}
+                    Longitude: {business.longitude}
                   </Text>
                 </View>
 

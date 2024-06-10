@@ -77,8 +77,14 @@ const businessSchema=new mongoose.Schema({
     rating_count: {
         type: Number,
         default: 0,
+    },
+    
+    latitude:{
+        type:Number,
+    },
 
-
+    longitude:{
+        type:Number,
     },
     review_count:{
         type: Number,

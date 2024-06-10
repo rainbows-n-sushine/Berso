@@ -8,14 +8,14 @@ exports.registerBusiness = async (req, res) => {
     const {business,categories,businessOwnerId}=req.body
     console.log(business)
     console.log(categories)
-    const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
+    const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description,latitude,longitude}= business
     if (businessOwnerId){
       try {
   
         const business_db = new Business({
           business_name: businessName,
           email: email,
-          phone: phone,
+          phone: phone, 
           website: website,
           location: location,
           address: address,
@@ -25,6 +25,8 @@ exports.registerBusiness = async (req, res) => {
           description: description,
           category: categories,
           business_owner: businessOwnerId, // Convert string to ObjectId
+          latitude,
+          longitude
         });
     
         await business_db.save();
