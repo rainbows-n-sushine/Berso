@@ -10,17 +10,20 @@ import {
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../context/AuthContext";
+import api from '../util/Util'
 import tw from "twrnc";
 
 const Collections = () => {
-  const {userToken,businessOwnerToken, userId,businessOwnerId}=useContext(AuthContext)
+  const {userToken,businessOwnerToken, userId,businessOwnerId,isLoading}=useContext(AuthContext)
   const [displayCollection, setDisplayCollection] = useState(false);
+  const navigation = useNavigation();
+
   const favoriteBusinesses = [
     {
       id: "1",
       name: "Bistro Cafe",
       description: "A cozy place to enjoy coffee and snacks.",
-      image: require("../assets/Images/HomeBG.jpg"),
+      image: "../assets/Images/HomeBG.jpg",
     },
     {
       id: "2",
@@ -42,8 +45,6 @@ const Collections = () => {
     
   }, []);
 
-  const navigation = useNavigation();
-  const { isLoading } = useContext(AuthContext);
 
   return (
     <View style={tw`flex-1 bg-white items-center justify-between p-4`}>
@@ -54,13 +55,14 @@ const Collections = () => {
         <Text className="text-xl">here r the collections</Text>
         }
          */}
-        {isLoading ? (
+        {/* {isLoading ? (
           <>
             <View>
               <Text>Loading...</Text>
             </View>
           </>
-        ) : userToken || businessOwnerToken ? (
+        ) : */}
+        { userToken || businessOwnerToken ? (
           // <SafeAreaView>
           <View style={tw`flex-1  p-3 w-full mt-10  w-96`}>
             <Text
