@@ -1,4 +1,4 @@
-// SettingsScreen.js
+
 import React, { useState } from 'react';
 import { View, Text, Switch, TouchableOpacity, SafeAreaView } from 'react-native';
 import tw from 'twrnc';

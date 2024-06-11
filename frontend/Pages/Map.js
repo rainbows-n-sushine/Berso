@@ -4,11 +4,11 @@ import MapView, { Marker } from "react-native-maps";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
-import api from '../util/Util'
+import api from "../util/Util";
 
 const Maps = ({ route }) => {
   const { setLocation } = route.params;
-  const [region,setRegion]=useState({})
+  const [region, setRegion] = useState({});
   const [userLocation, setUserLocation] = useState(null);
   const [markers, setMarkers] = useState([]);
   const navigation = useNavigation();
@@ -25,8 +25,11 @@ const Maps = ({ route }) => {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    console.log('this is the location coords in getLocationAsync',location.coords)
-    setRegion(location.coords);
+    console.log(
+      "this is the location coords in getLocationAsync",
+      location.coords
+    );
+    setUserLocation(location.coords);
   };
 
   const handleMapPress = (event) => {
@@ -73,7 +76,9 @@ const Maps = ({ route }) => {
                 latitude: marker.latitude,
                 longitude: marker.longitude,
               }}
-              onPress={(event)=>{console.log('Marker was pressed: ',event.nativeEvent)}}
+              onPress={(event) => {
+                console.log("Marker was pressed: ", event.nativeEvent);
+              }}
             />
           ))}
         </MapView>
