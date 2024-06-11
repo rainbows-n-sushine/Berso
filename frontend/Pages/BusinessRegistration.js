@@ -258,6 +258,13 @@ const BusinessRegistration = ({ route }) => {
 
   const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jpg");
 
+
+
+
+
+
+
+
   // this is what i added
   const [businessLocation, setBusinessLocation] = useState("");
 
@@ -562,11 +569,6 @@ const BusinessRegistration = ({ route }) => {
                 </Text>
               </TouchableOpacity>
             </View>
-
-            {/* <View style={tw`flex-row justify-center mt-8`}>
-              <Text style={tw`text-sm text-white`}>Already registered? </Text>
-              <Text style={tw`text-sm fontbold text-orange-500`}>Login</Text>
-            </View> */}
           </View>
         </View>
       </ScrollView>

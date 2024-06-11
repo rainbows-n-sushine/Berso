@@ -71,13 +71,16 @@ const BusinessList = ({ route }) => {
 
   return (
     <ScrollView style={tw`p-4`}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
+        <FontAwesome name="angle-left" size={30} color="black" />
+      </TouchableOpacity>
       <Text style={tw`text-2xl font-bold mb-4`}>List of {category.name}</Text>
       <View style={tw`flex-row flex-wrap justify-between`}>
         {businesses.map((business) => (
           <View key={business._id} style={tw`w-full md:w-1/2 lg:w-1/3 p-2`}>
             <TouchableOpacity
               onPress={() => {
-                navigation.navigate("BusinessPage",{business:business});
+                navigation.navigate("BusinessPage", { business: business });
               }}
               style={tw`bg-orange-50 p-4 rounded-md`}
             >
@@ -105,7 +108,9 @@ const BusinessList = ({ route }) => {
                   </Text>
                 </View>
               </View>
-              <Text style={tw`text-sm text-[#6e6d72]`}>{business.average_price}</Text>
+              <Text style={tw`text-sm text-[#6e6d72]`}>
+                {business.average_price}
+              </Text>
             </TouchableOpacity>
           </View>
         ))}

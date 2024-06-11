@@ -22,6 +22,8 @@ const SearchBusinessScreen = () => {
   const [location, setLocation] = useState(null);
   const [businesses, setBusinesses] = useState([]);
   const [showMap, setShowMap] = useState(false);
+const [selectedLocation, setSelectedLocation] = useState(null);
+
 
   const googleAPI = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
 
@@ -70,8 +72,13 @@ const SearchBusinessScreen = () => {
       params: { address: place.formatted_address },
     });
   };
-const handleMarkerPress = (business) => {
-  navigation.navigate("BusinessPage", { businessId: business.id }); 
+// const handleMarkerPress = (business) => {
+//   navigation.navigate("BusinessPage", { businessId: business.id }); 
+// };
+
+const handleMarkerPress = (businessLocation) => {
+  // Navigate to the location of the pressed business
+  navigation.navigate("BusinessLocation", { businessLocation });
 };
   return (
     <SafeAreaView style={tw`flex-1 mt-5 bg-[#F2E8DE]`}>
@@ -108,6 +115,13 @@ const handleMarkerPress = (business) => {
                 onPress={() => handleMarkerPress(business)}
               />
             ))}
+            {selectedLocation && (
+              <Marker
+                coordinate={selectedLocation}
+                title={selectedLocation.name} // Use the name from selectedLocation for the marker title
+                onPress={() => handleMarkerPress(selectedLocation)}
+              />
+            )}
           </MapView>
           <View style={tw`absolute top-5 left-5 right-5`}>
             <View style={tw`rounded-lg bg-white p-2 mb-3`}>
@@ -115,10 +129,42 @@ const handleMarkerPress = (business) => {
                 <TouchableOpacity onPress={() => navigation.goBack()}>
                   <FontAwesome name="angle-left" size={20} color="black" />
                 </TouchableOpacity>
-                <TextInput
-                  style={tw`flex-1 text-base font-bold text-gray-400 ml-2 border-b border-gray-300`}
+                <GooglePlacesAutocomplete
                   placeholder="Search for nearby restaurants, salons..."
-                  onSubmitEditing={() => navigation.navigate("SearchResults")}
+                  onPress={(data, details = null) => {
+                    setSelectedLocation({
+                      latitude: details.geometry.location.lat,
+                      longitude: details.geometry.location.lng,
+                      name: data.description,
+                    });
+                    // navigation.navigate("SearchResults");
+                  }}
+                  query={{
+                    key: "AIzaSyCtDW4jRZWtvcOXLrG8jw-TxigqnS3wT4Q",
+                    language: "en", // language of the results
+                    components: "country:ET", // Restrict to United States
+                    types: "establishment",
+                  }}
+                  styles={{
+                    textInput: {
+                      flex: 1,
+                      fontSize: 16,
+                      fontWeight: "bold",
+                      color: "#333",
+                      marginLeft: 2,
+                      borderBottomWidth: 1,
+                      borderBottomColor: "#ccc",
+                    },
+                    predefinedPlacesDescription: {
+                      color: "#1faadb",
+                    },
+                  }}
+                  currentLocationLabel="Current location"
+                  enableHighAccuracyLocation={true}
+                  fetchDetails={true}
+                  nearbyPlacesAPI="GooglePlacesSearch"
+                  debounce={200}
+                  listViewDisplayed="auto"
                 />
               </View>
             </View>
