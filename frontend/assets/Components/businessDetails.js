@@ -281,7 +281,7 @@ const dummyServices = [
 ];
 const Services = () => (
   <View style={tw`flex-1 bg-gray-100 py-5 px-4`}>
-    <FlatList
+    {/* <FlatList
       data={dummyServices}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
@@ -337,7 +337,7 @@ const Services = () => (
           </View>
         </View>
       )}
-    />
+    /> */}
   </View>
 );
 
@@ -472,16 +472,7 @@ const Pictures = () => (
 
 const MoreLikeThis = () => (
   <ScrollView style={tw`p-4`}>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Ice Cream</Text>
-    </View>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Brownie</Text>
-    </View>
+   
   </ScrollView>
 );
 

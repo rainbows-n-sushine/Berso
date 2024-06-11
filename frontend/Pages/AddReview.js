@@ -20,7 +20,7 @@ import { SelectList } from "react-native-dropdown-select-list";
 import { StarRating } from "../assets/Components/starRating";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const AddReview = ({ navigation,route}) => {
+const AddReview = ({ navigation, route }) => {
   const [review, setReview] = useState({
     title: "",
     description: "",
@@ -28,16 +28,16 @@ const AddReview = ({ navigation,route}) => {
 
   const [rating, setRating] = useState(0);
   const [images, setImages] = useState([]);
-  const {userId}=useContext(AuthContext)
-  const [businesses,setBusinesses]=useState([])
-  const [businessId,setBusinessId]=useState('')
-  const [searchText, setSearchText] = useState('');
+  const { userId } = useContext(AuthContext);
+  const [businesses, setBusinesses] = useState([]);
+  const [businessId, setBusinessId] = useState("");
+  const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [selectedBusiness, setSelectedBusiness] = useState("");
-  const {inBusiness,business_id}=route.params
+  const { inBusiness, business_id } = route.params;
 
   useEffect(() => {
-    setBusinessId(business_id)
+    setBusinessId(business_id);
     const fetchBusinesses = async () => {
       await api
         .get("business/fetch-all")
@@ -57,44 +57,35 @@ const AddReview = ({ navigation,route}) => {
     fetchBusinesses();
   }, []);
 
-  useEffect(()=>{
-    
-    const fetchBusinesses=async()=>{
-
-      console.log('mi in sahsd')
-      const user=await AsyncStorage.getItem('userId')
-      const token=await AsyncStorage.getItem('userToken')
-      console.log('this is the id of the user  ',userId)
-      console.log('this is the tokem of the user  ',token)
-
+  useEffect(() => {
+    const fetchBusinesses = async () => {
+      console.log("mi in sahsd");
+      const user = await AsyncStorage.getItem("userId");
+      const token = await AsyncStorage.getItem("userToken");
+      console.log("this is the id of the user  ", userId);
+      console.log("this is the tokem of the user  ", token);
 
       // setUserId(user)
-      await api.get('business/fetch-all')
-      .then((res)=>{
-        const data=res.data
-        if(data.success){
-          console.log('this is the businesses fetched',data.businesses)
-          setBusinesses(data.businesses)
+      await api
+        .get("business/fetch-all")
+        .then((res) => {
+          const data = res.data;
+          if (data.success) {
+            console.log("this is the businesses fetched", data.businesses);
+            setBusinesses(data.businesses);
 
+            setSearchResults(data.businesses);
+            return console.log(data.message);
+          }
+          console.log(data.message);
+        })
+        .catch((error) => {
+          console.log("error in fetchBusinesses in AddReview: ", error.message);
+        });
+    };
+    fetchBusinesses();
+  }, []);
 
-          setSearchResults(data.businesses)
-          return  console.log(data.message)
-        }
-        console.log(data.message)
-
-      })
-      .catch((error)=>{
-        console.log("error in fetchBusinesses in AddReview: ",error.message)
-
-      })}
-      fetchBusinesses();
-
-  },[])
-
-
-
-  
-   
   const pickImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     if (status !== "granted") {
@@ -130,80 +121,76 @@ const AddReview = ({ navigation,route}) => {
   };
 
   const submitReview = async () => {
-
-    console.log('review ',review,"rating ",rating,"businessId :",businessId,"userId ",userId)
+    console.log(
+      "review ",
+      review,
+      "rating ",
+      rating,
+      "businessId :",
+      businessId,
+      "userId ",
+      userId
+    );
     if (!review && !rating) {
       Alert.alert("Error", "Please provide a review or rating.");
       return;
     }
 
-    console.log("Review submitted:",  review );
-    console.log('this is the businessId: ', businessId)
-    console.log('this is the userId: ', userId)
-    if(review.description){
-await api.post('review/add',{review,userId,businessId,images})
-.then((res)=>{
-
-  if(res.success){
-
-    Alert.alert(res.data.message)
-    
-
-  }else{
-    Alert.alert(res.data.message)
-    
-  }
-})
-.catch((error)=>{
-  if(error){
-    console.log(error)
-  }
-})
-
-    }else{
-      return Alert.alert('enter a review description')
+    console.log("Review submitted:", review);
+    console.log("this is the businessId: ", businessId);
+    console.log("this is the userId: ", userId);
+    if (review.description) {
+      await api
+        .post("review/add", { review, userId, businessId, images })
+        .then((res) => {
+          if (res.success) {
+            Alert.alert(res.data.message);
+          } else {
+            Alert.alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            console.log(error);
+          }
+        });
+    } else {
+      return Alert.alert("enter a review description");
     }
 
-// if (images.length!==0){
+    // if (images.length!==0){
 
-//   await api.post('reviewImages/add',{images})
-//   .then((res)=>{
-//     console.log(res.data.message)
-//     })
-//     .catch((error)=>{
-//       if(error){
-//        console.log("this is the error in reviewImages: ",error.message) 
+    //   await api.post('reviewImages/add',{images})
+    //   .then((res)=>{
+    //     console.log(res.data.message)
+    //     })
+    //     .catch((error)=>{
+    //       if(error){
+    //        console.log("this is the error in reviewImages: ",error.message)
 
-//       }})
-// }
+    //       }})
+    // }
 
-
-if(rating>0){
-  console .log('rating is more than 0')
-await api.post('rating/create',{rating,userId,businessId})
-.then((res)=>{
-
-  if(res.success){
-
-    Alert.alert("you have successfully rated the business")
-    
-
-  }else{
-    Alert.alert(res.data.message)
-    
-  }
-})
-.catch((error)=>{
-  if(error){
-    console.log(error)
-  }
-})
-
-}else{
-  navigation.navigate('Home')
-}
-navigation.navigate('Home')
-
+    if (rating > 0) {
+      console.log("rating is more than 0");
+      await api
+        .post("rating/create", { rating, userId, businessId })
+        .then((res) => {
+          if (res.success) {
+            Alert.alert("you have successfully rated the business");
+          } else {
+            Alert.alert(res.data.message);
+          }
+        })
+        .catch((error) => {
+          if (error) {
+            console.log(error);
+          }
+        });
+    } else {
+      navigation.navigate("Home");
+    }
+    navigation.navigate("Home");
 
     // Clear the form
     setReview("");
@@ -229,25 +216,23 @@ navigation.navigate('Home')
   //     </View>
   //   );
   // };
-  
+
   //search functions
 
-  const  handleSearchTextChange=(text)=>{
-    console.log('this is the search text :',searchText)
-    console.log('this is teh searchResults: ',searchResults)
-      
-    const results=businesses.filter((business)=>(
-      business.business_name.toLowerCase().includes(text.toLowerCase())
-    ))
-    setSearchResults(results)
-    
+  const handleSearchTextChange = (text) => {
+    console.log("this is the search text :", searchText);
+    console.log("this is teh searchResults: ", searchResults);
 
-  }
-  
+    const results = businesses.filter((business) =>
+      business.business_name.toLowerCase().includes(text.toLowerCase())
+    );
+    setSearchResults(results);
+  };
+
   const handleSearch = (text) => {
-    const results = businesses.filter((business)=>(
+    const results = businesses.filter((business) =>
       business.business_name.includes(text)
-    ))
+    );
     setSearchResults(results);
   };
 
@@ -255,7 +240,7 @@ navigation.navigate('Home')
     const selected = businesses.find(
       (business) => business._id.toString() === val
     );
-    console.log('this is the value of selected business: ',selected)
+    console.log("this is the value of selected business: ", selected);
     if (selected) {
       setSelectedBusiness(selected.business_name);
       setBusinessId(selected._id);

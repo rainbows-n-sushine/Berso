@@ -106,6 +106,7 @@ const getIconName = (icon) => {
         data={categories}
         renderItem={renderItem}
         keyExtractor={(item) => item.id}
+        inverted
       />
     </SafeAreaView>
   );

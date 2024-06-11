@@ -17,7 +17,7 @@ import { useNavigation } from "@react-navigation/native";
 
 const BusinessList = ({ route }) => {
   const { category } = route.params;
-  const dummyImage=require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg")
+  const dummyImage = require("../assets/Images/businesslist.jpg");
 
   const dummyData = [
     {
