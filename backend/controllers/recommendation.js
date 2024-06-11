@@ -127,6 +127,7 @@ function calculateRelevance(review) {
 async function getUserPreferences(userId) {
   try {
     const user = await User.findById(userId).populate("favorites");
+    const userPreferences = {};
     const favoriteBusinesses = user.favorites;
     if (!user) {
       throw new Error("User not found");
@@ -146,7 +147,6 @@ async function getUserPreferences(userId) {
     }
 
     const userRating = await Rating.find({ user: userId }).populate("business");
-    const userPreferences = {};
 
     for (const rating of userRating) {
       const business = rating.business;
