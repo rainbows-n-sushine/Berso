@@ -110,6 +110,11 @@ const BusinessPage = ({route}) => {
       fetchReviews()
     }, 1000); // Replace with actual data fetching logic
   }, []);
+  const handleCallClick=()=>{
+
+
+
+  }
 
 
 
@@ -430,9 +435,7 @@ _categories.push(foundCategory.name)
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => {handleCall
-                    
-                  }}
+                  onPress={handleCall}
                 >
                   <View style={tw`items-center  mx-2`}>
                     <Feather name="phone" size={20} color="black" />
