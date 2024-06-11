@@ -64,11 +64,11 @@ const More = () => {
 
   useEffect(() => {
     console.log('im in more useeffect')
-    if(businessOwnerToken!==""){
+    if(businessOwnerToken){
       setIsBusinessOwner(true)
       setIsUser(false)
     }
-    else if(userToken!==""){
+    else if(userToken){
       setIsUser(true)
       setIsBusinessOwner(false)
     }else{
