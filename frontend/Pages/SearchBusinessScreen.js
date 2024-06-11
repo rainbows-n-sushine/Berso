@@ -19,7 +19,7 @@ const SearchBusinessScreen = () => {
   const setCoordinates = useAppContext();
   const navigation = useNavigation();
   const [headerVisible, setHeaderVisible] = useState(false);
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState({});
   const [businesses, setBusinesses] = useState([]);
   const [showMap, setShowMap] = useState(false);
 const [selectedLocation, setSelectedLocation] = useState(null);
@@ -100,18 +100,19 @@ const handleMarkerPress = (businessLocation) => {
                   latitude: location.latitude,
                   longitude: location.longitude,
                 }}
-                title={"Your Location"}
+                onRegionChange={(newLocation)=>{setLocation(newLocation)}}
+                title="Your Location"
                 // style={tw`bg-orange-500`}
               />
             )}
             {businesses.map((business) => (
               <Marker
-                key={business.id}
+                key={business._id}
                 coordinate={{
                   latitude: business.latitude,
                   longitude: business.longitude,
                 }}
-                title={business.name}
+                title={business.business_name}
                 onPress={() => handleMarkerPress(business)}
               />
             ))}

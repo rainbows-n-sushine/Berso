@@ -419,11 +419,19 @@ _categories.push(foundCategory.name)
               >
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("AddReview", {
-                      inBusiness: true,
-                      business_id: business._id,
-                    });
-                  }}
+                    if(isUser){
+                      navigation.navigate("AddReview", {
+                        inBusiness: true,
+                        business_id: business._id,
+                      });
+                    
+
+                    }else{
+                      navigation.navigate("Login")
+
+
+                    }}}
+                   
                 >
                   <View style={tw`items-center mx-2`}>
                     <MaterialCommunityIcons
@@ -444,7 +452,7 @@ _categories.push(foundCategory.name)
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate("AddBusiness");
+                    navigation.navigate("MapForBusiness", {business:business});
                   }}
                 >
                   <View style={tw`items-center mx-2`}>

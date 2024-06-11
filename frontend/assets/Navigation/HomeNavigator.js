@@ -8,6 +8,7 @@ import SearchResultsScreen from "../../Pages/SearchResultsScreen";
 import BusinessList from "../../Pages/BusinessList";
 import BusinessPage from '../../Pages/BusinessPage';
 import AddReview from '../../Pages/AddReview';
+import MapForBusiness from '../../Pages/MapForBusiness'
 import CatagoriesList from '../../Pages/CatagoriesList';
 import Maps from '../../Pages/Map';
 
@@ -38,6 +39,11 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="BusinessPage"
         component={BusinessPage}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="MapForBusiness"
+        component={MapForBusiness}
         options={{ headerShown: true }}
       />
       <Stack.Screen
