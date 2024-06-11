@@ -17,7 +17,7 @@ const Collections = () => {
   const {userToken,businessOwnerToken, userId,businessOwnerId,isLoading}=useContext(AuthContext)
   const [displayCollection, setDisplayCollection] = useState(false);
   const navigation = useNavigation();
-  const image=require( "../assets/Images/HomeBG.jpg")
+  // const image={require("../assets/Images/HomeBG.jpg")}
   const [favorites,setFavorites]=useState([])
 
   const favoriteBusinesses = [
@@ -45,17 +45,22 @@ const Collections = () => {
 
   useEffect(() => {
     fetchFavorites();
+    console.log("these are favorites: ",favorites)
     
-  }, []);
+  }, [setFavorites]);
   
   const fetchFavorites=async()=>{
+    console.log('im in fetch favorirte s')
+    console.log('this is the userId: ',userId)
     await api.get(`user/fetch-user-specific-favorites/${userId}`)
     .then((res)=>{
-      console.log('this im in favorite fetching api, here are teh favs',res.data.favorites)
+      console.log('this im in favorite fetching api, here are teh favs ', res.data.favorites)
       
 
       if(res.data.success){
+        console.log('success is real')
         setFavorites(res.data.favorites)
+        setDisplayCollection(true)
       }
     }).catch((error)=>{
       if(error){console.log(error.message)}
@@ -93,20 +98,24 @@ const Collections = () => {
               My Collections
             </Text>
             <FlatList
-              data={favoriteBusinesses}
-              keyExtractor={(item) => item.id}
+              data={favorites}
+              keyExtractor={(item) => item._id}
               renderItem={({ item }) => (
+                <TouchableOpacity onPress={()=>{navigation.navigate("BusinessPage",{
+                  business:item
+                  })}}>
                 <View
                   style={tw`bg-white p-4 mb-4 rounded-lg shadow w-full bg-orange-100`}
                 >
                   <Image
-                    source={{ uri: item.image }}
+                    source={require("../assets/Images/HomeBG.jpg")}
                     style={tw`w-full h-40 rounded-lg mb-4`}
                     resizeMode="cover"
                   />
-                  <Text style={tw`text-xl font-bold`}>{item.name}</Text>
+                  <Text style={tw`text-xl font-bold`}>{item.business_name}</Text>
                   <Text style={tw`text-gray-600`}>{item.description}</Text>
                 </View>
+                </TouchableOpacity>
               )}
             />
           </View>

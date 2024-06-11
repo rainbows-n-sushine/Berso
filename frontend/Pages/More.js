@@ -34,6 +34,7 @@ const More = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [businesses,setBusinesses]=useState([])
   const [isBusinessOwner,setIsBusinessOwner]=useState(false)
+  const [isUser,setIsUser]=useState(false)
 
   const setBusinessClicked=async(businessId)=>{
     await AsyncStorage.setItem('currentBusiness',businessId)
@@ -65,9 +66,16 @@ const More = () => {
     console.log('im in more useeffect')
     if(businessOwnerToken!==""){
       setIsBusinessOwner(true)
+      setIsUser(false)
     }
+    else if(userToken!==""){
+      setIsUser(true)
+      setIsBusinessOwner(false)
+    }else{
+      setIsUser(false)
+      setIsBusinessOwner(false)
 
-    
+    }
 
     getBusinesses()
    
@@ -110,6 +118,7 @@ const More = () => {
         </View>
 
         <View style={tw`flex py-3`}>
+          {isBusinessOwner||isUser&&
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -119,16 +128,20 @@ const More = () => {
             <FontAwesome name="user-circle-o" size={22} color="black" />
             <Text style={tw`ml-2`}>Edit Profile</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
-            onPress={() => {
-              navigation.navigate("Settings");
-            }}
-          >
-            <AntDesign name="setting" size={22} color="black" />
-            <Text style={tw`ml-2`}>Settings</Text>
-          </TouchableOpacity>
-          {isBusinessOwner && (
+          }
+         {isUser||isBusinessOwner &&
+         <TouchableOpacity
+         style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
+         onPress={() => {
+           navigation.navigate("Settings");
+         }}
+       >
+         <AntDesign name="setting" size={22} color="black" />
+         <Text style={tw`ml-2`}>Settings</Text>
+       </TouchableOpacity>
+         
+         } 
+          {isBusinessOwner && 
             <View>
               <TouchableOpacity
                 style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
@@ -175,8 +188,9 @@ const More = () => {
                 </View>
               </Modal>
             </View>
-          )}
-
+          }
+          {isBusinessOwner||isUser&&
+          <View>
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -186,6 +200,7 @@ const More = () => {
             <Octicons name="report" size={21} color="black" />
             <Text style={tw`ml-2`}>Report a problem</Text>
           </TouchableOpacity>
+          
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -195,6 +210,8 @@ const More = () => {
             <Entypo name="share" size={22} color="black" />
             <Text style={tw`ml-2`}>Share Profile</Text>
           </TouchableOpacity>
+          </View>
+            }
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -224,8 +241,10 @@ const More = () => {
             }}
           >
             <Feather name="log-in" size={22} color="black" />
+           
             <Text style={tw`ml-2`}>Log In</Text>
           </TouchableOpacity>
+          {isUser||isBusinessOwner&&
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -245,6 +264,7 @@ const More = () => {
             <Feather name="log-out" size={22} color="black" />
             <Text style={tw`ml-2`}>Log Out</Text>
           </TouchableOpacity>
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

@@ -324,18 +324,15 @@ exports.getOneById=async(businessId)=>{
   
     if (business){
     console.log('im in here')
-      return res.json ({message:"business fetched successfully",success:true,business:business })
+      return business
     }
     else{
-  
-      return res.json ({message:"errraljvjs]",success:false})
+      console.log('business not found')
+      return "";
     }
-  
-    
   } catch (error) {
   
     if(error){
-  
       console.log('error in getOneById: ',error.message)
     }}}
 

@@ -293,44 +293,31 @@ exports.favoriteBusiness=async(req,res)=>{
 
 }
 
-exports.fetchUserSpecifcFavorites=async(req,res)=>{
-   
-  const {userId}=req.params
+exports.fetchUserSpecificFavorites = async (req, res) => {
+  const { userId } = req.params;
 
   try {
-    const businesses=await User.findById(userId)
-    if(businesses){
-      try {
-        const favorites=[]
-        businesses.forEach((business)=>{
-          let fetchedBusiness=getOneById(business)
-          if(fetchedBusiness){ favorites.concat(fetchedBusiness)}
-         
-
-        })
-        console.log('this is the information  fetched for favorites : ',favorites)
-        if(favorites){
-          return res.json({success:true,message:"favorites fetched successfully", favorites:favorites})
-        }else{
-          return res.json({success:false,message:"no favorited business yet"})
-
+    const user = await User.findById(userId);
+    if (user) {
+      const favorites = [];
+      for (const businessId of user.favorites) {
+        const business = await getOneById(businessId);
+        if (business) {
+          favorites.push(business);
         }
-        
-        
-      } catch (error) {
-        if(error){
-          console.log('failure at fetchng favorites',error.message)
-        }
-        
       }
+      console.log('Fetched favorites:', favorites);
+      if (favorites.length > 0) {
+        return res.json({ success: true, message: "Favorites fetched successfully", favorites: favorites });
+      } else {
+        return res.json({ success: false, message: "No favorited businesses yet" });
+      }
+    } else {
+      return res.status(404).json({ success: false, message: "User not found" });
     }
-    
   } catch (error) {
-    if(error){
-      console.log('failure f',error.message)
-    }
-    
+    console.log('Error fetching favorites:', error.message);
+    return res.status(500).json({ success: false, message: "Error fetching favorites" });
   }
+};
 
-
-}
