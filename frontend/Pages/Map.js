@@ -1,49 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { View, TouchableOpacity, Text,Alert } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import MapView, { Marker } from "react-native-maps";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import * as Location from "expo-location";
+import api from '../util/Util'
 
 const Maps = ({ route }) => {
-  const [region, setRegion] = useState({});
-  const [markers, setMarkers] = useState({});
+  const { setLocation } = route.params;
+  const [region,setRegion]=useState({})
+  const [userLocation, setUserLocation] = useState(null);
+  const [markers, setMarkers] = useState([]);
   const navigation = useNavigation();
-  const [isConfirmed,setIsConfirmed]=useState(false)
-
 
   useEffect(() => {
     getLocationAsync();
   }, []);
-  
-
-  const handleConfirmation=()=>{
-    if(!isConfirmed){
-      Alert.alert('You have set ',markers[markers.length-1]," amount of locations," ,
-        "is this correct?",
-        [
-          {
-            text:"Cancel",
-            onPress:()=>{
-              setIsConfirmed(false)
-            console.log('cancel is pressed')
-          }
-          },
-          {
-            text:"Ok",
-            onPress:()=>{setIsConfirmed(true)}
-          }
-        ]     
-      )}else{
-      console.log('confirmed to send to business registeration')
-      navigation.navigate("AddBusiness", {  markers:markers
-      });
-
-
-
-      }
-  }
-
 
   const getLocationAsync = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
@@ -53,22 +25,15 @@ const Maps = ({ route }) => {
     }
 
     let location = await Location.getCurrentPositionAsync({});
-    setRegion(location.coords);
+    console.log('this is the location coords in getLocationAsync',location.coords)
+    setUserLocation(location.coords);
   };
 
-  const handleMarkerPress = (event) => {
-
-    console.log('im in handleMarkerPress',event)
-    const { coordinate } = event.nativeEvent;
-    const { latitude, longitude } = coordinate;
-    // const newMarkers = [...markers, { latitude, longitude }];
-
-    // console.log('this is trhe event that is being sentd everytime u click on the map:' ,event)
-   
-    setMarkers(coordinate);
-
+  const handleMapPress = (event) => {
+    const { latitude, longitude } = event.nativeEvent.coordinate;
+    const newMarkers = [...markers, { latitude, longitude }];
+    setMarkers(newMarkers);
   };
-
 
   navigation.setOptions({
     headerRight: () => (
@@ -76,7 +41,11 @@ const Maps = ({ route }) => {
         style={tw`mr-2 bg-orange-500 px-4 py-2 rounded-lg`}
         onPress={() => {
           if (markers.length > 0) {
-          handleConfirmation()
+            // Pass the location coordinates as params
+            console.log(markers[markers.length - 1]);
+            navigation.navigate("AddBusiness", {
+              location: markers[markers.length - 1],
+            });
           }
         }}
       >
@@ -86,30 +55,27 @@ const Maps = ({ route }) => {
   });
   return (
     <View style={tw`flex-1`}>
-      {region && (
+      {userLocation && (
         <MapView
           style={tw`flex-1`}
           initialRegion={{
-            latitude: region.latitude,
-            longitude: region.longitude,
+            latitude: userLocation.latitude,
+            longitude: userLocation.longitude,
             latitudeDelta: 0.0922,
             longitudeDelta: 0.0421,
           }}
-          onRegionChange={(newRegion)=>{
-            setRegion(newRegion)
-          }}        
-        >      
+          onPress={handleMapPress}
+        >
+          {markers.map((marker, index) => (
             <Marker
               key={index}
               coordinate={{
-                latitude: markers.latitude,
-                longitude: markers.longitude,
+                latitude: marker.latitude,
+                longitude: marker.longitude,
               }}
-             title="Addis Ababa"
-             description="This is a description of the marker"
-             onPress={handleMarkerPress}
-
+              onPress={(event)=>{console.log('Marker was pressed: ',event.nativeEvent)}}
             />
+          ))}
         </MapView>
       )}
       {/* <TouchableOpacity

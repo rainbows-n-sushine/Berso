@@ -7,24 +7,7 @@ const BusinessTabContext = createContext();
 // Create the provider component
  const BusinessTabProvider = ({ children }) => {
   const [businessTab, setBusinessTab] = useState(false);
-  const {businessOwnerId,businessOwnerToken}=useContext(AuthContext)
-
-  useEffect(()=>{
-    if(businessOwnerToken){
-      setBusinessTab(true)
-    }else{
-      setBusinessTab(false)
-    }
-
-
-
-  },[])
-
-
-
-
-
-
+  
 
   return (
     <BusinessTabContext.Provider value={{ businessTab, setBusinessTab }}>

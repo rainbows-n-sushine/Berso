@@ -92,58 +92,7 @@ const [animate, setAnimate] = useState(false);
   }, []);
 
  
-   
-     // Fetch recommendations data
-     const fetchData = async () => {
-      // await api.get(`recommendation/get-for-user/${userId}`)
-      // .then((res)=>{
-
-      //   if(res.data.success){
-      //     console.log("\n\n\n\n\n\n\n\n\\nthis is the topRecommendations feched from backend ",res.data.topRecommendations)
-      //     setRecommendations(res.data.recommendations)
-      //   }
-      // }).catch((error)=>{
-      //   if(error){consosle.log(error.message)}
-      // })
-       // Simulated data
-      //  const sampleData = [
-      //    {
-      //      id: 1,
-      //      name: "Sample Business 1",
-      //      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
-      //      description:
-      //        "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-      //      rating: 4.5,
-      //    },
-      //    {
-      //      id: 2,
-      //      name: "Sample Business 2",
-      //      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
-      //      description:
-      //        "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-      //      rating: 3.8,
-      //    },
-      //    {
-      //      id: 3,
-      //      name: "Sample Business 3",
-      //      image: require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg"),
-      //      description:
-      //        "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
-      //      rating: 4.2,
-      //    },
-      //    // Add more sample businesses with images, descriptions, and ratings
-      //  ];
-      //  setRecommendations(sampleData);
-
-
-       
-     };
-
-     // Trigger animation when the component mounts or updates
-    //  if (!animate && recommendations.length === 0) {
-    //   fetchRecommendations();
-    //   //  fetchData();
-    //  }
+  
       const startAnimation = () => {
         Animated.timing(translateY, {
           toValue: 0,

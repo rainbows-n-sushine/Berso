@@ -5,10 +5,15 @@ const {Category}=require('../models/category')
 exports.registerBusiness = async (req, res) => {
   console.log("im in business condtrollers");
 
-    const {business,categories,businessOwnerId}=req.body
+    const {business,categories,businessOwnerId,latitude,longitude}=req.body
     console.log(business)
     console.log(categories)
-    const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description,latitude,longitude}= business
+    console.log('this is longitude ',longitude, " this is latitude ", latitude)
+    const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
+    const latitudeConverted=latitude.toString()
+    const longitudeConverted=longitude.toString()
+
+
     if (businessOwnerId){
       try {
   
@@ -25,8 +30,8 @@ exports.registerBusiness = async (req, res) => {
           description: description,
           category: categories,
           business_owner: businessOwnerId, // Convert string to ObjectId
-          latitude,
-          longitude
+          latitude:latitudeConverted,
+          longitude:longitudeConverted
         });
     
         await business_db.save();
@@ -55,6 +60,8 @@ exports.registerBusiness = async (req, res) => {
         average_price: averagePrice,
         description: description,
         category: categories,
+        latitude:latitudeConverted,
+        longitude:longitudeConverted
        // Convert string to ObjectId
       });
   
@@ -305,6 +312,32 @@ exports.fetchNewBuinesses=async(req,res)=>{
       
   }
 }
+
+
+exports.getOneById=async(businessId)=>{
+
+  
+  console.log('im in here',businessId)
+  try {
+    const business=await Business.findById(businessId)
+    console.log('this is the businessId',businessId,"and this is the busnes" ,business)
+  
+    if (business){
+    console.log('im in here')
+      return res.json ({message:"business fetched successfully",success:true,business:business })
+    }
+    else{
+  
+      return res.json ({message:"errraljvjs]",success:false})
+    }
+  
+    
+  } catch (error) {
+  
+    if(error){
+  
+      console.log('error in getOneById: ',error.message)
+    }}}
 
 // exports.getBusinessInfo=async(req,res)=>{
 

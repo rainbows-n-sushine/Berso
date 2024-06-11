@@ -5,7 +5,7 @@ const {
   userValidation,
 } = require("../middleware/validation/user");
 const { isAuth } = require("../middleware/auth");
-const {signUp,signin,updateUserProfile,fetchUserData,updateUserProfilePic,fetchAll,favoriteBusiness,fetchUserSpecifcFavorites} = require('../controllers/user')
+const {signUp,signin,updateUserProfile,fetchUserData,updateUserProfilePic,fetchAll} = require('../controllers/user')
 
 router.post('/signup',signUp)
 router.post('/signin',signin)
@@ -18,6 +18,4 @@ router.post('/create-post',isAuth,(req,res)=>{
 router.post("/update-profile", updateUserProfile);
 router.post("/update-profilepic", updateUserProfilePic);
 router.get('/fetch-all',fetchAll)
-router.post('/favorite-business',favoriteBusiness)
-router.get('/fetch-user-specific-favorites/:userId',fetchUserSpecifcFavorites)
 module.exports = router;

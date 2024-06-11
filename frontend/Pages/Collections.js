@@ -17,6 +17,8 @@ const Collections = () => {
   const {userToken,businessOwnerToken, userId,businessOwnerId,isLoading}=useContext(AuthContext)
   const [displayCollection, setDisplayCollection] = useState(false);
   const navigation = useNavigation();
+  const image=require( "../assets/Images/HomeBG.jpg")
+  const [favorites,setFavorites]=useState([])
 
   const favoriteBusinesses = [
     {
@@ -42,27 +44,44 @@ const Collections = () => {
   // const {businessOwnerToken}=useContext(AuthContext)
 
   useEffect(() => {
+    fetchFavorites();
     
   }, []);
+  
+  const fetchFavorites=async()=>{
+    await api.get(`user/fetch-user-specific-favorites/${userId}`)
+    .then((res)=>{
+      console.log('this im in favorite fetching api, here are teh favs',res.data.favorites)
+      
+
+      if(res.data.success){
+        setFavorites(res.data.favorites)
+      }
+    }).catch((error)=>{
+      if(error){console.log(error.message)}
+    })
+
+
+  }
 
 
   return (
     <View style={tw`flex-1 bg-white items-center justify-between p-4`}>
       <View style={tw`flex items-center justify-between`}>
-        {/* 
+        
         {displayCollection&&
         
         <Text className="text-xl">here r the collections</Text>
         }
-         */}
-        {/* {isLoading ? (
+        
+        {isLoading ? (
           <>
             <View>
               <Text>Loading...</Text>
             </View>
           </>
-        ) : */}
-        { userToken || businessOwnerToken ? (
+        ) :
+         userToken ? (
           // <SafeAreaView>
           <View style={tw`flex-1  p-3 w-full mt-10  w-96`}>
             <Text

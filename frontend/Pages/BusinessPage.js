@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect,useContext } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-  Linking
+  Linking,
+  Alert
 } from "react-native";
 import {
   Ionicons,
@@ -32,7 +33,9 @@ import {
   Reviews,
   MoreLikeThis,
 } from "../assets/Components/businessDetails.js";
+import { AuthContext } from "../context/AuthContext.js";
 import api from '../util/Util'
+
 
 const dummyPost = {
   profileImage: "../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg",
@@ -50,6 +53,9 @@ const dummyPost = {
   ],
 };
 
+
+const _reviews=[]
+
 const dummyData = [
   {
     title: "Services",
@@ -65,7 +71,8 @@ const dummyData = [
   },
   {
     title: "Reviews",
-    data: Reviews(),
+    data: <Reviews Reviews={_reviews}/>,
+
   },
   {
     title: "More like This",
@@ -77,22 +84,108 @@ const BusinessPage = ({route}) => {
   const navigation = useNavigation();
   const [headerIconColor, setHeaderIconColor] = useState("white");
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const {userId,userToken}=useContext(AuthContext)
   const [isReady, setIsReady] = useState(false);
   const [categories,setCategories]=useState([])
-
+  const [recommendations, setRecommendations] = useState([]);
+  const [animate, setAnimate] = useState(false);
+  const [reviews,setReviews]=useState([])
+  const [isUser,setIsUser]=useState(false)
   const {business}=route.params
+  const businessId=business._id
+
+
+
+
+  useEffect(() => {
+    if(userToken){
+      setIsUser(true)
+    }else{
+      setIsUser(false)
+    }
+    fetchRecommendations();
+    getBusinessCategory();
+        setTimeout(() => {
+      setIsReady(true);
+      fetchReviews()
+    }, 1000); // Replace with actual data fetching logic
+  }, []);
+
+
+
+  const fetchReviews=async()=>{
+    console.log('this im in review fetching api')
+
+    await api.get(`review/fetch-all-reviews-for-business/${businessId}`)
+    .then((res)=>{
+      console.log('this im in review fetching api')
+
+      if(res.data.success){
+        _reviews=res.data.reviews
+        setReviews(res.data.reviews)
+      }
+    }).catch((error)=>{
+      if(error){console.log(error.message)}
+    })
+  }
+
+
+  const fetchRecommendations=async()=>{
+    console.log('this is the userId: ',userId, " and userToken ",userToken)
+
+    console.log('im in fetch receommendations')
+
+    await api.get(`recommendation/get-for-user/${userId}`)
+    .then((res)=>{
+      console.log('this i sfetch recommendations api')
+
+      if(res.data.success){
+        setRecommendations(res.data.recommendations)
+        setAnimate(true);
+      }
+    }).catch((error)=>{
+      if(error){console.log(error.message)}
+    })
+  }
+  const handleFavorites=async()=>{
+    console.log('im in handle favs')
+  
+    await api.post('user/favorite-business',{businessId,userId})
+    .then((res)=>{
+      if (res.data.success){
+        Alert.alert(res.data.message)
+      }
+      console.log(res.data.message)
+
+      
+    })
+    .catch((err)=>{
+      if(err){
+        console.log('this is the error in handleFavorites: ',err.message)
+      }
+    })
+
+
+  }
+
+  
+
+ 
 
   const opacity = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => ({
     opacity: opacity.value,
   }));
 
-  useEffect(() => {
-    getBusinessCategory();
-        setTimeout(() => {
-      setIsReady(true);
-    }, 1000); // Replace with actual data fetching logic
-  }, []);
+  
+
+
+const handleCall=()=>{
+  const telUrl=`tel:${business.phone}`
+  Linking.openURL(telUrl);
+}
+
+
 
   const getBusinessCategory=async()=>{
     api.get(`category/fetchAll`)
@@ -175,11 +268,17 @@ _categories.push(foundCategory.name)
           >
             <Ionicons name="share-outline" size={24} color={headerIconColor} />
           </TouchableOpacity>
-          <TouchableOpacity
+          {isUser&&
+            <TouchableOpacity
             style={tw`w-10 h-10 rounded-full justify-center items-center`}
+            onPress={handleFavorites}
           >
             <Fontisto name="favorite" size={24} color={headerIconColor} />
           </TouchableOpacity>
+
+
+          }
+          
         </View>
       ),
     });
@@ -331,8 +430,8 @@ _categories.push(foundCategory.name)
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate("AddBusiness");
+                  onPress={() => {handleCall
+                    
                   }}
                 >
                   <View style={tw`items-center  mx-2`}>
