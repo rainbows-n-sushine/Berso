@@ -35,6 +35,7 @@ const More = () => {
   const [businesses,setBusinesses]=useState([])
   const [isBusinessOwner,setIsBusinessOwner]=useState(false)
   const [isUser,setIsUser]=useState(false)
+  const [isLoggedIn,setIsLoggedIn]=useState(false)
 
   const setBusinessClicked=async(businessId)=>{
     await AsyncStorage.setItem('currentBusiness',businessId)
@@ -63,18 +64,26 @@ const More = () => {
 
 
   useEffect(() => {
-    console.log('im in more useeffect')
-    if(businessOwnerToken){
-      setIsBusinessOwner(true)
-      setIsUser(false)
+    console.log('im in more useeffect and this is the value of userToken',userToken, " businessOwnerToken ",businessOwnerToken)
+    if(businessOwnerToken !== null){
+      if(businessOwnerToken.trim()!==""){
+        console.log('im a businessowner')
+        setIsBusinessOwner(true)
+        setIsUser(false)
+        setIsLoggedIn(true)
+      }
     }
-    else if(userToken){
-      setIsUser(true)
-      setIsBusinessOwner(false)
-    }else{
+    else if(userToken !==null){
+      if(userToken.trim()!==""){
+        console.log('im in usertoken')
+        setIsUser(true)
+        setIsBusinessOwner(false)
+        setIsLoggedIn(true)
+      }
+
+    }else {
       setIsUser(false)
       setIsBusinessOwner(false)
-
     }
 
     getBusinesses()
@@ -118,7 +127,7 @@ const More = () => {
         </View>
 
         <View style={tw`flex py-3`}>
-          {isBusinessOwner||isUser&&
+          {isLoggedIn&&
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -129,7 +138,7 @@ const More = () => {
             <Text style={tw`ml-2`}>Edit Profile</Text>
           </TouchableOpacity>
           }
-         {isUser||isBusinessOwner &&
+         {isLoggedIn &&
          <TouchableOpacity
          style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
          onPress={() => {
@@ -189,7 +198,7 @@ const More = () => {
               </Modal>
             </View>
           }
-          {isBusinessOwner||isUser&&
+          {isLoggedIn&&
           <View>
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
@@ -234,7 +243,8 @@ const More = () => {
             <AntDesign name="filetext1" size={22} color="black" />
             <Text style={tw`ml-2`}>Terms of service and privacy</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {!isLoggedIn&&
+            <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
               navigation.navigate("Login");
@@ -244,7 +254,8 @@ const More = () => {
            
             <Text style={tw`ml-2`}>Log In</Text>
           </TouchableOpacity>
-          {isUser||isBusinessOwner&&
+          }
+          {isLoggedIn&&
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
