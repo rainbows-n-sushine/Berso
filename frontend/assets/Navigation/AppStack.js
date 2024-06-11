@@ -7,6 +7,7 @@ import Login from "../../Pages/Login";
 import Registration from "../../Pages/Registration";
 import TabNavigatorB from "./TabNavigatorB";
 import { useBusinessTab } from "../../context/BusinessTabContext";
+import ForgotPasswordScreen from "../../Pages/ForgotPasswordScreen";
 
 const Stack = createStackNavigator();
 
@@ -35,6 +36,11 @@ const AppStack = () => {
       <Stack.Screen
         name="Registration"
         component={Registration}
+        options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPasswordScreen}
         options={{ headerShown: false }}
       />
       {/* Add more Stack.Screen components for additional screens*/}

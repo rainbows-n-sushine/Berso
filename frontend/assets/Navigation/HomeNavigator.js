@@ -8,7 +8,9 @@ import SearchResultsScreen from "../../Pages/SearchResultsScreen";
 import BusinessList from "../../Pages/BusinessList";
 import BusinessPage from '../../Pages/BusinessPage';
 import AddReview from '../../Pages/AddReview';
+import MapForBusiness from '../../Pages/MapForBusiness'
 import CatagoriesList from '../../Pages/CatagoriesList';
+import Maps from '../../Pages/Map';
 
 const Stack = createStackNavigator();
 const HomeNavigator = () => {
@@ -22,7 +24,7 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="SearchBusiness"
         component={SearchBusinessScreen}
-        // options={{ headerShown: false }}
+        options={{ headerShown: false }}
       />
       <Stack.Screen
         name="SearchResults"
@@ -40,6 +42,11 @@ const HomeNavigator = () => {
         options={{ headerShown: true }}
       />
       <Stack.Screen
+        name="MapForBusiness"
+        component={MapForBusiness}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
         name="AddReview"
         component={AddReview}
         options={{ headerShown: true }}
@@ -48,6 +55,11 @@ const HomeNavigator = () => {
         name="CathagoryList"
         component={CatagoriesList}
         options={{ headerShown: false }}
+      />
+      <Stack.Screen
+        name="Maps"
+        component={Maps}
+        options={{ headerShown: true }}
       />
 
       {/* Add more Stack.Screen components for additional screens */}

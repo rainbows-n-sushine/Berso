@@ -1,7 +1,7 @@
 const { Category } = require("../models/category")
 
 exports.addCategory=async(req,res)=>{
-    const {name,description}=req.body.category
+    const {name,description,icon}=req.body.category
 console.log("name and the description",name,"  ",description)
     try{
         const newCategory= await Category({
@@ -24,7 +24,7 @@ exports.fetchAll=async(req,res)=>{
     console.log('im herr')
     
     const categories= await Category.find().maxTimeMS(50000)
-
+    console.log("this is catagories",categories)
     if(categories){
 
         res.json({success:true, message:"category is fetched", categories:categories})

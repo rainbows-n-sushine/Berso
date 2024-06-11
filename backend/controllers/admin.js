@@ -2,7 +2,7 @@ const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
 const validator=require('validator')
 const bcrypt=require('bcrypt')
-const {getOneById}=require('./business')
+
 
 const multer = require("multer");
 const path = require("path");
@@ -249,75 +249,3 @@ exports.fetchAll=async(req,res)=>{
 
 
 }
-
-exports.favoriteBusiness=async(req,res)=>{
-  const {businessId,userId}=req.body
-  try {
-    console.log('this is the userId', userId)
-    console.log('this is the businessId', businessId)
-    const user=await User.findById(userId)
-
-    if(user){
-      console.log('this is the user',user)
-     
-      const oldFavorite=user.favorites
-
-      console.log("this is old Fav", oldFavorite)
-      const newFavorite=oldFavorite.concat(businessId)
-      console.log('this is the newfav: ',newFavorite)
-      try { 
-        const updatedUser=await User.findOneAndUpdate({_id:userId},{favorites:newFavorite},{new:true})
-
-        if (updatedUser){
-          return res.json({message:"Business Added to collections!",success:true})
-        }
-        return res.json({message:"Failed to update the user in favoriting business found!",success:false})
-      } catch (error) {
-        
-        if(error){
-          console.log('error in favoriting a business')
-        }
-      }
-
-
-
-    }
-    
-  } catch (error) {
-    if(error){
-      console.log('error in favouriting a business while looking for  a user')
-    }
-    
-  }
-
-
-}
-
-exports.fetchUserSpecificFavorites = async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const user = await User.findById(userId);
-    if (user) {
-      const favorites = [];
-      for (const businessId of user.favorites) {
-        const business = await getOneById(businessId);
-        if (business) {
-          favorites.push(business);
-        }
-      }
-      console.log('Fetched favorites:', favorites);
-      if (favorites.length > 0) {
-        return res.json({ success: true, message: "Favorites fetched successfully", favorites: favorites });
-      } else {
-        return res.json({ success: false, message: "No favorited businesses yet" });
-      }
-    } else {
-      return res.status(404).json({ success: false, message: "User not found" });
-    }
-  } catch (error) {
-    console.log('Error fetching favorites:', error.message);
-    return res.status(500).json({ success: false, message: "Error fetching favorites" });
-  }
-};
-

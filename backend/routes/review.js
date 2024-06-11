@@ -7,6 +7,6 @@ router.post('/add',addReview)
 router.delete('/delete',deleteReview)
 router.put('/edit',editReview)
 router.get("/getOne",getOneReview)
-router.post('/fetch-all-reviews-for-business/:businessId',fetchAllReviewsForBusiness)
+router.get('/fetch-all-reviews-for-business/:businessId',fetchAllReviewsForBusiness)
 
 module.exports = router;

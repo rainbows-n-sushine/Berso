@@ -8,6 +8,9 @@ import More from "../../Pages/More";
 import BusinessPage from "../../Pages/BusinessPage";
 import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
 import ReportProblem from "../../Pages/ReportProblem";
+import Maps from "../../Pages/Map";
+import Settings from "../../Pages/Settings";
+import AboutBersoScreen from "../../Pages/AboutUs";
 
 const Stack = createStackNavigator();
 const MoreNavigator = () => {
@@ -42,6 +45,16 @@ const MoreNavigator = () => {
       <Stack.Screen
         name="ReportProblem"
         component={ReportProblem}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="Settings"
+        component={Settings}
+        options={{ headerShown: true }}
+      />
+      <Stack.Screen
+        name="AboutUs"
+        component={AboutBersoScreen}
         options={{ headerShown: true }}
       />
 

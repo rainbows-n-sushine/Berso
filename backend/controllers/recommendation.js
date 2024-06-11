@@ -1,7 +1,7 @@
 const { Business } = require ("../models/business");
 const { Review } = require("../models/review");
 const { Rating } = require("../models/rating");
-const brain = require('brain.js');
+// const brain = require('brain.js');
 const { User } = require("../models/user");
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
@@ -12,9 +12,11 @@ const analyzer = new Analyzer("English", stemmer, "afinn");
 
 exports.getRecommendations = async (req, res) => {
   try {
-    const userId = req.user._id;
-
+    console.log('im here')
+    const {userId} = req.params;
+    console.log('im here')
     const userPreferences = await getUserPreferences(userId);
+    console.log('im here')
     const businesses = await Business.find();
 
     const tfidfScores = calculateTFIDF(businesses);
@@ -28,8 +30,9 @@ exports.getRecommendations = async (req, res) => {
 
     recommendedBusinesses.sort((a, b) => b.similarity - a.similarity);
     const topRecommendations = recommendedBusinesses.slice(0, 10).map(item => item.business);
+    console.log("this is top Recommmendations: ",topRecommendations)
 
-    res.json({ success: true, recommendations: topRecommendations });
+    res.json({ success: true, recommendations: topRecommendations ,});
   } catch (error) {
     console.error("Error generating recommendations:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
@@ -48,55 +51,102 @@ exports.filterReviews = async (req, res) => {
 
       const tokens = tokenizer.tokenize(combinedText.toLowerCase());
       const sentiment = analyzer.getSentiment(tokens);
+      const hasBadWords = tokens.some(token => isOffensive(token));
 
-      const isPositiveSentiment = sentiment >= 0;
-      const containsKeywords = tokens.some(token => ['great', 'excellent', 'good'].includes(token));
+      const isLongEnough = combinedText.length >= 10;
+      const hasMinimumRating = review.rating >= 1;
+      const isRecentReview = isReviewRecent(review.createdAt);
 
-      return isPositiveSentiment && containsKeywords;
+      return !hasBadWords && isLongEnough && hasMinimumRating && isRecentReview;
     });
 
-    res.json({ success: true, reviews: filteredReviews });
+    const sortedReviews = filteredReviews.sort((a, b) => {
+      const sentimentA = analyzer.getSentiment(tokenizer.tokenize((a.title + ' ' + a.description).toLowerCase()));
+      const sentimentB = analyzer.getSentiment(tokenizer.tokenize((b.title + ' ' + b.description).toLowerCase()));
+    
+      const tokensA = tokenizer.tokenize((a.title + ' ' + a.description).toLowerCase());
+      const tokensB = tokenizer.tokenize((b.title + ' ' + b.description).toLowerCase());
+    
+      const containsKeywordsA = tokensA.some(token => ['great', 'excellent', 'good'].includes(token));
+      const containsKeywordsB = tokensB.some(token => ['great', 'excellent', 'good'].includes(token));
+    
+      if (containsKeywordsA && !containsKeywordsB) {
+        return -1; // Review A has keywords and Review B doesn't, so A should come first
+      } else if (!containsKeywordsA && containsKeywordsB) {
+        return 1; // Review B has keywords and Review A doesn't, so B should come first
+      } else if (sentimentA !== sentimentB) {
+        return sentimentB - sentimentA; // Sort by sentiment in descending order
+      } else {
+        const relevanceA = calculateRelevance(a);
+        const relevanceB = calculateRelevance(b);
+        return relevanceB - relevanceA;
+      }
+    });
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const paginatedReviews = sortedReviews.slice(startIndex, endIndex);
+
+    res.json({
+      success: true,
+      reviews: paginatedReviews,
+      currentPage: page,
+      totalPages: Math.ceil(sortedReviews.length / limit),
+      totalReviews: sortedReviews.length
+    });
   } catch (error) {
     console.error("Error filtering reviews:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
   }
 };
-// async function getUserBusinessMatrix() {
-//   try {
-//     const users = await User.find();
-//     const businesses = await Business.find();
 
-//     const matrix = [];
+function isReviewRecent(createdAt) {
+  const reviewDate = new Date(createdAt);
+  const currentDate = new Date();
+  const timeDifference = currentDate - reviewDate;
+  const daysDifference = Math.floor(timeDifference / (1000 * 3600 * 24));
+  const recentThreshold = 30; 
+  return daysDifference <= recentThreshold;
+}
 
-//     for (const user of users) {
-//       const userReviews = await Review.find({ user: user._id });
-//       const userRow = [];
+function isOffensive(word) {
+  const badWords = ['badword1', 'badword2', 'badword3'];
+  return badWords.includes(word);
+}
 
-//       for (const business of businesses) {
-//         const userReview = userReviews.find(review => review.business.toString() === business._id.toString());
-//         const rating = userReview ? userReview.rating : 0;
-//         userRow.push(rating);
-//       }
-
-//       matrix.push(userRow);
-//     }
-
-//     return matrix;
-//   } catch (error) {
-//     console.error("Error creating user-business matrix:", error);
-//     throw error;
-//   }
-// }
+function calculateRelevance(review) {
+  const upvotes = review.upvotes || 0;
+  const downvotes = review.downvotes || 0;
+  const totalVotes = upvotes + downvotes;
+  const relevanceScore = totalVotes > 0 ? (upvotes - downvotes) / totalVotes : 0;
+  return relevanceScore;
+}
 
 async function getUserPreferences(userId) {
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(userId).populate("favorites");
+    const userPreferences = {};
+    const favoriteBusinesses = user.favorites;
     if (!user) {
       throw new Error("User not found");
     }
 
+    for (const business of favoriteBusinesses) {
+      const categories = business.category;
+      
+
+      for (const category of categories) {
+        if (userPreferences[category]) {
+          userPreferences[category] += 5;
+        } else {
+          userPreferences[category] = 5;
+        }
+      }
+    }
+
     const userRating = await Rating.find({ user: userId }).populate("business");
-    const userPreferences = {};
 
     for (const rating of userRating) {
       const business = rating.business;
@@ -113,47 +163,16 @@ async function getUserPreferences(userId) {
     }
 
     for (const category in userPreferences) {
-      userPreferences[category] /= userReviews.length;
+      userPreferences[category] /= userRating.length;
     }
 
     return userPreferences;
   } catch (error) {
-    console.error("Error retrieving user preferences:", error);
+    console.error("Error retrieving user preferences:", error.message);
     throw error;
   }
 }
 
-function applyFilteringRules(review) {
-  // Rule 1: Minimum word count
-  const minWordCount = 10;
-  const wordCount = review.description.trim().split(/\s+/).length;
-  if (wordCount < minWordCount) {
-    return false;
-  }
-
-  // Rule 2: Specific keywords that indicate a fake review
-  const fakeKeywords = ["fake", "scam", "fraud", "not genuine"];
-  const reviewText = review.description.toLowerCase();
-  for (const keyword of fakeKeywords) {
-    if (reviewText.includes(keyword)) {
-      return false;
-    }
-  }
-
-  // Rule 3: Rating consistency with comment sentiment
-  const sentiment = analyzeSentiment(review.description);
-  const ratingThreshold = 3;
-  if (
-    (sentiment === "positive" && review.rating < ratingThreshold) ||
-    (sentiment === "negative" && review.rating >= ratingThreshold)
-  ) {
-    return false;
-  }
-
-  // Ezi gar we can add more rules based on other code written
-
-  return true;
-}
 
 exports.getPersonalizedRecommendations = async (req, res) => {
   try {
@@ -262,3 +281,279 @@ function cosineSimilarity(vector1, vector2) {
   const magnitude2 = Math.sqrt(Object.keys(vector2).reduce((sum, key) => sum + Math.pow(vector2[key] || 0, 2), 0));
   return dotProduct / (magnitude1 * magnitude2);
 }
+
+exports.addToFavorites = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const businessId = req.params.businessId;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    if (!user.favorites.includes(businessId)) {
+      user.favorites.push(businessId);
+      await user.save();
+    }
+
+    res.json({ success: true, message: "Business added to favorites" });
+  } catch (error) {
+    console.error("Error adding business to favorites:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.removeFromFavorites = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const businessId = req.params.businessId;
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    user.favorites = user.favorites.filter(id => id.toString() !== businessId);
+    await user.save();
+
+    res.json({ success: true, message: "Business removed from favorites" });
+  } catch (error) {
+    console.error("Error removing business from favorites:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getFavorites = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const user = await User.findById(userId).populate("favorites");
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    res.json({ success: true, favorites: user.favorites });
+  } catch (error) {
+    console.error("Error getting user favorites:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getRecommendationsFromFavorites = async (req, res) => {
+  try {
+    const userId = req.user._id;
+
+    const user = await User.findById(userId).populate("favorites");
+    if (!user) {
+      return res.status(404).json({ success: false, error: "User not found" });
+    }
+
+    const favoriteBusinesses = user.favorites;
+    const similarBusinesses = await getSimilarBusinesses(favoriteBusinesses);
+
+    res.json({ success: true, recommendations: similarBusinesses });
+  } catch (error) {
+    console.error("Error getting recommendations from favorites:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+async function getSimilarBusinesses(favoriteBusinesses) {
+  try {
+    const businessIds = favoriteBusinesses.map(business => business._id);
+    const similarBusinesses = await Business.find({
+      _id: { $nin: businessIds },
+      category: { $in: favoriteBusinesses.map(business => business.category).flat() }
+    });
+    return similarBusinesses;
+  } catch (error) {
+    console.error("Error getting similar businesses:", error);
+    throw error;
+  }
+}
+
+exports.getTopRatedBusinesses = async (req, res) => {
+  try {
+    const topRatedBusinesses = await Business.aggregate([
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "business",
+          as: "ratings"
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          category: 1,
+          avgRating: { $avg: "$ratings.rating" }
+        }
+      },
+      {
+        $sort: { avgRating: -1 }
+      },
+      {
+        $limit: 10
+      }
+    ]);
+
+    res.json({ success: true, businesses: topRatedBusinesses });
+  } catch (error) {
+    console.error("Error getting top-rated businesses:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getBusinessesByCategory = async (req, res) => {
+  try {
+    const category = req.params.category;
+    const businesses = await Business.find({ category: category });
+
+    res.json({ success: true, businesses: businesses });
+  } catch (error) {
+    console.error("Error getting businesses by category:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getUserSentiment = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const user = await User.findById(userId).populate("reviews");
+    
+    const reviews = user.reviews.map(review => review.description);
+    const sentimentScores = reviews.map(review => analyzer.getSentiment(tokenizer.tokenize(review.toLowerCase())));
+    
+    const averageSentiment = sentimentScores.reduce((sum, score) => sum + score, 0) / sentimentScores.length;
+    
+    res.json({ success: true, sentiment: averageSentiment });
+  } catch (error) {
+    console.error("Error analyzing user sentiment:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getPersonalizedCategoryRecommendations = async (req, res) => {
+  try {
+    const userId = req.user._id;
+    const userPreferences = await getUserPreferences(userId);
+    
+    const categoryScores = {};
+    for (const category in userPreferences) {
+      categoryScores[category] = userPreferences[category];
+    }
+    
+    const sortedCategories = Object.keys(categoryScores).sort((a, b) => categoryScores[b] - categoryScores[a]);
+    const topCategories = sortedCategories.slice(0, 5);
+    
+    res.json({ success: true, categories: topCategories });
+  } catch (error) {
+    console.error("Error generating personalized category recommendations:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.evaluateRecommendationAccuracy = async (req, res) => {
+  try {
+    const trainingUsers = await User.find({ /* we need data ezi gar real ones */ });
+    const testingUsers = await User.find({ /* we need data ezi gar real ones */ });
+
+    const businessData = await Business.find();
+    const tfidfScores = calculateTFIDF(businessData);
+
+    let totalPrecision = 0;
+    let totalRecall = 0;
+
+    for (const user of testingUsers) {
+      const userPreferences = await getUserPreferences(user._id);
+      const userVector = createUserVector(userPreferences, tfidfScores);
+
+      const recommendations = await getPersonalizedRecommendations(user._id, userVector, businessData, tfidfScores);
+      const actualInteractions = [...user.favorites, ...user.ratedBusinesses];
+
+      const recommendedSet = new Set(recommendations);
+      const actualSet = new Set(actualInteractions);
+
+      const intersection = [...recommendedSet].filter(businessId => actualSet.has(businessId));
+
+      const precision = intersection.length / recommendedSet.size;
+      const recall = intersection.length / actualSet.size;
+
+      totalPrecision += precision;
+      totalRecall += recall;
+    }
+
+    const averagePrecision = totalPrecision / testingUsers.length;
+    const averageRecall = totalRecall / testingUsers.length;
+
+    res.json({
+      success: true,
+      precision: averagePrecision,
+      recall: averageRecall
+    });
+  } catch (error) {
+    console.error("Error evaluating recommendation accuracy:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getSimilarBusinesses = async (req, res) => {
+  try {
+    const businessId = req.params.businessId;
+    const currentBusiness = await Business.findById(businessId);
+
+    if (!currentBusiness) {
+      return res.status(404).json({ success: false, error: "Business not found" });
+    }
+
+    const similarBusinesses = await Business.find({
+      _id: { $ne: businessId },
+      category: { $in: currentBusiness.category }
+    }).limit(10);
+
+    res.json({ success: true, businesses: similarBusinesses });
+  } catch (error) {
+    console.error("Error getting similar businesses:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};
+
+exports.getHighRatedBusinesses = async (req, res) => {
+  try {
+    const businesses = await Business.aggregate([
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "business",
+          as: "ratings"
+        }
+      },
+      {
+        $project: {
+          _id: 1,
+          name: 1,
+          description: 1,
+          category: 1,
+          location: 1,
+          image: 1,
+          avgRating: { $avg: "$ratings.rating" }
+        }
+      },
+      {
+        $sort: { avgRating: -1 }
+      },
+      {
+        $limit: 10
+      }
+    ]);
+
+    res.json({ success: true, businesses: businesses });
+  } catch (error) {
+    console.error("Error getting high-rated businesses:", error);
+    res.status(500).json({ success: false, error: "Internal server error" });
+  }
+};

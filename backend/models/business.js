@@ -77,12 +77,26 @@ const businessSchema=new mongoose.Schema({
     rating_count: {
         type: Number,
         default: 0,
+    },
+    
+    latitude:{
+        type:Number,
+        default:0
+    },
 
-
+    longitude:{
+        type:Number,
+        default:0
     },
     review_count:{
         type: Number,
         default: 0,
+
+    },
+    //checks if the newly registered business is verified by the admin or not. when it pons out on the admins panel notification
+    status:{
+        type:String,
+        default:"unread"
 
     },
 
@@ -90,6 +104,7 @@ const businessSchema=new mongoose.Schema({
         type:Date,
         default:Date.now()
       },
+    
 
 })
 

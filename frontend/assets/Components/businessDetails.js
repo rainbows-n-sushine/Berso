@@ -94,12 +94,15 @@ const dummyReviews = [
 ];
 
 const ReviewItem = ({ item }) => {
-  const [likes, setLikes] = useState(item.likes);
-  const [liked, setLiked] = useState(item.liked);
-  const [newComment, setNewComment] = useState("");
+  // const [likes, setLikes] = useState(item.likes);
+  // const [liked, setLiked] = useState(item.liked);
+  const {title,description,user}=item
+  console.log('these are the review itmes: ',title, "   ",description,"  ",user)
+  
 
 
   
+
   const handleLike = () => {
     if (liked) {
       setLikes(likes - 1);
@@ -139,25 +142,25 @@ const ReviewItem = ({ item }) => {
   return (
     <View style={tw`bg-white rounded-2xl p-4 shadow-md border border-gray-100 mb-6`}>
       <View style={tw`flex-row items-center mb-2`}>
-        <Image
+        {/* <Image
           source={
             typeof item.user.avatar === "string"
               ? { uri: item.user.avatar }
               : item.user.avatar
           }
           style={tw`w-8 h-8 rounded-full mr-2`}
-        />
-        <Text style={tw`font-bold text-lg`}>{item.user.username}</Text>
+        /> */}
+        <Text style={tw`font-bold text-lg`}>{item.title}</Text>
       </View>
       <Image
         source={
-          typeof item.photo === "string" ? { uri: item.photo } : item.photo
+          typeof dummyReviews[0].photo === "string" ? { uri: dummyReviews[0].photo } : item.photo
         }
         style={tw`w-full h-40 mb-2 w-70 ml-4`}
         resizeMode="cover"
       />
-      <Text style={tw`mb-2 text-center text-base`}>{item.text}</Text>
-      <View style={tw`flex-row items-center justify-center my-3`}>
+      <Text style={tw`mb-2 text-center text-base`}>{item.description}</Text>
+      {/* <View style={tw`flex-row items-center justify-center my-3`}>
         <TouchableOpacity onPress={handleLike}>
           <View style={tw`items-center justify-center`}>
             <FontAwesome
@@ -197,14 +200,12 @@ const ReviewItem = ({ item }) => {
         <TouchableOpacity onPress={handleAddComment}>
           <Text style={tw`text-orange-500`}>Post</Text>
         </TouchableOpacity>
-      </View>
+       </View> */}
     </View>
   );
 };
 
-const Reviews = ({businessProp,reviewFetched}) => (
-
-  
+const Reviews = ({Reviews}) => (
   <View style={tw`p-1`}>
     <View style={tw`bg-white p-4 rounded-lg shadow mb-4`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
@@ -224,9 +225,9 @@ const Reviews = ({businessProp,reviewFetched}) => (
       </Text>
 
       <FlatList
-        data={reviewFetched}
+        data={Reviews}
         renderItem={({ item }) => <ReviewItem item={item} />}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item._id.toString()}
       />
       <TouchableOpacity
         style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
@@ -285,7 +286,7 @@ const dummyServices = [
 ];
 const Services = ({businessProp}) => (
   <View style={tw`flex-1 bg-gray-100 py-5 px-4`}>
-    <FlatList
+    {/* <FlatList
       data={dummyServices}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
@@ -341,7 +342,7 @@ const Services = ({businessProp}) => (
           </View>
         </View>
       )}
-    />
+    /> */}
   </View>
 );
 
@@ -476,16 +477,7 @@ const Pictures = ({businessProp}) => (
 
 const MoreLikeThis = ({businessProp}) => (
   <ScrollView style={tw`p-4`}>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Ice Cream</Text>
-    </View>
-    <View
-      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
-    >
-      <Text>Brownie</Text>
-    </View>
+   
   </ScrollView>
 );
 

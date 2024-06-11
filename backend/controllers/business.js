@@ -5,21 +5,48 @@ const {Category}=require('../models/category')
 exports.registerBusiness = async (req, res) => {
   console.log("im in business condtrollers");
 
-    const {business,categories,businessOwnerId}=req.body
+    const {business,categories,businessOwnerId,latitude,longitude}=req.body
     console.log(business)
     console.log(categories)
+    console.log('this is longitude ',longitude, " this is latitude ", latitude)
     const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
+    const latitudeConverted=latitude.toString()
+    const longitudeConverted=longitude.toString()
 
-    console.log('this is the business from the frontend: ',business)
-    try {
-      // if (!businessOwnerId) {
-      //   throw new Error('Missing businessOwnerId');
-      // }
+
+    if (businessOwnerId){
+      try {
   
-      // const isValidObjectId = mongoose.Types.ObjectId.isValid(businessOwnerId);
-      // if (!isValidObjectId) {
-      //   throw new Error('Invalid businessOwnerId');
-      // }
+        const business_db = new Business({
+          business_name: businessName,
+          email: email,
+          phone: phone, 
+          website: website,
+          location: location,
+          address: address,
+          business_days: businessDays,
+          opening_hours: openingHours,
+          average_price: averagePrice,
+          description: description,
+          category: categories,
+          business_owner: businessOwnerId, // Convert string to ObjectId
+          latitude:latitudeConverted,
+          longitude:longitudeConverted
+        });
+    
+        await business_db.save();
+        console.log(business_db);
+    
+        res.json({ message: "Business successfully created", success: true, business: business_db });
+      } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: "Error while creating business" });
+      }
+
+
+    }else{
+      
+      try {
   
       const business_db = new Business({
         business_name: businessName,
@@ -33,7 +60,9 @@ exports.registerBusiness = async (req, res) => {
         average_price: averagePrice,
         description: description,
         category: categories,
-        business_owner: businessOwnerId, // Convert string to ObjectId
+        latitude:latitudeConverted,
+        longitude:longitudeConverted
+       // Convert string to ObjectId
       });
   
       await business_db.save();
@@ -45,6 +74,8 @@ exports.registerBusiness = async (req, res) => {
       res.json({ success: false, message: "Error while creating business" });
     }
 
+
+    }
 };
 
 exports.fetchByCategory = async (req, res) => {
@@ -248,6 +279,62 @@ category.forEach((categoryId)=>{
   })
 
 }
+
+
+exports.fetchNewBuinesses=async(req,res)=>{
+
+  try {
+      const businesses = await Business.find({ status: { $in: ["unread", "pending"] } });
+      if (businesses){
+          console.log('new buinesses is fetched')
+          const updatedBusinesses=businesses.map((business)=>({
+
+            ...business.toObject(),
+            notif_type:"New Business"
+            
+        }))
+          console.log("businesses is:",businesses)
+
+          return res.json({message:"new businesses is fetched", success:true, businesses:updatedBusinesses})
+      }else{
+          return res.json({message:"new businesses dont exist", success:false})
+
+
+      }
+      
+  } catch (error) {
+      if(error){
+          console.log("error in fetching new busnesses: ",error.message)
+          return res.json({message:"failure in fetching new businesses", success:false})
+
+      }
+     
+      
+  }
+}
+
+
+exports.getOneById=async(businessId)=>{
+
+  
+  console.log('im in here',businessId)
+  try {
+    const business=await Business.findById(businessId)
+    console.log('this is the businessId',businessId,"and this is the busnes" ,business)
+  
+    if (business){
+    console.log('im in here')
+      return business
+    }
+    else{
+      console.log('business not found')
+      return "";
+    }
+  } catch (error) {
+  
+    if(error){
+      console.log('error in getOneById: ',error.message)
+    }}}
 
 // exports.getBusinessInfo=async(req,res)=>{
 

@@ -34,6 +34,8 @@ const More = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [businesses,setBusinesses]=useState([])
   const [isBusinessOwner,setIsBusinessOwner]=useState(false)
+  const [isUser,setIsUser]=useState(false)
+  const [isLoggedIn,setIsLoggedIn]=useState(false)
 
   const setBusinessClicked=async(businessId)=>{
     await AsyncStorage.setItem('currentBusiness',businessId)
@@ -62,12 +64,27 @@ const More = () => {
 
 
   useEffect(() => {
-    console.log('im in more useeffect')
-    if(businessOwnerToken!==""){
-      setIsBusinessOwner(true)
+    console.log('im in more useeffect and this is the value of userToken',userToken, " businessOwnerToken ",businessOwnerToken)
+    if(businessOwnerToken !== null){
+      if(businessOwnerToken.trim()!==""){
+        console.log('im a businessowner')
+        setIsBusinessOwner(true)
+        setIsUser(false)
+        setIsLoggedIn(true)
+      }
     }
+    else if(userToken !==null){
+      if(userToken.trim()!==""){
+        console.log('im in usertoken')
+        setIsUser(true)
+        setIsBusinessOwner(false)
+        setIsLoggedIn(true)
+      }
 
-    
+    }else {
+      setIsUser(false)
+      setIsBusinessOwner(false)
+    }
 
     getBusinesses()
    
@@ -110,6 +127,7 @@ const More = () => {
         </View>
 
         <View style={tw`flex py-3`}>
+          {isLoggedIn&&
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -119,65 +137,69 @@ const More = () => {
             <FontAwesome name="user-circle-o" size={22} color="black" />
             <Text style={tw`ml-2`}>Edit Profile</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
-            onPress={() => {
-              navigation.navigate("BusinessPage");
-            }}
-          >
-            <AntDesign name="setting" size={22} color="black" />
-            <Text style={tw`ml-2`}>Settings</Text>
-          </TouchableOpacity>
-          {isBusinessOwner&&
-          <View> 
-           <TouchableOpacity
-            style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
-            onPress={() => {
-              // navigation.navigate("BusinessHome");
-              // setBusinessTab(true);
-              getBusinesses();
-              setModalVisible(true);
-            }}
-          >
-
-            <Entypo name="shop" size={22} color="black" />
-            <Text style={tw`ml-2`}>My Businesses</Text>
-          </TouchableOpacity>
-          
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalVisible}
-            onRequestClose={() => setModalVisible(false)}
-          >
-            <View
-              style={tw`flex-1 justify-center items-center bg-gray-800 bg-opacity-50`}
-            >
-              <View
-                style={[
-                  tw`bg-white p-4 rounded-lg`,
-                  { height: modalHeight, width: 300 },
-                ]}
-              >
-                <FlatList
-                  data={businesses}
-                  renderItem={renderItem}
-                  keyExtractor={(item) => item._id.toString()}
-                />
-                <TouchableOpacity
-                  style={tw`mt-4 bg-orange-400 p-2 rounded-lg`}
-                  onPress={() => setModalVisible(false)}
-                >
-                  <Text style={tw`text-white text-center font-bold`}>
-                    Close
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
-          </View>
           }
+         {isLoggedIn &&
+         <TouchableOpacity
+         style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
+         onPress={() => {
+           navigation.navigate("Settings");
+         }}
+       >
+         <AntDesign name="setting" size={22} color="black" />
+         <Text style={tw`ml-2`}>Settings</Text>
+       </TouchableOpacity>
          
+         } 
+          {isBusinessOwner && 
+            <View>
+              <TouchableOpacity
+                style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
+                onPress={() => {
+                  // navigation.navigate("BusinessHome");
+                  // setBusinessTab(true);
+                  getBusinesses();
+                  setModalVisible(true);
+                }}
+              >
+                <Entypo name="shop" size={22} color="black" />
+                <Text style={tw`ml-2`}>My Businesses</Text>
+              </TouchableOpacity>
+
+              <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => setModalVisible(false)}
+              >
+                <View
+                  style={tw`flex-1 justify-center items-center bg-gray-800 bg-opacity-50`}
+                >
+                  <View
+                    style={[
+                      tw`bg-white p-4 rounded-lg`,
+                      { height: modalHeight, width: 300 },
+                    ]}
+                  >
+                    <FlatList
+                      data={businesses}
+                      renderItem={renderItem}
+                      keyExtractor={(item) => item._id.toString()}
+                    />
+                    <TouchableOpacity
+                      style={tw`mt-4 bg-orange-400 p-2 rounded-lg`}
+                      onPress={() => setModalVisible(false)}
+                    >
+                      <Text style={tw`text-white text-center font-bold`}>
+                        Close
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
+            </View>
+          }
+          {isLoggedIn&&
+          <View>
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -187,6 +209,7 @@ const More = () => {
             <Octicons name="report" size={21} color="black" />
             <Text style={tw`ml-2`}>Report a problem</Text>
           </TouchableOpacity>
+          
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -196,13 +219,19 @@ const More = () => {
             <Entypo name="share" size={22} color="black" />
             <Text style={tw`ml-2`}>Share Profile</Text>
           </TouchableOpacity>
+          </View>
+            }
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
-              navigation.navigate("");
+              navigation.navigate("AboutUs");
             }}
           >
-            <FontAwesome name="user-circle-o" size={22} color="black" />
+            <Image
+              source={require("../assets/Images/logo-removebg.png")}
+              style={tw`w-9 h-9`}
+            />
+            {/* <FontAwesome name="user-circle-o" size={22} color="black" /> */}
             <Text style={tw`ml-2`}>About Berso</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -214,15 +243,19 @@ const More = () => {
             <AntDesign name="filetext1" size={22} color="black" />
             <Text style={tw`ml-2`}>Terms of service and privacy</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          {!isLoggedIn&&
+            <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
               navigation.navigate("Login");
             }}
           >
             <Feather name="log-in" size={22} color="black" />
+           
             <Text style={tw`ml-2`}>Log In</Text>
           </TouchableOpacity>
+          }
+          {isLoggedIn&&
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
@@ -242,6 +275,7 @@ const More = () => {
             <Feather name="log-out" size={22} color="black" />
             <Text style={tw`ml-2`}>Log Out</Text>
           </TouchableOpacity>
+          }
         </View>
       </ScrollView>
     </SafeAreaView>

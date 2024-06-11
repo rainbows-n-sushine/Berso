@@ -1,4 +1,5 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState,useEffect , useContext } from "react";
+import { AuthContext } from "./AuthContext";
 
 // Create the context
 const BusinessTabContext = createContext();
@@ -6,6 +7,7 @@ const BusinessTabContext = createContext();
 // Create the provider component
  const BusinessTabProvider = ({ children }) => {
   const [businessTab, setBusinessTab] = useState(false);
+  
 
   return (
     <BusinessTabContext.Provider value={{ businessTab, setBusinessTab }}>

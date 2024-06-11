@@ -5,6 +5,7 @@ import Profile from "../../Pages/Profile";
 import BusinessRegistration from '../../Pages/BusinessRegistration';
 import UserProfileManagement from '../../Pages/UserProfileManagement';
 import AddReview from '../../Pages/AddReview';
+import AddPhoto from '../../Pages/AddPhoto';
 
 
 const Stack = createStackNavigator();
@@ -29,9 +30,14 @@ const ProfileNavigator = () => {
       <Stack.Screen
         name="AddReview"
         component={AddReview}
-         options={{ headerShown: true }}
+        options={{ headerShown: true }}
       />
-       {/*<Stack.Screen
+      <Stack.Screen
+        name="AddPhoto"
+        component={AddPhoto}
+        options={{ headerShown: true }}
+      />
+      {/*<Stack.Screen
         name="SearchResults"
         component={SearchResultsScreen}
         options={{ headerShown: false }}

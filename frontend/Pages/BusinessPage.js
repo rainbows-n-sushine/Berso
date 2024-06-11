@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useLayoutEffect } from "react";
+import React, { useEffect, useState, useLayoutEffect,useContext } from "react";
 import {
   View,
   Text,
@@ -6,7 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-  Linking
+  Linking,
+  Alert
 } from "react-native";
 import {
   Ionicons,
@@ -32,8 +33,8 @@ import {
   Reviews,
   MoreLikeThis,
 } from "../assets/Components/businessDetails.js";
+import { AuthContext } from "../context/AuthContext.js";
 import api from '../util/Util'
-
 
 
 const dummyPost = {
@@ -44,8 +45,8 @@ const dummyPost = {
   category: "Restaurant",
   about: "This is a great restaurant with a variety of delicious foods.",
   allAbout: [
-    { category: "Services", id: 1 },
-    { category: "Info", id: 2 },
+    { category: "Info", id: 1 },
+    { category: "Services", id: 2 },
     { category: "Pictures", id: 3 },
     { category: "Reviews", id: 4 },
     { category: "More like this", id: 5 },
@@ -53,40 +54,125 @@ const dummyPost = {
 };
 
 
+const _reviews=[]
+
+const dummyData = [
+  {
+    title: "Info",
+    data: Info(),
+  },
+  {
+    title: "Services",
+    data: Services(),
+  },
+  {
+    title: "Pictures",
+    data: Pictures(),
+  },
+  {
+    title: "Reviews",
+    data: <Reviews Reviews={_reviews} />,
+  },
+  {
+    title: "More like This",
+    data: MoreLikeThis(),
+  },
+];
+
 const BusinessPage = ({route}) => {
   const navigation = useNavigation();
   const [headerIconColor, setHeaderIconColor] = useState("white");
   const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const {userId,userToken}=useContext(AuthContext)
   const [isReady, setIsReady] = useState(false);
   const [categories,setCategories]=useState([])
+  const [recommendations, setRecommendations] = useState([]);
+  const [animate, setAnimate] = useState(false);
+  const [reviews,setReviews]=useState([])
+  const [isUser,setIsUser]=useState(false)
   const {business}=route.params
-  const [dummyData,setDummyData] = [
-    {
-      title: "Services",
-      data: Services(),
-      props: {business:business},
-    },
-    {
-      title: "Info",
-      data: Info(),
-      props: {business:business},
-    },
-    {
-      title: "Pictures",
-      data: Pictures(),
-      props: {business:business},
-    },
-    {
-      title: "Reviews",
-      data: Reviews(),
-      props: {business:business, reviewFetched:reviewFetched},
-    },
-    {
-      title: "More like This",
-      data: MoreLikeThis(),
-      props: {business:business},
-    },
-  ];
+  const businessId=business._id
+
+
+
+
+  useEffect(() => {
+    if(userToken){
+      setIsUser(true)
+    }else{
+      setIsUser(false)
+    }
+    fetchRecommendations();
+    getBusinessCategory();
+    fetchReviews()
+        setTimeout(() => {
+      setIsReady(true);
+      fetchReviews()
+    }, 1000); // Replace with actual data fetching logic
+  }, []);
+  const handleCallClick=()=>{
+
+
+
+  }
+
+
+
+  const fetchReviews=async()=>{
+    console.log('this im in review fetching api')
+
+    await api.get(`review/fetch-all-reviews-for-business/${businessId}`)
+    .then((res)=>{
+      console.log('this im in review fetching api')
+
+      if(res.data.success){
+        _reviews=res.data.reviews
+        setReviews(res.data.reviews)
+      }
+    }).catch((error)=>{
+      if(error){console.log(error.message)}
+    })
+  }
+
+
+  const fetchRecommendations=async()=>{
+    console.log('this is the userId: ',userId, " and userToken ",userToken)
+
+    console.log('im in fetch receommendations')
+
+    await api.get(`recommendation/get-for-user/${userId}`)
+    .then((res)=>{
+      console.log('this i sfetch recommendations api')
+
+      if(res.data.success){
+        setRecommendations(res.data.recommendations)
+        setAnimate(true);
+      }
+    }).catch((error)=>{
+      if(error){console.log(error.message)}
+    })
+  }
+  const handleFavorites=async()=>{
+    console.log('im in handle favs')
+  
+    await api.post('user/favorite-business',{businessId,userId})
+    .then((res)=>{
+      if (res.data.success){
+        Alert.alert(res.data.message)
+      }
+      console.log(res.data.message)
+
+      
+    })
+    .catch((err)=>{
+      if(err){
+        console.log('this is the error in handleFavorites: ',err.message)
+      }
+    })
+
+
+  }
+
   
 
  
@@ -96,37 +182,14 @@ const BusinessPage = ({route}) => {
     opacity: opacity.value,
   }));
 
-  useEffect(() => {
-    
-
-console.log('this is business that is to be assigned to businessPopr',business)
-    getBusinessCategory();
-    fetchReviews()
-        setTimeout(() => {
-      setIsReady(true);
-    }, 1000); // Replace with actual data fetching logic
-  }, []);
-
-    const fetchReviews=async()=>{
-
-
-     const businessId=business._id
-      await api.get(`review/fetch-all-reviews-for-business/${businessId}`)
-      .then((res)=>{
-        console.log(res.data.message)
-        if(res.data.success){
-          reviewFetched=res.data.reviews
-        }
-
-
-      })
-      .catch((error)=>{
-        if(error){
-          console.log("this is the error in fetch reviews in business Details ,",error.message)
-        }
-      })
-    }
   
+
+
+const handleCall=()=>{
+  const telUrl=`tel:${business.phone}`
+  Linking.openURL(telUrl);
+}
+
 
 
   const getBusinessCategory=async()=>{
@@ -210,11 +273,17 @@ _categories.push(foundCategory.name)
           >
             <Ionicons name="share-outline" size={24} color={headerIconColor} />
           </TouchableOpacity>
-          <TouchableOpacity
+          {isUser&&
+            <TouchableOpacity
             style={tw`w-10 h-10 rounded-full justify-center items-center`}
+            onPress={handleFavorites}
           >
             <Fontisto name="favorite" size={24} color={headerIconColor} />
           </TouchableOpacity>
+
+
+          }
+          
         </View>
       ),
     });
@@ -257,35 +326,40 @@ _categories.push(foundCategory.name)
         renderBackground={() => (
           <Image
             style={tw`w-full h-full opacity-86`}
-            source={require("../assets/Images/HomeBG.jpg")}
+            source={require("../assets/Images/business.jpg")}
             resizeMode="cover"
           />
         )}
         renderForeground={() => (
           <View className="flex-1 ">
             <View
-              style={tw`absolute bg-transparent rounded-xl top-30 left-3 flex-row justify-between p-2 items-center`}
+              style={tw`absolute bg-transparent rounded-xl top-27 left-3 flex-row justify-between p-2 items-center`}
             >
-              <FontAwesome5 name="font" size={35} color="yellow" />
-              <View style={tw` justify-between pr-2 ml-2`}>
+              {/* <FontAwesome5 name="font" size={35} color="yellow" /> */}
+              <View style={tw` justify-between ml-2 `}>
                 <Text
-                  // style={{ fontFamily: "berlin-sans" }}
-                  style={tw`text-white text-lg font-bold`}
+                  // style={}
+                  style={[
+                    tw`text-white text-xl font-bold`,
+                    { fontFamily: "berlin-sans" },
+                  ]}
                 >
                   {business.business_name}
                 </Text>
-                
-                  {categories.map((category)=>(
+
+                <View style={tw`flex-row flex-wrap `}>
+                  {categories.map((category, index) => (
                     <Text
-                  // style={{ fontFamily: "berlin-sans" }}
-                  style={tw`text-slate-300 text-sm`}
-                >{category},
-
-                  </Text>
-
-                  ))
-                   }
-                
+                      key={index}
+                      style={[
+                        tw`text-neutral-100 text-sm mr-2 mb-2`,
+                        { fontFamily: "berlin-sans" },
+                      ]}
+                    >
+                      {category},
+                    </Text>
+                  ))}
+                </View>
               </View>
             </View>
 
@@ -320,7 +394,7 @@ _categories.push(foundCategory.name)
                   </View>
                   <View style={tw`items-end`}>
                     <Text style={tw`ml-1 font-base text-lg`}>
-                      ({business.review_count})reviews
+                      ({business.reviewnumber})reviews
                     </Text>
                   </View>
                 </View>
@@ -342,12 +416,22 @@ _categories.push(foundCategory.name)
               </View>
               <View
                 style={tw`flex-row mb-7 mt-2 justify-between items-center px-4`}
-              
               >
                 <TouchableOpacity
                   onPress={() => {
-                    navigation.navigate("AddReview",{inBusiness:true,business_id:business._id});
-                  }}
+                    if(isUser){
+                      navigation.navigate("AddReview", {
+                        inBusiness: true,
+                        business_id: business._id,
+                      });
+                    
+
+                    }else{
+                      navigation.navigate("Login")
+
+
+                    }}}
+                   
                 >
                   <View style={tw`items-center mx-2`}>
                     <MaterialCommunityIcons
@@ -355,38 +439,30 @@ _categories.push(foundCategory.name)
                       size={20}
                       color="black"
                     />
-                    <Text style={tw`text-base`}>
-                      Add Review
-                    </Text>
+                    <Text style={tw`text-base`}>Add Review</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate("AddBusiness");
-                  }}
+                  onPress={handleCall}
                 >
                   <View style={tw`items-center  mx-2`}>
                     <Feather name="phone" size={20} color="black" />
-                    <Text style={tw`text-base`}>
-                      Call
-                    </Text>
+                    <Text style={tw`text-base`}>Call</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    // navigation.navigate("AddBusiness");
+                    navigation.navigate("MapForBusiness", {business:business});
                   }}
                 >
                   <View style={tw`items-center mx-2`}>
                     <Feather name="map-pin" size={20} color="black" />
-                    <Text style={tw`text-base`}>
-                      View map
-                    </Text>
+                    <Text style={tw`text-base`}>View map</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-                    Linking.openURL(business.website)
+                    Linking.openURL(business.website);
                   }}
                 >
                   <View style={tw`items-center mx-2`}>
@@ -395,9 +471,7 @@ _categories.push(foundCategory.name)
                       size={20}
                       color="black"
                     />
-                    <Text style={tw`text-base`}>
-                      Visit website
-                    </Text>
+                    <Text style={tw`text-base`}>Visit website</Text>
                   </View>
                 </TouchableOpacity>
               </View>

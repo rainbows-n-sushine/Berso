@@ -1,4 +1,4 @@
-import React, { useEffect,useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import {
   View,
   TextInput,
@@ -15,275 +15,135 @@ import {
   Modal,
 } from "react-native";
 import tw from "twrnc";
-import { AntDesign, Feather, FontAwesome,MaterialIcons } from "@expo/vector-icons";
+import {
+  AntDesign,
+  Feather,
+  FontAwesome,
+  MaterialIcons,
+} from "@expo/vector-icons";
 import { FontAwesome5 } from "@expo/vector-icons";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import axios from "axios";
 import { useNavigation, useRoute } from "@react-navigation/native";
 import * as Font from "expo-font";
-import api from '../util/Util'
-import {MultipleSelectList} from 'react-native-dropdown-select-list'
+import api from "../../util/Util";
+import { MultipleSelectList } from "react-native-dropdown-select-list";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { AuthContext } from "../context/AuthContext";
+import { AuthContext } from "../../context/AuthContext";
 import * as ImagePicker from "expo-image-picker";
 
+const EditProfile = () => {
+    const { isLoading, userToken } = useContext(AuthContext);
+    const [_firstName, setFirstName] = useState("");
+    const [_middleName, setMiddleName] = useState("");
+    const [_lastName, setLastName] = useState("");
+    const [_username, setUserName] = useState("");
+    const [_email, setEmail] = useState("");
+    const [_phone, setPhone] = useState("");
+    const [_dateOfBirth, setDateOfBirth] = useState("");
+    const [date, setDate] = useState(new Date());
+    const [_zipCode, setZipCode] = useState("");
+    const [newPassword, setNewPassword] = useState("");
+    const [_bio, setBio] = useState("");
+    const [currentPassword, setCurrentPassword] = useState("");
+    const [showPicker, setShowPicker] = useState(false);
+    const [errors, setErrors] = useState({});
+    const [profilePic, setProfilePic] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const windowHeight = Dimensions.get("window").height;
+    const navigation = useNavigation();
 
 
+   const [businessProfilePic, setbusinessProfilePic] = useState(null);
+   const pickImageFromGallery = async () => {
+     const permissionResult =
+       await ImagePicker.requestMediaLibraryPermissionsAsync();
 
-const BusinessRegistration = ({ route }) => {
-  const windowHeight = Dimensions.get("window").height;
-  const navigation = useNavigation();
-  const [modalVisible, setModalVisible] = useState(false);
-  const [businessOwnerId, setBusinessOwnerId] = useState("");
+     if (permissionResult.granted === false) {
+       Alert.alert("Permission to access camera roll is required!");
+       return;
+     }
 
+     const result = await ImagePicker.launchImageLibraryAsync({
+       mediaTypes: ImagePicker.MediaTypeOptions.Images,
+       allowsEditing: true,
+       aspect: [1, 1],
+       quality: 1,
+     });
 
-  const location = route?.params?.location;
-    console.log("Location:", location);
-    let latitude = 0;
-    let longitude = 0;
+     if (!result.cancelled) {
+       saveProfile(result.assets[0].uri);
+       // setbusinessProfilePic(result.assets[0].uri);
+       //  setModalVisible(false);
+     }
+   };
+
+   const takeImageFromCamera = async () => {
+     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+
+     if (permissionResult.granted === false) {
+       Alert.alert("Permission to access camera is required!");
+       return;
+     }
+
+     const result = await ImagePicker.launchCameraAsync({
+       //  mediaTypes: ImagePicker.MediaTypeOptions.Images,
+       cameraType: ImagePicker.CameraType.front,
+       allowsEditing: true,
+       aspect: [1, 1],
+       quality: 1,
+     });
+
+     if (!result.cancelled) {
+       saveProfile(result.assets[0].uri);
+       //  setbusinessProfilePic(result.assets[0].uri);
+       //  setModalVisible(false);
+     }
+   };
+
+   const saveProfile = async (businessProfilePic) => {
+     try {
+       console.log("here");
+       setbusinessProfilePic(businessProfilePic);
+       setModalVisible(false);
+       // sending pp to backend
+       sentToBackend();
+     } catch (error) {
+       console.log("whatt");
+     }
+   };
+
+   const deletebusinessProfilePic = () => {
+     setbusinessProfilePic(null);
+     setModalVisible(false);
+   };
+
+   const defaultbusinessProfilePic = require("../../assets/Images/Home.jpg");
+
   
-  if (location && location.latitude !== undefined) {
 
-    latitude = location.latitude;
-  }
-  
-  if (location && location.longitude !== undefined) {
-    longitude = location.longitude;
-  }
+    const sentToBackend = async (profilePicUri) => {
+      try {
+        console.log("here");
+        const formData = new FormData();
+        formData.append("profilePic", {
+          uri: profilePicUri,
+          name: "profilePic.jpg",
+          type: "image/jpg",
+        });
 
-  
+        const response = await api.post("user/update-profilepic", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
 
-  useEffect(() => {
-    const checkOwner = async () => {
-      const isBusinessOwner = await AsyncStorage.getItem(
-        "registerBusinessByOwner"
-      );
-      console.log("this is the register busine s: ", isBusinessOwner);
-      if (isBusinessOwner === "true") {
-        let businessOwner = await AsyncStorage.getItem("businessOwnerId");
-        console.log("this is the businessOnwer id :", businessOwner);
-        setBusinessOwnerId(businessOwner);
+        console.log("Profile picture uploaded:", response.data);
+      } catch (error) {
+        console.log("Error uploading profile picture:", error.message);
       }
     };
-    checkOwner();
-  }, []);
-
-  const [business, setBusiness] = useState({
-    businessName: "",
-    email: "",
-    phone: "",
-    website: "",
-    location: "",
-    address: "",
-    businessDays: "",
-    openingHours: "",
-    averagePrice: "",
-    description: "",
-  });
-  const [categories, setCategories] = useState([]);
-  const [categoriesFetched, setCategoriesFetched] = useState([]);
-
-  //setSelected initially isnt an empty object it fetched the available categories from the back and updates the categories selected
-  const [selected, setSelected] = useState([]);
-
-  const data = [
-    { key: "1", value: "Restaurants", disabled: false },
-    { key: "2", value: "Shops", disabled: false },
-    { key: "3", value: "Hotels", disabled: false },
-    { key: "4", value: "Malls", disabled: true },
-    { key: "5", value: "Hair Salons", disabled: false },
-  ];
-
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
-      });
-    }
-
-    async function getCategories() {
-      console.log("mi here");
-
-      await api
-        .get("category/fetchAll")
-        .then((res) => {
-          console.log(res.data.categories);
-          let allCategory = res.data.categories;
-
-          console.log("this is the whole category", allCategory);
-          let categoryCollection = [];
-          for (var i = 0; i < allCategory.length; i++) {
-            //let id=JSON.stringify(allCategory[i]._id)
-            let id = allCategory[i]._id;
-            let category = { value: allCategory[i].name, key: id };
-
-            // setCategoriesFetched([,category])
-            categoryCollection.push(category);
-            console.log("this is categories fetched ", category);
-          }
-          setCategoriesFetched(categoryCollection);
-        })
-        .catch((err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
-    }
-    getCategories();
-    loadFonts();
-  }, []);
-
-  // const handleSelected=(val)=>{
-
-  // }
-  const handleCategories = (value) => {
-    const isSelected = false;
-    console.log(value);
-    console.log(typeof value);
-    for (var i = 0; i <= value.length; i++) {
-      categories[value[i]] = !isSelected;
-
-      // setCategories({...categories,[value[i]]:!isSelected})
-    }
-
-    // const selectedCategories= value.split(",")
-    // for (var i=0;i<=selectedCategories.length(); i++){
-    //   setCategories({...categories,[selectedCategories[i]]:!isSelected})
-
-    // }
-  };
-
-  const handleChange = (name, value) => {
-    setBusiness({ ...business, [name]: value });
-  };
-  const handleSubmit = async () => {
-    console.log(categories);
-    console.log("this is categories fetched: ", categoriesFetched);
-    const userId = await AsyncStorage.getItem("userId");
-
-    console.log("this is the value of categories " + categories.Shops);
-
-    console.log("im in handle submit");
-    console.log("this is the business owner id: ", businessOwnerId);
-    console.log(business);
-
-    await api
-      .post("business/register-business", {
-        business,
-        categories,
-        businessOwnerId,
-        latitude,
-        longitude
-      })
-      .then((res) => {
-        console.log("im in then");
-        console.log(res.data);
-
-        if (res.data.success) {
-          Alert.alert(res.data.message);
-          navigation.navigate("Home");
-        } else {
-          Alert.alert(res.data.messsage);
-        }
-      })
-      .catch((error) => {
-        if (error) {
-          console.log(error.message);
-        }
-      });
-  };
-  const [businessProfilePic, setbusinessProfilePic] = useState(null);
-  const pickImageFromGallery = async () => {
-    const permissionResult =
-      await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert("Permission to access camera roll is required!");
-      return;
-    }
-
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      saveProfile(result.assets[0].uri);
-      // setbusinessProfilePic(result.assets[0].uri);
-      //  setModalVisible(false);
-    }
-  };
-
-  const takeImageFromCamera = async () => {
-    const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      Alert.alert("Permission to access camera is required!");
-      return;
-    }
-
-    const result = await ImagePicker.launchCameraAsync({
-      //  mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      cameraType: ImagePicker.CameraType.front,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      saveProfile(result.assets[0].uri);
-      //  setbusinessProfilePic(result.assets[0].uri);
-      //  setModalVisible(false);
-    }
-  };
-
-  const saveProfile = async (businessProfilePic) => {
-    try {
-      console.log("here");
-      setbusinessProfilePic(businessProfilePic);
-      setModalVisible(false);
-      // sending pp to backend
-      sentToBackend();
-    } catch (error) {
-      console.log("whatt");
-    }
-  };
-
-  const deletebusinessProfilePic = () => {
-    setbusinessProfilePic(null);
-    setModalVisible(false);
-  };
-
-  const defaultbusinessProfilePic = require("../assets/Images/defaultbusinesspp.jpg");
-
-
-
-
-
-
-
-
-  // this is what i added
-  const [businessLocation, setBusinessLocation] = useState("");
-
-  const handleLocationPress = () => {
-    navigation.navigate("Maps", { setBusinessLocation });
-  };
-
-  console.log("Route params:", route.params);
-
-  // Check if route.params exists and has the location property
- 
-
-  // Check if location is defined before accessing its properties
-  // const latitude = location?.latitude || 0;
-  // const longitude = location?.longitude || 0;
-  
-  // console.log("Latitude:", latitude);
-  // console.log("Longitude:", longitude);
-  // until this
 
   return (
     <View style={tw`flex-1 bg-white justify-center`}>
@@ -314,7 +174,7 @@ const BusinessRegistration = ({ route }) => {
               style={{ fontFamily: "berlin-sans", fontSize: 35 }}
               className={`text-2xl font-bold mb-4 font-berlin-sans text-center py-2 `}
             >
-              Register Business
+              Update Business
             </Text>
           </View>
           <View style={tw``}>
@@ -439,7 +299,7 @@ const BusinessRegistration = ({ route }) => {
                 <View
                   style={tw`w-full border bg-orange-50 border-gray-100 rounded-2xl w-80  mb-4`}
                 >
-                  <MultipleSelectList
+                  {/* <MultipleSelectList
                     setSelected={(val) => {
                       setCategories(val);
                     }}
@@ -462,7 +322,7 @@ const BusinessRegistration = ({ route }) => {
 
                     // onSelect={()=>{handleCategories(selected)}}
                     // onSelect={()=>{handleCategories()}}
-                  />
+                  /> */}
                 </View>
               </View>
               <View>
@@ -481,14 +341,15 @@ const BusinessRegistration = ({ route }) => {
                     handleChange("website", text);
                   }}
                 />
-                <TouchableOpacity onPress={handleLocationPress}>
-                  <TextInput
+                <TextInput
                     style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80  px-4 mb-4`}
-                    placeholder="Press to add Location"
-                    preValue={business.location}
+                    placeholder="Press to change Location"
+                    // value={location}
                     editable={false}
                   />
-                </TouchableOpacity>
+                {/* <TouchableOpacity onPress={handleLocationPress}>
+                  
+                </TouchableOpacity> */}
                 <View style={tw`ml-8`}>
                   {/* <TextInput
                     style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  px-4 mb-4`}
@@ -502,7 +363,7 @@ const BusinessRegistration = ({ route }) => {
                     value={longitude}
                     editable={false}
                   /> */}
-                  <Text
+                  {/* <Text
                     style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  p-3 mb-4`}
                   >
                     Latitude: {latitude}
@@ -511,7 +372,7 @@ const BusinessRegistration = ({ route }) => {
                     style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-70  p-3 mb-4`}
                   >
                     Longitude: {longitude}
-                  </Text>
+                  </Text> */}
                 </View>
 
                 <View></View>
@@ -559,16 +420,21 @@ const BusinessRegistration = ({ route }) => {
               </View>
               <TouchableOpacity
                 style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
-                onPress={handleSubmit}
+                // onPress={handleSubmit}
               >
                 <Text
                   className={{ fontFamily: "berlin-sans" }}
                   style={tw`text-white font-bold`}
                 >
-                  Register
+                  Update Business
                 </Text>
               </TouchableOpacity>
             </View>
+
+            {/* <View style={tw`flex-row justify-center mt-8`}>
+              <Text style={tw`text-sm text-white`}>Already registered? </Text>
+              <Text style={tw`text-sm fontbold text-orange-500`}>Login</Text>
+            </View> */}
           </View>
         </View>
       </ScrollView>
@@ -576,4 +442,4 @@ const BusinessRegistration = ({ route }) => {
   );
 };
 
-export default BusinessRegistration;
+export default EditProfile;

@@ -131,6 +131,17 @@ const Login = ({ navigation }) => {
             >
               <Text style={tw`text-white font-bold`}>Login</Text>
             </TouchableOpacity>
+            <View style={tw`ml-12 flex-row`}>
+              <Text style={tw`text-sm  text-gray-500 mr-1`}>
+                Forgot password?
+              </Text>
+              <TouchableOpacity
+                // onPress={() => setIsBusinessOwner(!isBusinessOwner)}
+                onPress={() => navigation.navigate("ForgotPassword")}
+              >
+                <Text style={tw`text-sm font-bold text-white`}>Click here</Text>
+              </TouchableOpacity>
+            </View>
             <View style={tw` items-center justify-center mt-8 `}>
               <Text style={tw`text-sm text-white`}>
                 Want to login as Business Owner?{" "}
