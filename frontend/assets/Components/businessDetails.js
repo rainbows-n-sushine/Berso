@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState,useEffect} from "react";
 import {
   View,
   Text,
@@ -20,6 +20,11 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+
+
+const addedReview=""
+
+
 const dummyPost = {
   profileImage: "../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg",
   name: "Awesome Restaurant",
@@ -93,6 +98,8 @@ const ReviewItem = ({ item }) => {
   const [liked, setLiked] = useState(item.liked);
   const [newComment, setNewComment] = useState("");
 
+
+  
   const handleLike = () => {
     if (liked) {
       setLikes(likes - 1);
@@ -124,8 +131,8 @@ const ReviewItem = ({ item }) => {
 
   const renderComment = ({ item }) => (
     <View style={tw`flex-row items-center my-2 `}>
-      <Text style={tw`font-bold mr-2`}>{item.user.username}</Text>
-      <Text>{item.text}</Text>
+      <Text style={tw`font-bold mr-2`}>{item.username}</Text>
+      <Text>{item.description}</Text>
     </View>
   );
 
@@ -195,7 +202,9 @@ const ReviewItem = ({ item }) => {
   );
 };
 
-const Reviews = () => (
+const Reviews = ({businessProp,reviewFetched}) => (
+
+  
   <View style={tw`p-1`}>
     <View style={tw`bg-white p-4 rounded-lg shadow mb-4`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
@@ -205,7 +214,7 @@ const Reviews = () => (
         style={tw`border border-gray-300 p-2 flex-1 mr-2 mt-4`}
         placeholder="Add a review"
         // value={}
-        // onChangeText={}
+        onChangeText={(text)=>addedReview=text}
       />
       <Text style={tw`text-base text-gray-700 text-center`}>Tab to leave a review</Text>
     </View>
@@ -215,7 +224,7 @@ const Reviews = () => (
       </Text>
 
       <FlatList
-        data={dummyReviews}
+        data={reviewFetched}
         renderItem={({ item }) => <ReviewItem item={item} />}
         keyExtractor={(item) => item.id.toString()}
       />
@@ -274,7 +283,7 @@ const dummyServices = [
     icon: "table",
   },
 ];
-const Services = () => (
+const Services = ({businessProp}) => (
   <View style={tw`flex-1 bg-gray-100 py-5 px-4`}>
     <FlatList
       data={dummyServices}
@@ -336,7 +345,7 @@ const Services = () => (
   </View>
 );
 
-const Info = () => (
+const Info = ({businessProp}) => (
   <View style={tw`p-2`}>
     <View style={tw`bg-white p-4 rounded-lg shadow`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
@@ -450,7 +459,7 @@ const dummyPhotos = [
   { id: "10", url: require("../Images/Home.jpg") },
 ];
 
-const Pictures = () => (
+const Pictures = ({businessProp}) => (
   <View style={tw`p-2 flex-1 bg-white rounded-xl shadow`}>
     <FlatList
       data={dummyPhotos}
@@ -465,7 +474,7 @@ const Pictures = () => (
 );
 
 
-const MoreLikeThis = () => (
+const MoreLikeThis = ({businessProp}) => (
   <ScrollView style={tw`p-4`}>
     <View
       style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}

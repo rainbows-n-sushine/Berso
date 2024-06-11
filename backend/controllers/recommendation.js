@@ -1,4 +1,4 @@
-const { Business } = require("../models/business");
+const { Business } = require ("../models/business");
 const { Review } = require("../models/review");
 const { Rating } = require("../models/rating");
 const brain = require('brain.js');

@@ -1,5 +1,6 @@
 const {Review} = require('../models/review')
 const {addImage}=require('./reviewImage')
+const {updateReviewCount}=require('./business')
 
 exports.addReview=async(req,res)=>{
     const {review,userId,businessId,images}=req.body
@@ -31,7 +32,7 @@ exports.addReview=async(req,res)=>{
             addImage(images,reviewId)
         }
         
-
+  await updateReviewCount(businessId)
         
 
         return res.json({success:true,message:"review successfully submitted"})
@@ -43,7 +44,7 @@ exports.addReview=async(req,res)=>{
 exports.fetchAllReviewsForBusiness=async(req,res)=>{
     const {businessId}=req.params
 
-   const reviews= await Review.find().maxTime(30000)
+   const reviews= await Review.find().maxTimeMS(30000)
    try {
     if(reviews){
 

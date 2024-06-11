@@ -63,9 +63,14 @@ useEffect(()=>{
   const getReview=async()=>{
 
     const businessId=await AsyncStorage.getItem('currentBusiness')
-    api.get(`review//fetch-all-reviews-for-business/${businessId}`)
+
+    console.log('this is the current bsiness in get review', businessId)
+    api.get(`review/fetch-all-reviews-for-business/${businessId}`)
+
+
     .then((res)=>{
       console.log(res.data.message)
+      console.log('these r the reviews in get Rendbv',res.data.reviews)
 
       if(res.data.success){
         reviewFetched=res.data.reviews
@@ -126,23 +131,13 @@ if(error){
   console.log(error.message)
 }
 
-    })
-
-
-
-
-
-    }
-    
-
-
-  }
+    })} }
 
   
-  getReview()
+ getReview() 
   getBusinessInfo()
   fetchCategories()
-
+  
 
 },[])
 

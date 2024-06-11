@@ -34,6 +34,8 @@ import {
 } from "../assets/Components/businessDetails.js";
 import api from '../util/Util'
 
+
+
 const dummyPost = {
   profileImage: "../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg",
   name: "Awesome Restaurant",
@@ -50,28 +52,6 @@ const dummyPost = {
   ],
 };
 
-const dummyData = [
-  {
-    title: "Services",
-    data: Services(),
-  },
-  {
-    title: "Info",
-    data: Info(),
-  },
-  {
-    title: "Pictures",
-    data: Pictures(),
-  },
-  {
-    title: "Reviews",
-    data: Reviews(),
-  },
-  {
-    title: "More like This",
-    data: MoreLikeThis(),
-  },
-];
 
 const BusinessPage = ({route}) => {
   const navigation = useNavigation();
@@ -79,8 +59,37 @@ const BusinessPage = ({route}) => {
   const [activeTabIndex, setActiveTabIndex] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [categories,setCategories]=useState([])
-
   const {business}=route.params
+  const [dummyData,setDummyData] = [
+    {
+      title: "Services",
+      data: Services(),
+      props: {business:business},
+    },
+    {
+      title: "Info",
+      data: Info(),
+      props: {business:business},
+    },
+    {
+      title: "Pictures",
+      data: Pictures(),
+      props: {business:business},
+    },
+    {
+      title: "Reviews",
+      data: Reviews(),
+      props: {business:business, reviewFetched:reviewFetched},
+    },
+    {
+      title: "More like This",
+      data: MoreLikeThis(),
+      props: {business:business},
+    },
+  ];
+  
+
+ 
 
   const opacity = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => ({
@@ -88,11 +97,37 @@ const BusinessPage = ({route}) => {
   }));
 
   useEffect(() => {
+    
+
+console.log('this is business that is to be assigned to businessPopr',business)
     getBusinessCategory();
+    fetchReviews()
         setTimeout(() => {
       setIsReady(true);
     }, 1000); // Replace with actual data fetching logic
   }, []);
+
+    const fetchReviews=async()=>{
+
+
+     const businessId=business._id
+      await api.get(`review/fetch-all-reviews-for-business/${businessId}`)
+      .then((res)=>{
+        console.log(res.data.message)
+        if(res.data.success){
+          reviewFetched=res.data.reviews
+        }
+
+
+      })
+      .catch((error)=>{
+        if(error){
+          console.log("this is the error in fetch reviews in business Details ,",error.message)
+        }
+      })
+    }
+  
+
 
   const getBusinessCategory=async()=>{
     api.get(`category/fetchAll`)
@@ -285,7 +320,7 @@ _categories.push(foundCategory.name)
                   </View>
                   <View style={tw`items-end`}>
                     <Text style={tw`ml-1 font-base text-lg`}>
-                      ({dummyPost.reviewnumber})reviews
+                      ({business.review_count})reviews
                     </Text>
                   </View>
                 </View>
