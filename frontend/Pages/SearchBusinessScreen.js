@@ -7,7 +7,6 @@ import {
   SafeAreaView,
   TextInput,
   Dimensions,
-  FlatList,
 } from "react-native";
 import { FontAwesome, EvilIcons, AntDesign, Entypo } from "@expo/vector-icons";
 import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplete";
@@ -15,7 +14,7 @@ import * as Location from "expo-location";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import tw from "twrnc";
 import { useAppContext } from "../AppContext";
-import api from "../util/Util";
+
 const SearchBusinessScreen = () => {
   const setCoordinates = useAppContext();
   const navigation = useNavigation();
@@ -24,8 +23,6 @@ const SearchBusinessScreen = () => {
   const [businesses, setBusinesses] = useState([]);
   const [showMap, setShowMap] = useState(false);
 const [selectedLocation, setSelectedLocation] = useState(null);
- const [filteredBusinesses, setFilteredBusinesses] = useState([]);
- const [searchText, setSearchText] = useState("");
 
 
   const googleAPI = process.env.EXPO_PUBLIC_GOOGLE_API_KEY;
@@ -83,46 +80,6 @@ const handleMarkerPress = (businessLocation) => {
   // Navigate to the location of the pressed business
   navigation.navigate("BusinessLocation", { businessLocation });
 };
-
- 
-
- useEffect(() => {
-   fetchBusinesses();
- }, []);
-
- const fetchBusinesses = async () => {
-   try {
-     const res = await api.get("business/fetch-all");
-     if (res.data.success) {
-       setBusinesses(res.data.businesses);
-       setFilteredBusinesses(res.data.businesses); // Initialize with all businesses
-     } else {
-       console.log(res.data.message);
-     }
-   } catch (error) {
-     console.log("Error fetching businesses:", error.message);
-   }
- };
-
-  const handleSearchTextChange = (text) => {
-    setSearchText(text);
-    if (text) {
-      const results = businesses.filter(
-        (business) =>
-          business.business_name &&
-          business.business_name.toLowerCase().includes(text.toLowerCase())
-      );
-      setFilteredBusinesses(results);
-    } else {
-      setFilteredBusinesses([]); // Clear filtered businesses if search text is empty
-    }
-  };
-
- const handleSelectBusiness = (business) => {
-  console.log(business);
-  //  navigation.navigate("BusinessPage", { businessId: business.id });
- };
-
   return (
     <SafeAreaView style={tw`flex-1 mt-5 bg-[#F2E8DE]`}>
       {showMap ? (
@@ -246,34 +203,10 @@ const handleMarkerPress = (businessLocation) => {
               <TextInput
                 style={tw`flex-1 text-base font-bold text-gray-400 ml-2 border-b border-gray-300`}
                 placeholder="Search for nearby restaurants, salons..."
-                value={searchText}
-                onChangeText={handleSearchTextChange}
+                onSubmitEditing={() => navigation.navigate("SearchResults")}
               />
             </View>
-            {searchText ? (
-              <FlatList
-                data={filteredBusinesses}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => (
-                  <TouchableOpacity
-                    style={tw`p-2 border-b border-gray-200`}
-                    onPress={() => handleSelectBusiness(item)}
-                  >
-                    <Text style={tw`text-base`}>
-                      {item.business_name || "Unnamed Business"}
-                    </Text>
-                  </TouchableOpacity>
-                )}
-              />
-            ) : (
-              <View style={tw`flex-1 items-center justify-center`}>
-                <Text style={tw`text-gray-500`}>
-                  Search for businesses to display them here
-                </Text>
-              </View>
-            )}
           </View>
-
           <View style={tw`rounded-lg mr-3 ml-3 bg-white pl-5`}>
             <View style={tw`flex-row items-center m-2`}>
               <EvilIcons name="location" size={20} color="black" />

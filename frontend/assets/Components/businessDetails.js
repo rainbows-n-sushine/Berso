@@ -284,9 +284,9 @@ const dummyServices = [
     icon: "table",
   },
 ];
-const Services = ({businessProp}) => (
+const Services = () => (
   <View style={tw`flex-1 bg-gray-100 py-5 px-4`}>
-    {/* <FlatList
+    <FlatList
       data={dummyServices}
       keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
@@ -342,11 +342,11 @@ const Services = ({businessProp}) => (
           </View>
         </View>
       )}
-    /> */}
+    />
   </View>
 );
 
-const Info = ({businessProp}) => (
+const Info = () => (
   <View style={tw`p-2`}>
     <View style={tw`bg-white p-4 rounded-lg shadow`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
@@ -460,7 +460,7 @@ const dummyPhotos = [
   { id: "10", url: require("../Images/Home.jpg") },
 ];
 
-const Pictures = ({businessProp}) => (
+const Pictures = () => (
   <View style={tw`p-2 flex-1 bg-white rounded-xl shadow`}>
     <FlatList
       data={dummyPhotos}
@@ -475,9 +475,18 @@ const Pictures = ({businessProp}) => (
 );
 
 
-const MoreLikeThis = ({businessProp}) => (
+const MoreLikeThis = () => (
   <ScrollView style={tw`p-4`}>
-   
+    <View
+      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
+    >
+      <Text>Ice Cream</Text>
+    </View>
+    <View
+      style={tw`flex-row justify-between items-center p-4 border-b border-gray-300`}
+    >
+      <Text>Brownie</Text>
+    </View>
   </ScrollView>
 );
 

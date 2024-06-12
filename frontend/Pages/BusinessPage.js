@@ -45,8 +45,8 @@ const dummyPost = {
   category: "Restaurant",
   about: "This is a great restaurant with a variety of delicious foods.",
   allAbout: [
-    { category: "Info", id: 1 },
-    { category: "Services", id: 2 },
+    { category: "Services", id: 1 },
+    { category: "Info", id: 2 },
     { category: "Pictures", id: 3 },
     { category: "Reviews", id: 4 },
     { category: "More like this", id: 5 },
@@ -58,12 +58,12 @@ const _reviews=[]
 
 const dummyData = [
   {
-    title: "Info",
-    data: Info(),
-  },
-  {
     title: "Services",
     data: Services(),
+  },
+  {
+    title: "Info",
+    data: Info(),
   },
   {
     title: "Pictures",
@@ -71,7 +71,8 @@ const dummyData = [
   },
   {
     title: "Reviews",
-    data: <Reviews Reviews={_reviews} />,
+    data: <Reviews Reviews={_reviews}/>,
+
   },
   {
     title: "More like This",
@@ -326,7 +327,7 @@ _categories.push(foundCategory.name)
         renderBackground={() => (
           <Image
             style={tw`w-full h-full opacity-86`}
-            source={require("../assets/Images/business.jpg")}
+            source={require("../assets/Images/HomeBG.jpg")}
             resizeMode="cover"
           />
         )}
@@ -335,7 +336,7 @@ _categories.push(foundCategory.name)
             <View
               style={tw`absolute bg-transparent rounded-xl top-27 left-3 flex-row justify-between p-2 items-center`}
             >
-              {/* <FontAwesome5 name="font" size={35} color="yellow" /> */}
+              <FontAwesome5 name="font" size={35} color="yellow" />
               <View style={tw` justify-between ml-2 `}>
                 <Text
                   // style={}
