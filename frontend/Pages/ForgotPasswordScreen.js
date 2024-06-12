@@ -43,7 +43,7 @@ const ForgotPasswordScreen = () => {
   };
 
   return (
-    <View style={[tw`flex-1 justify-center items-center bg-[#F2E8DE]`]}>
+    <View style={[tw`flex-1 justify-center items-center bg-ornage-50`]}>
       <TouchableOpacity
         style={tw`absolute top-4 left-4 p-2`}
         onPress={() => navigation.goBack()}
