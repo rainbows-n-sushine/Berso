@@ -13,6 +13,7 @@ import { GooglePlacesAutocomplete } from "react-native-google-places-autocomplet
 import * as Location from "expo-location";
 import MapView, { PROVIDER_GOOGLE, Marker } from "react-native-maps";
 import tw from "twrnc";
+import api from '../util/Util'
 import { useAppContext } from "../AppContext";
 
 const SearchBusinessScreen = () => {
@@ -46,7 +47,7 @@ const [selectedLocation, setSelectedLocation] = useState(null);
 
       let location = await Location.getCurrentPositionAsync({});
       setLocation(location.coords);
-      fetchNearbyBusinesses(location.coords);
+      fetchBusinesses(location.coords);
     })();
   }, []);
 
@@ -70,14 +71,15 @@ const [selectedLocation, setSelectedLocation] = useState(null);
   // };
 
   const fetchBusinesses=async()=>{
+    console.log("this is the businesses: ")
 
-    await api.get('fetch-all')
+    await api.get('business/fetch-all')
     .then((res)=>{
+      console.log(res.data.message)
       if(res.data.success){
-        console.log("this is the businesses: ",res.data.businesses[0])
+        console.log("this is the businesses: ", res.data.businesses)
         setBusinesses(res.data.businesses)
       }
-
 
     })
     .catch((error)=>{

@@ -80,13 +80,13 @@ exports.registerBusiness = async (req, res) => {
 
 exports.fetchByCategory = async (req, res) => {
   const { categoryId } = req.params;
-console.log('this it hhsvjhvsh cate  :', categoryId)
 
 // const id=JSON.parse(categoryId)
 
 
 try {
-  const businesses = await Business.find({ category:{$in:[categoryId]}});
+  if(categoryId){
+    const businesses = await Business.find({ category:{$in:[categoryId]}});
 
     console.log("Retrieved businesses:", businesses);
 
@@ -97,9 +97,16 @@ try {
       res.json({success:false,message:"businesses in the category failed to fetch"})
 
     }
+
+
+  }
+  else{
+    return res.json({message:'cateogory dont exixt',success:false})
+  }
+  
   } catch (error) {
 
-    console.error("Error fetching businesses:", error);
+    console.error("Error fetching businesses:", error.message);
     res.status(500).json({ error: "Internal server error" });
 
   }
@@ -109,7 +116,13 @@ exports.fetchAll=async(req,res)=>{
   const businesses= await Business.find()
 
   try{
-    return res.json({message:"businesses fetched successfully",businesses:businesses,success:true})
+    if(businesses){
+      return res.json({message:"businesses fetched successfully",businesses:businesses,success:true})
+    }else{
+      return res.json({message:"no businesses found",success:false})
+
+    }
+
   }catch{(err)=>{
     if(err){
       console.log(err)
@@ -328,7 +341,7 @@ exports.getOneById=async(businessId)=>{
     }
     else{
       console.log('business not found')
-      return "";
+      return {};
     }
   } catch (error) {
   

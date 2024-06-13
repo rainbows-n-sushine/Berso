@@ -135,38 +135,51 @@ async function getUserPreferences(userId) {
 
     for (const business of favoriteBusinesses) {
       const categories = business.category;
+      if(categories){
+        for (const category of categories) {
+          if (userPreferences[category]) {
+            userPreferences[category] += 5;
+          } else {
+            userPreferences[category] = 5;
+          }
+        }
+
+      }
+      else {
+        return 0;
+      }
       
 
-      for (const category of categories) {
-        if (userPreferences[category]) {
-          userPreferences[category] += 5;
-        } else {
-          userPreferences[category] = 5;
-        }
-      }
+      
     }
 
     const userRating = await Rating.find({ user: userId }).populate("business");
 
-    for (const rating of userRating) {
-      const business = rating.business;
-      const _business = await Business.findById(business);
-      const categories = _business.category;
-
-      for (const category of categories) {
-        if (userPreferences[category]) {
-          userPreferences[category] += rating.rating;
-        } else {
-          userPreferences[category] = rating.rating;
+    if(userRating){
+      for (const rating of userRating) {
+        const business = rating.business;
+        const _business = await Business.findById(business);
+        const categories = _business.category;
+  if (categories){
+        for (const category of categories) {
+          if (userPreferences[category]) {
+            userPreferences[category] += rating.rating;
+          } else {
+            userPreferences[category] = rating.rating;
+          }
         }
       }
+      for (const category in userPreferences) {
+        userPreferences[category] /= userRating.length;
+      }
+  
+      return userPreferences;
     }
 
-    for (const category in userPreferences) {
-      userPreferences[category] /= userRating.length;
-    }
 
-    return userPreferences;
+    }else{
+      return 0;
+    }
   } catch (error) {
     console.error("Error retrieving user preferences:", error.message);
     throw error;
