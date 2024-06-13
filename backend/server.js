@@ -58,6 +58,10 @@ app.use("/rating", ratingRoute);
 const reportRoute = require("./routes/report");
 app.use("/report", reportRoute);
 
+const adminRoute = require("./routes/admin");
+app.use("/admin", adminRoute);
+
+
 
 
 app.listen(8000, () => {

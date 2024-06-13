@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
-const userSchema = new mongoose.Schema({
+const adminSchema = new mongoose.Schema({
   name: {
     type: String,
     // required:true
@@ -28,30 +28,20 @@ username:{
     type: String,
     // required:true,
   },
-  bio: {
-    type: String,
-  },
+ 
   date:{
     type:Date,
     default:Date.now()
   },
 
-  // avatar: Buffer,
+  // profilepic: {
+  //   data: Buffer,
+  //   contentType: String,
+  // },
 
-  profilepic: {
-    data: Buffer,
-    contentType: String,
-  },
-
-  favorites: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Business",
-    },
-  ],
 });
 
-userSchema.statics.isUniqueCredentials = async function (email, username) {
+adminSchema.statics.isUniqueCredentials = async function (email, username) {
   console.log("email n username check credentials");
 
   if (!email) throw new Error("invalid email");
@@ -77,27 +67,8 @@ userSchema.statics.isUniqueCredentials = async function (email, username) {
   }
 };
 
-// userSchema.pre('save',function(next){
-//     if(this.isModified('password')){
-//         bcrypt.hash(this.password,8,(err,hash)=>{
-//             if(err) return next(err)
 
-// userSchema.pre('findOneAndUpdate',async function(next){
-//     if(this.isModified('password')){
-
-//        await bcrypt.hash(this.password,8,(err,hash)=>{
-//             if(err) return next(err)
-
-//             this.password=hash;
-//             next()
- 
-//         })
-
-//     }
-
-// })
-
-userSchema.pre("save", function (next) {
+adminSchema.pre("save", function (next) {
   if (this.isModified("password")) {
     bcrypt.hash(this.password, 8, (err, hash) => {
       if (err) {
@@ -122,22 +93,22 @@ userSchema.pre("save", function (next) {
 //     });
 //   }
 // });
-// userSchema.methods.comparePassword = async function (password) {
-//   if (!password) {
-//     throw new Error("Password is missing, cannot compare!");
-//   }
-//   console.log("Comparing passwords...");
-//   try {
-//     console.log(password + " " + this.password);
-//     const result = await bcrypt.compare(password, this.password);
-//     return result;
-//   } catch (err) {
-//     console.log("Error while comparing password: ", err.message);
-//     throw err; // Re-throw the error to propagate it further if needed
-//   }
-// };
+adminSchema.methods.comparePassword = async function (password) {
+  if (!password) {
+    throw new Error("Password is missing, cannot compare!");
+  }
+  console.log("Comparing passwords...");
+  try {
+    console.log(password + " " + this.password);
+    const result = await bcrypt.compare(password, this.password);
+    return result;
+  } catch (err) {
+    console.log("Error while comparing password: ", err.message);
+    throw err; // Re-throw the error to propagate it further if needed
+  }
+};
 
-userSchema.methods.comparePassword = async function (password) {
+adminSchema.methods.comparePassword = async function (password) {
   if (!password) throw new error("password is mission, cannot compare!");
   console.log("im comparing password");
 
@@ -152,7 +123,7 @@ userSchema.methods.comparePassword = async function (password) {
   }
 };
 
-userSchema.statics.userExists = async function (credential, password) {
+adminSchema.statics.adminExists = async function (credential, password) {
   const credenetialInUse = false;
   if (!credential) throw new Error("invalid email");
   console.log(credential);
@@ -169,5 +140,5 @@ userSchema.statics.userExists = async function (credential, password) {
   }
 };
 
-const User = mongoose.model("User", userSchema);
-module.exports = { User };
+const Admin = mongoose.model("Admin", adminSchema);
+module.exports = { Admin };

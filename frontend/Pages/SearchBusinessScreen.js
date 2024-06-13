@@ -31,7 +31,12 @@ const [selectedLocation, setSelectedLocation] = useState(null);
     setHeaderVisible(!headerVisible);
   };
 
+  useEffect(()=>{
+    fetchBusinesses()
+  },[])
+
   useEffect(() => {
+    
     (async () => {
       let { status } = await Location.requestForegroundPermissionsAsync();
       if (status !== "granted") {
@@ -45,24 +50,46 @@ const [selectedLocation, setSelectedLocation] = useState(null);
     })();
   }, []);
 
-  const fetchNearbyBusinesses = (coords) => {
-    // Replace this with your API call to fetch businesses near the given coordinates
-    const dummyBusinesses = [
-      {
-        id: 1,
-        name: "Business 1",
-        latitude: coords.latitude + 0.001,
-        longitude: coords.longitude + 0.001,
-      },
-      {
-        id: 2,
-        name: "Business 2",
-        latitude: coords.latitude - 0.001,
-        longitude: coords.longitude - 0.001,
-      },
-    ];
-    setBusinesses(dummyBusinesses);
-  };
+  // const fetchNearbyBusinesses = (coords) => {
+  //   // Replace this with your API call to fetch businesses near the given coordinates
+  //   const dummyBusinesses = [
+  //     {
+  //       id: 1,
+  //       name: "Business 1",
+  //       latitude: coords.latitude + 0.001,
+  //       longitude: coords.longitude + 0.001,
+  //     },
+  //     {
+  //       id: 2,
+  //       name: "Business 2",
+  //       latitude: coords.latitude - 0.001,
+  //       longitude: coords.longitude - 0.001,
+  //     },
+  //   ];
+  //   setBusinesses(dummyBusinesses);
+  // };
+
+  const fetchBusinesses=async()=>{
+
+    await api.get('fetch-all')
+    .then((res)=>{
+      if(res.data.success){
+        console.log("this is the businesses: ",res.data.businesses[0])
+        setBusinesses(res.data.businesses)
+      }
+
+
+    })
+    .catch((error)=>{
+      if(error){
+        console.log('error in fetchBUsinesses in searchBusinesses screen: ',error.message)
+      }
+
+
+    })
+
+
+  }
 
   const handleSelectPlace = (place) => {
     const { lat, lng } = place.geometry.location;
@@ -79,6 +106,11 @@ const [selectedLocation, setSelectedLocation] = useState(null);
 const handleMarkerPress = (businessLocation) => {
   // Navigate to the location of the pressed business
   navigation.navigate("BusinessLocation", { businessLocation });
+};
+
+const handleSettedMarkerPress = (business) => {
+  // Navigate to the location of the pressed business
+  navigation.navigate("BusinessPage", { business });
 };
   return (
     <SafeAreaView style={tw`flex-1 mt-5 bg-[#F2E8DE]`}>
@@ -113,7 +145,7 @@ const handleMarkerPress = (businessLocation) => {
                   longitude: business.longitude,
                 }}
                 title={business.business_name}
-                onPress={() => handleMarkerPress(business)}
+                onPress={() => handleSettedMarkerPress(business)}
               />
             ))}
             {selectedLocation && (

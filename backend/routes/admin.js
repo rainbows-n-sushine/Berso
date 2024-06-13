@@ -5,17 +5,17 @@ const {
   userValidation,
 } = require("../middleware/validation/user");
 const { isAuth } = require("../middleware/auth");
-const {signUp,signin,updateUserProfile,fetchUserData,updateUserProfilePic,fetchAll} = require('../controllers/user')
+const {signin,signUp} = require('../controllers/admin')
 
-router.post('/signup',signUp)
+router.post('/signUp',signUp)
 router.post('/signin',signin)
-router.post('/user-profile-data',fetchUserData)
-router.post('/create-post',isAuth,(req,res)=>{
+// router.post('/user-profile-data',fetchUserData)
+// router.post('/create-post',isAuth,(req,res)=>{
 
-    res.send('Welcome to your secret route')
-})
+//     res.send('Welcome to your secret route')
+// })
 
-router.post("/update-profile", updateUserProfile);
-router.post("/update-profilepic", updateUserProfilePic);
-router.get('/fetch-all',fetchAll)
+// router.post("/update-profile", updateUserProfile);
+// router.post("/update-profilepic", updateUserProfilePic);
+// router.get('/fetch-all',fetchAll)
 module.exports = router;
