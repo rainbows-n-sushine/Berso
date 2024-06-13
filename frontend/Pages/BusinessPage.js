@@ -54,31 +54,7 @@ const dummyPost = {
 };
 
 
-const _reviews=[]
 
-const dummyData = [
-  {
-    title: "Services",
-    data: Services(),
-  },
-  {
-    title: "Info",
-    data: Info(),
-  },
-  {
-    title: "Pictures",
-    data: Pictures(),
-  },
-  {
-    title: "Reviews",
-    data: <Reviews Reviews={_reviews}/>,
-
-  },
-  {
-    title: "More like This",
-    data: MoreLikeThis(),
-  },
-];
 
 const BusinessPage = ({route}) => {
   const navigation = useNavigation();
@@ -93,6 +69,30 @@ const BusinessPage = ({route}) => {
   const [isUser,setIsUser]=useState(false)
   const {business}=route.params
   const businessId=business._id
+
+  const tabs = [
+    {
+      title: "Services",
+      data: Services(),
+    },
+    {
+      title: "Info",
+      data: Info(),
+    },
+    {
+      title: "Pictures",
+      data: Pictures(),
+    },
+    {
+      title: "Reviews",
+      data: <Reviews Reviews={reviews}/>,
+  
+    },
+    {
+      title: "More like This",
+      data: MoreLikeThis(),
+    },
+  ];
 
 
 
@@ -111,11 +111,16 @@ const BusinessPage = ({route}) => {
       fetchReviews()
     }, 1000); // Replace with actual data fetching logic
   }, []);
-  const handleCallClick=()=>{
 
-
-
-  }
+  const handleWebsiteClick = async () => {
+    const url =`https://${business.website}` ; // Replace with the desired website URL
+  
+    try {
+      await Linking.openURL(url);
+    } catch (error) {
+      console.error('Error opening URL:', error);
+    }
+  };
 
 
 
@@ -395,7 +400,7 @@ _categories.push(foundCategory.name)
                   </View>
                   <View style={tw`items-end`}>
                     <Text style={tw`ml-1 font-base text-lg`}>
-                      ({business.reviewnumber})reviews
+                      ({business.review_count})reviews
                     </Text>
                   </View>
                 </View>
@@ -462,9 +467,7 @@ _categories.push(foundCategory.name)
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={() => {
-                    Linking.openURL(business.website);
-                  }}
+                  onPress={handleWebsiteClick}
                 >
                   <View style={tw`items-center mx-2`}>
                     <MaterialCommunityIcons
@@ -505,8 +508,8 @@ _categories.push(foundCategory.name)
           </ScrollView>
           <View style={tw`flex-1 bg-slate-50 `}>
             {/* Only render the content of the active tab */}
-            {dummyData[activeTabIndex] && (
-              <SectionContent section={dummyData[activeTabIndex]} />
+            {tabs[activeTabIndex] && (
+              <SectionContent section={tabs[activeTabIndex]} />
             )}
           </View>
         </View>

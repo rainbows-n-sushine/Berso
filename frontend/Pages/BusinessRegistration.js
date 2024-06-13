@@ -318,6 +318,11 @@ const BusinessRegistration = ({ route }) => {
             </Text>
           </View>
           <View style={tw``}>
+          <TouchableOpacity
+                // onPress={}
+                onPress={() => setModalVisible(true)}
+                className="bg-red-400"
+              >
             <View className="items-center justify-between p-7">
               <Image
                 source={
@@ -327,20 +332,17 @@ const BusinessRegistration = ({ route }) => {
                 }
                 style={tw`w-full h-50 rounded-xl border-8 border-orange-300`}
               />
-              <TouchableOpacity
-                // onPress={}
-                onPress={() => setModalVisible(true)}
-                className="bg-red-400"
-              >
+             
                 <View style={tw`absolute bottom-2 left-25 bg-white  p-1`}>
                   {/* <MaterialIcons name="add-a-photo" size={26} color="#FB923C" /> */}
                   <Text className="text-orange-500 font-bold">
                     Choose Profile Photo
                   </Text>
                 </View>
-              </TouchableOpacity>
+              
               {/* <Text className="text-stone-400 ">Change Profile Photo</Text> */}
             </View>
+            </TouchableOpacity>
             <Modal
               animationType="slide"
               transparent={true}
@@ -476,7 +478,7 @@ const BusinessRegistration = ({ route }) => {
                 </Text>
                 <TextInput
                   style={tw`w-full h-12 border bg-orange-50 border-gray-100 rounded-2xl w-80 px-4 mb-4`}
-                  placeholder="Website"
+                  placeholder="Website(www.yourWebsiteUrl.com)"
                   onChangeText={(text) => {
                     handleChange("website", text);
                   }}

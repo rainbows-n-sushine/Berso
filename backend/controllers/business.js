@@ -364,15 +364,19 @@ exports.updateReviewCount=async(businessId)=>{
     const business=await Business.findById(businessId)
     if(business){
       const newCount=business.review_count+1
-      const businessUpdated=await Business.findByIdAndUpdate(businessId,{review_count:newCount})
+      await Business.findByIdAndUpdate(businessId,{review_count:newCount})
+      return true;
 
     }else{
+     
       console.log('business is not found to update review count')
+      return false
     }
     
   } catch (error) {
     if(error){
       console.log("this sis error in reviewcoutn updat e",error.message)
+      return false;
     }
     
   }

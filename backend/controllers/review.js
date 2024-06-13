@@ -30,7 +30,8 @@ exports.addReview=async(req,res)=>{
             addImage(images,reviewId)
         }
         
-  await updateReviewCount(businessId)
+await updateReviewCount(businessId)
+
         
 
         return res.json({success:true,message:"review successfully submitted"})
