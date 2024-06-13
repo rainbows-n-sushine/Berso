@@ -321,3 +321,55 @@ exports.fetchUserSpecificFavorites = async (req, res) => {
   }
 };
 
+exports.fetchMonthlyUsers=async(req,res)=>{
+  console.log('im in fetch monthly users')
+  
+  try {
+    const allUsers=await User.find()
+
+    if(allUsers){
+      
+      const totalMonthlyUsers=[]
+      
+     for(let i=1;i<=12;i++){
+      let monthlyUsersAmount=0
+      allUsers.forEach((user)=>{
+        if(user.date.toString().length !== 0){
+          let date=user.date.toString()
+          const newDate= new Date(date)
+          const month=newDate.getMonth()+1
+          console.log('this is the month the user registeresd, ',month)
+          
+        console.log('this is the date',date,' and this is the ytpe: ',typeof date)
+        console.log('this is the type of month',typeof month)
+        if (month===i){
+          monthlyUsersAmount++; 
+          console      
+        } }       
+
+      })
+      console.log('this is the totalMonthlyUsers: ',totalMonthlyUsers)
+
+        totalMonthlyUsers.push({x:i,y:monthlyUsersAmount})
+  
+      
+     
+
+      
+         }
+
+         res.json({message:"successfully fetched all the users dataPoints", success:true , dataPoints:totalMonthlyUsers})
+
+   
+    }else{
+      res.json({message:"no users found", success:false })
+
+    }
+    
+  } catch (error) {
+
+    
+  }
+
+
+}
