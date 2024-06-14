@@ -145,12 +145,6 @@ async function getUserPreferences(userId) {
         }
 
       }
-      else {
-        return 0;
-      }
-      
-
-      
     }
 
     const userRating = await Rating.find({ user: userId }).populate("business");
