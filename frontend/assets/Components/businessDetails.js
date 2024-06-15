@@ -346,7 +346,7 @@ const Services = () => (
   </View>
 );
 
-const Info = () => (
+const Info = ({Business}) => (
   <View style={tw`p-2`}>
     <View style={tw`bg-white p-4 rounded-lg shadow`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
@@ -357,7 +357,7 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Website:</Text>
-          <Text style={tw`text-base text-gray-500`}>{dummyPost.website}</Text>
+          <Text style={tw`text-base text-gray-500`}>{Business.website}</Text>
         </View>
         <MaterialCommunityIcons
           name="web"
@@ -371,7 +371,7 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Email:</Text>
-          <Text style={tw`text-base text-gray-500`}>{dummyPost.email}</Text>
+          <Text style={tw`text-base text-gray-500`}>{Business.email}</Text>
         </View>
         <FontAwesome name="envelope" size={20} color="black" style={tw`mr-2`} />
       </TouchableOpacity>
@@ -380,7 +380,7 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Phone:</Text>
-          <Text style={tw`text-base text-gray-500`}>{dummyPost.phone}</Text>
+          <Text style={tw`text-base text-gray-500`}>{Business.phone}</Text>
         </View>
         <FontAwesome name="phone" size={20} color="black" style={tw`mr-2`} />
       </TouchableOpacity>
@@ -389,7 +389,7 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Address:</Text>
-          <Text style={tw`text-base text-gray-500`}>{dummyPost.address}</Text>
+          <Text style={tw`text-base text-gray-500`}>{Business.address}</Text>
         </View>
         <FontAwesome
           name="map-marker"
@@ -411,7 +411,7 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Features:</Text>
-          <Text style={tw`text-base text-gray-500`}>{dummyPost.hours}</Text>
+          <Text style={tw`text-base text-gray-500`}>{Business.opening_hours}</Text>
         </View>
       </TouchableOpacity>
 
@@ -420,7 +420,7 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Hours:</Text>
-          <Text style={tw`text-base text-gray-500`}>{dummyPost.hours}</Text>
+          <Text style={tw`text-base text-gray-500`}>{Business.opening_hours}</Text>
         </View>
         <FontAwesome
           name="calendar-times-o"
@@ -434,7 +434,7 @@ const Info = () => (
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
         Description
       </Text>
-      <Text style={tw`text-base text-gray-700`}>{dummyPost.description}</Text>
+      <Text style={tw`text-base text-gray-700`}>{Business.description}</Text>
     </View>
   </View>
 );

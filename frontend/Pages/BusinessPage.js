@@ -77,7 +77,7 @@ const BusinessPage = ({route}) => {
     },
     {
       title: "Info",
-      data: Info(),
+      data: <Info Business={business}/>
     },
     {
       title: "Pictures",
