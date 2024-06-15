@@ -41,7 +41,7 @@ const HomeScreen = () => {
       //   [totalViews]:67
       // }))
       setAverageRating(res.data.business.average_rating)
-      setTotalReviews(10)
+      setTotalReviews(res.data.business.review_count)
       setTotalViews(234)
 
 
