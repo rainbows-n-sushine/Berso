@@ -55,16 +55,38 @@ npm Install
 # Start the Expo development server
 npx expo start
 
-
-# Navigate to the server
-cd backend
-npm Install
-
 # Install dependencies
 npm install
 
 # Start the Expo development server
 npx expo start
+
+# Navigate to the server
+cd backend
+npm Install
+
+#Start the server
+npm start
+
+#Add a .env file under your backend and fill these Variables accordingly
+
+#The client Id and secret is from your google console to utilize the Google maps api
+
+#the client url is the url is hosted at, possibly http://localhost:3000
+
+#the mongo uri is the connection string for your mongo db database
+
+#The jwt secret is ur jwt secret, that can literally be anything.
+
+
+JWT_SECRET=
+CLIENT_ID=
+CLIENT_SECRET=
+CLIENT_URL=
+MONGO_URI=
+JWT_SECRET=
+
+
 ```
 
 ---
