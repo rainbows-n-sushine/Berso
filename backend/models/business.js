@@ -77,19 +77,45 @@ const businessSchema=new mongoose.Schema({
     rating_count: {
         type: Number,
         default: 0,
+<<<<<<< HEAD
 
 
+=======
+    },
+    
+    latitude:{
+        type:Number,
+        default:0
+    },
+
+    longitude:{
+        type:Number,
+        default:0
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     },
     review_count:{
         type: Number,
         default: 0,
 
     },
+<<<<<<< HEAD
+=======
+    //checks if the newly registered business is verified by the admin or not. when it pons out on the admins panel notification
+    status:{
+        type:String,
+        default:"unread"
+
+    },
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
     date:{
         type:Date,
         default:Date.now()
       },
+<<<<<<< HEAD
+=======
+    
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 })
 

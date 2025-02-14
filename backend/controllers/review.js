@@ -1,5 +1,9 @@
 const {Review} = require('../models/review')
 const {addImage}=require('./reviewImage')
+<<<<<<< HEAD
+=======
+const {updateReviewCount}=require('./business')
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 exports.addReview=async(req,res)=>{
     const {review,userId,businessId,images}=req.body
@@ -9,8 +13,11 @@ exports.addReview=async(req,res)=>{
         review,"  this is the userId ",
         userId,"  this is businessId  ",
         businessId
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     )
 
     try{
@@ -31,6 +38,10 @@ exports.addReview=async(req,res)=>{
             addImage(images,reviewId)
         }
         
+<<<<<<< HEAD
+=======
+await updateReviewCount(businessId)
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
         
 
@@ -43,16 +54,27 @@ exports.addReview=async(req,res)=>{
 exports.fetchAllReviewsForBusiness=async(req,res)=>{
     const {businessId}=req.params
 
+<<<<<<< HEAD
    const reviews= await Review.find().maxTime(30000)
    try {
     if(reviews){
+=======
+   const reviews= await Review.find({business:businessId}).maxTimeMS(30000)
+   try {
+    if(reviews){
+        console.log('these are reviews',reviews)
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
         res.json({success:true, message:"reviews are fetched", reviews:reviews}) 
     }
     
 
    } catch (error) {
+<<<<<<< HEAD
     if(error){console.log("the error in fetchAllReviewsForBusiness is : ",error)}
+=======
+    if(error){console.log("the error in fetchAllReviewsForBusiness is : ",error.message)}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
    }
 }
 

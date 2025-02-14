@@ -27,8 +27,11 @@ import {
 import ParallaxScrollView from "../assets/Components/ParallaxScrollView";
 const { width } = Dimensions.get("window");
 import { useNavigation } from "@react-navigation/native";
+<<<<<<< HEAD
 import MarketCard from "../assets/Components/marketCard";
 import { dummyRestaurantsData } from "../assets/Data/restaurantsData";
+=======
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 import { AuthContext } from "../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -74,6 +77,7 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
 
   }
 
+<<<<<<< HEAD
   //  const renderItem: ListRenderItem<any> = ({ item, index }) => (
   //   <Link href={{ pathname: '/modalFood', params: { id: id, itemId: item.id } }} asChild>
   //     <TouchableOpacity
@@ -104,6 +108,8 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
   // );
 
   // console.log("the fuck is happening", data);
+=======
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   return (
     <View style={tw`flex-1 bg-white`}>
       {isLoading ? (
@@ -122,6 +128,7 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
             renderBackground={() => <View style={tw`bg-black top-8`}></View>}
             stickyHeaderHeight={90}
             contentBackgroundColor="#F2E8DE"
+<<<<<<< HEAD
             // renderStickyHeader={() => (
             //   <View style={tw`flex justify-between top-4`}>
             //     <View style={tw`ml-4`}>
@@ -143,6 +150,29 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
             //     </View>
             //   </View>
             // )}
+=======
+            renderStickyHeader={() => (
+              <View style={tw`flex justify-between top-4`}>
+                <View style={tw`ml-4`}>
+                  <Text style={tw` text-orange-400 text-lg font-semibold`}>
+                    My Reviews and Photos
+                  </Text>
+                </View>
+                <View style={tw`flex flex-row items-center justify-between py-3 `}>
+                  <View style={tw`items-center w-1/2`}>
+                    <Text style={tw` text-black text-lg font-semibold mx-3`}>
+                      Reviews
+                    </Text>
+                  </View>
+                  <View style={tw`items-center w-1/2`}>
+                    <Text style={tw`  text-black text-lg font-semibold mx-3`}>
+                      Photos
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
             renderForeground={() => (
               <SafeAreaView style={tw`flex  bg-white`}>
                 <View style={tw`flex-row-reverse ml-2 mt-2`}>
@@ -207,12 +237,25 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
                     </TouchableOpacity>
                   </View>
                       }
+<<<<<<< HEAD
                       
+=======
+                       <TouchableOpacity
+                      onPress={() => {
+                        setModalVisible(false);
+                        navigation.navigate("AddPhoto");
+                      }}
+                    >
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
                     <View style={tw`items-center  mx-4`}>
                       <Feather name="camera" size={22} color="black" />
 
                       <Text style={tw`text-base`}>Add Photo</Text>
                     </View>
+<<<<<<< HEAD
+=======
+                    </TouchableOpacity>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
                     <TouchableOpacity
                       onPress={() => {
                         // navigation.navigate("AddBusiness");
@@ -303,6 +346,7 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
               </SafeAreaView>
             )}
           >
+<<<<<<< HEAD
             {/* <ScrollView style={tw`bg-orange-50`}> */}
             {/* <FlatList
         style={tw`flex-1 mt-4`}
@@ -347,6 +391,15 @@ const { isLoading, userToken,businessOwnerToken } = useContext(AuthContext);
             </View>
 
             {/* </ScrollView> */}
+=======
+            
+
+            <View style={tw`flex bg-white mt-2 rounded-t-2xl`}>
+              <View>
+            
+              </View>
+            </View>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
           </ParallaxScrollView>
         </>
       ) : (

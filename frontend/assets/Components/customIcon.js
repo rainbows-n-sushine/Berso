@@ -9,13 +9,29 @@ import {
 } from "react-native";
 import tw from "twrnc";
 import {
+<<<<<<< HEAD
   Entypo,
+=======
+  AntDesign,
+  Entypo,
+  EvilIcons,
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   Feather,
   FontAwesome,
   FontAwesome5,
   FontAwesome6,
+<<<<<<< HEAD
   Ionicons,
   MaterialIcons,
+=======
+  Foundation,
+  Ionicons,
+  MaterialCommunityIcons,
+  MaterialIcons,
+  Octicons,
+  SimpleLineIcons,
+  Zocial,
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 } from "@expo/vector-icons";
 
 
@@ -28,7 +44,19 @@ const iconMap = {
   FontAwesome6,
   FontAwesome5,
   Feather,
+<<<<<<< HEAD
 
+=======
+  AntDesign,
+  Entypo,
+  EvilIcons,
+  Foundation,
+  Ionicons,
+  MaterialCommunityIcons,
+  Octicons,
+  SimpleLineIcons,
+  Zocial,
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   // Add other icon sets here
 };
 

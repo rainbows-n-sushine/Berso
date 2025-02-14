@@ -18,6 +18,11 @@ import api from "../util/Util";
 import { AuthContext } from "../context/AuthContext";
 import { SelectList } from "react-native-dropdown-select-list";
 import { StarRating } from "../assets/Components/starRating";
+<<<<<<< HEAD
+=======
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 const AddReview = ({ navigation,route}) => {
   const [review, setReview] = useState({
     title: "",
@@ -66,7 +71,11 @@ const AddReview = ({ navigation,route}) => {
       console.log('this is the tokem of the user  ',token)
 
 
+<<<<<<< HEAD
       setUserId(user)
+=======
+      // setUserId(user)
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       await api.get('business/fetch-all')
       .then((res)=>{
         const data=res.data
@@ -268,12 +277,20 @@ navigation.navigate('Home')
   return (
     <ScrollView style={tw`flex-1 p-4 m-3`}>
       <Text
+<<<<<<< HEAD
         style={[tw`text-2xl font-bold mb-4`, { fontFamily: "berlin-sans" }]}
+=======
+        style={[
+          tw`text-2xl font-bold mb-4 text-orange-500`,
+          { fontFamily: "berlin-sans" },
+        ]}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       >
         Add Review
       </Text>
 
       <View style={tw`m-3 items-center`}>
+<<<<<<< HEAD
         
           {/* <FontAwesome name="search" size={20} color="lightgray" /> */}
           {!inBusiness&&
@@ -292,6 +309,24 @@ navigation.navigate('Home')
           }
           
           
+=======
+        {/* <FontAwesome name="search" size={20} color="lightgray" /> */}
+        {!inBusiness && (
+          <View style={tw` flex flex-row items-center`}>
+            <SelectList
+              setSelected={handleSelectItem}
+              data={data}
+              save="key"
+              placeholder="Search for business.."
+              search={true}
+              inputStyles={tw`text-base text-black`}
+              dropdownTextStyles={tw`text-base text-black`}
+              boxStyles={tw`w-80 bg-white rounded-2xl`}
+            />
+          </View>
+        )}
+
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         {selectedBusiness && (
           <View style={tw`flex-1 flex-row`}>
             <Text
@@ -331,7 +366,11 @@ navigation.navigate('Home')
         onChangeText={(text) => handleChange("description", text)}
         multiline
       />
+<<<<<<< HEAD
       <StarRating rating={rating} setRating={setRating}/>
+=======
+      <StarRating rating={rating} setRating={setRating} />
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
       <TouchableOpacity
         onPress={pickImage}

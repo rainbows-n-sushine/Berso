@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React, {useState} from "react";
+=======
+import React, {useState,useEffect} from "react";
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 import {
   View,
   Text,
@@ -20,6 +24,14 @@ import {
   MaterialCommunityIcons,
   MaterialIcons,
 } from "@expo/vector-icons";
+<<<<<<< HEAD
+=======
+
+
+const addedReview=""
+
+
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 const dummyPost = {
   profileImage: "../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg",
   name: "Awesome Restaurant",
@@ -89,9 +101,20 @@ const dummyReviews = [
 ];
 
 const ReviewItem = ({ item }) => {
+<<<<<<< HEAD
   const [likes, setLikes] = useState(item.likes);
   const [liked, setLiked] = useState(item.liked);
   const [newComment, setNewComment] = useState("");
+=======
+  // const [likes, setLikes] = useState(item.likes);
+  // const [liked, setLiked] = useState(item.liked);
+  const {title,description,user}=item
+  console.log('these are the review itmes: ',title, "   ",description,"  ",user)
+  
+
+
+  
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
   const handleLike = () => {
     if (liked) {
@@ -124,33 +147,56 @@ const ReviewItem = ({ item }) => {
 
   const renderComment = ({ item }) => (
     <View style={tw`flex-row items-center my-2 `}>
+<<<<<<< HEAD
       <Text style={tw`font-bold mr-2`}>{item.user.username}</Text>
       <Text>{item.text}</Text>
+=======
+      <Text style={tw`font-bold mr-2`}>{item.username}</Text>
+      <Text>{item.description}</Text>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     </View>
   );
 
   return (
     <View style={tw`bg-white rounded-2xl p-4 shadow-md border border-gray-100 mb-6`}>
       <View style={tw`flex-row items-center mb-2`}>
+<<<<<<< HEAD
         <Image
+=======
+        {/* <Image
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
           source={
             typeof item.user.avatar === "string"
               ? { uri: item.user.avatar }
               : item.user.avatar
           }
           style={tw`w-8 h-8 rounded-full mr-2`}
+<<<<<<< HEAD
         />
         <Text style={tw`font-bold text-lg`}>{item.user.username}</Text>
       </View>
       <Image
         source={
           typeof item.photo === "string" ? { uri: item.photo } : item.photo
+=======
+        /> */}
+        <Text style={tw`font-bold text-lg`}>{item.title}</Text>
+      </View>
+      <Image
+        source={
+          typeof dummyReviews[0].photo === "string" ? { uri: dummyReviews[0].photo } : item.photo
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         }
         style={tw`w-full h-40 mb-2 w-70 ml-4`}
         resizeMode="cover"
       />
+<<<<<<< HEAD
       <Text style={tw`mb-2 text-center text-base`}>{item.text}</Text>
       <View style={tw`flex-row items-center justify-center my-3`}>
+=======
+      <Text style={tw`mb-2 text-center text-base`}>{item.description}</Text>
+      {/* <View style={tw`flex-row items-center justify-center my-3`}>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         <TouchableOpacity onPress={handleLike}>
           <View style={tw`items-center justify-center`}>
             <FontAwesome
@@ -190,12 +236,20 @@ const ReviewItem = ({ item }) => {
         <TouchableOpacity onPress={handleAddComment}>
           <Text style={tw`text-orange-500`}>Post</Text>
         </TouchableOpacity>
+<<<<<<< HEAD
       </View>
+=======
+       </View> */}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     </View>
   );
 };
 
+<<<<<<< HEAD
 const Reviews = () => (
+=======
+const Reviews = ({Reviews}) => (
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   <View style={tw`p-1`}>
     <View style={tw`bg-white p-4 rounded-lg shadow mb-4`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
@@ -205,7 +259,11 @@ const Reviews = () => (
         style={tw`border border-gray-300 p-2 flex-1 mr-2 mt-4`}
         placeholder="Add a review"
         // value={}
+<<<<<<< HEAD
         // onChangeText={}
+=======
+        onChangeText={(text)=>addedReview=text}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       />
       <Text style={tw`text-base text-gray-700 text-center`}>Tab to leave a review</Text>
     </View>
@@ -215,9 +273,15 @@ const Reviews = () => (
       </Text>
 
       <FlatList
+<<<<<<< HEAD
         data={dummyReviews}
         renderItem={({ item }) => <ReviewItem item={item} />}
         keyExtractor={(item) => item.id.toString()}
+=======
+        data={Reviews}
+        renderItem={({ item }) => <ReviewItem item={item} />}
+        keyExtractor={(item) => item._id.toString()}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       />
       <TouchableOpacity
         style={tw`bg-orange-400 rounded-2xl h-12 items-center justify-center mb-4 w-80  mt-4`}
@@ -336,7 +400,11 @@ const Services = () => (
   </View>
 );
 
+<<<<<<< HEAD
 const Info = () => (
+=======
+const Info = ({Business}) => (
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   <View style={tw`p-2`}>
     <View style={tw`bg-white p-4 rounded-lg shadow`}>
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
@@ -347,7 +415,11 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Website:</Text>
+<<<<<<< HEAD
           <Text style={tw`text-base text-gray-500`}>{dummyPost.website}</Text>
+=======
+          <Text style={tw`text-base text-gray-500`}>{Business.website}</Text>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         </View>
         <MaterialCommunityIcons
           name="web"
@@ -361,7 +433,11 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Email:</Text>
+<<<<<<< HEAD
           <Text style={tw`text-base text-gray-500`}>{dummyPost.email}</Text>
+=======
+          <Text style={tw`text-base text-gray-500`}>{Business.email}</Text>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         </View>
         <FontAwesome name="envelope" size={20} color="black" style={tw`mr-2`} />
       </TouchableOpacity>
@@ -370,7 +446,11 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Phone:</Text>
+<<<<<<< HEAD
           <Text style={tw`text-base text-gray-500`}>{dummyPost.phone}</Text>
+=======
+          <Text style={tw`text-base text-gray-500`}>{Business.phone}</Text>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         </View>
         <FontAwesome name="phone" size={20} color="black" style={tw`mr-2`} />
       </TouchableOpacity>
@@ -379,7 +459,11 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Address:</Text>
+<<<<<<< HEAD
           <Text style={tw`text-base text-gray-500`}>{dummyPost.address}</Text>
+=======
+          <Text style={tw`text-base text-gray-500`}>{Business.address}</Text>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         </View>
         <FontAwesome
           name="map-marker"
@@ -401,7 +485,11 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Features:</Text>
+<<<<<<< HEAD
           <Text style={tw`text-base text-gray-500`}>{dummyPost.hours}</Text>
+=======
+          <Text style={tw`text-base text-gray-500`}>{Business.opening_hours}</Text>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         </View>
       </TouchableOpacity>
 
@@ -410,7 +498,11 @@ const Info = () => (
       >
         <View>
           <Text style={tw`text-lg text-black`}>Hours:</Text>
+<<<<<<< HEAD
           <Text style={tw`text-base text-gray-500`}>{dummyPost.hours}</Text>
+=======
+          <Text style={tw`text-base text-gray-500`}>{Business.opening_hours}</Text>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         </View>
         <FontAwesome
           name="calendar-times-o"
@@ -424,7 +516,11 @@ const Info = () => (
       <Text style={tw`text-xl font-semibold text-orange-300 mb-2`}>
         Description
       </Text>
+<<<<<<< HEAD
       <Text style={tw`text-base text-gray-700`}>{dummyPost.description}</Text>
+=======
+      <Text style={tw`text-base text-gray-700`}>{Business.description}</Text>
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     </View>
   </View>
 );

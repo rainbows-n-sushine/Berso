@@ -5,6 +5,7 @@ const {Category}=require('../models/category')
 exports.registerBusiness = async (req, res) => {
   console.log("im in business condtrollers");
 
+<<<<<<< HEAD
     const {business,categories,businessOwnerId}=req.body
     console.log(business)
     console.log(categories)
@@ -20,6 +21,50 @@ exports.registerBusiness = async (req, res) => {
       // if (!isValidObjectId) {
       //   throw new Error('Invalid businessOwnerId');
       // }
+=======
+    const {business,categories,businessOwnerId,latitude,longitude}=req.body
+    console.log(business)
+    console.log(categories)
+    console.log('this is longitude ',longitude, " this is latitude ", latitude)
+    const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
+    const latitudeConverted=latitude.toString()
+    const longitudeConverted=longitude.toString()
+
+
+    if (businessOwnerId){
+      try {
+  
+        const business_db = new Business({
+          business_name: businessName,
+          email: email,
+          phone: phone, 
+          website: website,
+          location: location,
+          address: address,
+          business_days: businessDays,
+          opening_hours: openingHours,
+          average_price: averagePrice,
+          description: description,
+          category: categories,
+          business_owner: businessOwnerId, // Convert string to ObjectId
+          latitude:latitudeConverted,
+          longitude:longitudeConverted
+        });
+    
+        await business_db.save();
+        console.log(business_db);
+    
+        res.json({ message: "Business successfully created", success: true, business: business_db });
+      } catch (error) {
+        console.error(error);
+        res.json({ success: false, message: "Error while creating business" });
+      }
+
+
+    }else{
+      
+      try {
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   
       const business_db = new Business({
         business_name: businessName,
@@ -33,7 +78,13 @@ exports.registerBusiness = async (req, res) => {
         average_price: averagePrice,
         description: description,
         category: categories,
+<<<<<<< HEAD
         business_owner: businessOwnerId, // Convert string to ObjectId
+=======
+        latitude:latitudeConverted,
+        longitude:longitudeConverted
+       // Convert string to ObjectId
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       });
   
       await business_db.save();
@@ -45,18 +96,30 @@ exports.registerBusiness = async (req, res) => {
       res.json({ success: false, message: "Error while creating business" });
     }
 
+<<<<<<< HEAD
+=======
+
+    }
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 };
 
 exports.fetchByCategory = async (req, res) => {
   const { categoryId } = req.params;
+<<<<<<< HEAD
 console.log('this it hhsvjhvsh cate  :', categoryId)
+=======
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 // const id=JSON.parse(categoryId)
 
 
 try {
   if(categoryId){
+<<<<<<< HEAD
      const businesses = await Business.find({ category:{$in:[categoryId]}});
+=======
+    const businesses = await Business.find({ category:{$in:[categoryId]}});
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
     console.log("Retrieved businesses:", businesses);
 
@@ -66,6 +129,7 @@ try {
     }else{
       res.json({success:false,message:"businesses in the category failed to fetch"})
 
+<<<<<<< HEAD
 
   }
  
@@ -73,12 +137,26 @@ try {
   } catch (error) {
 
     console.error("Error fetching businesses:", error);
+=======
+    }
+
+
+  }
+  else{
+    return res.json({message:'cateogory dont exixt',success:false})
+  }
+  
+  } catch (error) {
+
+    console.error("Error fetching businesses:", error.message);
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     res.status(500).json({ error: "Internal server error" });
 
   }
 };
 
 exports.fetchAll=async(req,res)=>{
+<<<<<<< HEAD
   
  
 
@@ -88,6 +166,18 @@ exports.fetchAll=async(req,res)=>{
       return res.json({message:"businesses fetched successfully",businesses:businesses,success:true})
     }
     
+=======
+  const businesses= await Business.find()
+
+  try{
+    if(businesses){
+      return res.json({message:"businesses fetched successfully",businesses:businesses,success:true})
+    }else{
+      return res.json({message:"no businesses found",success:false})
+
+    }
+
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   }catch{(err)=>{
     if(err){
       console.log(err)
@@ -219,16 +309,24 @@ console.log('this is their id  ',businessOwnerId)
 
 try {
 
+<<<<<<< HEAD
   if(businessOwnerId){
     const businesses= await Business.find({business_owner:businessOwnerId})
+=======
+  const businesses= await Business.find({business_owner:businessOwnerId})
+
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   console.log('here are the businesses: ',businesses)
   if(businesses){
     return res.json({success:true,message:"Here are your businesses",businesses:businesses})
   }else{
     return res.json({success:false,message:"You currently have no business registered."})
   }
+<<<<<<< HEAD
   }
   
+=======
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   
 } catch (error) {
   if(error){
@@ -243,14 +341,21 @@ try {
 
 
 exports.getCategories=async(req,res)=>{
+<<<<<<< HEAD
   try{
     const {category}=req.body
+=======
+  const {category}=req.body
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   let categories={}
   let categoriesFetched=[]
 
 console.log('im in getCategories')
  
+<<<<<<< HEAD
 if(category){}
+=======
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 category.forEach((categoryId)=>{
   categories= Category.findById(categoryId)
@@ -260,11 +365,72 @@ category.forEach((categoryId)=>{
     } 
   })
 
+<<<<<<< HEAD
   }catch(error){}
   
 
 }
 
+=======
+}
+
+
+exports.fetchNewBuinesses=async(req,res)=>{
+
+  try {
+      const businesses = await Business.find({ status: { $in: ["unread", "pending"] } });
+      if (businesses){
+          console.log('new buinesses is fetched')
+          const updatedBusinesses=businesses.map((business)=>({
+
+            ...business.toObject(),
+            notif_type:"New Business"
+            
+        }))
+          console.log("businesses is:",businesses)
+
+          return res.json({message:"new businesses is fetched", success:true, businesses:updatedBusinesses})
+      }else{
+          return res.json({message:"new businesses dont exist", success:false})
+
+
+      }
+      
+  } catch (error) {
+      if(error){
+          console.log("error in fetching new busnesses: ",error.message)
+          return res.json({message:"failure in fetching new businesses", success:false})
+
+      }
+     
+      
+  }
+}
+
+
+exports.getOneById=async(businessId)=>{
+
+  
+  console.log('im in here',businessId)
+  try {
+    const business=await Business.findById(businessId)
+    console.log('this is the businessId',businessId,"and this is the busnes" ,business)
+  
+    if (business){
+    console.log('im in here')
+      return business
+    }
+    else{
+      console.log('business not found')
+      return {};
+    }
+  } catch (error) {
+  
+    if(error){
+      console.log('error in getOneById: ',error.message)
+    }}}
+
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 // exports.getBusinessInfo=async(req,res)=>{
 
 //   const {getBusiness}=req.body
@@ -272,4 +438,36 @@ category.forEach((categoryId)=>{
 
 
 
+<<<<<<< HEAD
 // }
+=======
+// }
+
+exports.updateReviewCount=async(businessId)=>{
+
+  try {
+    const business=await Business.findById(businessId)
+    if(business){
+      const newCount=business.review_count+1
+      await Business.findByIdAndUpdate(businessId,{review_count:newCount})
+      return true;
+
+    }else{
+     
+      console.log('business is not found to update review count')
+      return false
+    }
+    
+  } catch (error) {
+    if(error){
+      console.log("this sis error in reviewcoutn updat e",error.message)
+      return false;
+    }
+    
+  }
+
+  
+
+
+}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e

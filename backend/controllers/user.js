@@ -2,7 +2,11 @@ const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
 const validator=require('validator')
 const bcrypt=require('bcrypt')
+<<<<<<< HEAD
 
+=======
+const {getOneById}=require('./business')
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 const multer = require("multer");
 const path = require("path");
@@ -222,6 +226,7 @@ exports.fetchUserData=async(req,res)=>{
   console.log('this is the userId inside the fetchUserData in controller '+userId )
   // const user_id=JSON.parse(userId)
   // console.log(user_id)
+<<<<<<< HEAD
   if(userId){
     const user=await User.findOne({_id:userId})
     if(user){
@@ -233,6 +238,14 @@ exports.fetchUserData=async(req,res)=>{
   }
  
 
+=======
+  const user=await User.findOne({_id:userId})
+if(user){
+  return res.json({success:true, message:"user data has successfully been fetched",user:user})
+}else{
+  return res.json({success:false, message:"user is not found"})
+}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 }
 
@@ -240,6 +253,7 @@ exports.fetchAll=async(req,res)=>{
 
    try {
     const users= await User.find()
+<<<<<<< HEAD
     if(users){
       return res.json({success:true,message:"the users have been fetched",users:users})
     }
@@ -247,6 +261,9 @@ exports.fetchAll=async(req,res)=>{
       return res.json({success:false,message:"users data not available"})
     }
    
+=======
+    return res.json({success:true,message:"the users have been fetched",users:users})
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
     
    } catch (error) {
@@ -259,4 +276,131 @@ exports.fetchAll=async(req,res)=>{
    }
 
 
+<<<<<<< HEAD
+=======
+}
+
+exports.favoriteBusiness=async(req,res)=>{
+  const {businessId,userId}=req.body
+  try {
+    console.log('this is the userId', userId)
+    console.log('this is the businessId', businessId)
+    const user=await User.findById(userId)
+
+    if(user){
+      console.log('this is the user',user)
+     
+      const oldFavorite=user.favorites
+
+      console.log("this is old Fav", oldFavorite)
+      const newFavorite=oldFavorite.concat(businessId)
+      console.log('this is the newfav: ',newFavorite)
+      try { 
+        const updatedUser=await User.findOneAndUpdate({_id:userId},{favorites:newFavorite},{new:true})
+
+        if (updatedUser){
+          return res.json({message:"Business Added to collections!",success:true})
+        }
+        return res.json({message:"Failed to update the user in favoriting business found!",success:false})
+      } catch (error) {
+        
+        if(error){
+          console.log('error in favoriting a business')
+        }
+      }
+
+
+
+    }
+    
+  } catch (error) {
+    if(error){
+      console.log('error in favouriting a business while looking for  a user')
+    }
+    
+  }
+
+
+}
+
+exports.fetchUserSpecificFavorites = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    if (user) {
+      const favorites = [];
+      for (const businessId of user.favorites) {
+        const business = await getOneById(businessId);
+        if (business) {
+          favorites.push(business);
+        }
+      }
+      console.log('Fetched favorites:', favorites);
+      if (favorites.length > 0) {
+        return res.json({ success: true, message: "Favorites fetched successfully", favorites: favorites });
+      } else {
+        return res.json({ success: false, message: "No favorited businesses yet" });
+      }
+    } else {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
+  } catch (error) {
+    console.log('Error fetching favorites:', error.message);
+    return res.status(500).json({ success: false, message: "Error fetching favorites" });
+  }
+};
+
+exports.fetchMonthlyUsers=async(req,res)=>{
+  console.log('im in fetch monthly users')
+  
+  try {
+    const allUsers=await User.find()
+
+    if(allUsers){
+      
+      const totalMonthlyUsers=[]
+      
+     for(let i=1;i<=12;i++){
+      let monthlyUsersAmount=0
+      allUsers.forEach((user)=>{
+        if(user.date.toString().length !== 0){
+          let date=user.date.toString()
+          const newDate= new Date(date)
+          const month=newDate.getMonth()+1
+          console.log('this is the month the user registeresd, ',month)
+          
+        console.log('this is the date',date,' and this is the ytpe: ',typeof date)
+        console.log('this is the type of month',typeof month)
+        if (month===i){
+          monthlyUsersAmount++; 
+          console      
+        } }       
+
+      })
+      console.log('this is the totalMonthlyUsers: ',totalMonthlyUsers)
+
+        totalMonthlyUsers.push({x:i,y:monthlyUsersAmount})
+  
+      
+     
+
+      
+         }
+
+         res.json({message:"successfully fetched all the users dataPoints", success:true , dataPoints:totalMonthlyUsers})
+
+   
+    }else{
+      res.json({message:"no users found", success:false })
+
+    }
+    
+  } catch (error) {
+
+    
+  }
+
+
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 }
