@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\jayad\Desktop\Web-dev-portfolio\Berso\build\CMakeFiles\be6e1bb8e537e2320ba917279b0a00fa\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{9CDAA838-A049-382B-8484-86D4B15C40E9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
