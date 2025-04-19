@@ -29,6 +29,9 @@ import api from "../util/Util";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import tw from "twrnc";
+import categoryHome from "../data/category-home.json"
+
+const screenWidth = Dimensions.get('window').width;
 
 library.add(fas);
 
@@ -44,7 +47,6 @@ const HomeScreen = () => {
   const [isReady, setIsReady] = useState(false);
 const [animate, setAnimate] = useState(false);
 
- 
 
   useEffect(() => {
     if(userToken){
@@ -196,174 +198,44 @@ const [animate, setAnimate] = useState(false);
         <ScrollView>
           <View style={tw`flex rounded-xl m-4 bg-white`}>
             <View style={tw`m-4 items-center`}>
-              <View style={tw`flex items-center justify-between`}>
-                <View
-                  style={tw`flex flex-row items-center justify-between pt-3`}
-                >
+              {/* <View style={tw`flex  items-center justify-between`}> */}
+                            <View
+                style={[
+                  tw`flex-row justify-start pt-3`,
+                  {
+                    flexWrap: 'wrap',
+                    width: screenWidth,
+                    gap: 1,
+                  },
+                ]}
+              >
+                {categoryHome.map((item, index) => (
                   <TouchableOpacity
+                    key={index}
+                    style={[
+                      tw`items-center justify-center m-4`,
+                      {
+                        width: screenWidth / 3 - 16, // For 3 items per row, minus gap
+                      },
+                    ]}
                     onPress={() => {
                       navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
+                        category: item.category,
                       });
                     }}
                   >
-                    <View style={tw`items-center m-1 justify-center flex-1`}>
-                      <MaterialIcons name="coffee" size={22} color="orange" />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        Coffee Shops
-                      </Text>
-                    </View>
+                    <MaterialIcons
+                      name={item.name}
+                      size={21}
+                      color="orange"
+                    />
+                    <Text style={tw`text-sm font-bold text-orange-400 mt-3`}>
+                      {item.title}
+                    </Text>
                   </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
-                      });
-                    }}
-                  >
-                    <View style={tw`items-center m-1 justify-center flex-1`}>
-                      <MaterialIcons
-                        name="restaurant"
-                        size={22}
-                        color="orange"
-                      />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        Restaurants
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
-                      });
-                    }}
-                  >
-                    <View style={tw`items-center m-1 flex-1 justify-center`}>
-                      <FontAwesome5 name="hotel" size={22} color="orange" />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        Hotels & Resorts
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={tw`flex flex-row items-center justify-between pt-3`}
-                >
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
-                      });
-                    }}
-                  >
-                    <View style={tw`items-center m-1 justify-center flex-1`}>
-                      <Entypo name="aircraft" size={22} color="orange" />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        Tour & Travel
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
-                      });
-                    }}
-                  >
-                    <View style={tw`items-center m-1 justify-center flex-1`}>
-                      <MaterialIcons
-                        name="delivery-dining"
-                        size={25}
-                        color="orange"
-                      />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        Delivery
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
-                      });
-                    }}
-                  >
-                    <View style={tw`items-center m-1 justify-center flex-1`}>
-                      <Entypo name="drink" size={22} color="orange" />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        Bars
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
-                <View
-                  style={tw`flex flex-row items-center justify-between pt-3`}
-                >
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
-                      });
-                    }}
-                  >
-                    <View style={tw`items-center m-1 justify-center flex-1`}>
-                      <FontAwesome5 name="spa" size={22} color="orange" />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        Spas & Salons
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("BusinessList", {
-                        category: "Coffee Shops",
-                      });
-                    }}
-                  >
-                    <View style={tw`items-center m-1 justify-center flex-1`}>
-                      <Entypo name="shop" size={23} color="orange" />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        Shops
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                  <TouchableOpacity
-                    onPress={() => {
-                      navigation.navigate("CathagoryList");
-                    }}
-                  >
-                    <View style={tw`items-center m-1 justify-center flex-1`}>
-                      <Feather
-                        name="more-horizontal"
-                        size={22}
-                        color="orange"
-                      />
-                      <Text
-                        style={tw`text-sm font-bold text-orange-400 mt-3`}
-                      >
-                        More
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                </View>
+                ))}
               </View>
+
             </View>
           </View>
 

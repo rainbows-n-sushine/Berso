@@ -4,6 +4,7 @@ const app = express();
 require("dotenv").config();
 const cookieSession = require("cookie-session");
 const passport = require("passport");
+const origin=process.env.ORIGIN || "http://localhost:8081"
 
 require("./models/db");
 const cors = require("cors");
@@ -21,7 +22,7 @@ app.use(passport.session());
 
 app.use(
   cors({
-    origin: "*",
+    origin: origin,
   })
 );
 app.use(express.urlencoded({ extended: true }));
