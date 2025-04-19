@@ -33,15 +33,9 @@ description:{
 
 
   // },
-<<<<<<< HEAD
-  created_at: {
-    type: Date,
-    default: Date.now,
-=======
   date: {
     type: Date,
     default: Date.now(),
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
     
   },

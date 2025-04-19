@@ -18,8 +18,6 @@ const reportSchema = new mongoose.Schema({
     type: String,
     
   },
-<<<<<<< HEAD
-=======
   date: {
     type: Date,
     default: Date.now(),
@@ -32,7 +30,6 @@ const reportSchema = new mongoose.Schema({
     type:String,
     default:"Technical Issue"
   }
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
   
 });

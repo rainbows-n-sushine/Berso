@@ -2,11 +2,7 @@ const { User } = require("../models/user");
 const jwt = require("jsonwebtoken");
 const validator=require('validator')
 const bcrypt=require('bcrypt')
-<<<<<<< HEAD
-
-=======
 const {getOneById}=require('./business')
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 const multer = require("multer");
 const path = require("path");
@@ -226,26 +222,12 @@ exports.fetchUserData=async(req,res)=>{
   console.log('this is the userId inside the fetchUserData in controller '+userId )
   // const user_id=JSON.parse(userId)
   // console.log(user_id)
-<<<<<<< HEAD
-  if(userId){
-    const user=await User.findOne({_id:userId})
-    if(user){
-      return res.json({success:true, message:"user data has successfully been fetched",user:user})
-    }else{
-      return res.json({success:false, message:"user is not found"})
-    }
-
-  }
- 
-
-=======
   const user=await User.findOne({_id:userId})
 if(user){
   return res.json({success:true, message:"user data has successfully been fetched",user:user})
 }else{
   return res.json({success:false, message:"user is not found"})
 }
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 }
 
@@ -253,17 +235,7 @@ exports.fetchAll=async(req,res)=>{
 
    try {
     const users= await User.find()
-<<<<<<< HEAD
-    if(users){
-      return res.json({success:true,message:"the users have been fetched",users:users})
-    }
-    else{
-      return res.json({success:false,message:"users data not available"})
-    }
-   
-=======
     return res.json({success:true,message:"the users have been fetched",users:users})
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
     
    } catch (error) {
@@ -276,8 +248,6 @@ exports.fetchAll=async(req,res)=>{
    }
 
 
-<<<<<<< HEAD
-=======
 }
 
 exports.favoriteBusiness=async(req,res)=>{
@@ -402,5 +372,4 @@ exports.fetchMonthlyUsers=async(req,res)=>{
   }
 
 
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 }

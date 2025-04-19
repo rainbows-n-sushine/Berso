@@ -5,23 +5,6 @@ const {Category}=require('../models/category')
 exports.registerBusiness = async (req, res) => {
   console.log("im in business condtrollers");
 
-<<<<<<< HEAD
-    const {business,categories,businessOwnerId}=req.body
-    console.log(business)
-    console.log(categories)
-    const {businessName,email,phone,website,location,address,businessDays,openingHours,averagePrice,description}= business
-
-    console.log('this is the business from the frontend: ',business)
-    try {
-      // if (!businessOwnerId) {
-      //   throw new Error('Missing businessOwnerId');
-      // }
-  
-      // const isValidObjectId = mongoose.Types.ObjectId.isValid(businessOwnerId);
-      // if (!isValidObjectId) {
-      //   throw new Error('Invalid businessOwnerId');
-      // }
-=======
     const {business,categories,businessOwnerId,latitude,longitude}=req.body
     console.log(business)
     console.log(categories)
@@ -64,7 +47,6 @@ exports.registerBusiness = async (req, res) => {
     }else{
       
       try {
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   
       const business_db = new Business({
         business_name: businessName,
@@ -78,13 +60,10 @@ exports.registerBusiness = async (req, res) => {
         average_price: averagePrice,
         description: description,
         category: categories,
-<<<<<<< HEAD
         business_owner: businessOwnerId, // Convert string to ObjectId
-=======
         latitude:latitudeConverted,
         longitude:longitudeConverted
        // Convert string to ObjectId
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       });
   
       await business_db.save();
@@ -96,30 +75,20 @@ exports.registerBusiness = async (req, res) => {
       res.json({ success: false, message: "Error while creating business" });
     }
 
-<<<<<<< HEAD
-=======
 
     }
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 };
 
 exports.fetchByCategory = async (req, res) => {
   const { categoryId } = req.params;
-<<<<<<< HEAD
 console.log('this it hhsvjhvsh cate  :', categoryId)
-=======
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 // const id=JSON.parse(categoryId)
 
 
 try {
   if(categoryId){
-<<<<<<< HEAD
-     const businesses = await Business.find({ category:{$in:[categoryId]}});
-=======
     const businesses = await Business.find({ category:{$in:[categoryId]}});
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
     console.log("Retrieved businesses:", businesses);
 
@@ -129,15 +98,6 @@ try {
     }else{
       res.json({success:false,message:"businesses in the category failed to fetch"})
 
-<<<<<<< HEAD
-
-  }
- 
-    }
-  } catch (error) {
-
-    console.error("Error fetching businesses:", error);
-=======
     }
 
 
@@ -149,24 +109,12 @@ try {
   } catch (error) {
 
     console.error("Error fetching businesses:", error.message);
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     res.status(500).json({ error: "Internal server error" });
 
   }
 };
 
 exports.fetchAll=async(req,res)=>{
-<<<<<<< HEAD
-  
- 
-
-  try{
-    const businesses= await Business.find()
-    if(businesses){
-      return res.json({message:"businesses fetched successfully",businesses:businesses,success:true})
-    }
-    
-=======
   const businesses= await Business.find()
 
   try{
@@ -177,7 +125,6 @@ exports.fetchAll=async(req,res)=>{
 
     }
 
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   }catch{(err)=>{
     if(err){
       console.log(err)
@@ -309,24 +256,16 @@ console.log('this is their id  ',businessOwnerId)
 
 try {
 
-<<<<<<< HEAD
   if(businessOwnerId){
     const businesses= await Business.find({business_owner:businessOwnerId})
-=======
-  const businesses= await Business.find({business_owner:businessOwnerId})
-
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   console.log('here are the businesses: ',businesses)
   if(businesses){
     return res.json({success:true,message:"Here are your businesses",businesses:businesses})
   }else{
     return res.json({success:false,message:"You currently have no business registered."})
   }
-<<<<<<< HEAD
   }
   
-=======
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   
 } catch (error) {
   if(error){
@@ -340,39 +279,30 @@ try {
 }
 
 
-exports.getCategories=async(req,res)=>{
-<<<<<<< HEAD
-  try{
-    const {category}=req.body
-=======
-  const {category}=req.body
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
-  let categories={}
-  let categoriesFetched=[]
+exports.getCategories = async (req, res) => {
+  try {
+    const { category } = req.body;
+    let categoriesFetched = [];
 
-console.log('im in getCategories')
- 
-<<<<<<< HEAD
-if(category){}
-=======
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
+    console.log('im in getCategories');
 
-category.forEach((categoryId)=>{
-  categories= Category.findById(categoryId)
-  console.log('this is teh category fetched ',categories)
-    if(categories){
-      categoriesFetched.push(categories)
-    } 
-  })
+    if (category && Array.isArray(category)) {
+      for (const categoryId of category) {
+        const cat = await Category.findById(categoryId);
+        console.log('this is the category fetched ', cat);
+        if (cat) {
+          categoriesFetched.push(cat);
+        }
+      }
+    }
 
-<<<<<<< HEAD
-  }catch(error){}
-  
+    return res.json({ success: true, categories: categoriesFetched });
 
-}
-
-=======
-}
+  } catch (err) {
+    console.log('Error in getCategories:', err.message);
+    return res.status(500).json({ success: false, message: "Server error" });
+  }
+};
 
 
 exports.fetchNewBuinesses=async(req,res)=>{
@@ -430,7 +360,6 @@ exports.getOneById=async(businessId)=>{
       console.log('error in getOneById: ',error.message)
     }}}
 
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 // exports.getBusinessInfo=async(req,res)=>{
 
 //   const {getBusiness}=req.body
@@ -438,9 +367,6 @@ exports.getOneById=async(businessId)=>{
 
 
 
-<<<<<<< HEAD
-// }
-=======
 // }
 
 exports.updateReviewCount=async(businessId)=>{
@@ -470,4 +396,3 @@ exports.updateReviewCount=async(businessId)=>{
 
 
 }
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e

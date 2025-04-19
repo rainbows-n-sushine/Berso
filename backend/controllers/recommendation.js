@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-const { Business } = require("../models/business");
-const { Review } = require("../models/review");
-const { Rating } = require("../models/rating");
-const brain = require('brain.js');
-=======
 const { Business } = require ("../models/business");
 const { Review } = require("../models/review");
 const { Rating } = require("../models/rating");
 // const brain = require('brain.js');
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 const { User } = require("../models/user");
 const natural = require('natural');
 const tokenizer = new natural.WordTokenizer();
@@ -19,17 +12,9 @@ const analyzer = new Analyzer("English", stemmer, "afinn");
 
 exports.getRecommendations = async (req, res) => {
   try {
-<<<<<<< HEAD
     const userId = req.user._id;
 
     const userPreferences = await getUserPreferences(userId);
-=======
-    console.log('im here')
-    const {userId} = req.params;
-    console.log('im here')
-    const userPreferences = await getUserPreferences(userId);
-    console.log('im here')
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     const businesses = await Business.find();
 
     const tfidfScores = calculateTFIDF(businesses);
@@ -43,14 +28,9 @@ exports.getRecommendations = async (req, res) => {
 
     recommendedBusinesses.sort((a, b) => b.similarity - a.similarity);
     const topRecommendations = recommendedBusinesses.slice(0, 10).map(item => item.business);
-<<<<<<< HEAD
-
-    res.json({ success: true, recommendations: topRecommendations });
-=======
     console.log("this is top Recommmendations: ",topRecommendations)
 
     res.json({ success: true, recommendations: topRecommendations ,});
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   } catch (error) {
     console.error("Error generating recommendations:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
@@ -145,10 +125,7 @@ function calculateRelevance(review) {
 async function getUserPreferences(userId) {
   try {
     const user = await User.findById(userId).populate("favorites");
-<<<<<<< HEAD
-=======
     const userPreferences = {};
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     const favoriteBusinesses = user.favorites;
     if (!user) {
       throw new Error("User not found");
@@ -156,7 +133,6 @@ async function getUserPreferences(userId) {
 
     for (const business of favoriteBusinesses) {
       const categories = business.category;
-<<<<<<< HEAD
 
       for (const category of categories) {
         if (userPreferences[category]) {
@@ -164,46 +140,10 @@ async function getUserPreferences(userId) {
         } else {
           userPreferences[category] = 5;
         }
-=======
-      if(categories){
-        for (const category of categories) {
-          if (userPreferences[category]) {
-            userPreferences[category] += 5;
-          } else {
-            userPreferences[category] = 5;
-          }
-        }
-
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       }
     }
 
     const userRating = await Rating.find({ user: userId }).populate("business");
-<<<<<<< HEAD
-    const userPreferences = {};
-
-    for (const rating of userRating) {
-      const business = rating.business;
-      const _business = await Business.findById(business);
-      const categories = _business.category;
-
-      for (const category of categories) {
-        if (userPreferences[category]) {
-          userPreferences[category] += rating.rating;
-        } else {
-          userPreferences[category] = rating.rating;
-        }
-      }
-    }
-
-    for (const category in userPreferences) {
-      userPreferences[category] /= userReviews.length;
-    }
-
-    return userPreferences;
-  } catch (error) {
-    console.error("Error retrieving user preferences:", error);
-=======
 
     if(userRating){
       for (const rating of userRating) {
@@ -232,7 +172,6 @@ async function getUserPreferences(userId) {
     }
   } catch (error) {
     console.error("Error retrieving user preferences:", error.message);
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     throw error;
   }
 }
@@ -518,8 +457,6 @@ exports.getPersonalizedCategoryRecommendations = async (req, res) => {
     console.error("Error generating personalized category recommendations:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
   }
-<<<<<<< HEAD
-=======
 };
 
 exports.evaluateRecommendationAccuracy = async (req, res) => {
@@ -622,5 +559,4 @@ exports.getHighRatedBusinesses = async (req, res) => {
     console.error("Error getting high-rated businesses:", error);
     res.status(500).json({ success: false, error: "Internal server error" });
   }
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 };

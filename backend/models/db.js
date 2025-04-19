@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 require('dotenv').config();
 const mongoose = require('mongoose');
 
@@ -28,18 +27,4 @@ mongoose.connection.on('disconnected', () => {
     connectWithRetry();
 });
 
-=======
-
-require('dotenv').config()
-var mongoose=require('mongoose')
-
-mongoose.connect(process.env.MONGO_URI)
-.then(()=>{
-
-    console.log('database is connected')
-})
-.catch((err)=>{
-    console.log(err.message)
-})
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
