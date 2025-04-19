@@ -2,11 +2,6 @@
 
 # dependencies
 node_modules/
-<<<<<<< HEAD
-package-lock.json
-.env
-=======
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 # Expo
 .expo/
@@ -37,3 +32,4 @@ npm-debug.*
 
 # typescript
 *.tsbuildinfo
+.env

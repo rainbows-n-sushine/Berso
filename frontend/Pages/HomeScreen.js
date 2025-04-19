@@ -201,7 +201,7 @@ const [animate, setAnimate] = useState(false);
               {/* <View style={tw`flex  items-center justify-between`}> */}
                             <View
                 style={[
-                  tw`flex-row justify-start pt-3`,
+                  tw`flex-row justify-start p-4`,
                   {
                     flexWrap: 'wrap',
                     width: screenWidth,
@@ -215,7 +215,7 @@ const [animate, setAnimate] = useState(false);
                     style={[
                       tw`items-center justify-center m-4`,
                       {
-                        width: screenWidth / 3 - 16, // For 3 items per row, minus gap
+                        width: screenWidth / 3 - 45, // For 3 items per row, minus gap
                       },
                     ]}
                     onPress={() => {

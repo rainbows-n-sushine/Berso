@@ -5,10 +5,7 @@ import Profile from "../../Pages/Profile";
 import BusinessRegistration from '../../Pages/BusinessRegistration';
 import UserProfileManagement from '../../Pages/UserProfileManagement';
 import AddReview from '../../Pages/AddReview';
-<<<<<<< HEAD
-=======
 import AddPhoto from '../../Pages/AddPhoto';
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 
 const Stack = createStackNavigator();
@@ -33,11 +30,6 @@ const ProfileNavigator = () => {
       <Stack.Screen
         name="AddReview"
         component={AddReview}
-<<<<<<< HEAD
-         options={{ headerShown: true }}
-      />
-       {/*<Stack.Screen
-=======
         options={{ headerShown: true }}
       />
       <Stack.Screen
@@ -46,7 +38,6 @@ const ProfileNavigator = () => {
         options={{ headerShown: true }}
       />
       {/*<Stack.Screen
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         name="SearchResults"
         component={SearchResultsScreen}
         options={{ headerShown: false }}

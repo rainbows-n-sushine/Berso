@@ -44,11 +44,7 @@ const SearchResultsScreen = () => {
   };
 
   return (
-<<<<<<< HEAD
-    <SafeAreaView style={tw`flex-1 p-4 mt-6 bg-[#F2E8DE]`}>
-=======
     <SafeAreaView style={tw`flex-1 mt-6 bg-[#F2E8DE]`}>
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       <FlatList
         data={sortedData}
         showsVerticalScrollIndicator={false}

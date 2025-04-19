@@ -8,10 +8,7 @@ import {
   Dimensions,
   SafeAreaView,
   FlatList,
-<<<<<<< HEAD
-=======
   TextInput,
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 } from "react-native";
 import { TabView, SceneMap, TabBar } from "react-native-tab-view";
 import PagerView from "react-native-pager-view";
@@ -67,11 +64,6 @@ useEffect(()=>{
   const getReview=async()=>{
 
     const businessId=await AsyncStorage.getItem('currentBusiness')
-<<<<<<< HEAD
-    api.get(`review//fetch-all-reviews-for-business/${businessId}`)
-    .then((res)=>{
-      console.log(res.data.message)
-=======
 
     console.log('this is the current bsiness in get review', businessId)
     api.get(`review/fetch-all-reviews-for-business/${businessId}`)
@@ -80,7 +72,6 @@ useEffect(()=>{
     .then((res)=>{
       console.log(res.data.message)
       console.log('these r the reviews in get Rendbv',res.data.reviews)
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
       if(res.data.success){
         reviewFetched=res.data.reviews
@@ -141,25 +132,6 @@ if(error){
   console.log(error.message)
 }
 
-<<<<<<< HEAD
-    })
-
-
-
-
-
-    }
-    
-
-
-  }
-
-  
-  getReview()
-  getBusinessInfo()
-  fetchCategories()
-
-=======
     })} }
 
   
@@ -167,7 +139,6 @@ if(error){
   getBusinessInfo()
   fetchCategories()
   
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 },[])
 
@@ -192,11 +163,7 @@ if(error){
           <TouchableOpacity
             style={tw`px-2`}
             onPress={() => {
-<<<<<<< HEAD
-              // navigation.navigate("EditUserProfile");
-=======
               navigation.navigate("EditProfile");
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
             }}
           >
             <Feather name="edit" size={24} color="white" />
@@ -365,12 +332,6 @@ const PhotoScreen = ({business}) => (
     </View>
   </ScrollView>
 );
-<<<<<<< HEAD
-
-const ReviewsScreen = ({businessFetched}) => (
-  <ScrollView style={tw`p-4`}>
-    <Text>Content for Services tab</Text>
-=======
 const dummyReviews = [
   {
     id: 1,
@@ -455,7 +416,6 @@ const ReviewsScreen = ({businessFetched}) => (
         keyExtractor={(item) => item.id.toString()}
       />
     </View>
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   </ScrollView>
 );
 

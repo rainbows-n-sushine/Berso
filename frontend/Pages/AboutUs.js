@@ -118,25 +118,20 @@ const AboutBersoScreen = () => {
         style={[tw`text-2xl font-bold mb-4 `, { fontFamily: "berlin-sans" }]}
       >Meet Our Team</Text>
         <Text style={tw`text-base text-gray-700`}>
-          • Abigya Yohannes (ETS0050/12)
+          • Abigya Yohannes 
         </Text>
         <Text style={tw`text-base text-gray-700 mt-2`}>
-          • Hiwot Berhanu (ETS0360/12)
+          • Hiwot Berhanu 
         </Text>
         <Text style={tw`text-base text-gray-700 mt-2`}>
-          • Jalal Addisu (ETS0371/12)
+          • Jalal Addisu
         </Text>
         <Text style={tw`text-base text-gray-700 mt-2`}>
-          • Kalkidan Tesfaye (ETS0391/12)
+          • Kalkidan Tesfaye 
         </Text>
       </View>
 
-      <View style={tw`mb-6`}>
-       <Text
-        style={[tw`text-2xl font-bold mb-4 `, { fontFamily: "berlin-sans" }]}
-      >Advisor</Text>
-        <Text style={tw`text-base text-gray-700`}>Mrs. Eleni Teshome</Text>
-      </View>
+  
 
       <View style={tw`mb-6`}>
        <Text

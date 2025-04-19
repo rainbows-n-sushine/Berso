@@ -53,38 +53,26 @@ const CatagoriesList = () => {
         onPress={() => {
           navigation.navigate("BusinessList", { category: item });
         }}
-<<<<<<< HEAD
-=======
         style={tw`flex flex-row`}
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       >
         <CustomIcon
           iconSet={item.iconSet}
           iconName={getIconName(item.icon)}
           size={30}
           color="#000"
-<<<<<<< HEAD
-        />
-        <Text style={tw`text-lg`}>{item.name}</Text>
-=======
           style={tw`flex`}
         />
         <Text style={tw`text-lg flex ml-5`}>{item.name}</Text>
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         {/* <Text style={tw`text-lg`}>{item.icon}</Text> */}
       </TouchableOpacity>
     </View>
   );
 const getIconName = (icon) => {
-<<<<<<< HEAD
-  return icon.toLowerCase().replace("fa", "");
-=======
   if (icon) {
     return icon.toLowerCase().replace("fa", "");
   } else {
     return "";
   }
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 };
 
   return (

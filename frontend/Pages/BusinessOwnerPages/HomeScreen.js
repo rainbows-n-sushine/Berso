@@ -41,11 +41,7 @@ const HomeScreen = () => {
       //   [totalViews]:67
       // }))
       setAverageRating(res.data.business.average_rating)
-<<<<<<< HEAD
-      setTotalReviews(10)
-=======
       setTotalReviews(res.data.business.review_count)
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       setTotalViews(234)
 
 

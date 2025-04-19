@@ -3,18 +3,11 @@ import { View, Text, TextInput, Button, Alert, TouchableOpacity } from "react-na
 import tw from "twrnc";
 import api from '../util/Util'
 import { AuthContext } from "../context/AuthContext";
-<<<<<<< HEAD
-
-const ReportProblemScreen = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-=======
 import { SelectList } from "react-native-dropdown-select-list";
 const ReportProblemScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [type, setType] = useState(null);
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
   const [description, setDescription] = useState("");
   const {userId}=useContext(AuthContext)
 
@@ -31,11 +24,7 @@ const ReportProblemScreen = () => {
     console.log("Email:", email);
     console.log("Description:", description);
 
-<<<<<<< HEAD
-    await api.post('report/create',{name,email,description, userId})
-=======
     await api.post('report/create',{name,email,description, userId,type})
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     .then((res)=>{
       console.log(res.data.message)
       if(res.data.success===true){
@@ -56,13 +45,6 @@ const ReportProblemScreen = () => {
     // Show success message
     Alert.alert("Success", "Problem reported successfully");
   };
-<<<<<<< HEAD
-
-  return (
-    <View style={tw`flex-1 p-4 `}>
-      <Text style={[tw`text-2xl font-bold mb-4 `, { fontFamily: "berlin-sans" }]}>Report a Problem</Text>
-
-=======
    
 
    const handleSelectItem = (item) => {
@@ -100,7 +82,6 @@ const ReportProblemScreen = () => {
           boxStyles={tw`w-80 bg-white rounded-2xl`}
         />
       </View>
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       <TextInput
         style={tw`border p-2 mb-4 rounded-xl bg-white`}
         value={name}

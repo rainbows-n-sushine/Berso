@@ -4,10 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import More from '../../Pages/BusinessOwnerPages/More';
 import HomeScreen from '../../Pages/HomeScreen';
 import TabNavigatorB from './TabNavigatorB';
-<<<<<<< HEAD
-=======
 import EditProfile from '../../Pages/BusinessOwnerPages/EditProfile';
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 const Stack = createStackNavigator();
 const MoreNavB = () => {
   return (
@@ -22,14 +19,11 @@ const MoreNavB = () => {
         component={HomeScreen}
         options={{ headerShown: false }}
       />
-<<<<<<< HEAD
-=======
       <Stack.Screen
         name="EditProfile"
         component={EditProfile}
         options={{ headerShown: false }}
       />
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
     </Stack.Navigator>
   );
 }

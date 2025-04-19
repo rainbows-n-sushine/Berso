@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-import React, { useEffect, useState, useLayoutEffect } from "react";
-=======
 import React, { useEffect, useState, useLayoutEffect,useContext } from "react";
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 import {
   View,
   Text,
@@ -10,12 +6,8 @@ import {
   TouchableOpacity,
   ScrollView,
   ActivityIndicator,
-<<<<<<< HEAD
-  Linking
-=======
   Linking,
   Alert
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 } from "react-native";
 import {
   Ionicons,
@@ -41,15 +33,10 @@ import {
   Reviews,
   MoreLikeThis,
 } from "../assets/Components/businessDetails.js";
-<<<<<<< HEAD
-import api from '../util/Util'
-
-=======
 import { AuthContext } from "../context/AuthContext.js";
 import api from '../util/Util'
 
 
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 const dummyPost = {
   profileImage: "../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg",
   name: "Awesome Restaurant",
@@ -66,44 +53,13 @@ const dummyPost = {
   ],
 };
 
-<<<<<<< HEAD
-const dummyData = [
-  {
-    title: "Services",
-    data: Services(),
-  },
-  {
-    title: "Info",
-    data: Info(),
-  },
-  {
-    title: "Pictures",
-    data: Pictures(),
-  },
-  {
-    title: "Reviews",
-    data: Reviews(),
-  },
-  {
-    title: "More like This",
-    data: MoreLikeThis(),
-  },
-];
-=======
 
 
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 const BusinessPage = ({route}) => {
   const navigation = useNavigation();
   const [headerIconColor, setHeaderIconColor] = useState("white");
   const [activeTabIndex, setActiveTabIndex] = useState(0);
-<<<<<<< HEAD
-  const [isReady, setIsReady] = useState(false);
-  const [categories,setCategories]=useState([])
-
-  const {business}=route.params
-=======
   const {userId,userToken}=useContext(AuthContext)
   const [isReady, setIsReady] = useState(false);
   const [categories,setCategories]=useState([])
@@ -226,21 +182,12 @@ const BusinessPage = ({route}) => {
   
 
  
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
   const opacity = useSharedValue(0);
   const animatedStyles = useAnimatedStyle(() => ({
     opacity: opacity.value,
   }));
 
-<<<<<<< HEAD
-  useEffect(() => {
-    getBusinessCategory();
-        setTimeout(() => {
-      setIsReady(true);
-    }, 1000); // Replace with actual data fetching logic
-  }, []);
-=======
   
 
 
@@ -250,7 +197,6 @@ const handleCall=()=>{
 }
 
 
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
   const getBusinessCategory=async()=>{
     api.get(`category/fetchAll`)
@@ -333,13 +279,6 @@ _categories.push(foundCategory.name)
           >
             <Ionicons name="share-outline" size={24} color={headerIconColor} />
           </TouchableOpacity>
-<<<<<<< HEAD
-          <TouchableOpacity
-            style={tw`w-10 h-10 rounded-full justify-center items-center`}
-          >
-            <Fontisto name="favorite" size={24} color={headerIconColor} />
-          </TouchableOpacity>
-=======
           {isUser&&
             <TouchableOpacity
             style={tw`w-10 h-10 rounded-full justify-center items-center`}
@@ -351,7 +290,6 @@ _categories.push(foundCategory.name)
 
           }
           
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         </View>
       ),
     });
@@ -401,30 +339,6 @@ _categories.push(foundCategory.name)
         renderForeground={() => (
           <View className="flex-1 ">
             <View
-<<<<<<< HEAD
-              style={tw`absolute bg-transparent rounded-xl top-30 left-3 flex-row justify-between p-2 items-center`}
-            >
-              <FontAwesome5 name="font" size={35} color="yellow" />
-              <View style={tw` justify-between pr-2 ml-2`}>
-                <Text
-                  // style={{ fontFamily: "berlin-sans" }}
-                  style={tw`text-white text-lg font-bold`}
-                >
-                  {business.business_name}
-                </Text>
-                
-                  {categories.map((category)=>(
-                    <Text
-                  // style={{ fontFamily: "berlin-sans" }}
-                  style={tw`text-slate-300 text-sm`}
-                >{category},
-
-                  </Text>
-
-                  ))
-                   }
-                
-=======
               style={tw`absolute bg-transparent rounded-xl top-27 left-3 flex-row justify-between p-2 items-center`}
             >
               <FontAwesome5 name="font" size={35} color="yellow" />
@@ -452,7 +366,6 @@ _categories.push(foundCategory.name)
                     </Text>
                   ))}
                 </View>
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
               </View>
             </View>
 
@@ -487,11 +400,7 @@ _categories.push(foundCategory.name)
                   </View>
                   <View style={tw`items-end`}>
                     <Text style={tw`ml-1 font-base text-lg`}>
-<<<<<<< HEAD
-                      ({dummyPost.reviewnumber})reviews
-=======
                       ({business.review_count})reviews
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
                     </Text>
                   </View>
                 </View>
@@ -513,14 +422,6 @@ _categories.push(foundCategory.name)
               </View>
               <View
                 style={tw`flex-row mb-7 mt-2 justify-between items-center px-4`}
-<<<<<<< HEAD
-              
-              >
-                <TouchableOpacity
-                  onPress={() => {
-                    navigation.navigate("AddReview",{inBusiness:true,business_id:business._id});
-                  }}
-=======
               >
                 <TouchableOpacity
                   onPress={() => {
@@ -537,7 +438,6 @@ _categories.push(foundCategory.name)
 
                     }}}
                    
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
                 >
                   <View style={tw`items-center mx-2`}>
                     <MaterialCommunityIcons
@@ -545,23 +445,6 @@ _categories.push(foundCategory.name)
                       size={20}
                       color="black"
                     />
-<<<<<<< HEAD
-                    <Text style={tw`text-base`}>
-                      Add Review
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    // navigation.navigate("AddBusiness");
-                  }}
-                >
-                  <View style={tw`items-center  mx-2`}>
-                    <Feather name="phone" size={20} color="black" />
-                    <Text style={tw`text-base`}>
-                      Call
-                    </Text>
-=======
                     <Text style={tw`text-base`}>Add Review</Text>
                   </View>
                 </TouchableOpacity>
@@ -571,37 +454,20 @@ _categories.push(foundCategory.name)
                   <View style={tw`items-center  mx-2`}>
                     <Feather name="phone" size={20} color="black" />
                     <Text style={tw`text-base`}>Call</Text>
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
-<<<<<<< HEAD
-                    // navigation.navigate("AddBusiness");
-=======
                     navigation.navigate("MapForBusiness", {business:business});
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
                   }}
                 >
                   <View style={tw`items-center mx-2`}>
                     <Feather name="map-pin" size={20} color="black" />
-<<<<<<< HEAD
-                    <Text style={tw`text-base`}>
-                      View map
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    Linking.openURL(business.website)
-                  }}
-=======
                     <Text style={tw`text-base`}>View map</Text>
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={handleWebsiteClick}
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
                 >
                   <View style={tw`items-center mx-2`}>
                     <MaterialCommunityIcons
@@ -609,13 +475,7 @@ _categories.push(foundCategory.name)
                       size={20}
                       color="black"
                     />
-<<<<<<< HEAD
-                    <Text style={tw`text-base`}>
-                      Visit website
-                    </Text>
-=======
                     <Text style={tw`text-base`}>Visit website</Text>
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
                   </View>
                 </TouchableOpacity>
               </View>
@@ -648,13 +508,8 @@ _categories.push(foundCategory.name)
           </ScrollView>
           <View style={tw`flex-1 bg-slate-50 `}>
             {/* Only render the content of the active tab */}
-<<<<<<< HEAD
-            {dummyData[activeTabIndex] && (
-              <SectionContent section={dummyData[activeTabIndex]} />
-=======
             {tabs[activeTabIndex] && (
               <SectionContent section={tabs[activeTabIndex]} />
->>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
             )}
           </View>
         </View>
