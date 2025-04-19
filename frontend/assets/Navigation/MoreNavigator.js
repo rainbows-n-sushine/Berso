@@ -8,9 +8,12 @@ import More from "../../Pages/More";
 import BusinessPage from "../../Pages/BusinessPage";
 import HomeScreen from "../../Pages/BusinessOwnerPages/HomeScreen";
 import ReportProblem from "../../Pages/ReportProblem";
+<<<<<<< HEAD
+=======
 import Maps from "../../Pages/Map";
 import Settings from "../../Pages/Settings";
 import AboutBersoScreen from "../../Pages/AboutUs";
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 const Stack = createStackNavigator();
 const MoreNavigator = () => {
@@ -47,6 +50,8 @@ const MoreNavigator = () => {
         component={ReportProblem}
         options={{ headerShown: true }}
       />
+<<<<<<< HEAD
+=======
       <Stack.Screen
         name="Settings"
         component={Settings}
@@ -57,6 +62,7 @@ const MoreNavigator = () => {
         component={AboutBersoScreen}
         options={{ headerShown: true }}
       />
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
       {/* <Stack.Screen
         name="SearchBusiness"

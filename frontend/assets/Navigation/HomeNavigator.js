@@ -8,9 +8,13 @@ import SearchResultsScreen from "../../Pages/SearchResultsScreen";
 import BusinessList from "../../Pages/BusinessList";
 import BusinessPage from '../../Pages/BusinessPage';
 import AddReview from '../../Pages/AddReview';
+<<<<<<< HEAD
+import CatagoriesList from '../../Pages/CatagoriesList';
+=======
 import MapForBusiness from '../../Pages/MapForBusiness'
 import CatagoriesList from '../../Pages/CatagoriesList';
 import Maps from '../../Pages/Map';
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 const Stack = createStackNavigator();
 const HomeNavigator = () => {
@@ -24,7 +28,11 @@ const HomeNavigator = () => {
       <Stack.Screen
         name="SearchBusiness"
         component={SearchBusinessScreen}
+<<<<<<< HEAD
+        // options={{ headerShown: false }}
+=======
         options={{ headerShown: false }}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
       />
       <Stack.Screen
         name="SearchResults"
@@ -42,11 +50,14 @@ const HomeNavigator = () => {
         options={{ headerShown: true }}
       />
       <Stack.Screen
+<<<<<<< HEAD
+=======
         name="MapForBusiness"
         component={MapForBusiness}
         options={{ headerShown: true }}
       />
       <Stack.Screen
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
         name="AddReview"
         component={AddReview}
         options={{ headerShown: true }}
@@ -56,11 +67,14 @@ const HomeNavigator = () => {
         component={CatagoriesList}
         options={{ headerShown: false }}
       />
+<<<<<<< HEAD
+=======
       <Stack.Screen
         name="Maps"
         component={Maps}
         options={{ headerShown: true }}
       />
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
       {/* Add more Stack.Screen components for additional screens */}
     </Stack.Navigator>

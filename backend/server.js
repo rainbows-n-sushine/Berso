@@ -59,10 +59,13 @@ app.use("/rating", ratingRoute);
 const reportRoute = require("./routes/report");
 app.use("/report", reportRoute);
 
+<<<<<<< HEAD
+=======
 const adminRoute = require("./routes/admin");
 app.use("/admin", adminRoute);
 
 
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
 
 
 app.listen(8000, () => {

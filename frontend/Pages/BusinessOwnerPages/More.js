@@ -111,7 +111,11 @@ const More = () => {
           <TouchableOpacity
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
+<<<<<<< HEAD
+              navigation.navigate("EditUserProfile");
+=======
               navigation.navigate("EditProfile");
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
             }}
           >
             <Entypo name="shop" size={22} color="black" />
@@ -134,7 +138,11 @@ const More = () => {
             <Text style={tw`ml-2`}>Settings</Text>
           </TouchableOpacity>
           <View> 
+<<<<<<< HEAD
+           <TouchableOpacity
+=======
            {/* <TouchableOpacity
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
               // navigation.navigate("BusinessHome");
@@ -147,7 +155,11 @@ const More = () => {
             <Entypo name="shop" size={22} color="black" />
             <Text style={tw`ml-2`}>My Businesses</Text>
           </TouchableOpacity>
+<<<<<<< HEAD
+          
+=======
            */}
+>>>>>>> 849ca815ab66433bf2f35135bd30586ad06fed3e
           <Modal
             animationType="slide"
             transparent={true}
