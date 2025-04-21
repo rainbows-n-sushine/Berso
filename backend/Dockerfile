@@ -14,9 +14,13 @@ RUN apt-get update && \
     gpg --export 6ED0E7B82643E131 | tee -a /etc/apt/trusted.gpg.d/debian-archive-bullseye.gpg > /dev/null && \
     echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list && \
     apt-get update && \
-    apt-get install -y -t bullseye-backports python3.10 python3-pip && \
+    apt-get install -y -t bullseye-backports python3.10 python3.10-distutils python3-pip && \
     ln -sf /usr/bin/python3.10 /usr/bin/python && \
+    ln -sf /usr/bin/python3.10 /usr/bin/python3 && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set environment variable for node-gyp to use Python 3.10
+ENV PYTHON=/usr/bin/python3.10
 
 # Set working directory
 WORKDIR /app
@@ -28,6 +32,10 @@ COPY package*.json ./
 RUN npm config set fetch-timeout 60000 && \
     npm config set fetch-retries 5 && \
     npm config set registry https://registry.npmjs.org/
+
+# Debug: print python version to ensure correct version is used
+RUN echo "Python version:" && python --version && \
+    echo "Python path:" && which python
 
 # Install Node dependencies
 RUN npm install --legacy-peer-deps --no-audit --build-from-source
