@@ -1,4 +1,4 @@
-const {connectWithRetry} = require("./models/db");
+const connectWithRetry = require("./models/db");
 const seedAdmins = require("./seed/adminSeeder");
 const seedCategories=require('./seed/categorySeedder')
 const seedBusinessOwners=require("./seed/businessOwnerSeeder")

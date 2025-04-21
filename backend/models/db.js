@@ -25,6 +25,5 @@ mongoose.connection.on('disconnected', () => {
     connectWithRetry();
 });
 
-module.exports={connectWithRetry}
-
+module.exports=connectWithRetry
 

@@ -5,11 +5,13 @@ ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 # Install system & Python dependencies
 RUN apt-get update && \
-    apt-get install -y curl wget build-essential pkg-config \
-    libx11-dev libxi-dev libxext-dev libgdk-pixbuf2.0-dev \
-    libgl1-mesa-glx libglu1-mesa libvulkan1 python3.10 && \
-    ln -sf /usr/bin/python3.10 /usr/bin/python && \
-    ln -sf /usr/bin/python3.10 /usr/bin/python3
+    apt-get install -y software-properties-common && \
+    add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && \
+    apt-get install -y python3.10 python3.10-distutils curl && \
+    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 && \
+    python3.10 -m pip install --upgrade setuptools
+
 
 # Manually install pip + setuptools (includes distutils)
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 && \

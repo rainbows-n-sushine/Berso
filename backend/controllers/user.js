@@ -321,55 +321,49 @@ exports.fetchUserSpecificFavorites = async (req, res) => {
   }
 };
 
-exports.fetchMonthlyUsers=async(req,res)=>{
-  console.log('im in fetch monthly users')
-  
+exports.fetchMonthlyUsers = async (req, res) => {
+  console.log('I\'m in fetch monthly users');
+
   try {
-    const allUsers=await User.find()
+    // Use aggregation to get user counts grouped by month
+    const monthlyUserCounts = await User.aggregate([
+      {
+        $project: {
+          month: { $month: "$date" } // Extract the month from the 'date' field
+        }
+      },
+      {
+        $group: {
+          _id: "$month", // Group by month
+          count: { $sum: 1 } // Count the number of users per month
+        }
+      },
+      {
+        $sort: { _id: 1 } // Sort by month (1 - ascending)
+      }
+    ]);
 
-    if(allUsers){
-      
-      const totalMonthlyUsers=[]
-      
-     for(let i=1;i<=12;i++){
-      let monthlyUsersAmount=0
-      allUsers.forEach((user)=>{
-        if(user.date.toString().length !== 0){
-          let date=user.date.toString()
-          const newDate= new Date(date)
-          const month=newDate.getMonth()+1
-          console.log('this is the month the user registeresd, ',month)
-          
-        console.log('this is the date',date,' and this is the ytpe: ',typeof date)
-        console.log('this is the type of month',typeof month)
-        if (month===i){
-          monthlyUsersAmount++; 
-          console      
-        } }       
+    // If we have monthly data, format it for the chart
+    if (monthlyUserCounts.length > 0) {
+      const totalMonthlyUsers = monthlyUserCounts.map(item => ({
+        x: item._id, // The month (1-12)
+        y: item.count // The user count for that month
+      }));
 
-      })
-      console.log('this is the totalMonthlyUsers: ',totalMonthlyUsers)
+      console.log('Total Monthly Users: ', totalMonthlyUsers);
 
-        totalMonthlyUsers.push({x:i,y:monthlyUsersAmount})
-  
-      
-     
+      res.json({
+        message: "Successfully fetched all the users data points",
+        success: true,
+        dataPoints: totalMonthlyUsers,
+      });
 
-      
-         }
-
-         res.json({message:"successfully fetched all the users dataPoints", success:true , dataPoints:totalMonthlyUsers})
-
-   
-    }else{
-      res.json({message:"no users found", success:false })
-
+    } else {
+      res.json({ message: "No users found", success: false });
     }
-    
+
   } catch (error) {
-
-    
+    console.error('Error fetching monthly users:', error);
+    res.status(500).json({ message: "An error occurred", success: false });
   }
-
-
-}
+};

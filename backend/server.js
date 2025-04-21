@@ -3,7 +3,7 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 const cookieSession = require("cookie-session");
-const {connectWithRetry}= require('./models/db')
+const connectWithRetry= require('./models/db')
 const passport = require("passport");
 const origin=process.env.ORIGIN || "http://localhost:8081";
 const PORT=process.env.PORT||8000
