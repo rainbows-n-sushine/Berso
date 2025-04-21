@@ -4,10 +4,10 @@
     "slug": "Berso",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/berso-bg.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/berso.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -20,18 +20,24 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/berso.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.jaddis1111.Berso"
     },
     "web": {
-      "favicon": "./assets/favicon.png"
+      "favicon": "./assets/berso.png"
     },
     "plugins": [
       "expo-font",
       "expo-secure-store",
-      "expo-router"
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
     ],
     "extra": {
       "eas": {

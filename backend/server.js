@@ -5,6 +5,7 @@ require("dotenv").config();
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 const origin=process.env.ORIGIN || "http://localhost:8081"
+const PORT=process.env.PORT||8000
 
 require("./models/db");
 const cors = require("cors");
@@ -65,6 +66,6 @@ app.use("/admin", adminRoute);
 
 
 
-app.listen(8000, () => {
+app.listen(PORT, () => {
   console.log("Server is running successfully");
 });
