@@ -14,17 +14,17 @@ const connectWithRetry = () => {
     })
     .catch((err) => {
         console.error('Database connection failed. Retrying in 10 seconds...', err);
-        setTimeout(connectWithRetry, 10000); // Retry after 5 seconds
+        setTimeout(connectWithRetry, 10000);
     });
 };
 
-// Start connection attempt
-connectWithRetry();
 
-// Handle connection errors
+
 mongoose.connection.on('disconnected', () => {
     console.log('MongoDB disconnected. Retrying...');
     connectWithRetry();
 });
+
+module.exports={connectWithRetry}
 
 
