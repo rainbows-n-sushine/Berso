@@ -1,7 +1,7 @@
 const { Admin } = require("../models/admin");
 const jwt = require("jsonwebtoken");
 const validator=require('validator')
-const bcrypt=require('bcrypt')
+const bcrypt=require('bcryptjs')
 
 
 const multer = require("multer");

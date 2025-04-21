@@ -1,40 +1,58 @@
 # Base stage (for building)
 FROM node:18.17.0-bullseye AS build
 
-# System dependencies
-RUN apt-get update && apt-get install -y \
-    python3 \
-    python3-pip \
-    python3-distutils \
-    build-essential \
-    pkg-config \
-    libx11-dev \
-    libxi-dev \
-    libxext-dev \
-    && ln -s /usr/bin/python3 /usr/bin/python \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Set Node.js options
+ENV NODE_OPTIONS="--openssl-legacy-provider"
 
+# Install Python 3.10 and system dependencies
+RUN apt-get update && \
+    apt-get install -y curl gnupg dirmngr build-essential pkg-config \
+    libx11-dev libxi-dev libxext-dev \
+    libgdk-pixbuf2.0-dev libgl1-mesa-glx libglu1-mesa libvulkan1 && \
+    gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 0E98404D386FA1D9 6ED0E7B82643E131 && \
+    gpg --export 0E98404D386FA1D9 | tee /etc/apt/trusted.gpg.d/debian-archive-bullseye.gpg > /dev/null && \
+    gpg --export 6ED0E7B82643E131 | tee -a /etc/apt/trusted.gpg.d/debian-archive-bullseye.gpg > /dev/null && \
+    echo "deb http://deb.debian.org/debian bullseye-backports main" > /etc/apt/sources.list.d/backports.list && \
+    apt-get update && \
+    apt-get install -y -t bullseye-backports python3.10 python3-pip && \
+    ln -sf /usr/bin/python3.10 /usr/bin/python && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Set working directory
 WORKDIR /app
 
+# Copy package files
 COPY package*.json ./
+
+# npm configurations
 RUN npm config set fetch-timeout 60000 && \
     npm config set fetch-retries 5 && \
     npm config set registry https://registry.npmjs.org/
-RUN npm install --legacy-peer-deps --no-audit
 
+# Install Node dependencies
+RUN npm install --legacy-peer-deps --no-audit --build-from-source
+
+# Copy the rest of the application
 COPY . .
 
-# Final image
+# Final image (production)
 FROM node:18.17.0-bullseye
 
+# Set Node.js options again
+ENV NODE_OPTIONS="--openssl-legacy-provider"
+
+# Set working directory
 WORKDIR /app
 
-# Copy from build stage
+# Copy from build
 COPY --from=build /app /app
 
+# Expose app port
 EXPOSE 8000
 
+# Create non-root user
 RUN useradd -m appuser
 USER appuser
 
+# Start the app
 CMD ["npm", "start"]
