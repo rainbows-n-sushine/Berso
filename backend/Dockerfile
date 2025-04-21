@@ -3,22 +3,29 @@ FROM node:18.17.0-bullseye AS build
 
 ENV NODE_OPTIONS="--openssl-legacy-provider"
 
-# Install system & Python dependencies
-RUN apt-get update && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository ppa:deadsnakes/ppa && \
-    apt-get update && \
-    apt-get install -y python3.10 python3.10-distutils curl && \
-    curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 && \
-    python3.10 -m pip install --upgrade setuptools
+# Install system dependencies and Python build requirements
+RUN apt-get update && apt-get install -y \
+    curl wget build-essential pkg-config git \
+    libx11-dev libxi-dev libxext-dev libgdk-pixbuf-2.0-dev \
+    libssl-dev zlib1g-dev libbz2-dev libreadline-dev \
+    libsqlite3-dev llvm libncurses5-dev libncursesw5-dev \
+    xz-utils tk-dev libffi-dev liblzma-dev python3-openssl
 
+# Build and install Python 3.10 from source
+RUN wget https://www.python.org/ftp/python/3.10.10/Python-3.10.10.tgz && \
+    tar xvf Python-3.10.10.tgz && \
+    cd Python-3.10.10 && \
+    ./configure --enable-optimizations && \
+    make -j$(nproc) && \
+    make altinstall && \
+    cd .. && rm -rf Python-3.10.10 Python-3.10.10.tgz
 
-# Manually install pip + setuptools (includes distutils)
+# Install pip and setuptools
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 && \
     python3.10 -m pip install --upgrade setuptools
 
 # Set env var for node-gyp
-ENV PYTHON=/usr/bin/python3.10
+ENV PYTHON=/usr/local/bin/python3.10
 
 # Set working directory
 WORKDIR /app
@@ -32,7 +39,7 @@ RUN npm config set fetch-timeout 60000 && \
     npm config set registry https://registry.npmjs.org/
 
 # Confirm versions
-RUN python --version && python -m pip --version
+RUN python3.10 --version && python3.10 -m pip --version
 
 # Install Node dependencies
 RUN npm install --legacy-peer-deps --no-audit --build-from-source

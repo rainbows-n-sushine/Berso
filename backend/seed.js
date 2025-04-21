@@ -1,6 +1,6 @@
 const connectWithRetry = require("./models/db");
 const seedAdmins = require("./seed/adminSeeder");
-const seedCategories=require('./seed/categorySeedder')
+const seedCategories=require('./seed/categorySeeder')
 const seedBusinessOwners=require("./seed/businessOwnerSeeder")
 
 const runSeeder = async () => {

@@ -4,7 +4,7 @@ const generatePassword=require("../utils/generatePassword")
 const seedAdmins = async () => {
    
     const password="password123"
-    const hashedPassword=generatePassword(password)
+    const hashedPassword=await generatePassword(password)
 
   const admins = [
     {

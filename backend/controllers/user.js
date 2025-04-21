@@ -322,48 +322,60 @@ exports.fetchUserSpecificFavorites = async (req, res) => {
 };
 
 exports.fetchMonthlyUsers = async (req, res) => {
-  console.log('I\'m in fetch monthly users');
-
+  console.log('I\'m in fetchMonthlyUsers');
+  
   try {
-    // Use aggregation to get user counts grouped by month
-    const monthlyUserCounts = await User.aggregate([
-      {
-        $project: {
-          month: { $month: "$date" } // Extract the month from the 'date' field
-        }
-      },
-      {
-        $group: {
-          _id: "$month", // Group by month
-          count: { $sum: 1 } // Count the number of users per month
-        }
-      },
-      {
-        $sort: { _id: 1 } // Sort by month (1 - ascending)
+    const allUsers = await User.find();
+
+    if (allUsers && allUsers.length > 0) {
+      const totalMonthlyUsers = [];
+
+      // Array of month names for easier labeling
+      const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+      // Loop through 12 months
+      for (let i = 1; i <= 12; i++) {
+        let monthlyUsersAmount = 0;
+
+        // Loop through all users and count those who registered in the current month
+        allUsers.forEach((user) => {
+          if (user.date && user.date instanceof Date) {
+            const newDate = new Date(user.date);
+            const month = newDate.getMonth() + 1;  // JavaScript months are 0-indexed
+
+            // Count users registered in the same month (adjusting for 0-based index)
+            if (month === i) {
+              monthlyUsersAmount++;
+            }
+          }
+        });
+
+        // Push data in the required format
+        totalMonthlyUsers.push({
+          label: monthNames[i - 1],  // Get the month name from the array
+          y: monthlyUsersAmount
+        });
       }
-    ]);
 
-    // If we have monthly data, format it for the chart
-    if (monthlyUserCounts.length > 0) {
-      const totalMonthlyUsers = monthlyUserCounts.map(item => ({
-        x: item._id, // The month (1-12)
-        y: item.count // The user count for that month
-      }));
-
-      console.log('Total Monthly Users: ', totalMonthlyUsers);
-
+      // Send the response with data points
       res.json({
-        message: "Successfully fetched all the users data points",
+        message: "Successfully fetched all the users' data points",
         success: true,
-        dataPoints: totalMonthlyUsers,
+        dataPoints: totalMonthlyUsers
       });
-
     } else {
-      res.json({ message: "No users found", success: false });
+      res.json({
+        message: "No users found",
+        success: false
+      });
     }
 
   } catch (error) {
-    console.error('Error fetching monthly users:', error);
-    res.status(500).json({ message: "An error occurred", success: false });
+    console.log('Error fetching monthly users:', error);
+    res.json({
+      message: "Error fetching data",
+      success: false
+    });
   }
 };
+

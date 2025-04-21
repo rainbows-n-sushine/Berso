@@ -1,4 +1,4 @@
-const { Category } = require('./path-to-category-model');
+const { Category } = require('../models/category');
 
 async function seedCategories() {
   try {

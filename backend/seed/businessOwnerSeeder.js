@@ -1,11 +1,11 @@
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 const { BusinessOwner } = require('../models/businessOwner');  // Update path as necessary
 const generatePassword =require('../utils/generatePassword')
 async function seedBusinessOwners() {
   try {
 
     const password="password123"
-    const hashedPassword=generatePassword(password)
+    const hashedPassword=await generatePassword(password)
 
 
     const sampleBusinessOwners = [
@@ -37,12 +37,11 @@ async function seedBusinessOwners() {
       }
     ];
 
-    // Encrypt the password for each business owner
     // for (let owner of sampleBusinessOwners) {
     //   owner.password = await bcrypt.hash(owner.password, 10); // Hashing password
     // }
 
-    // Check if business owners already exist to avoid duplicates
+
     const existingOwners = await BusinessOwner.find();
     if (existingOwners.length === 0) {
       await BusinessOwner.insertMany(sampleBusinessOwners);
