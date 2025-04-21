@@ -2,17 +2,16 @@ const {Admin} = require("../models/admin");
 const generatePassword=require("../utils/generatePassword")
 
 const seedAdmins = async () => {
-    const password1="123456"
-    const hashedPassword1=await generatePassword(password1)
-    const password2="abcdef"
-    const hashedPassword2=await generatePassword(password2)
+   
+    const password="password123"
+    const hashedPassword=generatePassword(password)
 
   const admins = [
     {
       name: "John Doe",
       username: "john_admin",
       email: "john@example.com",
-      password: hashedPassword1,
+      password: hashedPassword,
       zip_code: "12345",
       dob: "1990-01-01",
     },
@@ -20,7 +19,7 @@ const seedAdmins = async () => {
       name: "Jane Smith",
       username: "jane_admin",
       email: "jane@example.com",
-      password: hashedPassword2,
+      password: hashedPassword,
       zip_code: "67890",
       dob: "1985-05-15",
     },

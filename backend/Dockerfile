@@ -1,7 +1,7 @@
-# Base image
-FROM node:18-bullseye
+# Base stage (for building)
+FROM node:18.17.0-bullseye AS build
 
-# Install required packages for node-gyp builds
+# System dependencies
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -14,28 +14,27 @@ RUN apt-get update && apt-get install -y \
     && ln -s /usr/bin/python3 /usr/bin/python \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install node version manager and Node.js v18.17.0
-RUN npm install -g n && n 18.17.0
-
-# Set working directory
 WORKDIR /app
 
-# Copy only package.json and package-lock.json for dependency install
 COPY package*.json ./
-
-# Configure npm to prevent socket timeout errors
 RUN npm config set fetch-timeout 60000 && \
     npm config set fetch-retries 5 && \
     npm config set registry https://registry.npmjs.org/
-
-# Install dependencies
 RUN npm install --legacy-peer-deps --no-audit
 
-# Copy the rest of your app
 COPY . .
 
-# Expose port if needed (adjust according to your app)
+# Final image
+FROM node:18.17.0-bullseye
+
+WORKDIR /app
+
+# Copy from build stage
+COPY --from=build /app /app
+
 EXPOSE 8000
 
-# Run app
+RUN useradd -m appuser
+USER appuser
+
 CMD ["npm", "start"]
