@@ -24,6 +24,9 @@ RUN wget https://www.python.org/ftp/python/3.10.10/Python-3.10.10.tgz && \
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 && \
     python3.10 -m pip install --upgrade setuptools
 
+# Make sure `python` command is available for node-gyp
+RUN ln -s /usr/local/bin/python3.10 /usr/bin/python
+
 # Set env var for node-gyp
 ENV PYTHON=/usr/local/bin/python3.10
 
