@@ -5,7 +5,7 @@ async function seedBusinessOwners() {
   try {
 
     const password="password123"
-    const hashedPassword=await generatePassword(password)
+    const hashedPassword= await generatePassword(password)
 
 
     const sampleBusinessOwners = [
@@ -41,7 +41,7 @@ async function seedBusinessOwners() {
     //   owner.password = await bcrypt.hash(owner.password, 10); // Hashing password
     // }
 
-
+    
     const existingOwners = await BusinessOwner.find();
     if (existingOwners.length === 0) {
       await BusinessOwner.insertMany(sampleBusinessOwners);
