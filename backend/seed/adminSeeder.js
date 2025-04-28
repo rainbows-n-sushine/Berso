@@ -26,7 +26,7 @@ const seedAdmins = async () => {
   ];
 
   try {
-    await Admin.deleteMany(); // Clean slate
+    await Admin.deleteMany();
     const createdAdmins = await Admin.insertMany(admins);
     console.log("Admins seeded:", createdAdmins.map(a => a.username));
   } catch (err) {

@@ -1,4 +1,4 @@
-# Consider using a pre-built Python image for faster builds:
+# Base stage (for building)
 FROM node:18.17.0-bullseye AS build
 
 ENV NODE_OPTIONS="--openssl-legacy-provider"
@@ -12,19 +12,13 @@ RUN apt-get update && apt-get install -y \
     xz-utils tk-dev libffi-dev liblzma-dev python3-openssl
 
 # Build and install Python 3.10 from source
-# RUN wget https://www.python.org/ftp/python/3.10.10/Python-3.10.10.tgz && \
-#     tar xvf Python-3.10.10.tgz && \
-#     cd Python-3.10.10 && \
-#     ./configure --enable-optimizations && \
-#     make -j$(nproc) && \
-#     make altinstall && \
-#     cd .. && rm -rf Python-3.10.10 Python-3.10.10.tgz
-
-# Instead of building Python, you could use:
-RUN apt-get update && apt-get install -y python3.10 python3-pip && \
-    update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1 && \
-    update-alternatives --set python /usr/bin/python3.10
-
+RUN wget https://www.python.org/ftp/python/3.10.10/Python-3.10.10.tgz && \
+    tar xvf Python-3.10.10.tgz && \
+    cd Python-3.10.10 && \
+    ./configure --enable-optimizations && \
+    make -j$(nproc) && \
+    make altinstall && \
+    cd .. && rm -rf Python-3.10.10 Python-3.10.10.tgz
 
 # Install pip and setuptools
 RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.10 && \

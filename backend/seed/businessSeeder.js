@@ -1,6 +1,8 @@
 const { Business } = require('../models/business');
 const { BusinessOwner } = require('../models/businessOwner');
 const { Category } = require('../models/category');
+const fs = require("fs");
+const path = require("path");
 
 
 async function seedBusiness() {
@@ -35,7 +37,11 @@ async function seedBusiness() {
         latitude: 9.0108,
         longitude: 38.7613,
         review_count: 25,
-        status: "approved"
+        status: "approved",
+        picture: {
+                data: fs.readFileSync(path.join(__dirname, "../images/businesses/logo.png")),
+                contentType: "image/png",
+              },
       },
       {
         business_name: "Liyu Restaurant",
@@ -56,17 +62,26 @@ async function seedBusiness() {
         latitude: 9.0270,
         longitude: 38.7469,
         review_count: 65,
-        status: "approved"
+        status: "approved",
+        picture: {
+          data: fs.readFileSync(path.join(__dirname, "../images/businesses/logo.png")),
+          contentType: "image/png",
+        },
       }
     ];
 
-    await Business.insertMany(sampleBusinesses);
-    console.log("Sample businesses inserted!");
+     try {
+        await Business.deleteMany();
+        const createdBusinesses = await Business.insertMany(sampleBusinesses);
+        console.log("Businesses seeded:", createdBusinesses.map(b => b.business_name));
+      } catch (err) {
+        console.error("Seeding error in seeding businesses:", err);
+      }
+    // await Business.insertMany(sampleBusinesses);
+    // console.log("Sample businesses inserted!");
   } catch (err) {
     console.error("Error seeding businesses:", err);
-  } finally {
-    mongoose.connection.close();
-  }
+  } 
 }
 
 module.exports=seedBusiness;

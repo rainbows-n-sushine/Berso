@@ -9,6 +9,8 @@ const origin=process.env.ORIGIN || "http://localhost:8081";
 const PORT=process.env.PORT||8000
 const admin=process.env.ADMIN || "http://localhost:3000"
 const cors = require("cors");
+const path=require("path")
+const fs=require("fs")
 
 app.use(
   cookieSession({
@@ -20,6 +22,7 @@ app.use(
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 app.use(
   cors({

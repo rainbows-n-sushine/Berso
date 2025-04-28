@@ -209,7 +209,7 @@ const [animate, setAnimate] = useState(false);
                   },
                 ]}
               >
-                {categoryHome.map((item, index) => (
+                {categories.map((item, index) => (
                   <TouchableOpacity
                     key={index}
                     style={[
@@ -220,17 +220,17 @@ const [animate, setAnimate] = useState(false);
                     ]}
                     onPress={() => {
                       navigation.navigate("BusinessList", {
-                        category: item.category,
+                        category: item,
                       });
                     }}
                   >
                     <MaterialIcons
-                      name={item.name}
+                      name={item.icon}
                       size={21}
                       color="orange"
                     />
                     <Text style={tw`text-sm font-bold text-orange-400 mt-3`}>
-                      {item.title}
+                      {item.name}
                     </Text>
                   </TouchableOpacity>
                 ))}

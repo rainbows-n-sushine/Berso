@@ -50,6 +50,7 @@ const BusinessList = ({ route }) => {
   const navigation = useNavigation();
   useEffect(() => {
     console.log('this is the id of the category: ',category._id)
+    console.log("this is category: ",category)
     const categoryId=category._id
     console.log('this is the category id: ',categoryId)
     api.get(`business/fetch-by-category/${categoryId}`)

@@ -74,11 +74,11 @@ const Collections = () => {
     <View style={tw`flex-1 bg-white items-center justify-between p-4`}>
       <View style={tw`flex items-center justify-between`}>
         
-        {displayCollection&&
+        {/* {displayCollection&&
         
         <Text className="text-xl">here r the collections</Text>
         }
-        
+         */}
         {isLoading ? (
           <>
             <View>

@@ -1,4 +1,7 @@
 const mongoose=require('mongoose');
+const fs =require('fs')
+const path=require('path')
+
 const businessSchema=new mongoose.Schema({
 
     business_name:{
@@ -104,9 +107,27 @@ const businessSchema=new mongoose.Schema({
         type:Date,
         default:Date.now()
       },
+     picture: {
+        data: Buffer,
+        contentType: String
+      }
     
 
 })
 
+businessSchema.pre("save", function (next) {
+    if (!this.picture || !this.picture.data) {
+      const defaultImagePath = path.join(__dirname, "../images/businesses/logo.png");
+  
+      this.picture = {
+        data: fs.readFileSync(defaultImagePath),
+        contentType: "image/png",
+      };
+    }
+    next();
+  });
+
 const Business = mongoose.model("Business", businessSchema);
 module.exports = { Business };
+
+

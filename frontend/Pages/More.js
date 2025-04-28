@@ -19,7 +19,7 @@ import {
   AntDesign,
   Entypo,
   Octicons,
-  Feather,
+  Feather
 } from "@expo/vector-icons";
 
 import { AuthContext } from "../context/AuthContext";

@@ -35,7 +35,8 @@ const BusinessRegistration = ({ route }) => {
   const navigation = useNavigation();
   const [modalVisible, setModalVisible] = useState(false);
   const [businessOwnerId, setBusinessOwnerId] = useState("");
-
+  const [imageData,setImageData]=useState({})
+  const [businessProfilePic, setbusinessProfilePic] = useState(null);
 
   const location = route?.params?.location;
     console.log("Location:", location);
@@ -51,20 +52,20 @@ const BusinessRegistration = ({ route }) => {
     longitude = location.longitude;
   }
 
-  
+  const checkOwner = async () => {
+    const isBusinessOwner = await AsyncStorage.getItem(
+      "registerBusinessByOwner"
+    );
+    console.log("this is the busniess Owner: ", isBusinessOwner);
+    if (isBusinessOwner === "true") {
+      let businessOwner = await AsyncStorage.getItem("businessOwnerId");
+      console.log("this is the businessOnwer id :", businessOwner);
+      setBusinessOwnerId(businessOwner);
+    }
+  };
 
   useEffect(() => {
-    const checkOwner = async () => {
-      const isBusinessOwner = await AsyncStorage.getItem(
-        "registerBusinessByOwner"
-      );
-      console.log("this is the register busine s: ", isBusinessOwner);
-      if (isBusinessOwner === "true") {
-        let businessOwner = await AsyncStorage.getItem("businessOwnerId");
-        console.log("this is the businessOnwer id :", businessOwner);
-        setBusinessOwnerId(businessOwner);
-      }
-    };
+  
     checkOwner();
   }, []);
 
@@ -93,49 +94,47 @@ const BusinessRegistration = ({ route }) => {
     { key: "4", value: "Malls", disabled: true },
     { key: "5", value: "Hair Salons", disabled: false },
   ];
+  async function loadFonts() {
+    await Font.loadAsync({
+      "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
+    });
+  }
 
-  useEffect(() => {
-    async function loadFonts() {
-      await Font.loadAsync({
-        "berlin-sans": require("../assets/fonts/berlin-sans/BerlinSans.ttf"),
+  async function getCategories() {
+    console.log("mi here");
+
+    await api
+      .get("category/fetchAll")
+      .then((res) => {
+        console.log(res.data.categories);
+        let allCategory = res.data.categories;
+
+        console.log("this is the whole category", allCategory);
+        let categoryCollection = [];
+        for (var i = 0; i < allCategory.length; i++) {
+          //let id=JSON.stringify(allCategory[i]._id)
+          let id = allCategory[i]._id;
+          let category = { value: allCategory[i].name, key: id };
+
+          // setCategoriesFetched([,category])
+          categoryCollection.push(category);
+          console.log("this is categories fetched ", category);
+        }
+        setCategoriesFetched(categoryCollection);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err.message);
+        }
       });
-    }
-
-    async function getCategories() {
-      console.log("mi here");
-
-      await api
-        .get("category/fetchAll")
-        .then((res) => {
-          console.log(res.data.categories);
-          let allCategory = res.data.categories;
-
-          console.log("this is the whole category", allCategory);
-          let categoryCollection = [];
-          for (var i = 0; i < allCategory.length; i++) {
-            //let id=JSON.stringify(allCategory[i]._id)
-            let id = allCategory[i]._id;
-            let category = { value: allCategory[i].name, key: id };
-
-            // setCategoriesFetched([,category])
-            categoryCollection.push(category);
-            console.log("this is categories fetched ", category);
-          }
-          setCategoriesFetched(categoryCollection);
-        })
-        .catch((err) => {
-          if (err) {
-            console.log(err);
-          }
-        });
-    }
+  }
+  useEffect(() => {
+    
     getCategories();
     loadFonts();
   }, []);
 
-  // const handleSelected=(val)=>{
 
-  // }
   const handleCategories = (value) => {
     const isSelected = false;
     console.log(value);
@@ -191,8 +190,54 @@ const BusinessRegistration = ({ route }) => {
           console.log(error.message);
         }
       });
+      // if (!imageData) return;
+
+      // const formData = new FormData();
+      // formData.append('image', {
+      //   uri: imageData.uri,
+      //   name: imageData.name,
+      //   type: imageData.type,
+      // });
+      
+      // try {
+      //   const response = await api.post(
+      //     'business/register-business/image',
+      //     formData,
+      //     {
+      //       headers: {
+      //         'Content-Type': 'multipart/form-data', 
+      //       },
+      //     }
+      //   );
+      //   console.log(response.data);
+      // } catch (error) {
+      //   console.error('Upload error:', error.response?.data || error.message);
+      // }
+      
   };
-  const [businessProfilePic, setbusinessProfilePic] = useState(null);
+ 
+
+  const uploadImageToServer = async (uri) => {
+    const filename = uri.split('/').pop();
+    const match = /\.(\w+)$/.exec(filename ?? '');
+    const type = match ? `image/${match[1]}` : `image`;
+
+    setImageData({
+      
+        uri,
+        name: filename,
+        type,
+       
+    })
+  }
+  
+    // const formData = new FormData();
+    // formData.append('image', {
+    //   uri,
+    //   name: filename,
+    //   type,
+    // });
+
   const pickImageFromGallery = async () => {
     const permissionResult =
       await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -211,11 +256,12 @@ const BusinessRegistration = ({ route }) => {
 
     if (!result.cancelled) {
       saveProfile(result.assets[0].uri);
+      uploadImageToServer(result.assets[0].uri)
       // setbusinessProfilePic(result.assets[0].uri);
       //  setModalVisible(false);
     }
   };
-
+ 
   const takeImageFromCamera = async () => {
     const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
 
@@ -234,10 +280,12 @@ const BusinessRegistration = ({ route }) => {
 
     if (!result.cancelled) {
       saveProfile(result.assets[0].uri);
+      uploadImageToServer(result.assets[0].uri);
       //  setbusinessProfilePic(result.assets[0].uri);
       //  setModalVisible(false);
     }
   };
+ 
 
   const saveProfile = async (businessProfilePic) => {
     try {

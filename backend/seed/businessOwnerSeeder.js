@@ -41,14 +41,20 @@ async function seedBusinessOwners() {
     //   owner.password = await bcrypt.hash(owner.password, 10); // Hashing password
     // }
 
-    
-    const existingOwners = await BusinessOwner.find();
-    if (existingOwners.length === 0) {
-      await BusinessOwner.insertMany(sampleBusinessOwners);
-      console.log("Business owners seeded successfully!");
-    } else {
-      console.log("Business owners already exist in the database.");
+    try {
+      await BusinessOwner.deleteMany(); // Clean slate
+      const createdBusinessOwners = await BusinessOwner.insertMany(sampleBusinessOwners);
+      console.log("Business owners  seeded:", createdBusinessOwners.map(bo => bo.username));
+    } catch (err) {
+      console.error("Seeding error in business owners seeder:", err);
     }
+    // const existingOwners = await BusinessOwner.find();
+    // if (existingOwners.length === 0) {
+    //   await BusinessOwner.insertMany(sampleBusinessOwners);
+    //   console.log("Business owners seeded successfully!");
+    // } else {
+    //   console.log("Business owners already exist in the database.");
+    // }
   } catch (err) {
     console.error("Error seeding business owners:", err);
   }
