@@ -52,7 +52,7 @@ const HomeNavigator = () => {
         options={{ headerShown: true }}
       />
       <Stack.Screen
-        name="CathagoryList"
+        name="CategoryList"
         component={CatagoriesList}
         options={{ headerShown: false }}
       />

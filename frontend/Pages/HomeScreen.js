@@ -205,11 +205,11 @@ const [animate, setAnimate] = useState(false);
                   {
                     flexWrap: 'wrap',
                     width: screenWidth,
-                    gap: 1,
+                    gap: 1
                   },
                 ]}
               >
-                {categories.map((item, index) => (
+                {categories.slice(0,8).map((item, index) => (
                   <TouchableOpacity
                     key={index}
                     style={[
@@ -234,6 +234,26 @@ const [animate, setAnimate] = useState(false);
                     </Text>
                   </TouchableOpacity>
                 ))}
+                <TouchableOpacity
+                    style={[
+                      tw`items-center justify-center m-4`,
+                      {
+                        width: screenWidth / 3 - 45, // For 3 items per row, minus gap
+                      },
+                    ]}
+                    onPress={() => {
+                      navigation.navigate("CategoryList");
+                    }}
+                  >
+                    <MaterialIcons
+                      name="more"
+                      size={21}
+                      color="orange"
+                    />
+                    <Text style={tw`text-sm font-bold text-orange-400 mt-3`}>
+                      More
+                    </Text>
+                  </TouchableOpacity>
               </View>
 
             </View>
