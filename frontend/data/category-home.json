@@ -1,65 +1,60 @@
 [
     {
-        "name":"coffee",
-       "title":"Coffee Shops",
+        "icon":"coffee",
+       "name":"Coffee Shops",
        "navigate":"BusinessList",
        "category":"Coffee Shops"
         
     },
     {
-        "name":"restaurant",
-       "title":"Reataurants",
+        "icon":"restaurant",
+       "name":"Reataurants",
        "navigate":"BusinessList",
        "category":"Restaurants"
 
 
     },
     {
-        "name":"hotel",
-       "title":"Hotel & Resorts",
+        "icon":"hotel",
+       "name":"Hotel & Resorts",
        "navigate":"BusinessList",
        "category":"Hotels"
 
 
     },
     {
-        "name":"flight",
-       "title":"Tour and Travel",
+        "icon":"flight",
+       "name":"Tour and Travel",
        "navigate":"BusinessList",
        "category":"TourAndTravel"
 
 
     },
     {
-        "name": "delivery-dining",
-        "title": "Delivery",
+        "icon": "delivery-dining",
+        "name": "Delivery",
         "navigate": "BusinessList",
         "category": "Delivery"
       },
       {
-        "name": "faBeer",
-        "title": "Bars",
+        "icon": "faBeer",
+        "name": "Bars",
         "navigate": "BusinessList",
         "category": "Bars"
       },
       {
-        "name": "spa",
-        "title": "Spas & Salons",
+        "icon": "spa",
+        "name": "Spas & Salons",
         "navigate": "BusinessList",
         "category": "Spas & Salons"
       },
       {
-        "name": "shop",
-        "title": "Shops",
+        "icon": "shop",
+        "name": "Shops",
         "navigate": "BusinessList",
         "category": "Shops"
-      },
-      {
-        "name": "more-horizontal",
-        "title": "More",
-        "navigate": "CathagoryList",
-        "category": ""
       }
+     
     
 
 ]

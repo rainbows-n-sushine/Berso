@@ -369,7 +369,7 @@ const BusinessRegistration = ({ route }) => {
           <TouchableOpacity
                 // onPress={}
                 onPress={() => setModalVisible(true)}
-                className="bg-red-400"
+                className="bg-green-200 rounded-[20px]"
               >
             <View className="items-center justify-between p-7">
               <Image
@@ -496,7 +496,7 @@ const BusinessRegistration = ({ route }) => {
                     data={categoriesFetched}
                     label="Categories"
                     save="key"
-                    placeholder="Select Catagory"
+                    placeholder="Select Category"
                     boxStyles={{
                       borderWidth: 0,
                       borderColor: "transparent",

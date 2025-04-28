@@ -67,6 +67,7 @@ const [animate, setAnimate] = useState(false);
         .catch((error) => {
           if (error) {
             console.log("error in fetchCategories : ", error.message);
+            setCategories(categoryHome)
           }
         });
     }

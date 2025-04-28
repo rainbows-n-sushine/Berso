@@ -6,7 +6,7 @@
 
 ---
 
-## 📌 About Berso
+## About Berso
 
 Berso is a **business review and recommendation mobile app** designed to harness the community's opinions as a **standard for discovering businesses**. The app is focused on **helping small businesses** gain visibility and compete in the market by leveraging **user-generated reviews and recommendations**.
 
@@ -14,7 +14,7 @@ Berso offers a **friendly and intuitive** platform where users can **explore, re
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 Berso is built with the following technologies:
 
@@ -25,18 +25,18 @@ Berso is built with the following technologies:
 
 ---
 
-## 🚀 Features
+## Features
 
-✔️ **Community-Powered Reviews** – Users can share and read reviews from real customers.  
-✔️ **Business Recommendations** – Get AI-driven or community-curated suggestions.  
-✔️ **User-Friendly UI** – Built with Tailwind CSS for a smooth experience.  
-✔️ **Support for Small Businesses** – A platform to boost visibility.  
-✔️ **Seamless Navigation** – Easy-to-use interface for discovering new businesses.  
-✔️ **Secure & Scalable** – Built with modern technologies to ensure security and scalability.
+**Community-Powered Reviews** – Users can share and read reviews from real customers.  
+ **Business Recommendations** – Get AI-driven or community-curated suggestions.  
+ **User-Friendly UI** – Built with Tailwind CSS for a smooth experience.  
+ **Support for Small Businesses** – A platform to boost visibility.  
+ **Seamless Navigation** – Easy-to-use interface for discovering new businesses.  
+ **Secure & Scalable** – Built with modern technologies to ensure security and scalability.
 
 ---
 
-## 📲 Installation & Setup
+## Installation & Setup
 
 To set up the project locally, follow these steps:
 
@@ -91,27 +91,27 @@ JWT_SECRET=
 
 ---
 
-## 📜 Figma Design Demonstration
+## Figma Design Demonstration
 
 You can view the Figma design demonstration by downloading the PDF file:
 
-📄 [Download Figma Design PDF](https://drive.google.com/file/d/1_mAA-2dXfErIuEdc2UxN9YBta6AyqM55/view?usp=sharing)
+[Download Figma Design PDF](https://drive.google.com/file/d/1_mAA-2dXfErIuEdc2UxN9YBta6AyqM55/view?usp=sharing)
 
 ---
 
-## 💡 Contributing
+## Contributing
 
 Contributions are welcome! If you'd like to contribute, please fork the repo and submit a pull request.
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License. See the `LICENSE` file for more details.
 
 ---
 
 <div align="center">
-  <h3>🚀 Connect with Us</h3>
+  <h3> Connect with Us</h3>
   <p>For inquiries or collaborations, feel free to reach out!</p>
 </div>

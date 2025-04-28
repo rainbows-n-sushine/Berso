@@ -26,7 +26,7 @@ async function seedCategories() {
       {
         name: "Coffee Shops",
         description: "Cafés and coffee houses where people enjoy drinks, snacks, and social time.",
-        icon: "local_cafe"
+        icon: "coffee"
       },
       {
         name: "Restaurants",
