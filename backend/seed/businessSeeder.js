@@ -38,10 +38,7 @@ async function seedBusiness() {
         longitude: 38.7613,
         review_count: 25,
         status: "approved",
-        picture: {
-                data: fs.readFileSync(path.join(__dirname, "../images/businesses/logo.png")),
-                contentType: "image/png",
-              },
+        // picture: "../assets/images/businesses/logo.png"
       },
       {
         business_name: "Liyu Restaurant",
@@ -63,10 +60,7 @@ async function seedBusiness() {
         longitude: 38.7469,
         review_count: 65,
         status: "approved",
-        picture: {
-          data: fs.readFileSync(path.join(__dirname, "../images/businesses/logo.png")),
-          contentType: "image/png",
-        },
+        // picture: "../assets/images/businesses/logo.png"
       }
     ];
 

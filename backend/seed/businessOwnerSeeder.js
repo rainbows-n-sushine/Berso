@@ -17,10 +17,10 @@ async function seedBusinessOwners() {
         zip_code: "12345",
         dob: "1985-04-12",
         bio: "Experienced business owner in the retail sector.",
-        profilepic: {
-          data: Buffer.from('sampleprofilepicdata'),
-          contentType: 'image/png'
-        }
+        // profilepic: {
+        //   data: Buffer.from('sampleprofilepicdata'),
+        //   contentType: 'image/png'
+        // }
       },
       {
         name: "Jane Smith",
@@ -30,10 +30,10 @@ async function seedBusinessOwners() {
         zip_code: "67890",
         dob: "1990-06-25",
         bio: "Passionate about fitness and wellness businesses.",
-        profilepic: {
-          data: Buffer.from('sampleprofilepicdata'),
-          contentType: 'image/png'
-        }
+        // profilepic: {
+        //   data: Buffer.from('sampleprofilepicdata'),
+        //   contentType: 'image/png'
+        // }
       }
     ];
 

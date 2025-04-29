@@ -29,10 +29,7 @@ async function seedUsers() {
       zip_code: "1000",
       dob: "1990-01-01",
       bio: "Music lover & marketer.",
-      profilepic: {
-        data: fs.readFileSync(path.join(__dirname, "../images/users/abel.jpg")),
-        contentType: "image/png",
-      },
+      // profilepic: "../assets/images/users/abel.jpg",
       favorites: getRandomFavorites(businesses),
     },
     {
@@ -43,10 +40,7 @@ async function seedUsers() {
       zip_code: "2000",
       dob: "1995-05-15",
       bio: "Digital marketing enthusiast.",
-      profilepic: {
-        data: fs.readFileSync(path.join(__dirname, "../images/users/meklit.jpg")),
-        contentType: "image/png",
-      },
+      // profilepic: "../assets/images/users/meklit.jpg",
       favorites: getRandomFavorites(businesses),
     },
   ];

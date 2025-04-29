@@ -17,8 +17,8 @@ import { useNavigation } from "@react-navigation/native";
 
 const BusinessList = ({ route }) => {
   const { category } = route.params;
-  const dummyImage=require("../assets/Images/dd28a9bc-e413-49fb-92c7-809552a0e62b.jpg")
-
+  const dummyImage=require("../assets/Images/businesses/logo.png")
+ 
   const dummyData = [
     {
       _id: "1",
@@ -87,8 +87,8 @@ const BusinessList = ({ route }) => {
             >
               <View>
                 <Image
-                  source={dummyImage}
-                  style={tw`w-full h-40 rounded-md`}
+                  source={business.picture?business.picture:dummyImage}
+                  style={tw`w-full h-60 rounded-md`}
                   resizeMode="cover"
                 />
                 <View style={tw`absolute bg-white rounded-sm bottom-2 right-2`}>

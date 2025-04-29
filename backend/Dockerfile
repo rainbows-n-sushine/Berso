@@ -1,6 +1,7 @@
-# Base stage (for building)
-FROM node:18.17.0-bullseye AS build
+# Base image
+FROM node:18.17.0-bullseye
 
+# Set Node options for old crypto compatibility
 ENV NODE_OPTIONS="--openssl-legacy-provider"
 
 # Install system dependencies and Python build requirements
@@ -30,39 +31,32 @@ RUN ln -s /usr/local/bin/python3.10 /usr/bin/python
 # Set env var for node-gyp
 ENV PYTHON=/usr/local/bin/python3.10
 
+# Confirm versions (optional for debugging)
+RUN python --version && python3.10 --version && npm --version
+
 # Set working directory
 WORKDIR /app
 
 # Copy package files
 COPY package*.json ./
 
-# npm configurations
+# npm configs
 RUN npm config set fetch-timeout 60000 && \
     npm config set fetch-retries 5 && \
     npm config set registry https://registry.npmjs.org/
 
-# Confirm versions
-RUN python3.10 --version && python3.10 -m pip --version
-
-RUN python --version && which python
-
 # Install Node dependencies
 RUN npm install --legacy-peer-deps --no-audit --build-from-source
 
-# Copy app files
+# Copy rest of the app files
 COPY . .
 
-# Final stage
-FROM node:18.17.0-bullseye
-
-ENV NODE_OPTIONS="--openssl-legacy-provider"
-
-WORKDIR /app
-COPY --from=build /app /app
-
+# Expose the port
 EXPOSE 8000
 
+# Create non-root user
 RUN useradd -m appuser
 USER appuser
 
+# Start the app
 CMD ["npm", "start"]
