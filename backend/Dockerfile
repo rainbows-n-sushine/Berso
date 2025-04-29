@@ -1,5 +1,5 @@
 # Base image
-FROM node:18.17.0-bullseye
+FROM node:18.17.0-bullseye AS build
 
 # Set Node options for old crypto compatibility
 ENV NODE_OPTIONS="--openssl-legacy-provider"
@@ -10,7 +10,9 @@ RUN apt-get update && apt-get install -y \
     libx11-dev libxi-dev libxext-dev libgdk-pixbuf-2.0-dev \
     libssl-dev zlib1g-dev libbz2-dev libreadline-dev \
     libsqlite3-dev llvm libncurses5-dev libncursesw5-dev \
-    xz-utils tk-dev libffi-dev liblzma-dev python3-openssl
+    xz-utils tk-dev libffi-dev liblzma-dev python3-openssl \
+    libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
+    libxmu-dev libxrandr-dev libxinerama-dev libxcursor-dev
 
 # Build and install Python 3.10 from source
 RUN wget https://www.python.org/ftp/python/3.10.10/Python-3.10.10.tgz && \
