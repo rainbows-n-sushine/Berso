@@ -14,6 +14,8 @@ import { FontAwesome, MaterialCommunityIcons } from "@expo/vector-icons";
 import tw from "twrnc";
 import ParallaxScrollView from "../../assets/Components/ParallaxScrollView";
 import { ImageBackground } from "react-native";
+
+
 const business = {
   name: "Sample Restaurant",
   category: "Restaurant",

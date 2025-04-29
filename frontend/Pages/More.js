@@ -48,7 +48,7 @@ const More = () => {
       onPress={() => {
         console.log('this is the id of the item: ',item._id)
         setBusinessClicked(item._id)
-        navigation.navigate("BusninessHome");
+        navigation.navigate("BusinessHome");
         setBusinessTab(true);
       }}
     >

@@ -8,11 +8,13 @@ import ProfileNavigator from "./ProfileNavigator";
 import CollectionsNavigator from "./CollectionsNavigator";
 import MoreNavigator from "./MoreNavigator";
 import { AuthContext } from "../../context/AuthContext";
+
+
 const Tab = createBottomTabNavigator();
 
 const TabNavigator = () => {
+const {  businessOwnerId} = useContext(AuthContext);
 
-  
   return (
     <Tab.Navigator
       headerMode="screen"
@@ -22,6 +24,7 @@ const TabNavigator = () => {
         tabBarActiveTintColor: "orange",
       }}
     >
+      
       <Tab.Screen
         name="HomeNav"
         component={HomeNavigator}
@@ -46,7 +49,10 @@ const TabNavigator = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {businessOwnerId?(
+        <></>
+
+      ):( <Tab.Screen
         name="CollectionNav"
         component={CollectionsNavigator}
         options={{
@@ -57,7 +63,8 @@ const TabNavigator = () => {
             <Fontisto name="favorite" size={24} color={color} />
           ),
         }}
-      />
+      />)}
+     
       <Tab.Screen
         name="MoreNav"
         component={MoreNavigator}

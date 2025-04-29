@@ -24,15 +24,13 @@ import { useBusinessTab } from '../../context/BusinessTabContext';
 import { AuthContext } from "../../context/AuthContext";
 import api from '../../util/Util'
 const More = () => {
- 
+ const {  BusinessOwnerLogout, businessOwnerId,businessOwnerToken} = useContext(AuthContext);
   const navigation = useNavigation();
   const { setBusinessTab } = useBusinessTab();
   const [modalVisible, setModalVisible] = useState(false);
   const [businesses,setBusinesses]=useState([])
-  const {businessOwnerId}=useContext(AuthContext)
   const modalHeight = Math.min(300, businesses.length * 50 + 120);
-
-  
+ 
   useEffect(() => {
     
     
@@ -230,7 +228,7 @@ const More = () => {
             style={tw`bg-white p-5 rounded-l border-b border-gray-50 flex-row items-center`}
             onPress={() => {
               AsyncStorage.removeItem("userToken");
-              logout();
+              BusinessOwnerLogout();
               navigation.navigate("Home");
             }}
           >
