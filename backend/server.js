@@ -34,6 +34,10 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.send('what the helly❤️');
+});
+
 const userRoute = require("./routes/user");
 app.use("/user", userRoute);
 
