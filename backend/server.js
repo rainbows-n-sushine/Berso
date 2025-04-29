@@ -24,14 +24,30 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-app.use(
-  cors({
-    origin: ['*',origin,admin], 
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
-  })
-);
+const allowedWebOrigins = [
+  'http://localhost:3000',         
+  admin 
+];
+
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+
+    if (allowedWebOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+
+    return callback(new Error('CORS policy: Origin not allowed'), false);
+  },
+  methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
+  allowedHeaders: ['Content-Type','Authorization'],
+  credentials: true, 
+};
+
+app.use(cors(corsOptions));        
+app.options('*', cors(corsOptions));
+
+
 app.use(express.urlencoded({ extended: true }));
 
 app.use(express.json());
