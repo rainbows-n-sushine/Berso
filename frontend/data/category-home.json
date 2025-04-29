@@ -37,7 +37,7 @@
         "category": "Delivery"
       },
       {
-        "icon": "faBeer",
+        "icon": "local-bar",
         "name": "Bars",
         "navigate": "BusinessList",
         "category": "Bars"

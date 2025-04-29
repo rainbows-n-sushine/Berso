@@ -27,6 +27,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 app.use(
   cors({
     origin:"*",
+    methods: ["GET", "POST", "PUT", "DELETE"]
   })
 );
 app.use(express.urlencoded({ extended: true }));
