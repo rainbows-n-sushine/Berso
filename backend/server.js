@@ -30,23 +30,32 @@ const allowedWebOrigins = [
 ];
 
 const corsOptions = {
-  origin: (origin, callback) => {
-    if (!origin) return callback(null, true);
-
-    if (allowedWebOrigins.includes(origin)) {
+  origin: (incomingOrigin, callback) => {
+    if (!incomingOrigin) {
+      return callback(null, true);
+    }
+    if (incomingOrigin.startsWith('exp://')) {
       return callback(null, true);
     }
 
-    return callback(new Error('CORS policy: Origin not allowed'), false);
+    if (incomingOrigin.startsWith('file://')) {
+      return callback(null, true);
+    }
+    if (allowedWebOrigins.includes(incomingOrigin)) {
+      return callback(null, true);
+    }
+    return callback(
+      new Error('CORS policy: Origin not allowed'),
+      false
+    );
   },
   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type','Authorization'],
-  credentials: true, 
+  credentials: true
 };
 
-app.use(cors(corsOptions));        
-app.options('*', cors(corsOptions));
-
+app.use(cors(corsOptions));             
+app.options('*', cors(corsOptions));    
 
 app.use(express.urlencoded({ extended: true }));
 
