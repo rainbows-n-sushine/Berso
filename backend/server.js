@@ -1,4 +1,3 @@
-const bodyParser = require("body-parser");
 const express = require("express");
 const app = express();
 require("dotenv").config();
@@ -25,34 +24,23 @@ app.use(passport.session());
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 const allowedWebOrigins = [
-  'http://localhost:3000',         
+  origin,        
   admin 
 ];
 
 const corsOptions = {
   origin: (incomingOrigin, callback) => {
-    if (!incomingOrigin) {
-      return callback(null, true);
-    }
-    if (incomingOrigin.startsWith('exp://')) {
-      return callback(null, true);
-    }
-
-    if (incomingOrigin.startsWith('file://')) {
-      return callback(null, true);
-    }
-    if (allowedWebOrigins.includes(incomingOrigin)) {
-      return callback(null, true);
-    }
-    return callback(
-      new Error('CORS policy: Origin not allowed'),
-      false
-    );
+    if (!incomingOrigin) return callback(null, true);
+    if (incomingOrigin.startsWith('exp://')) return callback(null, true);
+    if (incomingOrigin.startsWith('file://')) return callback(null, true);
+    if (allowedWebOrigins.includes(incomingOrigin)) return callback(null, true);
+    return callback(new Error('CORS policy: Origin not allowed'), false);
   },
   methods: ['GET','POST','PUT','PATCH','DELETE','OPTIONS'],
   allowedHeaders: ['Content-Type','Authorization'],
   credentials: true
 };
+
 
 app.use(cors(corsOptions));             
 app.options('*', cors(corsOptions));    

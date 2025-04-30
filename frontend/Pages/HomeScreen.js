@@ -44,7 +44,7 @@ const HomeScreen = () => {
   const navigation = useNavigation();
 
   const [recommendations, setRecommendations] = useState([]);
-  const [isReady, setIsReady] = useState(false);
+  // const [isReady, setIsReady] = useState(false);
 const [animate, setAnimate] = useState(false);
 
 

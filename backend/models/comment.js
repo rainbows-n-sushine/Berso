@@ -6,12 +6,12 @@ const commentSchema=new mongoose.Schema({
 
     },
 
-    comment:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Comment",
-        default:""
+    // comment:{
+    //     type:mongoose.Schema.Types.ObjectId,
+    //     ref:"Comment",
+    //     default:""
 
-    },
+    // },
 
 
     business:{

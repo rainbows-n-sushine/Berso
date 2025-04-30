@@ -1,7 +1,5 @@
 const { User } = require("../models/user");
 const { Business } = require("../models/business");
-const fs = require("fs");
-const path = require("path");
 const generatePassword = require("../utils/generatePassword");
 
 function getRandomFavorites(businesses, count = 2) {

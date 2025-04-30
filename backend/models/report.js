@@ -1,5 +1,12 @@
 const mongoose = require('mongoose');
 
+const reportTypes = [
+  "Technical Issue",
+  "Inappropriate Action",
+  "Feature Request",
+  "Business Issue",
+];
+
 const reportSchema = new mongoose.Schema({
 
   user: {
@@ -28,6 +35,7 @@ const reportSchema = new mongoose.Schema({
   },
   type:{
     type:String,
+    enum: reportTypes,
     default:"Technical Issue"
   }
 
