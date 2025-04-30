@@ -1,29 +1,36 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 
-const connectWithRetry = () => {
-    console.log('Attempting to connect to MongoDB...');
-    
-    mongoose.connect(process.env.MONGO_URI, {
+let isConnecting = false;
 
-        serverSelectionTimeoutMS: 300000, // Wait 5 seconds before failing
-        socketTimeoutMS: 600000, // Keep trying for 45s
+const connectWithRetry = () => {
+    if (isConnecting) return;
+
+    console.log(`[${new Date().toISOString()}] Attempting to connect to MongoDB...`);
+    isConnecting = true;
+
+    mongoose.connect(process.env.MONGO_URI, {
+        serverSelectionTimeoutMS: 30000,  
+        socketTimeoutMS: 45000,         
     })
     .then(() => {
-        console.log('Database is connected');
+        console.log(`[${new Date().toISOString()}] Database is connected`);
+        isConnecting = false;
     })
     .catch((err) => {
-        console.error('Database connection failed. Retrying in 10 seconds...', err);
+        console.error(`[${new Date().toISOString()}] Connection failed. Retrying in 10s...`, err.message);
+        isConnecting = false;
         setTimeout(connectWithRetry, 10000);
     });
 };
 
-
-
 mongoose.connection.on('disconnected', () => {
-    console.log('MongoDB disconnected. Retrying...');
+    console.log(`[${new Date().toISOString()}] MongoDB disconnected. Retrying...`);
     connectWithRetry();
 });
 
-module.exports=connectWithRetry
+mongoose.connection.on('error', (err) => {
+    console.error(`[${new Date().toISOString()}] MongoDB error:`, err);
+});
 
+module.exports = connectWithRetry;
