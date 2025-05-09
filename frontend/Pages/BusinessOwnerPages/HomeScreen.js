@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthContext } from "../../context/AuthContext";
 import api from "../../util/Util";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import ArtisticLineBackground from "../../components/animatedBg"
 // import { BarChart, Grid } from 'react-native-svg-charts';
 const HomeScreen = () => {
   const navigation = useNavigation();
@@ -94,8 +95,10 @@ const HomeScreen = () => {
          
         }}
       >
+      <
         <Text style={[tw`text-sm font-bold text-black -top-10`]}>go back</Text>
       </TouchableOpacity> */}
+      <ArtisticLineBackground/>
       <Text style={[tw`text-4xl font-bold text-black mb-8`]}>Dashboard</Text>
 
       {
@@ -146,9 +149,11 @@ const HomeScreen = () => {
         contentInset={{ top: 20, bottom: 20 }}
       >
         <Grid />
-      </BarChart> */}
-      {/* <LineChartComponent /> */}
+      </BarChart>  */}
+      {/* {/* <LineChartComponent /> */}
       {/* Add more summary cards or widgets as needed */}
+      {/* <View style={tw``}><ArtisticLineBackground/></View> */}
+      
     </View>
   );
 };

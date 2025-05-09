@@ -19,7 +19,7 @@ import { ImageBackground } from "react-native";
 import api from "../../util/Util";
 import { AuthContext } from "../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Services from "./Components/Services";
+import Header from "./Components/Header";
 import PhotoScreen from "./Components/PhotosScreen";
 import ServicesScreen from "./Components/ServicesScreen";
 import InformationScreen from "./Components/InformationScreen"
@@ -60,7 +60,7 @@ const BusinessProfilePage = () => {
   ]);
 
   const [businessFetched,setBusinessFetched]=useState({})
-  const [reviewFetched,setReviewFetched]=useState({})
+  const [reviewFetched,setReviewFetched]=useState([])
   // const [businessFetched,setBusinessFetched]=useState({
   //   business_name:" ",
   //   decription:" ",
@@ -192,7 +192,7 @@ const renderScene = SceneMap({
   return (
     <View style={tw`flex-1`}>
       <ScrollView style={tw`flex-1 h-[1]`} className="">
-        <Services />
+        <Header />
       </ScrollView>
       <TabView
         navigationState={{ index, routes }}

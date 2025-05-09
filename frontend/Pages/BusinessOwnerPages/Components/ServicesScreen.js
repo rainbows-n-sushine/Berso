@@ -20,7 +20,10 @@ import api from "../../../util/Util";
 import { AuthContext } from "../../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ServicesScreen = async({businessFetched}) => {
+const ServicesScreen = ({businessFetched}) => {
+
+  
+
     const dummyServices = [
         {
           id: "1",

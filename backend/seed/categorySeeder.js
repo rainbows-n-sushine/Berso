@@ -6,7 +6,7 @@ async function seedCategories() {
       {
         name: "Fitness Centers",
         description: "Gyms, yoga studios, and places for physical training and fitness.",
-        icon: "fitness_center"
+        icon: "fitness-center"
       },
       {
         name: "Entertainment",
@@ -46,12 +46,12 @@ async function seedCategories() {
       {
         name: "Delivery",
         description: "Services offering food, goods, or package delivery to your location.",
-        icon: "local_shipping"
+        icon: "local-shipping"
       },
       {
         name: "Bars",
         description: "Local bars, pubs, and lounges for drinks and nightlife.",
-        icon: "local_bar"
+        icon: "local-bar"
       },
       {
         name: "Spas & Salons",
@@ -61,7 +61,7 @@ async function seedCategories() {
       {
         name: "Shops",
         description: "Retail stores for a variety of products from clothes to electronics.",
-        icon: "shopping_bag"
+        icon: "shopping-bag"
       },
     ];
     

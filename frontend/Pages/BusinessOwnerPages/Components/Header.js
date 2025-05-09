@@ -20,9 +20,11 @@ import api from "../../../util/Util";
 import { AuthContext } from "../../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const Services = () => {
+const Header = () => {
  
   const [businessFetched,setBusinessFetched]=useState({})
+  const [businessStars,setBusinessStars]=useState(0)
+
   // const [businessFetched,setBusinessFetched]=useState({
   //   business_name:" ",
   //   decription:" ",
@@ -35,6 +37,29 @@ const Services = () => {
   //   address:" "
 
   // })
+  const renderStars = (rating) => {
+  const stars = [];
+
+  for (let i = 1; i <= 5; i++) {
+    if (rating >= i) {
+   
+      stars.push(
+        <FontAwesome key={i} name="star" size={15} color="orange" style={tw`mr-1`} />
+      );
+    } else if (rating >= i - 0.5) {
+
+      stars.push(
+        <FontAwesome key={i} name="star-half-empty" size={15} color="orange" style={tw`mr-1`} />
+      );
+    } else {
+      stars.push(
+        <FontAwesome key={i} name="star-o" size={15} color="orange" style={tw`mr-1`} />
+      );
+    }
+  }
+
+  return stars;
+};
   const getReview=async()=>{
 
     const businessId=await AsyncStorage.getItem('currentBusiness')
@@ -59,7 +84,9 @@ if(error){
 
      })
       }
-
+// function isFloat(n) {
+//   return n % 1 !== 0;
+// }
 
   const getBusinessInfo=async()=>{
     console.log("this is the business in profile")
@@ -73,6 +100,11 @@ if(error){
       let _business=res.data.business
     //  businessFetched=_business
     setBusinessFetched(_business)
+    const stars=Math.round(businessFetched.average_rating)
+    // if (businessFetched.average_rating.isFloat){
+    //   setIsFloat(true)
+    // }
+    setBusinessStars(stars)
      console.log('this is the updated value of business Fetched, ',businessFetched)
      
   
@@ -127,7 +159,7 @@ useEffect(()=>{
 
 
   return (
-    <View style={tw`h-[60]`}>
+    <View style={tw`h-[280px]`}>
       <ImageBackground
         source={require("../../../assets/Images/HomeBG.jpg")}
         style={tw`flex-1`}
@@ -152,21 +184,22 @@ useEffect(()=>{
           </TouchableOpacity>
         </SafeAreaView>
 
-        <View style={tw`flex-row items-center bg-white top-42 `}>
-          <Image
-            source={require("../../../assets/Images/randomlogo.png")}
-            style={tw`w-12 h-12`}
-          />
+        <View style={tw`flex-row items-center bg-white top-42 h-[90px] `}>
           <View style={tw`flex-row items-center`}>
-            {/* <Image
-          source={{ uri: "https://example.com/profile_picture_url" }}
-          style={tw`w-12 h-12 rounded-full`}
-        /> */}
-            <View style={tw`ml-4`}>
+
+           <Image
+            source={require("../../../assets/Images/businesses/logo.png")}
+            style={tw`w-12 h-12 rounded full ml-[15px]`}/>
+             <View style={tw`ml-4`}>
               <Text style={tw`font-bold text-lg`}>{businessFetched.business_name}</Text>
-              <Text style={tw`text-gray-500`}>{businessFetched.category}</Text>
+              <Text style={tw`text-gray-500`}>{businessFetched.description}</Text>
               <View style={tw`flex-row items-center my-2`}>
-                <FontAwesome
+                
+            {renderStars(businessFetched.average_rating)}                
+                
+
+                  
+                {/* <FontAwesome
                   name="star"
                   size={15}
                   color="orange"
@@ -183,7 +216,7 @@ useEffect(()=>{
                   size={15}
                   color="orange"
                   style={tw`mr-2`}
-                />
+                /> */}
                 <Text style={tw`text-gray-700 mr-2`}>
                   Rating: {businessFetched.average_rating}
                 </Text>
@@ -198,4 +231,4 @@ useEffect(()=>{
 
 
 
-export default Services;
+export default Header;

@@ -56,7 +56,7 @@ const Login = ({ navigation }) => {
       ? BusinessOwnerLogin(credential, password)
       : UserLogin(credential, password));
 
-    Alert.alert(res.data.message);
+    // Alert.alert(res.data.message);
     navigation.navigate("Home");
   };
 
@@ -96,10 +96,10 @@ const Login = ({ navigation }) => {
             <Text
               style={[
                 tw`text-lg font-bold py-4 text-center text-white`,
-                { fontFamily: "berlin-sans", fontSize: 40 },
+                { fontFamily: "berlin-sans", fontSize: 30 },
               ]}
             >
-              {isBusinessOwner ? "Business Owner Login" : "Login"}
+              {isBusinessOwner ? "Business owner login" : "Login"}
             </Text>
             <TextInput
               style={tw`w-full h-12 border bg-white border-gray-300 rounded-xl w-70 ml-10 px-4 mb-4`}
