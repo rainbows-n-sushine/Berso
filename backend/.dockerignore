@@ -1,1 +1,17 @@
-node_modules
+# Ignore node_modules (since we'll install dependencies in the Dockerfile)
+node_modules/
+
+# Ignore local configuration files
+.env
+.git/
+.gitignore
+*.log
+
+# Ignore tests and development files (unless needed for production)
+tests/
+*.md
+Dockerfile.dev
+
+# Ignore build directories
+dist/
+build/
