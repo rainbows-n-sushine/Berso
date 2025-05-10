@@ -34,9 +34,9 @@ const PhotoScreen = ({businessFetched}) => {
         description:
           "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus nec interdum leo.",
         photos: [
-          "https://example.com/photo1.jpg",
-          "https://example.com/photo2.jpg",
-          "https://example.com/photo3.jpg",
+         require("../../../assets/Images/HomeBG.jpg"),
+          {uri:"https://example.com/photo2.jpg"},
+          {uri:"https://example.com/photo3.jpg"},
         ],
       };
       
@@ -50,7 +50,7 @@ const PhotoScreen = ({businessFetched}) => {
           {business.photos.map((photo, index) => (
             <Image
               key={index}
-              source={{ uri: photo }}
+              source={photo}
               style={[tw`w-40 h-40 rounded-md mr-4`]}
             />
           ))}

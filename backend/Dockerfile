@@ -4,7 +4,7 @@ FROM node:18.17.0-bullseye AS build
 # Set Node options for old crypto compatibility
 ENV NODE_OPTIONS="--openssl-legacy-provider"
 
-# Install system dependencies and Python build requirements
+# Install system dependencies and Python build requirements (added dnsutils)
 RUN apt-get update && apt-get install -y \
     curl wget build-essential pkg-config git \
     libx11-dev libxi-dev libxext-dev libgdk-pixbuf-2.0-dev \
@@ -12,7 +12,8 @@ RUN apt-get update && apt-get install -y \
     libsqlite3-dev llvm libncurses5-dev libncursesw5-dev \
     xz-utils tk-dev libffi-dev liblzma-dev python3-openssl \
     libgl1-mesa-dev libglu1-mesa-dev freeglut3-dev \
-    libxmu-dev libxrandr-dev libxinerama-dev libxcursor-dev
+    libxmu-dev libxrandr-dev libxinerama-dev libxcursor-dev \
+    dnsutils
 
 # Build and install Python 3.10 from source
 RUN wget https://www.python.org/ftp/python/3.10.10/Python-3.10.10.tgz && \

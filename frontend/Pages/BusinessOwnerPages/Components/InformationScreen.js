@@ -68,22 +68,7 @@ const InformationScreen = ({businessFetched}) => {
           style={tw`mr-2`}
         />
       </TouchableOpacity>
-      <TouchableOpacity
-        style={tw`flex-row items-center justify-between mb-2 border-b-2 border-gray-100 my-3`}
-      >
-        <View>
-          <Text style={tw`text-lg text-black`}>Direction:</Text>
-          <Text style={tw`text-base text-gray-500`}></Text>
-        </View>
-      </TouchableOpacity>
-      <TouchableOpacity
-        style={tw`flex-row items-center justify-between mb-2 border-b-2 border-gray-100 my-3`}
-      >
-        <View>
-          <Text style={tw`text-lg text-black`}>Features:</Text>
-          <Text style={tw`text-base text-gray-500`}>{businessFetched.opening_hours}</Text>
-        </View>
-      </TouchableOpacity>
+   
 
       <TouchableOpacity
         style={tw`flex-row items-center justify-between mb-2 my-3 `}
