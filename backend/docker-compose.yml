@@ -1,0 +1,11 @@
+version: '3'
+services:
+  backend:
+    image: your-image
+    environment:
+      - NODE_ENV=production
+    networks:
+      - default
+    dns:
+      - 8.8.8.8  # Use Google's DNS server
+      - 8.8.4.4

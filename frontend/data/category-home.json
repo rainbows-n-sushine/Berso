@@ -1,0 +1,60 @@
+[
+    {
+        "icon":"coffee",
+       "name":"Coffee Shops",
+       "navigate":"BusinessList",
+       "category":"Coffee Shops"
+        
+    },
+    {
+        "icon":"restaurant",
+       "name":"Reataurants",
+       "navigate":"BusinessList",
+       "category":"Restaurants"
+
+
+    },
+    {
+        "icon":"hotel",
+       "name":"Hotel & Resorts",
+       "navigate":"BusinessList",
+       "category":"Hotels"
+
+
+    },
+    {
+        "icon":"flight",
+       "name":"Tour and Travel",
+       "navigate":"BusinessList",
+       "category":"TourAndTravel"
+
+
+    },
+    {
+        "icon": "delivery-dining",
+        "name": "Delivery",
+        "navigate": "BusinessList",
+        "category": "Delivery"
+      },
+      {
+        "icon": "local-bar",
+        "name": "Bars",
+        "navigate": "BusinessList",
+        "category": "Bars"
+      },
+      {
+        "icon": "spa",
+        "name": "Spas & Salons",
+        "navigate": "BusinessList",
+        "category": "Spas & Salons"
+      },
+      {
+        "icon": "shop",
+        "name": "Shops",
+        "navigate": "BusinessList",
+        "category": "Shops"
+      }
+     
+    
+
+]

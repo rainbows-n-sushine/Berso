@@ -1,0 +1,54 @@
+{
+  "expo": {
+    "name": "Berso",
+    "slug": "Berso",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/berso-bg.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/berso.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jaddis1111.Berso"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/berso.png",
+        "backgroundColor": "#ffffff"
+      },
+      "package": "com.jaddis1111.Berso"
+    },
+    "web": {
+      "favicon": "./assets/berso.png"
+    },
+    "plugins": [
+      "expo-font",
+      "expo-secure-store",
+      "expo-router",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "b7f0721d-a659-4f8e-99b0-cbf327085b5d"
+      }
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b7f0721d-a659-4f8e-99b0-cbf327085b5d"
+    }
+  }
+}

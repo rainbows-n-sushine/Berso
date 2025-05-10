@@ -1,0 +1,6 @@
+C:/Users/jayad/Desktop/Web-dev-portfolio/Berso/build/CMakeFiles/lint.dir
+C:/Users/jayad/Desktop/Web-dev-portfolio/Berso/build/CMakeFiles/test.dir
+C:/Users/jayad/Desktop/Web-dev-portfolio/Berso/build/CMakeFiles/forcetest.dir
+C:/Users/jayad/Desktop/Web-dev-portfolio/Berso/build/CMakeFiles/docs.dir
+C:/Users/jayad/Desktop/Web-dev-portfolio/Berso/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/jayad/Desktop/Web-dev-portfolio/Berso/build/CMakeFiles/ZERO_CHECK.dir
