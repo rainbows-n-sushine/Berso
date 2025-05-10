@@ -1,11 +1,21 @@
 version: '3'
 services:
   backend:
-    image: your-image
+    build:
+      context: .
+      dockerfile: Dockerfile
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=${NODE_ENV}
+      - MONGO_URI=${MONGO_URI}
     networks:
       - default
     dns:
-      - 8.8.8.8  # Use Google's DNS server
+      - 8.8.8.8
       - 8.8.4.4
+    ports:
+      - "8000:8000"
+    restart: always
+
+networks:
+  default:
+    driver: bridge
