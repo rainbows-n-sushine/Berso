@@ -1,5 +1,5 @@
 # Base image
-FROM node:18.17.0-bullseye AS build
+FROM node:21.7.3-bullseye AS build
 
 # Set Node options for old crypto compatibility
 ENV NODE_OPTIONS="--openssl-legacy-provider"
