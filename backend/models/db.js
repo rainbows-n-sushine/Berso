@@ -3,6 +3,8 @@ const mongoose = require('mongoose');
 
 let isConnecting = false;
 let listenersAttached = false;
+let retryCount = 0;
+const maxRetries = 5;
 
 const connectWithRetry = () => {
   if (!mongoose.connection.readyState && !isConnecting) {
@@ -12,24 +14,37 @@ const connectWithRetry = () => {
     mongoose.connect(process.env.MONGO_URI, {
       serverSelectionTimeoutMS: 10000,
       socketTimeoutMS: 45000,
+      connectTimeoutMS: 10000,
       tls: true
     })
     .then(() => {
       console.log(`[${new Date().toISOString()}] Database is connected`);
       isConnecting = false;
+      retryCount = 0;  // Reset retry count on success
     })
     .catch((err) => {
       console.error(`[${new Date().toISOString()}] Connection failed. Retrying in 10s...`, err.message);
       isConnecting = false;
-      setTimeout(connectWithRetry, 10000);
+      if (retryCount < maxRetries) {
+        retryCount++;
+        setTimeout(connectWithRetry, 10000);
+      } else {
+        console.error(`[${new Date().toISOString()}] Max retries reached. Giving up.`);
+      }
     });
 
     if (!listenersAttached) {
       listenersAttached = true;
 
       mongoose.connection.on('disconnected', () => {
-        console.log(`[${new Date().toISOString()}] MongoDB disconnected. Retrying...`);
-        connectWithRetry();
+        console.log(`[${new Date().toISOString()}] MongoDB disconnected.`);
+        if (retryCount < maxRetries) {
+          console.log(`[${new Date().toISOString()}] Retrying...`);
+          connectWithRetry();
+          retryCount++;
+        } else {
+          console.error(`[${new Date().toISOString()}] Max retries reached. Giving up.`);
+        }
       });
 
       mongoose.connection.on('error', (err) => {
@@ -39,5 +54,11 @@ const connectWithRetry = () => {
   }
 };
 
+// Gracefully handle shutdown
+process.on('SIGINT', async () => {
+  console.log('Gracefully shutting down...');
+  await mongoose.connection.close();
+  process.exit(0);
+});
 
 module.exports = connectWithRetry;

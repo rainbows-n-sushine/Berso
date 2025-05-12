@@ -3,6 +3,8 @@ FROM node:18.17.0-bullseye AS build
 
 # Set Node options for old crypto compatibility
 ENV NODE_OPTIONS="--openssl-legacy-provider"
+ENV MONGO_URI="mongodb+srv://jayaddisu:hellow@newberso.f1npb.mongodb.net/Berso?retryWrites=true&w=majority&appName=newBerso&tls=true"
+
 
 # Install system dependencies and Python build requirements (added dnsutils)
 RUN apt-get update && apt-get install -y \
