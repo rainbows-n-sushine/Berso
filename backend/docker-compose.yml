@@ -1,8 +1,8 @@
 services:
   backend:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: .           # Specify the build context as the current directory
+      dockerfile: Dockerfile # Explicitly mention the Dockerfile to use
     environment:
       - NODE_ENV=${NODE_ENV}
       - MONGO_URI=${MONGO_URI}
@@ -15,9 +15,19 @@ services:
       - 8.8.8.8
       - 8.8.4.4
     ports:
-      - "8000:8000"
+      - "8000:8000"        # Expose the port so the app is accessible
     restart: always
+    env_file:
+      - .env               # Load environment variables from the .env file
+    volumes:
+      - .:/app             # Bind the current directory to /app in the container
+      - /app/node_modules   # Ensure node_modules inside the container persists
+    command: ["npm", "start"]  # Start your app
+    stdin_open: true         # Enable interactive terminal if necessary
+    tty: true                # Keep the container running
 
 networks:
   default:
     driver: bridge
+
+
