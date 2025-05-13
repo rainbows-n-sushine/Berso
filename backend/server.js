@@ -89,8 +89,11 @@ app.use("/admin", adminRoute);
 
 
 
-app.listen(PORT,'0.0.0.0', () => {
-  console.log("Server is running successfully");
+connectDB().then(() => {
+  app.listen(PORT, '0.0.0.0', () => {
+    console.log(`Server is running successfully on port ${PORT}`);
+  });
+}).catch((err) => {
+  console.error("Failed to connect to MongoDB:", err);
+  process.exit(1);
 });
-
-connectDB();
