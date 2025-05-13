@@ -32,11 +32,13 @@ const connectDB = async () => {
   }
 };
 
-// Gracefully handle shutdown
-process.on('SIGINT', async () => {
+const gracefulShutdown = async () => {
   console.log('Gracefully shutting down...');
   await mongoose.connection.close();
   process.exit(0);
-});
+};
+
+process.on('SIGINT', gracefulShutdown); 
+process.on('SIGTERM', gracefulShutdown);
 
 module.exports = connectDB;
