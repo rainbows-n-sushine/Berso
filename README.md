@@ -52,6 +52,12 @@ cd berso
 cd frontend
 npm Install
 
+#Add a .env file under your frontend and fill these Variables accordingly
+
+#
+REACT_APP_BASE_URL=
+
+
 # Start the Expo development server
 npx expo start
 
@@ -78,18 +84,37 @@ npm start
 
 #The jwt secret is ur jwt secret, that can literally be anything.
 
+#node_env is either "production" or "development"
+
 
 JWT_SECRET=
 CLIENT_ID=
 CLIENT_SECRET=
 CLIENT_URL=
 MONGO_URI=
-JWT_SECRET=
+ORIGIN=
+PORT=
+ADMIN=
+NODE_ENV=
 
 
 ```
 
 ---
+
+## Demo credentials
+
+### User login
+
+#### email: abel@example.com
+
+#### password: password123
+
+### BusinessOwner login
+
+#### email: john@example.com
+
+#### password: password123
 
 ## Figma Design Demonstration
 

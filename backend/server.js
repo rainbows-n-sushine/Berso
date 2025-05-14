@@ -4,7 +4,7 @@ require("dotenv").config();
 const cookieSession = require("cookie-session");
 const connectDB= require('./models/db')
 const passport = require("passport");
-const origin=process.env.ORIGIN || "http://localhost:8081";
+// const origin=process.env.ORIGIN || "http://localhost:8081";
 const PORT=process.env.PORT||8000
 const admin=process.env.ADMIN || "http://localhost:3000"
 const cors = require("cors");
@@ -24,7 +24,7 @@ app.use(passport.session());
 app.use("/images", express.static(path.join(__dirname, "images")));
 
 const allowedWebOrigins = [
-  origin,        
+  // origin,        
   admin 
 ];
 

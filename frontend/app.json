@@ -23,7 +23,11 @@
         "foregroundImage": "./assets/berso.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.jaddis1111.Berso"
+      "package": "com.jaddis1111.Berso",
+      "permissions": [
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "favicon": "./assets/berso.png"
@@ -49,6 +53,7 @@
     },
     "updates": {
       "url": "https://u.expo.dev/b7f0721d-a659-4f8e-99b0-cbf327085b5d"
-    }
+    },
+    "owner": "jaddis1111"
   }
 }
